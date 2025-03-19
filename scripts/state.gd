@@ -84,8 +84,7 @@ func generate_header_for_axis(axis: String, primary_size: int, secondary_size: i
 	for i in primary_size:
 		var total = 0
 		var count = 0
-		var segment = []
-		master [HEADERS_KEY][axis][i] = {}
+		master [HEADERS_KEY][axis][i] = []
 		for k in secondary_size:
 			var is_marked = false
 			if axis == 'X':
@@ -94,14 +93,12 @@ func generate_header_for_axis(axis: String, primary_size: int, secondary_size: i
 				is_marked = map[k].has(i) and map[k][i] == SquareStates.MARKED
 
 			if is_marked:
-				segment.append(k)
 				count += 1
 				total += 1
 			elif count > 0:
-				master [HEADERS_KEY][axis][i][str(count)] = segment
+				master [HEADERS_KEY][axis][i].append(str(count))
 				count = 0
-				segment = []
 		if count > 0:
-			master [HEADERS_KEY][axis][i][str(count)] = segment
+			master [HEADERS_KEY][axis][i].append(str(count))
 		if total == 0:
-			master [HEADERS_KEY][axis][i][str(count)] = segment
+			master [HEADERS_KEY][axis][i].append(str(0))
