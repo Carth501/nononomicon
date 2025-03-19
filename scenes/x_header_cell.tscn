@@ -5,4 +5,5 @@
 [node name="XHeaderCell" type="VBoxContainer"]
 custom_minimum_size = Vector2(60, 0)
 theme_override_constants/separation = 0
+alignment = 2
 script = ExtResource("1_yv2ja")
