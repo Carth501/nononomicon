@@ -62,7 +62,7 @@ theme_override_constants/margin_bottom = 12
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="YHeaderCol" type="Control" parent="."]
+[node name="YHeaderCol" type="Control" parent="." node_paths=PackedStringArray("header_row_container")]
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
@@ -70,6 +70,7 @@ offset_top = 90.0
 offset_right = 90.0
 grow_vertical = 2
 script = ExtResource("4_cnhxs")
+header_row_container = NodePath("ScrollContainer/MarginContainer/VBoxContainer")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="YHeaderCol"]
 layout_mode = 1

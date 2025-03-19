@@ -11,7 +11,6 @@ func _ready() -> void:
 func prepare_board():
 	if(State.master.has(State.SQUARE_MAP_KEY)):
 		nonogram_squares.create_square_displays()
-		header_row.generate_cells
-		
-		
+		header_row.generate_cells(State.master[State.HEADERS_KEY]['X'])
+		header_col.generate_cells(State.master[State.HEADERS_KEY]['Y'])
 	
