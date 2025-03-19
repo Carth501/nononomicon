@@ -16,3 +16,4 @@ func create_square_displays():
 			new_square.setup(Vector2i(i, k))
 			add_child(new_square)
 			squares.append(new_square)
+			new_square.set_square_appearance(map[i][k])

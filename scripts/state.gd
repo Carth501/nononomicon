@@ -104,4 +104,11 @@ func generate_header_for_axis(axis: String, primary_size: int, secondary_size: i
 			master [HEADERS_KEY][axis][i].append(str(0))
 
 func cheat_reveal_all_squares():
+	for i in SIZE.x:
+		for k in SIZE.y:
+			if master [TARGET_MAP_KEY][i].has(k) and master [TARGET_MAP_KEY][i][k] == SquareStates.MARKED:
+				master [SQUARE_MAP_KEY][i][k] = SquareStates.MARKED
+			else:
+				master [SQUARE_MAP_KEY][i][k] = SquareStates.EMPTY
+
 	board_ready.emit()
