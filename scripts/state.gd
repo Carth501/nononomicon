@@ -63,11 +63,11 @@ func random_center_map():
 	for i in SIZE.x:
 		master[TARGET_MAP_KEY][i] = {}
 		for k in SIZE.y:
-			var average = roundi((SIZE.x + SIZE.y) / 2)
+			var average = roundi((SIZE.x + SIZE.y) / 2.0)
 			var random_value = randi_range(-2,2)
-			var sum = absi(i - roundi(average/2)) + absi(k - roundi(average/2))
+			var sum = absi(i - roundi(average/2.0)) + absi(k - roundi(average/2.0))
 			sum += random_value
-			var marked = sum < roundi(average/1.9)
+			var marked = sum < roundi(average/1.95)
 			if(marked):
 				master[TARGET_MAP_KEY][i][k] = SquareStates.MARKED
 
