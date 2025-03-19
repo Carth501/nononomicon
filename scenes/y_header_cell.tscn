@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://wlq3233c0ym2"]
+
+[ext_resource type="Script" path="res://scripts/y_header_cell.gd" id="1_qqp1n"]
+
+[node name="y_header_cell" type="HBoxContainer"]
+custom_minimum_size = Vector2(0, 52)
+theme_override_constants/separation = 12
+script = ExtResource("1_qqp1n")

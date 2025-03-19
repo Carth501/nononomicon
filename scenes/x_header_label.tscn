@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://cvfi37vrqlfw"]
+
+[node name="XHeaderLabel" type="Label"]
+horizontal_alignment = 1

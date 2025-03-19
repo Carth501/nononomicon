@@ -1,0 +1,91 @@
+[gd_scene load_steps=6 format=3 uid="uid://dq8gk2xv1r27a"]
+
+[ext_resource type="PackedScene" uid="uid://d4cw6v7fo0k5s" path="res://scenes/nonogram_squares.tscn" id="1_4p2ab"]
+[ext_resource type="Script" path="res://scripts/scroll_container_wrapper.gd" id="1_m3fon"]
+[ext_resource type="Script" path="res://scripts/board.gd" id="1_qoyos"]
+[ext_resource type="Script" path="res://scripts/x_header_row.gd" id="3_22eos"]
+[ext_resource type="Script" path="res://scripts/y_header_col.gd" id="4_cnhxs"]
+
+[node name="NonogramBoard" type="Control" node_paths=PackedStringArray("nonogram_squares", "header_row", "header_col")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qoyos")
+nonogram_squares = NodePath("NonogramScrollContainer/NonogramSquares")
+header_row = NodePath("XHeaderRow")
+header_col = NodePath("YHeaderCol")
+
+[node name="NonogramScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 90.0
+offset_top = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+follow_focus = true
+script = ExtResource("1_m3fon")
+
+[node name="NonogramSquares" parent="NonogramScrollContainer" instance=ExtResource("1_4p2ab")]
+layout_mode = 2
+
+[node name="XHeaderRow" type="Control" parent="." node_paths=PackedStringArray("header_row_container")]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 90.0
+offset_bottom = 90.0
+grow_horizontal = 2
+script = ExtResource("3_22eos")
+header_row_container = NodePath("ScrollContainer/MarginContainer/HBoxContainer")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="XHeaderRow"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="XHeaderRow/ScrollContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="HBoxContainer" type="HBoxContainer" parent="XHeaderRow/ScrollContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="YHeaderCol" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_top = 90.0
+offset_right = 90.0
+grow_vertical = 2
+script = ExtResource("4_cnhxs")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="YHeaderCol"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="YHeaderCol/ScrollContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_right = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="YHeaderCol/ScrollContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4

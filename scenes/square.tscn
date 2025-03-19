@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dquc4fovbtrhl"]
+
+[ext_resource type="Script" path="res://scripts/square.gd" id="1_136qj"]
+
+[node name="ColorRect" type="ColorRect"]
+custom_minimum_size = Vector2(60, 60)
+script = ExtResource("1_136qj")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
