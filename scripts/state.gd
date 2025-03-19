@@ -102,3 +102,6 @@ func generate_header_for_axis(axis: String, primary_size: int, secondary_size: i
 			master [HEADERS_KEY][axis][i].append(str(count))
 		if total == 0:
 			master [HEADERS_KEY][axis][i].append(str(0))
+
+func cheat_reveal_all_squares():
+	board_ready.emit()
