@@ -4,6 +4,7 @@
 
 [node name="ColorRect" type="ColorRect"]
 custom_minimum_size = Vector2(60, 60)
+color = Color(0.92549, 0.886275, 0.815686, 1)
 script = ExtResource("1_136qj")
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
