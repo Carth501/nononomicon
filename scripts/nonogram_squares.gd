@@ -10,8 +10,10 @@ func create_square_displays():
 		squares.clear()
 	var map = State.master [State.SQUARE_MAP_KEY]
 	columns = map.keys().size()
-	for i in map.keys().size():
-		for k in map[0].size():
+	var SIZE = State.SIZE
+	# The grid gets filled out horizontally first
+	for k in SIZE.y:
+		for i in SIZE.x:
 			var new_square = square_scene.instantiate()
 			new_square.setup(Vector2i(i, k))
 			add_child(new_square)

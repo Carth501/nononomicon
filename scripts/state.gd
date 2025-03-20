@@ -11,9 +11,9 @@ enum SquareStates {
 	NOTE_FLAGGED
 }
 
-var chosen_coords: Vector2i
+var chosen_coords: Vector2i = Vector2i(-1, -1)
 var master: Dictionary
-var SIZE := Vector2i(9, 9)
+var SIZE := Vector2i(9, 3)
 var SQUARE_MAP_KEY := 'square_map'
 var TARGET_MAP_KEY := 'target_map'
 var HEADERS_KEY := 'headers'
@@ -36,6 +36,20 @@ func change_square_state(new_state: SquareStates):
 	else:
 		master [SQUARE_MAP_KEY][chosen_coords.x][chosen_coords.y] = new_state
 	square_changed.emit(chosen_coords)
+
+func set_square_state(coords: Vector2i, new_state: SquareStates):
+	master [SQUARE_MAP_KEY][coords.x][coords.y] = new_state
+	square_changed.emit(coords)
+
+func get_target_position(coords: Vector2i) -> SquareStates:
+	if (coords.x < 0 || coords.x >= SIZE.x || coords.y < 0 || coords.y >= SIZE.y):
+		printerr("Invalid position: ", coords.x, ", ", coords.y)
+	return master [TARGET_MAP_KEY][coords.x][coords.y]
+
+func set_target_position(coords: Vector2i, value: SquareStates):
+	if (coords.x < 0 || coords.x >= SIZE.x || coords.y < 0 || coords.y >= SIZE.y):
+		printerr("Invalid position: ", coords.x, ", ", coords.y)
+	master [TARGET_MAP_KEY][coords.x][coords.y] = value
 
 func generate_empty_map():
 	if (SIZE.x <= 0 || SIZE.y <= 0):
@@ -69,21 +83,25 @@ func random_center_map():
 			sum += random_value
 			var marked = sum < roundi(average / 1.95)
 			if (marked):
-				master [TARGET_MAP_KEY][i][k] = SquareStates.MARKED
+				set_target_position(Vector2i(i, k), SquareStates.MARKED)
+			else:
+				set_target_position(Vector2i(i, k), SquareStates.EMPTY)
+
 
 func generate_headers():
 	master [HEADERS_KEY] = {}
 	master [HEADERS_KEY]['X'] = {}
 	master [HEADERS_KEY]['Y'] = {}
 	var map = master [TARGET_MAP_KEY]
-
-	generate_header_for_axis('Y', SIZE.x, SIZE.y, map)
-	generate_header_for_axis('X', SIZE.y, SIZE.x, map)
+	
+	generate_header_for_axis('X', SIZE.x, SIZE.y, map)
+	generate_header_for_axis('Y', SIZE.y, SIZE.x, map)
 
 func generate_header_for_axis(axis: String, primary_size: int, secondary_size: int, map: Dictionary):
 	for i in primary_size:
 		var total = 0
 		var count = 0
+		var segment = []
 		master [HEADERS_KEY][axis][i] = []
 		for k in secondary_size:
 			var is_marked = false
@@ -95,20 +113,23 @@ func generate_header_for_axis(axis: String, primary_size: int, secondary_size: i
 			if is_marked:
 				count += 1
 				total += 1
+				segment.append(k)
 			elif count > 0:
-				master [HEADERS_KEY][axis][i].append(str(count))
+				master [HEADERS_KEY][axis][i].append({'length': str(count), 'segment': segment})
 				count = 0
+				segment = []
 		if count > 0:
-			master [HEADERS_KEY][axis][i].append(str(count))
+			master [HEADERS_KEY][axis][i].append({'length': str(count), 'segment': segment})
 		if total == 0:
-			master [HEADERS_KEY][axis][i].append(str(0))
+			master [HEADERS_KEY][axis][i].append({'length': str(count), 'segment': segment})
 
 func cheat_reveal_all_squares():
 	for i in SIZE.x:
 		for k in SIZE.y:
-			if master [TARGET_MAP_KEY][i].has(k) and master [TARGET_MAP_KEY][i][k] == SquareStates.MARKED:
-				master [SQUARE_MAP_KEY][i][k] = SquareStates.MARKED
+			var position = Vector2i(i, k)
+			if get_target_position(position) == SquareStates.MARKED:
+				set_square_state(position, SquareStates.MARKED)
 			else:
-				master [SQUARE_MAP_KEY][i][k] = SquareStates.EMPTY
+				set_square_state(position, SquareStates.EMPTY)
 
 	board_ready.emit()
