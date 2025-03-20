@@ -79,11 +79,14 @@ func generate_headers():
 
 	generate_header_for_axis('Y', SIZE.x, SIZE.y, map)
 	generate_header_for_axis('X', SIZE.y, SIZE.x, map)
+	print("master [HEADERS_KEY]['Y']", master [HEADERS_KEY]['Y'])
+	print("master [HEADERS_KEY]['X']", master [HEADERS_KEY]['X'])
 
 func generate_header_for_axis(axis: String, primary_size: int, secondary_size: int, map: Dictionary):
 	for i in primary_size:
 		var total = 0
 		var count = 0
+		var segment = []
 		master [HEADERS_KEY][axis][i] = []
 		for k in secondary_size:
 			var is_marked = false
@@ -95,13 +98,15 @@ func generate_header_for_axis(axis: String, primary_size: int, secondary_size: i
 			if is_marked:
 				count += 1
 				total += 1
+				segment.append(k)
 			elif count > 0:
-				master [HEADERS_KEY][axis][i].append(str(count))
+				master [HEADERS_KEY][axis][i].append({'length': str(count), 'segment': segment})
 				count = 0
+				segment = []
 		if count > 0:
-			master [HEADERS_KEY][axis][i].append(str(count))
+			master [HEADERS_KEY][axis][i].append({'length': str(count), 'segment': segment})
 		if total == 0:
-			master [HEADERS_KEY][axis][i].append(str(0))
+			master [HEADERS_KEY][axis][i].append({'length': str(count), 'segment': segment})
 
 func cheat_reveal_all_squares():
 	for i in SIZE.x:
