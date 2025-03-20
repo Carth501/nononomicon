@@ -77,8 +77,8 @@ func generate_headers():
 	master [HEADERS_KEY]['Y'] = {}
 	var map = master [TARGET_MAP_KEY]
 
-	generate_header_for_axis('X', SIZE.x, SIZE.y, map)
-	generate_header_for_axis('Y', SIZE.y, SIZE.x, map)
+	generate_header_for_axis('Y', SIZE.x, SIZE.y, map)
+	generate_header_for_axis('X', SIZE.y, SIZE.x, map)
 
 func generate_header_for_axis(axis: String, primary_size: int, secondary_size: int, map: Dictionary):
 	for i in primary_size:
