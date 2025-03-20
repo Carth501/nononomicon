@@ -81,30 +81,39 @@ func generate_empty_map():
 	board_ready.emit()
 
 func _process(_delta):
-	if Input.is_action_just_released("Mark") and (toggle_state == ToggleStates.MARKING or toggle_state == ToggleStates.EMPTYING_MARKED):
-		toggle_state = ToggleStates.NOTHING
-		toggle_state_changed.emit(toggle_state)
-	elif Input.is_action_just_released("Flag") and (toggle_state == ToggleStates.FLAGGING or toggle_state == ToggleStates.EMPTYING_FLAGGED):
-		toggle_state = ToggleStates.NOTHING
-		toggle_state_changed.emit(toggle_state)
-
-	if (chosen_coords == Vector2i(-1, -1)):
+	handle_input_release()
+	if chosen_coords == Vector2i(-1, -1):
 		return
+	handle_input_press()
+
+func handle_input_release():
+	if Input.is_action_just_released("Mark") and (toggle_state == ToggleStates.MARKING or toggle_state == ToggleStates.EMPTYING_MARKED):
+		reset_toggle_state()
+	elif Input.is_action_just_released("Flag") and (toggle_state == ToggleStates.FLAGGING or toggle_state == ToggleStates.EMPTYING_FLAGGED):
+		reset_toggle_state()
+
+func handle_input_press():
 	var state = get_chosen_coords_state()
 	if toggle_state == ToggleStates.NOTHING:
-		if Input.is_action_just_pressed("Mark") and state == SquareStates.EMPTY:
-			toggle_state = ToggleStates.MARKING
-			toggle_state_changed.emit(toggle_state)
-		elif Input.is_action_just_pressed("Mark") and state == SquareStates.MARKED:
-			toggle_state = ToggleStates.EMPTYING_MARKED
-			toggle_state_changed.emit(toggle_state)
-		elif Input.is_action_just_pressed("Flag") and state == SquareStates.EMPTY:
-			toggle_state = ToggleStates.FLAGGING
-			toggle_state_changed.emit(toggle_state)
-		elif Input.is_action_just_pressed("Flag") and state == SquareStates.FLAGGED:
-			toggle_state = ToggleStates.EMPTYING_FLAGGED
-			toggle_state_changed.emit(toggle_state)
-	
+		if Input.is_action_just_pressed("Mark"):
+			handle_mark_press(state)
+		elif Input.is_action_just_pressed("Flag"):
+			handle_flag_press(state)
+	handle_toggle_state()
+
+func handle_mark_press(state: SquareStates):
+	if state == SquareStates.EMPTY:
+		set_toggle_state(ToggleStates.MARKING)
+	elif state == SquareStates.MARKED:
+		set_toggle_state(ToggleStates.EMPTYING_MARKED)
+
+func handle_flag_press(state: SquareStates):
+	if state == SquareStates.EMPTY:
+		set_toggle_state(ToggleStates.FLAGGING)
+	elif state == SquareStates.FLAGGED:
+		set_toggle_state(ToggleStates.EMPTYING_FLAGGED)
+
+func handle_toggle_state():
 	if toggle_state == ToggleStates.MARKING:
 		change_square_state(SquareStates.MARKED)
 	elif toggle_state == ToggleStates.EMPTYING_MARKED:
@@ -113,6 +122,14 @@ func _process(_delta):
 		change_square_state(SquareStates.FLAGGED)
 	elif toggle_state == ToggleStates.EMPTYING_FLAGGED:
 		change_square_state(SquareStates.EMPTY)
+
+func reset_toggle_state():
+	toggle_state = ToggleStates.NOTHING
+	toggle_state_changed.emit(toggle_state)
+
+func set_toggle_state(new_state: ToggleStates):
+	toggle_state = new_state
+	toggle_state_changed.emit(toggle_state)
 
 func generate_target_map():
 	random_center_map()
