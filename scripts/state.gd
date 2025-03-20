@@ -70,6 +70,8 @@ func random_center_map():
 			var marked = sum < roundi(average / 1.95)
 			if (marked):
 				master [TARGET_MAP_KEY][i][k] = SquareStates.MARKED
+			else:
+				master [TARGET_MAP_KEY][i][k] = SquareStates.EMPTY
 
 func generate_headers():
 	master [HEADERS_KEY] = {}
