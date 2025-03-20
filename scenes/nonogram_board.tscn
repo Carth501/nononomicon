@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://scripts/x_header_row.gd" id="3_22eos"]
 [ext_resource type="Script" path="res://scripts/y_header_col.gd" id="4_cnhxs"]
 
-[node name="NonogramBoard" type="Control" node_paths=PackedStringArray("nonogram_squares", "header_row", "header_col")]
+[node name="NonogramBoard" type="Control" node_paths=PackedStringArray("nonogram_squares", "header_row", "header_col", "input_state_label")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,6 +17,7 @@ script = ExtResource("1_qoyos")
 nonogram_squares = NodePath("NonogramScrollContainer/NonogramSquares")
 header_row = NodePath("XHeaderRow")
 header_col = NodePath("YHeaderCol")
+input_state_label = NodePath("Label")
 
 [node name="NonogramScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 1
@@ -105,5 +106,15 @@ offset_top = -8.0
 grow_horizontal = 0
 grow_vertical = 0
 text = "CHEAT"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 23.0
+grow_horizontal = 0
+text = "Test"
 
 [connection signal="pressed" from="CheatButton" to="." method="cheat"]

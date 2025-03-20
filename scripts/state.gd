@@ -2,21 +2,31 @@ extends Node
 
 signal square_changed(coords)
 signal board_ready
+signal toggle_state_changed(new_state)
 
 enum SquareStates {
 	EMPTY,
 	MARKED,
 	NOTE_MARKED,
 	FLAGGED,
-	NOTE_FLAGGED
+	NOTE_FLAGGED,
+}
+
+enum ToggleStates {
+	NOTHING,
+	MARKING,
+	EMPTYING_MARKED,
+	FLAGGING,
+	EMPTYING_FLAGGED,
 }
 
 var chosen_coords: Vector2i = Vector2i(-1, -1)
 var master: Dictionary
-var SIZE := Vector2i(9, 3)
+var SIZE := Vector2i(13, 8)
 var SQUARE_MAP_KEY := 'square_map'
 var TARGET_MAP_KEY := 'target_map'
 var HEADERS_KEY := 'headers'
+var toggle_state: ToggleStates = ToggleStates.NOTHING
 
 func _ready() -> void:
 	generate_empty_map()
@@ -25,21 +35,29 @@ func _ready() -> void:
 func set_chosen_coords(new_coords: Vector2i):
 	chosen_coords = new_coords
 
+func get_chosen_coords_state() -> SquareStates:
+	return get_position_state(chosen_coords)
+
 func get_position_state(coords: Vector2i) -> SquareStates:
 	return master [SQUARE_MAP_KEY][coords.x][coords.y]
 
 func change_square_state(new_state: SquareStates):
-	if (chosen_coords == Vector2i(-1, -1)):
-		return
-	if (master [SQUARE_MAP_KEY][chosen_coords.x][chosen_coords.y] == new_state):
-		master [SQUARE_MAP_KEY][chosen_coords.x][chosen_coords.y] = SquareStates.EMPTY
-	else:
-		master [SQUARE_MAP_KEY][chosen_coords.x][chosen_coords.y] = new_state
+	if (new_state == SquareStates.MARKED):
+		if (get_chosen_coords_state() == SquareStates.EMPTY):
+			set_chosen_coords_state(SquareStates.MARKED)
+	elif (new_state == SquareStates.FLAGGED):
+		if (get_chosen_coords_state() == SquareStates.EMPTY):
+			set_chosen_coords_state(SquareStates.FLAGGED)
+	elif (new_state == SquareStates.EMPTY):
+		set_chosen_coords_state(SquareStates.EMPTY)
 	square_changed.emit(chosen_coords)
 
 func set_square_state(coords: Vector2i, new_state: SquareStates):
 	master [SQUARE_MAP_KEY][coords.x][coords.y] = new_state
 	square_changed.emit(coords)
+
+func set_chosen_coords_state(new_state: SquareStates):
+	set_square_state(chosen_coords, new_state)
 
 func get_target_position(coords: Vector2i) -> SquareStates:
 	if (coords.x < 0 || coords.x >= SIZE.x || coords.y < 0 || coords.y >= SIZE.y):
@@ -63,10 +81,38 @@ func generate_empty_map():
 	board_ready.emit()
 
 func _process(_delta):
-	if Input.is_action_just_pressed("Mark"):
+	if Input.is_action_just_released("Mark") and (toggle_state == ToggleStates.MARKING or toggle_state == ToggleStates.EMPTYING_MARKED):
+		toggle_state = ToggleStates.NOTHING
+		toggle_state_changed.emit(toggle_state)
+	elif Input.is_action_just_released("Flag") and (toggle_state == ToggleStates.FLAGGING or toggle_state == ToggleStates.EMPTYING_FLAGGED):
+		toggle_state = ToggleStates.NOTHING
+		toggle_state_changed.emit(toggle_state)
+
+	if (chosen_coords == Vector2i(-1, -1)):
+		return
+	var state = get_chosen_coords_state()
+	if toggle_state == ToggleStates.NOTHING:
+		if Input.is_action_just_pressed("Mark") and state == SquareStates.EMPTY:
+			toggle_state = ToggleStates.MARKING
+			toggle_state_changed.emit(toggle_state)
+		elif Input.is_action_just_pressed("Mark") and state == SquareStates.MARKED:
+			toggle_state = ToggleStates.EMPTYING_MARKED
+			toggle_state_changed.emit(toggle_state)
+		elif Input.is_action_just_pressed("Flag") and state == SquareStates.EMPTY:
+			toggle_state = ToggleStates.FLAGGING
+			toggle_state_changed.emit(toggle_state)
+		elif Input.is_action_just_pressed("Flag") and state == SquareStates.FLAGGED:
+			toggle_state = ToggleStates.EMPTYING_FLAGGED
+			toggle_state_changed.emit(toggle_state)
+	
+	if toggle_state == ToggleStates.MARKING:
 		change_square_state(SquareStates.MARKED)
-	elif Input.is_action_just_pressed("Flag"):
+	elif toggle_state == ToggleStates.EMPTYING_MARKED:
+		change_square_state(SquareStates.EMPTY)
+	elif toggle_state == ToggleStates.FLAGGING:
 		change_square_state(SquareStates.FLAGGED)
+	elif toggle_state == ToggleStates.EMPTYING_FLAGGED:
+		change_square_state(SquareStates.EMPTY)
 
 func generate_target_map():
 	random_center_map()
@@ -78,7 +124,7 @@ func random_center_map():
 		master [TARGET_MAP_KEY][i] = {}
 		for k in SIZE.y:
 			var average = roundi((SIZE.x + SIZE.y) / 2.0)
-			var random_value = randi_range(-2, 2)
+			var random_value = randf_range(-2.5, 2.5)
 			var sum = absi(i - roundi(average / 2.0)) + absi(k - roundi(average / 2.0))
 			sum += random_value
 			var marked = sum < roundi(average / 1.95)
