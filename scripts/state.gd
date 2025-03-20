@@ -11,7 +11,7 @@ enum SquareStates {
 	NOTE_FLAGGED
 }
 
-var chosen_coords: Vector2i
+var chosen_coords: Vector2i = Vector2i(-1, -1)
 var master: Dictionary
 var SIZE := Vector2i(9, 9)
 var SQUARE_MAP_KEY := 'square_map'
