@@ -28,9 +28,15 @@ var TARGET_MAP_KEY := 'target_map'
 var HEADERS_KEY := 'headers'
 var toggle_state: ToggleStates = ToggleStates.NOTHING
 
-func _ready() -> void:
+func setup(parameters: Dictionary) -> void:
+	if (parameters.has('seed')):
+		seed(parameters['seed'])
+	else:
+		randomize()
+	if (parameters.has('size')):
+		SIZE = parameters['size']
 	generate_empty_map()
-	generate_target_map()
+	generate_target_map(parameters)
 
 func set_chosen_coords(new_coords: Vector2i):
 	chosen_coords = new_coords
@@ -131,11 +137,11 @@ func set_toggle_state(new_state: ToggleStates):
 	toggle_state = new_state
 	toggle_state_changed.emit(toggle_state)
 
-func generate_target_map():
-	random_center_map()
+func generate_target_map(parameters: Dictionary):
+	random_center_map(parameters)
 	generate_headers()
 
-func random_center_map():
+func random_center_map(_parameters: Dictionary):
 	master [TARGET_MAP_KEY] = {}
 	for i in SIZE.x:
 		master [TARGET_MAP_KEY][i] = {}

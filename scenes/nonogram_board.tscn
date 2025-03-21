@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dq8gk2xv1r27a"]
+[gd_scene load_steps=6 format=3 uid="uid://dq8gk2xv1r27a"]
 
 [ext_resource type="PackedScene" uid="uid://d4cw6v7fo0k5s" path="res://scenes/nonogram_squares.tscn" id="1_4p2ab"]
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_qoyos"]
 [ext_resource type="Script" path="res://scripts/x_header_row.gd" id="3_22eos"]
 [ext_resource type="Script" path="res://scripts/y_header_col.gd" id="4_cnhxs"]
+[ext_resource type="Script" path="res://scripts/scene_setup.gd" id="5_4gbb1"]
 
 [node name="NonogramBoard" type="Control" node_paths=PackedStringArray("scroll_container", "nonogram_squares", "header_row", "header_col", "input_state_label")]
 layout_mode = 3
@@ -120,6 +121,9 @@ offset_left = -40.0
 offset_bottom = 23.0
 grow_horizontal = 0
 text = "Test"
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource("5_4gbb1")
 
 [connection signal="scroll_ended" from="NonogramScrollContainer" to="NonogramScrollContainer" method="_on_scroll_ended"]
 [connection signal="scroll_started" from="NonogramScrollContainer" to="NonogramScrollContainer" method="_on_scroll_started"]
