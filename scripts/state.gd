@@ -150,7 +150,6 @@ func random_center_map():
 			else:
 				set_target_position(Vector2i(i, k), SquareStates.EMPTY)
 
-
 func generate_headers():
 	master [HEADERS_KEY] = {}
 	master [HEADERS_KEY]['X'] = {}
@@ -162,6 +161,7 @@ func generate_headers():
 	var x_offset_segments = find_offset_by_one_segments('X')
 	var y_offset_segments = find_offset_by_one_segments('Y')
 	var danger_segments = find_shared_end_segments(x_offset_segments, y_offset_segments)
+	print('danger_segments ', danger_segments)
 
 func generate_header_for_axis(axis: String, primary_size: int, secondary_size: int, map: Dictionary):
 	for i in primary_size:
@@ -256,6 +256,30 @@ func find_shared_end_segments(offset_segments_x: Dictionary, offset_segments_y: 
 			var point2 = Vector2i(segment_pair_x['index2'], segment_pair_x['segment2'][-1])
 			ends_list_x.append({'point1': point1, 'point2': point2})
 
+		var adjacent_exception := false
+
+		for end in ends_list_x:
+			if (adjacent_exception):
+				break
+			var adjacent_points = [
+				Vector2i(end['point1'].x - 1, end['point1'].y),
+				Vector2i(end['point1'].x + 1, end['point1'].y),
+				Vector2i(end['point1'].x, end['point1'].y - 1),
+				Vector2i(end['point1'].x, end['point1'].y + 1),
+				Vector2i(end['point2'].x - 1, end['point2'].y),
+				Vector2i(end['point2'].x + 1, end['point2'].y),
+				Vector2i(end['point2'].x, end['point2'].y - 1),
+				Vector2i(end['point2'].x, end['point2'].y + 1)
+			]
+
+			for point in adjacent_points:
+				if point.x >= 0 and point.x < SIZE.x and point.y >= 0 and point.y < SIZE.y:
+					if get_target_position(point) != SquareStates.MARKED or (point in segment_pair_x['segment1'] or point in segment_pair_x['segment2']):
+						adjacent_exception = true
+						break
+		if (adjacent_exception):
+			continue
+
 		for key_y in offset_segments_y.keys():
 			var segment_pair_y = offset_segments_y[key_y]
 			var ends_list_y = []
@@ -272,5 +296,6 @@ func find_shared_end_segments(offset_segments_x: Dictionary, offset_segments_y: 
 				shared_end_segments.append({'point1': ends_list_x[0]['point1'], 'point2': ends_list_x[0]['point2']})
 			elif (ends_list_x[0]['point1'] == ends_list_y[0]['point2'] and ends_list_x[0]['point2'] == ends_list_y[0]['point1']):
 				shared_end_segments.append({'point1': ends_list_x[0]['point1'], 'point2': ends_list_x[0]['point2']})
+
 
 	return shared_end_segments
