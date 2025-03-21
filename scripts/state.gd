@@ -22,7 +22,7 @@ enum ToggleStates {
 
 var chosen_coords: Vector2i = Vector2i(-1, -1)
 var master: Dictionary
-var SIZE := Vector2i(13, 8)
+var SIZE := Vector2i(8, 8)
 var SQUARE_MAP_KEY := 'square_map'
 var TARGET_MAP_KEY := 'target_map'
 var HEADERS_KEY := 'headers'
@@ -159,6 +159,9 @@ func generate_headers():
 	
 	generate_header_for_axis('X', SIZE.x, SIZE.y, map)
 	generate_header_for_axis('Y', SIZE.y, SIZE.x, map)
+	var x_offset_segments = find_offset_by_one_segments('X')
+	var y_offset_segments = find_offset_by_one_segments('Y')
+	var danger_segments = find_shared_end_segments(x_offset_segments, y_offset_segments)
 
 func generate_header_for_axis(axis: String, primary_size: int, secondary_size: int, map: Dictionary):
 	for i in primary_size:
@@ -196,3 +199,78 @@ func cheat_reveal_all_squares():
 				set_square_state(position, SquareStates.EMPTY)
 
 	board_ready.emit()
+
+func get_duplicate_lengths(axis: String) -> Dictionary:
+	var seen_lengths = {}
+	var duplicate_lengths = {}
+	for i in master [HEADERS_KEY][axis]:
+		for k in master [HEADERS_KEY][axis][i]:
+			var length = k['length']
+			if seen_lengths.has(length):
+				if not duplicate_lengths.has(length):
+					duplicate_lengths[length] = [seen_lengths[length]]
+				duplicate_lengths[length].append({'x': i, 'segment': k['segment']})
+			else:
+				seen_lengths[length] = {'x': i, 'segment': k['segment']}
+	return duplicate_lengths
+
+func find_offset_by_one_segments(axis: String) -> Dictionary:
+	var duplicate_lengths = get_duplicate_lengths(axis)
+	var offset_segments = {}
+
+	for length in duplicate_lengths.keys():
+		var segments = duplicate_lengths[length]
+		for i in range(segments.size()):
+			for j in range(i + 1, segments.size()):
+				var segment1 = segments[i]['segment']
+				var segment2 = segments[j]['segment']
+				if segment1.size() == segment2.size():
+					var offset = true
+					for k in range(segment1.size()):
+						if abs(segment1[k] - segment2[k]) != 1:
+							offset = false
+							break
+					if offset:
+						var key = str(length) + "_" + str(segments[i]['x']) + "_" + str(segments[j]['x'])
+						offset_segments[key] = {
+							'segment1': segment1,
+							'segment2': segment2,
+							'index1': segments[i]['x'],
+							'index2': segments[j]['x']
+						}
+
+	return offset_segments
+
+func find_shared_end_segments(offset_segments_x: Dictionary, offset_segments_y: Dictionary) -> Array:
+	var shared_end_segments = []
+
+	for key_x in offset_segments_x.keys():
+		var segment_pair_x = offset_segments_x[key_x]
+		var ends_list_x = []
+		if (segment_pair_x['segment2'].has(segment_pair_x['segment1'][0])):
+			var point1 = Vector2i(segment_pair_x['index1'], segment_pair_x['segment1'][-1])
+			var point2 = Vector2i(segment_pair_x['index2'], segment_pair_x['segment2'][0])
+			ends_list_x.append({'point1': point1, 'point2': point2})
+		else:
+			var point1 = Vector2i(segment_pair_x['index1'], segment_pair_x['segment1'][0])
+			var point2 = Vector2i(segment_pair_x['index2'], segment_pair_x['segment2'][-1])
+			ends_list_x.append({'point1': point1, 'point2': point2})
+
+		for key_y in offset_segments_y.keys():
+			var segment_pair_y = offset_segments_y[key_y]
+			var ends_list_y = []
+			if (segment_pair_y['segment2'].has(segment_pair_y['segment1'][0])):
+				var point1 = Vector2i(segment_pair_y['index1'], segment_pair_y['segment1'][-1])
+				var point2 = Vector2i(segment_pair_y['index2'], segment_pair_y['segment2'][0])
+				ends_list_y.append({'point1': point1, 'point2': point2})
+			else:
+				var point1 = Vector2i(segment_pair_y['index1'], segment_pair_y['segment1'][0])
+				var point2 = Vector2i(segment_pair_y['index2'], segment_pair_y['segment2'][-1])
+				ends_list_y.append({'point1': point1, 'point2': point2})
+
+			if (ends_list_x[0]['point1'] == ends_list_y[0]['point1'] and ends_list_x[0]['point2'] == ends_list_y[0]['point2']):
+				shared_end_segments.append({'point1': ends_list_x[0]['point1'], 'point2': ends_list_x[0]['point2']})
+			elif (ends_list_x[0]['point1'] == ends_list_y[0]['point2'] and ends_list_x[0]['point2'] == ends_list_y[0]['point1']):
+				shared_end_segments.append({'point1': ends_list_x[0]['point1'], 'point2': ends_list_x[0]['point2']})
+
+	return shared_end_segments
