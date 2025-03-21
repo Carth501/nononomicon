@@ -161,7 +161,8 @@ func generate_headers():
 	var x_offset_segments = find_offset_by_one_segments('X')
 	var y_offset_segments = find_offset_by_one_segments('Y')
 	var danger_segments = find_shared_end_segments(x_offset_segments, y_offset_segments)
-	print('danger_segments ', danger_segments)
+	var changed_point = resolve_danger_square(danger_segments)
+	print("Changed point: ", changed_point)
 
 func generate_header_for_axis(axis: String, primary_size: int, secondary_size: int, map: Dictionary):
 	for i in primary_size:
@@ -299,3 +300,44 @@ func find_shared_end_segments(offset_segments_x: Dictionary, offset_segments_y: 
 
 
 	return shared_end_segments
+
+func resolve_danger_square(shared_end_segments: Array) -> Vector2i:
+	if shared_end_segments.size() == 0:
+		return Vector2i(-1, -1)
+
+	var random_segment = shared_end_segments[randi() % shared_end_segments.size()]
+	var action = randi() % 2
+
+	if action == 0:
+		var adjacent_points = [
+			Vector2i(random_segment['point1'].x, random_segment['point1'].y),
+			Vector2i(random_segment['point1'].x - 1, random_segment['point1'].y),
+			Vector2i(random_segment['point1'].x + 1, random_segment['point1'].y),
+			Vector2i(random_segment['point1'].x, random_segment['point1'].y - 1),
+			Vector2i(random_segment['point1'].x, random_segment['point1'].y + 1),
+			Vector2i(random_segment['point2'].x, random_segment['point2'].y),
+			Vector2i(random_segment['point2'].x - 1, random_segment['point2'].y),
+			Vector2i(random_segment['point2'].x + 1, random_segment['point2'].y),
+			Vector2i(random_segment['point2'].x, random_segment['point2'].y - 1),
+			Vector2i(random_segment['point2'].x, random_segment['point2'].y + 1)
+		]
+		
+		var valid_points = []
+		for point in adjacent_points:
+			if point.x >= 0 and point.x < SIZE.x and point.y >= 0 and point.y < SIZE.y:
+				if get_position_state(point) == SquareStates.EMPTY:
+					valid_points.append(point)
+
+		if valid_points.size() > 0:
+			var random_point = valid_points[randi() % valid_points.size()]
+			set_square_state(random_point, SquareStates.MARKED)
+			return random_point
+
+	else:
+		var segment_points = random_segment['segment1'] + random_segment['segment2']
+		for point in segment_points:
+			if get_position_state(point) == SquareStates.MARKED:
+				set_square_state(point, SquareStates.EMPTY)
+				return Vector2i(point.x, point.y)
+	
+	return Vector2i(-1, -1)
