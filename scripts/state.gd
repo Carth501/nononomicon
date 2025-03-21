@@ -161,8 +161,8 @@ func generate_headers():
 	var x_offset_segments = find_offset_by_one_segments('X')
 	var y_offset_segments = find_offset_by_one_segments('Y')
 	var danger_segments = find_shared_end_segments(x_offset_segments, y_offset_segments)
-	var changed_point = resolve_danger_square(danger_segments)
-	print("Changed point: ", changed_point)
+	var changed_points = resolve_danger_square(danger_segments)
+	update_headers_for_points(changed_points)
 
 func generate_header_for_axis(axis: String, primary_size: int, secondary_size: int, map: Dictionary):
 	for i in primary_size:
@@ -248,96 +248,155 @@ func find_shared_end_segments(offset_segments_x: Dictionary, offset_segments_y: 
 	for key_x in offset_segments_x.keys():
 		var segment_pair_x = offset_segments_x[key_x]
 		var ends_list_x = []
+		var empty_list_x = []
 		if (segment_pair_x['segment2'].has(segment_pair_x['segment1'][0])):
+			# if the first point of segment 1 is in segment 2, then the last point of segment 1 is the potentially shared point
 			var point1 = Vector2i(segment_pair_x['index1'], segment_pair_x['segment1'][-1])
 			var point2 = Vector2i(segment_pair_x['index2'], segment_pair_x['segment2'][0])
-			ends_list_x.append({'point1': point1, 'point2': point2})
+			ends_list_x = [point1, point2]
+			empty_list_x = [Vector2i(segment_pair_x['index2'], segment_pair_x['segment1'][-1]),
+							Vector2i(segment_pair_x['index1'], segment_pair_x['segment2'][0])]
 		else:
+			# There must be overhang, because they are offset by one and the first point of segment 1 is not in segment 2
+			# So the first point of segment 1 is the potentially shared point
 			var point1 = Vector2i(segment_pair_x['index1'], segment_pair_x['segment1'][0])
 			var point2 = Vector2i(segment_pair_x['index2'], segment_pair_x['segment2'][-1])
-			ends_list_x.append({'point1': point1, 'point2': point2})
-
-		var adjacent_exception := false
-
-		for end in ends_list_x:
-			if (adjacent_exception):
-				break
-			var adjacent_points = [
-				Vector2i(end['point1'].x - 1, end['point1'].y),
-				Vector2i(end['point1'].x + 1, end['point1'].y),
-				Vector2i(end['point1'].x, end['point1'].y - 1),
-				Vector2i(end['point1'].x, end['point1'].y + 1),
-				Vector2i(end['point2'].x - 1, end['point2'].y),
-				Vector2i(end['point2'].x + 1, end['point2'].y),
-				Vector2i(end['point2'].x, end['point2'].y - 1),
-				Vector2i(end['point2'].x, end['point2'].y + 1)
-			]
-
-			for point in adjacent_points:
-				if point.x >= 0 and point.x < SIZE.x and point.y >= 0 and point.y < SIZE.y:
-					if get_target_position(point) != SquareStates.MARKED or (point in segment_pair_x['segment1'] or point in segment_pair_x['segment2']):
-						adjacent_exception = true
-						break
-		if (adjacent_exception):
-			continue
+			ends_list_x = [point1, point2]
+			empty_list_x = [Vector2i(segment_pair_x['index1'], segment_pair_x['segment2'][-1]),
+							Vector2i(segment_pair_x['index2'], segment_pair_x['segment1'][0])]
 
 		for key_y in offset_segments_y.keys():
 			var segment_pair_y = offset_segments_y[key_y]
 			var ends_list_y = []
 			if (segment_pair_y['segment2'].has(segment_pair_y['segment1'][0])):
-				var point1 = Vector2i(segment_pair_y['index1'], segment_pair_y['segment1'][-1])
-				var point2 = Vector2i(segment_pair_y['index2'], segment_pair_y['segment2'][0])
-				ends_list_y.append({'point1': point1, 'point2': point2})
+				# The same logic as above, but for the y axis
+				var point1 = Vector2i(segment_pair_y['segment1'][-1], segment_pair_y['index1'])
+				var point2 = Vector2i(segment_pair_y['segment2'][0], segment_pair_y['index2'])
+				ends_list_y = [point1, point2]
 			else:
-				var point1 = Vector2i(segment_pair_y['index1'], segment_pair_y['segment1'][0])
-				var point2 = Vector2i(segment_pair_y['index2'], segment_pair_y['segment2'][-1])
-				ends_list_y.append({'point1': point1, 'point2': point2})
+				var point1 = Vector2i(segment_pair_y['segment1'][0], segment_pair_y['index1'])
+				var point2 = Vector2i(segment_pair_y['segment2'][-1], segment_pair_y['index2'])
+				ends_list_y = [point1, point2]
 
-			if (ends_list_x[0]['point1'] == ends_list_y[0]['point1'] and ends_list_x[0]['point2'] == ends_list_y[0]['point2']):
-				shared_end_segments.append({'point1': ends_list_x[0]['point1'], 'point2': ends_list_x[0]['point2']})
-			elif (ends_list_x[0]['point1'] == ends_list_y[0]['point2'] and ends_list_x[0]['point2'] == ends_list_y[0]['point1']):
-				shared_end_segments.append({'point1': ends_list_x[0]['point1'], 'point2': ends_list_x[0]['point2']})
-
+			if (ends_list_x[0] == ends_list_y[0] and ends_list_x[1] == ends_list_y[1]):
+				shared_end_segments.append({'x': offset_segments_x[key_x], 'y': offset_segments_y[key_y], 'unmarked_corners': empty_list_x})
+			elif (ends_list_x[0] == ends_list_y[1] and ends_list_x[1] == ends_list_y[0]):
+				shared_end_segments.append({'x': offset_segments_x[key_x], 'y': offset_segments_y[key_y], 'unmarked_corners': empty_list_x})
 
 	return shared_end_segments
 
-func resolve_danger_square(shared_end_segments: Array) -> Vector2i:
-	if shared_end_segments.size() == 0:
-		return Vector2i(-1, -1)
+func resolve_danger_square(cases: Array) -> Array:
+	if cases.size() == 0:
+		return []
 
-	var random_segment = shared_end_segments[randi() % shared_end_segments.size()]
-	var action = randi() % 2
+	var changed_points = []
+	for case in cases:
+		var action = randi() % 2
+		if action == 0:
+			var unmarked_corners = case['unmarked_corners']
+			
+			var adjacent_points = [
+				Vector2i(unmarked_corners[0].x, unmarked_corners[0].y),
+				Vector2i(unmarked_corners[0].x - 1, unmarked_corners[0].y),
+				Vector2i(unmarked_corners[0].x + 1, unmarked_corners[0].y),
+				Vector2i(unmarked_corners[0].x, unmarked_corners[0].y - 1),
+				Vector2i(unmarked_corners[0].x, unmarked_corners[0].y + 1),
+				Vector2i(unmarked_corners[1].x, unmarked_corners[1].y),
+				Vector2i(unmarked_corners[1].x - 1, unmarked_corners[1].y),
+				Vector2i(unmarked_corners[1].x + 1, unmarked_corners[1].y),
+				Vector2i(unmarked_corners[1].x, unmarked_corners[1].y - 1),
+				Vector2i(unmarked_corners[1].x, unmarked_corners[1].y + 1)
+			]
+			
+			var valid_points = []
+			for point in adjacent_points:
+				if point.x >= 0 and point.x < SIZE.x and point.y >= 0 and point.y < SIZE.y:
+					if get_target_position(point) == SquareStates.EMPTY:
+						valid_points.append(point)
 
-	if action == 0:
-		var adjacent_points = [
-			Vector2i(random_segment['point1'].x, random_segment['point1'].y),
-			Vector2i(random_segment['point1'].x - 1, random_segment['point1'].y),
-			Vector2i(random_segment['point1'].x + 1, random_segment['point1'].y),
-			Vector2i(random_segment['point1'].x, random_segment['point1'].y - 1),
-			Vector2i(random_segment['point1'].x, random_segment['point1'].y + 1),
-			Vector2i(random_segment['point2'].x, random_segment['point2'].y),
-			Vector2i(random_segment['point2'].x - 1, random_segment['point2'].y),
-			Vector2i(random_segment['point2'].x + 1, random_segment['point2'].y),
-			Vector2i(random_segment['point2'].x, random_segment['point2'].y - 1),
-			Vector2i(random_segment['point2'].x, random_segment['point2'].y + 1)
-		]
-		
-		var valid_points = []
-		for point in adjacent_points:
-			if point.x >= 0 and point.x < SIZE.x and point.y >= 0 and point.y < SIZE.y:
-				if get_position_state(point) == SquareStates.EMPTY:
-					valid_points.append(point)
+			if valid_points.size() > 0:
+				var random_point = valid_points[randi() % valid_points.size()]
+				set_target_position(random_point, SquareStates.MARKED)
+				changed_points.append(random_point)
+		else:
+			var axis = randi() % 2
+			var random_segment
+			var random_point
+			if axis == 0:
+				if (randi() % 2 == 0):
+					random_segment = case['x']['segment1']
+					random_point = Vector2i(case['x']['index1'], random_segment[randi() % random_segment.size()])
+				else:
+					random_segment = case['x']['segment2']
+					random_point = Vector2i(case['x']['index2'], random_segment[randi() % random_segment.size()])
+			else:
+				if (randi() % 2 == 0):
+					random_segment = case['y']['segment1']
+					random_point = Vector2i(case['y']['index1'], random_segment[randi() % random_segment.size()])
+				else:
+					random_segment = case['y']['segment2']
+					random_point = Vector2i(case['y']['index2'], random_segment[randi() % random_segment.size()])
+			set_target_position(random_point, SquareStates.EMPTY)
+			changed_points.append(random_point)
 
-		if valid_points.size() > 0:
-			var random_point = valid_points[randi() % valid_points.size()]
-			set_square_state(random_point, SquareStates.MARKED)
-			return random_point
+	return changed_points
 
-	else:
-		var segment_points = random_segment['segment1'] + random_segment['segment2']
-		for point in segment_points:
-			if get_position_state(point) == SquareStates.MARKED:
-				set_square_state(point, SquareStates.EMPTY)
-				return Vector2i(point.x, point.y)
-	
-	return Vector2i(-1, -1)
+func update_headers_for_points(points: Array):
+	var processed_rows = {}
+	var processed_columns = {}
+
+	for point in points:
+		var row = point.x
+		var column = point.y
+
+		if not processed_rows.has(row):
+			update_header_for_row(row)
+			processed_rows[row] = true
+
+		if not processed_columns.has(column):
+			update_header_for_column(column)
+			processed_columns[column] = true
+
+func update_header_for_row(row: int):
+	var map = master [TARGET_MAP_KEY]
+	var total = 0
+	var count = 0
+	var segment = []
+	master [HEADERS_KEY]['X'][row] = []
+	for k in range(SIZE.y):
+		var is_marked = map.has(row) and map[row].has(k) and map[row][k] == SquareStates.MARKED
+
+		if is_marked:
+			count += 1
+			total += 1
+			segment.append(k)
+		elif count > 0:
+			master [HEADERS_KEY]['X'][row].append({'length': str(count), 'segment': segment})
+			count = 0
+			segment = []
+	if count > 0:
+		master [HEADERS_KEY]['X'][row].append({'length': str(count), 'segment': segment})
+	if total == 0:
+		master [HEADERS_KEY]['X'][row].append({'length': str(count), 'segment': segment})
+
+func update_header_for_column(column: int):
+	var map = master [TARGET_MAP_KEY]
+	var total = 0
+	var count = 0
+	var segment = []
+	master [HEADERS_KEY]['Y'][column] = []
+	for i in range(SIZE.x):
+		var is_marked = map.has(i) and map[i].has(column) and map[i][column] == SquareStates.MARKED
+
+		if is_marked:
+			count += 1
+			total += 1
+			segment.append(i)
+		elif count > 0:
+			master [HEADERS_KEY]['Y'][column].append({'length': str(count), 'segment': segment})
+			count = 0
+			segment = []
+	if count > 0:
+		master [HEADERS_KEY]['Y'][column].append({'length': str(count), 'segment': segment})
+	if total == 0:
+		master [HEADERS_KEY]['Y'][column].append({'length': str(count), 'segment': segment})
