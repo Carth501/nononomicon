@@ -30,13 +30,22 @@ var toggle_state: ToggleStates = ToggleStates.NOTHING
 
 func setup(parameters: Dictionary) -> void:
 	if (parameters.has('seed')):
-		seed(parameters['seed'])
+		set_seed(parameters['seed'])
 	else:
 		randomize()
 	if (parameters.has('size')):
-		SIZE = parameters['size']
+		set_size(parameters['size'])
 	generate_empty_map()
 	generate_target_map(parameters)
+
+func set_size(new_size: Vector2i):
+	SIZE = new_size
+
+func set_seed(new_seed: int):
+	seed(new_seed)
+
+func set_target_map(new_map: Dictionary):
+	master [TARGET_MAP_KEY] = new_map
 
 func set_chosen_coords(new_coords: Vector2i):
 	chosen_coords = new_coords
@@ -158,12 +167,12 @@ func random_center_map(_parameters: Dictionary):
 
 func generate_headers():
 	master [HEADERS_KEY] = {}
-	master [HEADERS_KEY]['X'] = {}
-	master [HEADERS_KEY]['Y'] = {}
 	var map = master [TARGET_MAP_KEY]
 	
 	generate_header_for_axis('X', SIZE.x, SIZE.y, map)
 	generate_header_for_axis('Y', SIZE.y, SIZE.x, map)
+
+func cleanup_danger_segments():
 	var x_offset_segments = find_offset_by_one_segments('X')
 	var y_offset_segments = find_offset_by_one_segments('Y')
 	var danger_segments = find_shared_end_segments(x_offset_segments, y_offset_segments)
@@ -171,6 +180,7 @@ func generate_headers():
 	update_headers_for_points(changed_points)
 
 func generate_header_for_axis(axis: String, primary_size: int, secondary_size: int, map: Dictionary):
+	master [HEADERS_KEY][axis] = {}
 	for i in primary_size:
 		var total = 0
 		var count = 0
@@ -213,6 +223,8 @@ func get_duplicate_lengths(axis: String) -> Dictionary:
 	for i in master [HEADERS_KEY][axis]:
 		for k in master [HEADERS_KEY][axis][i]:
 			var length = k['length']
+			if (length == '0'):
+				continue
 			if seen_lengths.has(length):
 				if not duplicate_lengths.has(length):
 					duplicate_lengths[length] = [seen_lengths[length]]
