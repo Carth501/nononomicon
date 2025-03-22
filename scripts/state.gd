@@ -35,6 +35,7 @@ func setup(parameters: Dictionary) -> void:
 		randomize()
 	if (parameters.has('size')):
 		set_size(parameters['size'])
+	sanity_check_parameters(parameters)
 	generate_empty_map()
 	generate_target_map(parameters)
 
@@ -233,9 +234,9 @@ func get_duplicate_lengths(axis: String) -> Dictionary:
 				seen_lengths[length] = {'x': i, 'segment': k['segment']}
 	return duplicate_lengths
 
-func find_offset_by_one_segments(axis: String) -> Dictionary:
+func find_offset_by_one_segments(axis: String) -> Array:
 	var duplicate_lengths = get_duplicate_lengths(axis)
-	var offset_segments = {}
+	var offset_segments = []
 
 	for length in duplicate_lengths.keys():
 		var segments = duplicate_lengths[length]
@@ -250,56 +251,86 @@ func find_offset_by_one_segments(axis: String) -> Dictionary:
 							offset = false
 							break
 					if offset:
-						var key = str(length) + "_" + str(segments[i]['x']) + "_" + str(segments[j]['x'])
-						offset_segments[key] = {
+						offset_segments.append({
 							'segment1': segment1,
 							'segment2': segment2,
 							'index1': segments[i]['x'],
 							'index2': segments[j]['x']
-						}
+						})
 
 	return offset_segments
 
-func find_shared_end_segments(offset_segments_x: Dictionary, offset_segments_y: Dictionary) -> Array:
+func find_shared_end_segments(offset_segments_x: Array, offset_segments_y: Array) -> Array:
 	var shared_end_segments = []
 
-	for key_x in offset_segments_x.keys():
-		var segment_pair_x = offset_segments_x[key_x]
+	for x_pair in offset_segments_x:
 		var ends_list_x = []
 		var empty_list_x = []
-		if (segment_pair_x['segment2'].has(segment_pair_x['segment1'][0])):
+		if (x_pair['segment2'].has(x_pair['segment1'][0])):
 			# if the first point of segment 1 is in segment 2, then the last point of segment 1 is the potentially shared point
-			var point1 = Vector2i(segment_pair_x['index1'], segment_pair_x['segment1'][-1])
-			var point2 = Vector2i(segment_pair_x['index2'], segment_pair_x['segment2'][0])
+			var point1 = Vector2i(x_pair['index1'], x_pair['segment1'][-1])
+			var point2 = Vector2i(x_pair['index2'], x_pair['segment2'][0])
 			ends_list_x = [point1, point2]
-			empty_list_x = [Vector2i(segment_pair_x['index2'], segment_pair_x['segment1'][-1]),
-							Vector2i(segment_pair_x['index1'], segment_pair_x['segment2'][0])]
+			empty_list_x = [Vector2i(x_pair['index2'], x_pair['segment1'][-1]),
+							Vector2i(x_pair['index1'], x_pair['segment2'][0])]
 		else:
 			# There must be overhang, because they are offset by one and the first point of segment 1 is not in segment 2
 			# So the first point of segment 1 is the potentially shared point
-			var point1 = Vector2i(segment_pair_x['index1'], segment_pair_x['segment1'][0])
-			var point2 = Vector2i(segment_pair_x['index2'], segment_pair_x['segment2'][-1])
+			var point1 = Vector2i(x_pair['index1'], x_pair['segment1'][0])
+			var point2 = Vector2i(x_pair['index2'], x_pair['segment2'][-1])
 			ends_list_x = [point1, point2]
-			empty_list_x = [Vector2i(segment_pair_x['index1'], segment_pair_x['segment2'][-1]),
-							Vector2i(segment_pair_x['index2'], segment_pair_x['segment1'][0])]
+			empty_list_x = [Vector2i(x_pair['index1'], x_pair['segment2'][-1]),
+							Vector2i(x_pair['index2'], x_pair['segment1'][0])]
+		
+		var adjacent_points = [
+			Vector2i(empty_list_x[0].x, empty_list_x[0].y),
+			Vector2i(empty_list_x[0].x - 1, empty_list_x[0].y),
+			Vector2i(empty_list_x[0].x + 1, empty_list_x[0].y),
+			Vector2i(empty_list_x[0].x, empty_list_x[0].y - 1),
+			Vector2i(empty_list_x[0].x, empty_list_x[0].y + 1),
+			Vector2i(empty_list_x[1].x, empty_list_x[1].y),
+			Vector2i(empty_list_x[1].x - 1, empty_list_x[1].y),
+			Vector2i(empty_list_x[1].x + 1, empty_list_x[1].y),
+			Vector2i(empty_list_x[1].x, empty_list_x[1].y - 1),
+			Vector2i(empty_list_x[1].x, empty_list_x[1].y + 1)
+		]
+		
+		var collated_segment_points = []
+		for y in x_pair['segment1']:
+			var point = Vector2i(x_pair['index1'], y)
+			if (point not in collated_segment_points):
+				collated_segment_points.append(point)
+		for y in x_pair['segment2']:
+			var point = Vector2i(x_pair['index2'], y)
+			if (point not in collated_segment_points):
+				collated_segment_points.append(point)
 
-		for key_y in offset_segments_y.keys():
-			var segment_pair_y = offset_segments_y[key_y]
+		var adjacency_exception = false
+		for point in adjacent_points:
+			if point.x >= 0 and point.x < SIZE.x and point.y >= 0 and point.y < SIZE.y:
+				if point not in collated_segment_points:
+					if get_target_position(point) == SquareStates.MARKED:
+						adjacency_exception = true
+						break
+		if adjacency_exception:
+			continue
+
+		for y_pair in offset_segments_y:
 			var ends_list_y = []
-			if (segment_pair_y['segment2'].has(segment_pair_y['segment1'][0])):
+			if (y_pair['segment2'].has(y_pair['segment1'][0])):
 				# The same logic as above, but for the y axis
-				var point1 = Vector2i(segment_pair_y['segment1'][-1], segment_pair_y['index1'])
-				var point2 = Vector2i(segment_pair_y['segment2'][0], segment_pair_y['index2'])
+				var point1 = Vector2i(y_pair['segment1'][-1], y_pair['index1'])
+				var point2 = Vector2i(y_pair['segment2'][0], y_pair['index2'])
 				ends_list_y = [point1, point2]
 			else:
-				var point1 = Vector2i(segment_pair_y['segment1'][0], segment_pair_y['index1'])
-				var point2 = Vector2i(segment_pair_y['segment2'][-1], segment_pair_y['index2'])
+				var point1 = Vector2i(y_pair['segment1'][0], y_pair['index1'])
+				var point2 = Vector2i(y_pair['segment2'][-1], y_pair['index2'])
 				ends_list_y = [point1, point2]
 
 			if (ends_list_x[0] == ends_list_y[0] and ends_list_x[1] == ends_list_y[1]):
-				shared_end_segments.append({'x': offset_segments_x[key_x], 'y': offset_segments_y[key_y], 'unmarked_corners': empty_list_x})
+				shared_end_segments.append({'x': x_pair, 'y': y_pair, 'unmarked_corners': empty_list_x})
 			elif (ends_list_x[0] == ends_list_y[1] and ends_list_x[1] == ends_list_y[0]):
-				shared_end_segments.append({'x': offset_segments_x[key_x], 'y': offset_segments_y[key_y], 'unmarked_corners': empty_list_x})
+				shared_end_segments.append({'x': x_pair, 'y': y_pair, 'unmarked_corners': empty_list_x})
 
 	return shared_end_segments
 
@@ -418,3 +449,28 @@ func update_header_for_column(column: int):
 		master [HEADERS_KEY]['Y'][column].append({'length': str(count), 'segment': segment})
 	if total == 0:
 		master [HEADERS_KEY]['Y'][column].append({'length': str(count), 'segment': segment})
+
+func sanity_check_parameters(parameters: Dictionary) -> bool:
+	if parameters.has('size'):
+		var size = parameters['size']
+		if parameters.has('target_map'):
+			var target_map = parameters['target_map']
+			for x in target_map.keys():
+				if x >= size.x:
+					printerr("Target map x dimension exceeds size.x")
+					return false
+				for y in target_map[x].keys():
+					if y >= size.y:
+						printerr("Target map y dimension exceeds size.y")
+						return false
+		if parameters.has('square_map'):
+			var square_map = parameters['square_map']
+			for x in square_map.keys():
+				if x >= size.x:
+					printerr("Square map x dimension exceeds size.x")
+					return false
+				for y in square_map[x].keys():
+					if y >= size.y:
+						printerr("Square map y dimension exceeds size.y")
+						return false
+	return true

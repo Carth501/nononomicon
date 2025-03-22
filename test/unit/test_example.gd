@@ -1,4 +1,5 @@
 extends GutTest
+
 func before_each():
 	gut.p("ran setup", 2)
 
@@ -31,10 +32,11 @@ func test_parameterized_state_initialization():
 class TestStateFunctions:
 	extends GutTest
 
-	var parameters = {'size': Vector2i(2, 2), 'seed': 6, 'target_map': {0: {0: 0, 1: 1}, 1: {0: 1, 1: 0}}}
+	var parameters = {'size': Vector2i(2, 2), 'seed': 7, 'target_map': {0: {0: 0, 1: 1}, 1: {0: 1, 1: 0}}}
 
-	func before_all():
+	func before_each():
 		State.set_size(parameters['size'])
+		State.set_seed(parameters['seed'])
 		State.set_target_map(parameters['target_map'])
 		State.generate_headers()
 
@@ -45,13 +47,12 @@ class TestStateFunctions:
 
 	func test_find_offset_function():
 		var x_offset_segments = State.find_offset_by_one_segments('X')
-		assert_true(x_offset_segments == {"1_0_1": {"segment1": [1], "segment2": [0], "index1": 0, "index2": 1}}, "Should have found the offset segments")
+		assert_eq(x_offset_segments, [ {"segment1": [1], "segment2": [0], "index1": 0, "index2": 1}], "Should have found the offset segments")
 
 	func test_find_shared_end_segments():
 		var x_offset_segments = State.find_offset_by_one_segments('X')
 		var y_offset_segments = State.find_offset_by_one_segments('Y')
 		var shared_end_segments = State.find_shared_end_segments(x_offset_segments, y_offset_segments)
-		print("shared_end_segments ", shared_end_segments)
 		assert_true(shared_end_segments.size() > 0, "Should have found shared end segments")
 		assert_true(shared_end_segments[0].has('x'), "Shared segment should have 'x' key")
 		assert_true(shared_end_segments[0].has('y'), "Shared segment should have 'y' key")
@@ -67,7 +68,36 @@ class TestStateFunctions:
 		var y_offset_segments = State.find_offset_by_one_segments('Y')
 		var shared_end_segments = State.find_shared_end_segments(x_offset_segments, y_offset_segments)
 		var changed_points = State.resolve_danger_square(shared_end_segments)
-		print("changed_points ", changed_points)
 		var point = Vector2i(0, 1)
-		assert_true((changed_points == [point]), "Should have changed the point [0, 1] to empty")
-		assert_true(State.get_target_position(point) == State.SquareStates.EMPTY, "The changed point should be empty")
+		assert_eq(changed_points, [point], "Should have changed the point [0, 1] to empty")
+		assert_eq(State.get_target_position(point), State.SquareStates.EMPTY, "The changed point should be empty")
+
+class TestAdjacencyException:
+	extends GutTest
+
+	var parameters = {'size': Vector2i(3, 2), 'seed': 6, 'target_map': {0: {0: 0, 1: 1}, 1: {0: 1, 1: 0}, 2: {0: 0, 1: 1}}}
+
+	func before_all():
+		State.set_size(parameters['size'])
+		State.set_seed(parameters['seed'])
+		State.set_target_map(parameters['target_map'])
+		State.generate_headers()
+
+
+	func test_get_duplicate_lengths():
+		var lengths = State.get_duplicate_lengths('X')
+		assert_eq(lengths, {"1": [ {"x": 0, "segment": [1]}, {"x": 1, "segment": [0]}, {"x": 2, "segment": [1]}]}, "Should have found some duplicates")
+
+	func test_find_offset_function():
+		var x_offset_segments = State.find_offset_by_one_segments('X')
+		assert_eq(x_offset_segments,
+		[
+			{"segment1": [1], "segment2": [0], "index1": 0, "index2": 1},
+			{"segment1": [0], "segment2": [1], "index1": 1, "index2": 2}
+		], "Should have found the offset segments")
+
+	func test_adjacency_exception():
+		var x_offset_segments = State.find_offset_by_one_segments('X')
+		var y_offset_segments = State.find_offset_by_one_segments('Y')
+		var shared_end_segments = State.find_shared_end_segments(x_offset_segments, y_offset_segments)
+		assert_eq(shared_end_segments.size(), 0, "Should have triggered the adjacency exception")
