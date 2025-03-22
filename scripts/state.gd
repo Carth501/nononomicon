@@ -96,6 +96,9 @@ func generate_empty_map():
 		master [SQUARE_MAP_KEY][i] = column
 	board_ready.emit()
 
+func set_square_map(new_map: Dictionary):
+	master [SQUARE_MAP_KEY] = new_map
+
 func _process(_delta):
 	handle_input_release()
 	if chosen_coords == Vector2i(-1, -1):
@@ -473,4 +476,20 @@ func sanity_check_parameters(parameters: Dictionary) -> bool:
 					if y >= size.y:
 						printerr("Square map y dimension exceeds size.y")
 						return false
+	return true
+
+func check_victory() -> bool:
+	for x in range(SIZE.x):
+		for y in range(SIZE.y):
+			var coords = Vector2i(x, y)
+			var target_state = get_target_position(coords)
+			var current_state = get_position_state(coords)
+			prints("Checking victory: ", coords, target_state, current_state, target_state == SquareStates.MARKED, current_state == SquareStates.MARKED)
+			if target_state == SquareStates.MARKED and current_state != SquareStates.MARKED:
+				print("Not all marked", target_state == SquareStates.MARKED, current_state != SquareStates.MARKED)
+				return false
+			elif target_state != SquareStates.MARKED and (current_state == SquareStates.MARKED or
+			current_state == SquareStates.NOTE_MARKED):
+				prints(coords, "marked when it shouldn't be.", current_state == SquareStates.MARKED, current_state == SquareStates.NOTE_MARKED)
+				return false
 	return true

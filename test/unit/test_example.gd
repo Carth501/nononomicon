@@ -29,6 +29,7 @@ func test_parameterized_state_initialization():
 	assert_has(State.master , State.TARGET_MAP_KEY, "Should have headers key")
 	assert_eq(State.master [State.TARGET_MAP_KEY], {0: {0: 0, 1: 0, 2: 0, 3: 1}, 1: {0: 1, 1: 1, 2: 1, 3: 0}, 2: {0: 1, 1: 0, 2: 1, 3: 0}, 3: {0: 1, 1: 1, 2: 0, 3: 0}})
 
+
 class TestStateFunctions:
 	extends GutTest
 
@@ -40,10 +41,13 @@ class TestStateFunctions:
 		State.set_target_map(parameters['target_map'])
 		State.generate_headers()
 
+	func test_victory_detection_rejection():
+		State.generate_empty_map()
+		assert_false(State.check_victory(), "Should not have detected victory")
+
 	func test_get_duplicate_lengths():
 		var lengths = State.get_duplicate_lengths('X')
 		assert_true(lengths != {}, "Should have found some duplicates")
-
 
 	func test_find_offset_function():
 		var x_offset_segments = State.find_offset_by_one_segments('X')
@@ -71,6 +75,15 @@ class TestStateFunctions:
 		var point = Vector2i(0, 1)
 		assert_eq(changed_points, [point], "Should have changed the point [0, 1] to empty")
 		assert_eq(State.get_target_position(point), State.SquareStates.EMPTY, "The changed point should be empty")
+
+	func test_victory_detection_rejection_2():
+		var x_offset_segments = State.find_offset_by_one_segments('X')
+		var y_offset_segments = State.find_offset_by_one_segments('Y')
+		var shared_end_segments = State.find_shared_end_segments(x_offset_segments, y_offset_segments)
+		State.resolve_danger_square(shared_end_segments)
+		State.set_square_map({0: {0: 0, 1: 1}, 1: {0: 1, 1: 0}})
+		assert_false(State.check_victory(), "Should not have detected victory")
+
 
 class TestAdjacencyException:
 	extends GutTest
@@ -101,3 +114,9 @@ class TestAdjacencyException:
 		var y_offset_segments = State.find_offset_by_one_segments('Y')
 		var shared_end_segments = State.find_shared_end_segments(x_offset_segments, y_offset_segments)
 		assert_eq(shared_end_segments.size(), 0, "Should have triggered the adjacency exception")
+
+	func test_victory_detection():
+		State.generate_empty_map()
+		State.cheat_reveal_all_squares()
+		print(State.master [State.SQUARE_MAP_KEY])
+		assert_true(State.check_victory(), "Should have detected victory")
