@@ -15,6 +15,7 @@ func _ready() -> void:
 	State.toggle_state_changed.connect(update_input_state_label)
 	State.victory.connect(display_victory)
 	notes_switch.set_pressed_no_signal(State.get_notes())
+	State.notes_mode_changed.connect(notes_switch.set_pressed_no_signal)
 
 func prepare_board():
 	if (State.master.has(State.SQUARE_MAP_KEY)):
@@ -63,4 +64,4 @@ func display_victory():
 	victory_label.visible = true
 
 func _on_notes_switch_toggled(toggled_on: bool) -> void:
-	State.set_notes(toggled_on)
+	State.set_notes_no_signal(toggled_on)

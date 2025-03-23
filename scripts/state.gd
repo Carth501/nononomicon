@@ -4,6 +4,7 @@ signal square_changed(coords)
 signal board_ready
 signal toggle_state_changed(new_state)
 signal victory
+signal notes_mode_changed(new_mode)
 
 enum SquareStates {
 	EMPTY,
@@ -101,8 +102,12 @@ func set_target_position(coords: Vector2i, value: SquareStates):
 		printerr("Invalid position: ", coords.x, ", ", coords.y)
 	master [TARGET_MAP_KEY][coords.x][coords.y] = value
 
+func set_notes_no_signal(value: bool):
+	notes = value
+
 func set_notes(value: bool):
 	notes = value
+	notes_mode_changed.emit(notes)
 
 func get_notes() -> bool:
 	return notes
@@ -123,6 +128,7 @@ func set_square_map(new_map: Dictionary):
 
 func _process(_delta):
 	handle_input_release()
+	handle_note_press()
 	if chosen_coords == Vector2i(-1, -1):
 		return
 	handle_input_press()
@@ -175,12 +181,18 @@ func set_toggle_state(new_state: ToggleStates):
 	toggle_state = new_state
 	toggle_state_changed.emit(toggle_state)
 
-func generate_target_map(parameters: Dictionary):
-	random_center_map(parameters)
-	generate_headers()
+func handle_note_press():
+	if Input.is_action_just_pressed("Note"):
+		set_notes(true)
+	elif Input.is_action_just_released("Note"):
+		set_notes(false)
 #endregion Input Handling
 
 #region Target Map Generation
+func generate_target_map(parameters: Dictionary):
+	random_center_map(parameters)
+	generate_headers()
+
 func random_center_map(_parameters: Dictionary):
 	master [TARGET_MAP_KEY] = {}
 	for i in SIZE.x:
