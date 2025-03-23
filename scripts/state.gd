@@ -63,17 +63,23 @@ func get_position_state(coords: Vector2i) -> SquareStates:
 
 func change_square_state(new_state: SquareStates):
 	if (new_state == SquareStates.MARKED):
-		if (get_chosen_coords_state() == SquareStates.EMPTY):
+		if get_chosen_coords_state() == SquareStates.EMPTY:
 			if (!notes):
 				set_chosen_coords_state(SquareStates.MARKED)
 			else:
 				set_chosen_coords_state(SquareStates.NOTE_MARKED)
+		if get_chosen_coords_state() == SquareStates.NOTE_MARKED:
+			if (!notes):
+				set_chosen_coords_state(SquareStates.MARKED)
 	elif (new_state == SquareStates.FLAGGED):
-		if (get_chosen_coords_state() == SquareStates.EMPTY):
+		if get_chosen_coords_state() == SquareStates.EMPTY:
 			if (!notes):
 				set_chosen_coords_state(SquareStates.FLAGGED)
 			else:
 				set_chosen_coords_state(SquareStates.NOTE_FLAGGED)
+		if get_chosen_coords_state() == SquareStates.NOTE_FLAGGED:
+			if (!notes):
+				set_chosen_coords_state(SquareStates.FLAGGED)
 	elif (new_state == SquareStates.EMPTY):
 		set_chosen_coords_state(SquareStates.EMPTY)
 	square_changed.emit(chosen_coords)
@@ -138,13 +144,13 @@ func handle_input_press():
 	handle_toggle_state()
 
 func handle_mark_press(state: SquareStates):
-	if state == SquareStates.EMPTY:
+	if state == SquareStates.EMPTY || state == SquareStates.NOTE_MARKED:
 		set_toggle_state(ToggleStates.MARKING)
 	elif state == SquareStates.MARKED:
 		set_toggle_state(ToggleStates.EMPTYING_MARKED)
 
 func handle_flag_press(state: SquareStates):
-	if state == SquareStates.EMPTY:
+	if state == SquareStates.EMPTY || state == SquareStates.NOTE_FLAGGED:
 		set_toggle_state(ToggleStates.FLAGGING)
 	elif state == SquareStates.FLAGGED:
 		set_toggle_state(ToggleStates.EMPTYING_FLAGGED)
@@ -153,11 +159,13 @@ func handle_toggle_state():
 	if toggle_state == ToggleStates.MARKING:
 		change_square_state(SquareStates.MARKED)
 	elif toggle_state == ToggleStates.EMPTYING_MARKED:
-		change_square_state(SquareStates.EMPTY)
+		if get_chosen_coords_state() == SquareStates.MARKED || get_chosen_coords_state() == SquareStates.NOTE_MARKED:
+			change_square_state(SquareStates.EMPTY)
 	elif toggle_state == ToggleStates.FLAGGING:
 		change_square_state(SquareStates.FLAGGED)
 	elif toggle_state == ToggleStates.EMPTYING_FLAGGED:
-		change_square_state(SquareStates.EMPTY)
+		if get_chosen_coords_state() == SquareStates.FLAGGED || get_chosen_coords_state() == SquareStates.NOTE_FLAGGED:
+			change_square_state(SquareStates.EMPTY)
 
 func reset_toggle_state():
 	toggle_state = ToggleStates.NOTHING
