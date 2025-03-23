@@ -65,3 +65,6 @@ func display_victory():
 
 func _on_notes_switch_toggled(toggled_on: bool) -> void:
 	State.set_notes_no_signal(toggled_on)
+
+func _on_save_button_pressed() -> void:
+	SaveManager.save("ManualSave")
