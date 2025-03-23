@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://scripts/y_header_col.gd" id="4_cnhxs"]
 [ext_resource type="Script" path="res://scripts/scene_setup.gd" id="5_4gbb1"]
 
-[node name="NonogramBoard" type="Control" node_paths=PackedStringArray("scroll_container", "nonogram_squares", "header_row", "header_col", "input_state_label", "victory_label")]
+[node name="NonogramBoard" type="Control" node_paths=PackedStringArray("scroll_container", "nonogram_squares", "header_row", "header_col", "input_state_label", "victory_label", "notes_switch")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,6 +20,7 @@ header_row = NodePath("XHeaderRow")
 header_col = NodePath("YHeaderCol")
 input_state_label = NodePath("Label")
 victory_label = NodePath("Victory")
+notes_switch = NodePath("NotesSwitch")
 
 [node name="NonogramScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 1
@@ -147,7 +148,19 @@ text = "Victory"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="NotesSwitch" type="CheckButton" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -24.0
+offset_right = 44.0
+grow_vertical = 0
+text = "Notes
+Mode"
+
 [connection signal="scroll_ended" from="NonogramScrollContainer" to="NonogramScrollContainer" method="_on_scroll_ended"]
 [connection signal="scroll_started" from="NonogramScrollContainer" to="NonogramScrollContainer" method="_on_scroll_started"]
 [connection signal="pressed" from="CheatButton" to="." method="cheat"]
 [connection signal="pressed" from="SubmitButton" to="." method="_on_submit_pressed"]
+[connection signal="toggled" from="NotesSwitch" to="." method="_on_notes_switch_toggled"]

@@ -28,6 +28,7 @@ var SQUARE_MAP_KEY := 'square_map'
 var TARGET_MAP_KEY := 'target_map'
 var HEADERS_KEY := 'headers'
 var toggle_state: ToggleStates = ToggleStates.NOTHING
+var notes: bool
 
 func setup(parameters: Dictionary) -> void:
 	if (parameters.has('seed')):
@@ -36,6 +37,8 @@ func setup(parameters: Dictionary) -> void:
 		randomize()
 	if (parameters.has('size')):
 		set_size(parameters['size'])
+	if (parameters.has('notes')):
+		notes = parameters['notes']
 	sanity_check_parameters(parameters)
 	generate_empty_map()
 	generate_target_map(parameters)
@@ -61,10 +64,16 @@ func get_position_state(coords: Vector2i) -> SquareStates:
 func change_square_state(new_state: SquareStates):
 	if (new_state == SquareStates.MARKED):
 		if (get_chosen_coords_state() == SquareStates.EMPTY):
-			set_chosen_coords_state(SquareStates.MARKED)
+			if (!notes):
+				set_chosen_coords_state(SquareStates.MARKED)
+			else:
+				set_chosen_coords_state(SquareStates.NOTE_MARKED)
 	elif (new_state == SquareStates.FLAGGED):
 		if (get_chosen_coords_state() == SquareStates.EMPTY):
-			set_chosen_coords_state(SquareStates.FLAGGED)
+			if (!notes):
+				set_chosen_coords_state(SquareStates.FLAGGED)
+			else:
+				set_chosen_coords_state(SquareStates.NOTE_FLAGGED)
 	elif (new_state == SquareStates.EMPTY):
 		set_chosen_coords_state(SquareStates.EMPTY)
 	square_changed.emit(chosen_coords)
@@ -86,6 +95,12 @@ func set_target_position(coords: Vector2i, value: SquareStates):
 		printerr("Invalid position: ", coords.x, ", ", coords.y)
 	master [TARGET_MAP_KEY][coords.x][coords.y] = value
 
+func set_notes(value: bool):
+	notes = value
+
+func get_notes() -> bool:
+	return notes
+
 func generate_empty_map():
 	if (SIZE.x <= 0 || SIZE.y <= 0):
 		printerr("Invalid map size: ", SIZE)
@@ -106,6 +121,7 @@ func _process(_delta):
 		return
 	handle_input_press()
 
+#region Input Handling
 func handle_input_release():
 	if Input.is_action_just_released("Mark") and (toggle_state == ToggleStates.MARKING or toggle_state == ToggleStates.EMPTYING_MARKED):
 		reset_toggle_state()
@@ -154,7 +170,9 @@ func set_toggle_state(new_state: ToggleStates):
 func generate_target_map(parameters: Dictionary):
 	random_center_map(parameters)
 	generate_headers()
+#endregion Input Handling
 
+#region Target Map Generation
 func random_center_map(_parameters: Dictionary):
 	master [TARGET_MAP_KEY] = {}
 	for i in SIZE.x:
@@ -169,6 +187,20 @@ func random_center_map(_parameters: Dictionary):
 				set_target_position(Vector2i(i, k), SquareStates.MARKED)
 			else:
 				set_target_position(Vector2i(i, k), SquareStates.EMPTY)
+#endregion Target Map Generation
+
+#region Cheats
+func cheat_reveal_all_squares():
+	for i in SIZE.x:
+		for k in SIZE.y:
+			var position = Vector2i(i, k)
+			if get_target_position(position) == SquareStates.MARKED:
+				set_square_state(position, SquareStates.MARKED)
+			else:
+				set_square_state(position, SquareStates.EMPTY)
+
+	board_ready.emit()
+#endregion Cheats
 
 func generate_headers():
 	master [HEADERS_KEY] = {}
@@ -177,6 +209,7 @@ func generate_headers():
 	generate_header_for_axis('X', SIZE.x, SIZE.y, map)
 	generate_header_for_axis('Y', SIZE.y, SIZE.x, map)
 
+#region Danger Square Detection
 func cleanup_danger_segments():
 	var x_offset_segments = find_offset_by_one_segments('X')
 	var y_offset_segments = find_offset_by_one_segments('Y')
@@ -210,17 +243,6 @@ func generate_header_for_axis(axis: String, primary_size: int, secondary_size: i
 			master [HEADERS_KEY][axis][i].append({'length': str(count), 'segment': segment})
 		if total == 0:
 			master [HEADERS_KEY][axis][i].append({'length': str(count), 'segment': segment})
-
-func cheat_reveal_all_squares():
-	for i in SIZE.x:
-		for k in SIZE.y:
-			var position = Vector2i(i, k)
-			if get_target_position(position) == SquareStates.MARKED:
-				set_square_state(position, SquareStates.MARKED)
-			else:
-				set_square_state(position, SquareStates.EMPTY)
-
-	board_ready.emit()
 
 func get_duplicate_lengths(axis: String) -> Dictionary:
 	var seen_lengths = {}
@@ -410,6 +432,9 @@ func update_headers_for_points(points: Array):
 			update_header_for_column(column)
 			processed_columns[column] = true
 
+# endregion Danger Square Detection
+
+#region Header Reprocessing
 func update_header_for_row(row: int):
 	var map = master [TARGET_MAP_KEY]
 	var total = 0
@@ -453,6 +478,7 @@ func update_header_for_column(column: int):
 		master [HEADERS_KEY]['Y'][column].append({'length': str(count), 'segment': segment})
 	if total == 0:
 		master [HEADERS_KEY]['Y'][column].append({'length': str(count), 'segment': segment})
+#endregion Header Reprocessing
 
 func sanity_check_parameters(parameters: Dictionary) -> bool:
 	if parameters.has('size'):

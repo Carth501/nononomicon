@@ -6,6 +6,7 @@ extends Control
 @export var header_col: YHeaderCol
 @export var input_state_label: Label
 @export var victory_label: Label
+@export var notes_switch: CheckButton
 var scrolling := false
 
 func _ready() -> void:
@@ -13,6 +14,7 @@ func _ready() -> void:
 	prepare_board()
 	State.toggle_state_changed.connect(update_input_state_label)
 	State.victory.connect(display_victory)
+	notes_switch.set_pressed_no_signal(State.get_notes())
 
 func prepare_board():
 	if (State.master.has(State.SQUARE_MAP_KEY)):
@@ -59,3 +61,6 @@ func _on_submit_pressed() -> void:
 
 func display_victory():
 	victory_label.visible = true
+
+func _on_notes_switch_toggled(toggled_on: bool) -> void:
+	State.set_notes(toggled_on)
