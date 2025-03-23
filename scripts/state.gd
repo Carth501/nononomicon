@@ -3,6 +3,7 @@ extends Node
 signal square_changed(coords)
 signal board_ready
 signal toggle_state_changed(new_state)
+signal victory
 
 enum SquareStates {
 	EMPTY,
@@ -484,12 +485,13 @@ func check_victory() -> bool:
 			var coords = Vector2i(x, y)
 			var target_state = get_target_position(coords)
 			var current_state = get_position_state(coords)
-			prints("Checking victory: ", coords, target_state, current_state, target_state == SquareStates.MARKED, current_state == SquareStates.MARKED)
 			if target_state == SquareStates.MARKED and current_state != SquareStates.MARKED:
-				print("Not all marked", target_state == SquareStates.MARKED, current_state != SquareStates.MARKED)
 				return false
 			elif target_state != SquareStates.MARKED and (current_state == SquareStates.MARKED or
 			current_state == SquareStates.NOTE_MARKED):
-				prints(coords, "marked when it shouldn't be.", current_state == SquareStates.MARKED, current_state == SquareStates.NOTE_MARKED)
 				return false
 	return true
+
+func submit():
+	if check_victory():
+		victory.emit()

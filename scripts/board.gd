@@ -5,12 +5,14 @@ extends Control
 @export var header_row: XHeaderRow
 @export var header_col: YHeaderCol
 @export var input_state_label: Label
+@export var victory_label: Label
 var scrolling := false
 
 func _ready() -> void:
 	State.board_ready.connect(prepare_board)
 	prepare_board()
 	State.toggle_state_changed.connect(update_input_state_label)
+	State.victory.connect(display_victory)
 
 func prepare_board():
 	if (State.master.has(State.SQUARE_MAP_KEY)):
@@ -51,3 +53,9 @@ func get_percent_x() -> float:
 func get_percent_y() -> float:
 	var max_y = scroll_container.get_v_scroll_bar().max_value
 	return float(scroll_container.scroll_vertical) / max_y
+
+func _on_submit_pressed() -> void:
+	State.submit()
+
+func display_victory():
+	victory_label.visible = true
