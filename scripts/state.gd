@@ -28,6 +28,7 @@ var SIZE := Vector2i(8, 8)
 var SQUARE_MAP_KEY := 'square_map'
 var TARGET_MAP_KEY := 'target_map'
 var HEADERS_KEY := 'headers'
+var VICTORY_KEY := 'victory'
 var toggle_state: ToggleStates = ToggleStates.NOTHING
 var notes: bool
 
@@ -541,3 +542,17 @@ func check_victory() -> bool:
 func submit():
 	if check_victory():
 		victory.emit()
+		increment_victory()
+
+#region Victory Handling
+func increment_victory():
+	if master.has(VICTORY_KEY):
+		master [VICTORY_KEY] += 1
+	else:
+		master [VICTORY_KEY] = 1
+
+func get_victory_count() -> int:
+	if master.has(VICTORY_KEY):
+		return master [VICTORY_KEY]
+	return 0
+#endregion Victory Handling
