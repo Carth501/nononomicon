@@ -1,12 +1,20 @@
-[gd_scene format=3 uid="uid://cwnur7r84mgka"]
+[gd_scene load_steps=2 format=3 uid="uid://cwnur7r84mgka"]
 
-[node name="SaveManagementPanel" type="Control"]
+[ext_resource type="Script" path="res://scripts/save_management_panel.gd" id="1_n5hhw"]
+
+[node name="SaveManagementPanel" type="Control" node_paths=PackedStringArray("button_container", "save_controls", "overwrite_controls", "load_controls", "custom_name_line_edit")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_n5hhw")
+button_container = NodePath("PanelContainer/MarginContainer/Control/ScrollContainer/VBoxContainer")
+save_controls = NodePath("PanelContainer/MarginContainer/Control/Save")
+overwrite_controls = NodePath("PanelContainer/MarginContainer/Control/Overwrite")
+load_controls = NodePath("PanelContainer/MarginContainer/Control/Load")
+custom_name_line_edit = NodePath("PanelContainer/MarginContainer/Control/Save/LineEdit")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 custom_minimum_size = Vector2(125, 80)
@@ -37,12 +45,8 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SaveSelectionButton" type="Button" parent="PanelContainer/MarginContainer/Control/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-text = "Save file name"
-alignment = 0
-
-[node name="Control" type="Control" parent="PanelContainer/MarginContainer/Control"]
+[node name="Save" type="Control" parent="PanelContainer/MarginContainer/Control"]
+visible = false
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -52,7 +56,7 @@ offset_top = -40.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="Button" type="Button" parent="PanelContainer/MarginContainer/Control/Control"]
+[node name="Button" type="Button" parent="PanelContainer/MarginContainer/Control/Save"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -66,7 +70,7 @@ grow_horizontal = 0
 grow_vertical = 2
 text = "Save"
 
-[node name="LineEdit" type="LineEdit" parent="PanelContainer/MarginContainer/Control/Control"]
+[node name="LineEdit" type="LineEdit" parent="PanelContainer/MarginContainer/Control/Save"]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.5
@@ -76,3 +80,77 @@ offset_top = -15.0
 offset_right = -50.0
 offset_bottom = 16.0
 grow_vertical = 2
+
+[node name="Overwrite" type="Control" parent="PanelContainer/MarginContainer/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Button" type="Button" parent="PanelContainer/MarginContainer/Control/Overwrite"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -4.0
+offset_bottom = 4.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "Overwrite"
+
+[node name="LineEdit" type="LineEdit" parent="PanelContainer/MarginContainer/Control/Overwrite"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -15.0
+offset_right = -92.0
+offset_bottom = 16.0
+grow_vertical = 2
+
+[node name="Load" type="Control" parent="PanelContainer/MarginContainer/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Button" type="Button" parent="PanelContainer/MarginContainer/Control/Load"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -4.0
+offset_bottom = 4.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "Load"
+
+[node name="LineEdit" type="LineEdit" parent="PanelContainer/MarginContainer/Control/Load"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -15.0
+offset_right = -52.0
+offset_bottom = 16.0
+grow_vertical = 2
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/Control/Load/Button" to="." method="custom_save_name"]

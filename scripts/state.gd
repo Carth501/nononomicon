@@ -42,7 +42,7 @@ func setup(parameters: Dictionary) -> void:
 	if (parameters.has('notes')):
 		notes = parameters['notes']
 	sanity_check_parameters(parameters)
-	generate_empty_map()
+	prepare_square_map(parameters)
 	generate_target_map(parameters)
 
 func set_size(new_size: Vector2i):
@@ -112,6 +112,14 @@ func set_notes(value: bool):
 
 func get_notes() -> bool:
 	return notes
+
+func prepare_square_map(parameters: Dictionary):
+	if master.has(SQUARE_MAP_KEY):
+		return
+	elif parameters.has('square_map'):
+		set_square_map(parameters['square_map'])
+	else:
+		generate_empty_map()
 
 func generate_empty_map():
 	if (SIZE.x <= 0 || SIZE.y <= 0):

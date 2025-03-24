@@ -1,5 +1,6 @@
 extends Node
 
+signal save_file_list_changed
 func _ready():
 	print('get_save_file_list ', get_save_file_list())
 
@@ -8,6 +9,7 @@ func get_save_file_list():
 	if (!dir.dir_exists("user://saves")):
 		dir.make_dir("user://saves")
 	var save_files = DirAccess.get_files_at("user://saves")
+	save_file_list_changed.emit()
 	return save_files
 
 func save(filename: String):
@@ -23,7 +25,7 @@ func load(filename: String):
 	var dir = DirAccess.open("user://")
 	if (!dir.dir_exists("user://saves")):
 		dir.make_dir("user://saves")
-	var save_name = "user://saves/%s.nononosave" % filename
+	var save_name = "user://saves/%s" % filename
 	var save_file = FileAccess.open(save_name, FileAccess.READ)
 	var save_data = save_file.get_var()
 	save_file.close()
