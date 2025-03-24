@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bejgy7af10co1"]
+
+[ext_resource type="Script" path="res://scripts/generic_selection_button.gd" id="1_n0tmu"]
+
+[node name="SaveSelectionButton" type="Button"]
+text = "Save file name"
+alignment = 0
+script = ExtResource("1_n0tmu")
+
+[connection signal="pressed" from="." to="." method="_on_button_pressed"]

@@ -6,14 +6,14 @@ class_name NonogramBoard extends Control
 @export var header_col: YHeaderCol
 @export var victory_label: Label
 var scrolling := false
-var id: int
+var id: String
 
 func _ready() -> void:
 	State.board_ready.connect(prepare_board)
 	prepare_board()
 	State.victory.connect(display_victory)
 
-func set_board_id(board_id: int):
+func set_board_id(board_id: String):
 	id = board_id
 
 func prepare_board():
