@@ -1,21 +1,20 @@
-extends Control
+class_name NonogramBoard extends Control
 
 @export var scroll_container: ScrollContainer
 @export var nonogram_squares: NonogramSquares
 @export var header_row: XHeaderRow
 @export var header_col: YHeaderCol
-@export var input_state_label: Label
 @export var victory_label: Label
-@export var notes_switch: CheckButton
 var scrolling := false
+var id: int
 
 func _ready() -> void:
 	State.board_ready.connect(prepare_board)
 	prepare_board()
-	State.toggle_state_changed.connect(update_input_state_label)
 	State.victory.connect(display_victory)
-	notes_switch.set_pressed_no_signal(State.get_notes())
-	State.notes_mode_changed.connect(notes_switch.set_pressed_no_signal)
+
+func set_board_id(board_id: int):
+	id = board_id
 
 func prepare_board():
 	if (State.master.has(State.SQUARE_MAP_KEY)):
@@ -25,20 +24,6 @@ func prepare_board():
 	
 func cheat():
 	State.cheat_reveal_all_squares()
-
-func update_input_state_label(new_state: State.ToggleStates):
-	match new_state:
-		State.ToggleStates.NOTHING:
-			input_state_label.text = "Nothing"
-		State.ToggleStates.MARKING:
-			input_state_label.text = "Marking"
-		State.ToggleStates.EMPTYING_MARKED:
-			input_state_label.text = "Emptying Marked"
-		State.ToggleStates.FLAGGING:
-			input_state_label.text = "Flagging"
-		State.ToggleStates.EMPTYING_FLAGGED:
-			input_state_label.text = "Emptying Flagged"
-
 
 func _process(_delta: float) -> void:
 	var percent_x = get_percent_x()

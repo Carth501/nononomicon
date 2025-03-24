@@ -51,7 +51,7 @@ func save_game(filename: String):
 func load_game(filename: String):
 	print('load_game ', filename)
 	SaveManager.load(filename)
-	get_tree().change_scene_to_file("res://scenes/nonogram_board.tscn")
+	get_tree().change_scene_to_file("res://scenes/nononomicon.tscn")
 	hide()
 
 func custom_save_name():

@@ -120,3 +120,10 @@ class TestAdjacencyException:
 		State.cheat_reveal_all_squares()
 		print(State.master [State.SQUARE_MAP_KEY])
 		assert_true(State.check_victory(), "Should have detected victory")
+
+class TestDangerSquareSecondCase:
+	func before_all():
+		State.setup({"seed": 1234, 'size': Vector2i(8, 8)})
+		# This one has a danger square that cannot be
+		# detected by the current algorithm.
+		State.generate_headers()
