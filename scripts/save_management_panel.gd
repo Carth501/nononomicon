@@ -1,4 +1,4 @@
-class_name SaveLoadControl extends Control
+class_name SaveLoadInterface extends Control
 
 enum ManagerMode {SAVE, OVERWRITE, LOAD}
 

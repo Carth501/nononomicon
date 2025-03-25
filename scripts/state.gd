@@ -31,7 +31,7 @@ var VICTORY_KEY := 'victory'
 var SIZE_KEY := 'size'
 var toggle_state: ToggleStates = ToggleStates.NOTHING
 var notes: bool
-var active_id: String
+var active_id: String = "default"
 
 func setup(parameters: Dictionary) -> void:
 	if (parameters.has('seed')):
@@ -44,8 +44,6 @@ func setup(parameters: Dictionary) -> void:
 		notes = parameters['notes']
 	if (parameters.has('id')):
 		active_id = parameters['id']
-	else:
-		active_id = str(master.size())
 	sanity_check_parameters(parameters)
 	prepare_square_map(parameters)
 	generate_target_map(parameters)
@@ -54,7 +52,7 @@ func set_active_id(new_id: String):
 	active_id = new_id
 	if (! master.keys().has(active_id)):
 		master [new_id] = {}
-		setup({'size': Vector2i(5, 5), 'id': new_id})
+		setup(LevelLibrary.get_level_parameters(new_id))
 
 func set_size(new_size: Vector2i):
 	master [active_id][SIZE_KEY] = new_size

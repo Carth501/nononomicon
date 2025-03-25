@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://d2malck014txy"]
+[gd_scene load_steps=2 format=3 uid="uid://d2malck014txy"]
 
 [ext_resource type="Script" path="res://scripts/index.gd" id="1_q07hl"]
-[ext_resource type="PackedScene" uid="uid://bejgy7af10co1" path="res://scenes/generic_selection_button.tscn" id="2_a4qpo"]
 
 [node name="Index" type="Control" node_paths=PackedStringArray("list", "level_buttons")]
 layout_mode = 3
@@ -12,7 +11,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_q07hl")
 list = NodePath("MarginContainer/List")
-level_buttons = [NodePath("MarginContainer/List/introduction")]
+level_buttons = [NodePath("")]
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -28,12 +27,3 @@ theme_override_constants/margin_bottom = 24
 
 [node name="List" type="VFlowContainer" parent="MarginContainer"]
 layout_mode = 2
-
-[node name="Label" type="Label" parent="MarginContainer/List"]
-layout_mode = 2
-text = "Chapter 1"
-
-[node name="introduction" parent="MarginContainer/List" instance=ExtResource("2_a4qpo")]
-layout_mode = 2
-text = "Introduction"
-thing = "intro"
