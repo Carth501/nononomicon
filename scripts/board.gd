@@ -17,10 +17,10 @@ func set_board_id(board_id: String):
 	id = board_id
 
 func prepare_board():
-	if (State.master.has(State.SQUARE_MAP_KEY)):
+	if (State.get_board_ready()):
 		nonogram_squares.create_square_displays()
-		header_row.generate_cells(State.master [State.HEADERS_KEY]['X'])
-		header_col.generate_cells(State.master [State.HEADERS_KEY]['Y'])
+		header_row.generate_cells(State.get_header('X'))
+		header_col.generate_cells(State.get_header('Y'))
 	
 func cheat():
 	State.cheat_reveal_all_squares()

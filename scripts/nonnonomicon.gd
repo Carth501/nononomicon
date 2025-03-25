@@ -10,6 +10,7 @@ func _ready():
 	open_page("index")
 
 func open_page(id: String):
+	print('open_page ', id)
 	if (id == "index"):
 		game_ui.hide()
 		if (!pages.has(id)):
@@ -18,6 +19,7 @@ func open_page(id: String):
 			book.add_child(page)
 			page.level_selected.connect(open_page)
 	elif (!pages.has(id)):
+		State.set_active_id(id)
 		var page: NonogramBoard = nonogram_board.instantiate()
 		page.set_board_id(id)
 		pages[id] = page

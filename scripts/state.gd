@@ -24,13 +24,14 @@ enum ToggleStates {
 
 var chosen_coords: Vector2i = Vector2i(-1, -1)
 var master: Dictionary
-var SIZE := Vector2i(8, 8)
 var SQUARE_MAP_KEY := 'square_map'
 var TARGET_MAP_KEY := 'target_map'
 var HEADERS_KEY := 'headers'
 var VICTORY_KEY := 'victory'
+var SIZE_KEY := 'size'
 var toggle_state: ToggleStates = ToggleStates.NOTHING
 var notes: bool
+var active_id: String
 
 func setup(parameters: Dictionary) -> void:
 	if (parameters.has('seed')):
@@ -41,18 +42,31 @@ func setup(parameters: Dictionary) -> void:
 		set_size(parameters['size'])
 	if (parameters.has('notes')):
 		notes = parameters['notes']
+	if (parameters.has('id')):
+		active_id = parameters['id']
+	else:
+		active_id = str(master.size())
 	sanity_check_parameters(parameters)
 	prepare_square_map(parameters)
 	generate_target_map(parameters)
 
+func set_active_id(new_id: String):
+	active_id = new_id
+	if (! master.keys().has(active_id)):
+		master [new_id] = {}
+		setup({'size': Vector2i(5, 5), 'id': new_id})
+
 func set_size(new_size: Vector2i):
-	SIZE = new_size
+	master [active_id][SIZE_KEY] = new_size
+
+func get_size() -> Vector2i:
+	return master [active_id][SIZE_KEY]
 
 func set_seed(new_seed: int):
 	seed(new_seed)
 
 func set_target_map(new_map: Dictionary):
-	master [TARGET_MAP_KEY] = new_map
+	master [active_id][TARGET_MAP_KEY] = new_map
 
 func set_chosen_coords(new_coords: Vector2i):
 	chosen_coords = new_coords
@@ -61,7 +75,13 @@ func get_chosen_coords_state() -> SquareStates:
 	return get_position_state(chosen_coords)
 
 func get_position_state(coords: Vector2i) -> SquareStates:
-	return master [SQUARE_MAP_KEY][coords.x][coords.y]
+	return master [active_id][SQUARE_MAP_KEY][coords.x][coords.y]
+
+func get_board_ready() -> bool:
+	return master [active_id].has(SQUARE_MAP_KEY) and master [active_id].has(TARGET_MAP_KEY)
+
+func get_header(axis: String) -> Dictionary:
+	return master [active_id][HEADERS_KEY][axis]
 
 func change_square_state(new_state: SquareStates):
 	if (new_state == SquareStates.MARKED):
@@ -87,21 +107,23 @@ func change_square_state(new_state: SquareStates):
 	square_changed.emit(chosen_coords)
 
 func set_square_state(coords: Vector2i, new_state: SquareStates):
-	master [SQUARE_MAP_KEY][coords.x][coords.y] = new_state
+	master [active_id][SQUARE_MAP_KEY][coords.x][coords.y] = new_state
 	square_changed.emit(coords)
 
 func set_chosen_coords_state(new_state: SquareStates):
 	set_square_state(chosen_coords, new_state)
 
 func get_target_position(coords: Vector2i) -> SquareStates:
+	var SIZE = get_size()
 	if (coords.x < 0 || coords.x >= SIZE.x || coords.y < 0 || coords.y >= SIZE.y):
 		printerr("Invalid position: ", coords.x, ", ", coords.y)
-	return master [TARGET_MAP_KEY][coords.x][coords.y]
+	return master [active_id][TARGET_MAP_KEY][coords.x][coords.y]
 
 func set_target_position(coords: Vector2i, value: SquareStates):
+	var SIZE = get_size()
 	if (coords.x < 0 || coords.x >= SIZE.x || coords.y < 0 || coords.y >= SIZE.y):
 		printerr("Invalid position: ", coords.x, ", ", coords.y)
-	master [TARGET_MAP_KEY][coords.x][coords.y] = value
+	master [active_id][TARGET_MAP_KEY][coords.x][coords.y] = value
 
 func set_notes_no_signal(value: bool):
 	notes = value
@@ -114,7 +136,7 @@ func get_notes() -> bool:
 	return notes
 
 func prepare_square_map(parameters: Dictionary):
-	if master.has(SQUARE_MAP_KEY):
+	if master [active_id].has(SQUARE_MAP_KEY):
 		return
 	elif parameters.has('square_map'):
 		set_square_map(parameters['square_map'])
@@ -122,18 +144,19 @@ func prepare_square_map(parameters: Dictionary):
 		generate_empty_map()
 
 func generate_empty_map():
+	var SIZE = get_size()
 	if (SIZE.x <= 0 || SIZE.y <= 0):
 		printerr("Invalid map size: ", SIZE)
-	master [SQUARE_MAP_KEY] = {}
+	master [active_id][SQUARE_MAP_KEY] = {}
 	for i in SIZE.x:
 		var column: Array[SquareStates] = []
 		for k in SIZE.y:
 			column.append(SquareStates.EMPTY)
-		master [SQUARE_MAP_KEY][i] = column
+		master [active_id][SQUARE_MAP_KEY][i] = column
 	board_ready.emit()
 
 func set_square_map(new_map: Dictionary):
-	master [SQUARE_MAP_KEY] = new_map
+	master [active_id][SQUARE_MAP_KEY] = new_map
 
 func _process(_delta):
 	handle_input_release()
@@ -203,9 +226,10 @@ func generate_target_map(parameters: Dictionary):
 	generate_headers()
 
 func random_center_map(_parameters: Dictionary):
-	master [TARGET_MAP_KEY] = {}
+	master [active_id][TARGET_MAP_KEY] = {}
+	var SIZE = get_size()
 	for i in SIZE.x:
-		master [TARGET_MAP_KEY][i] = {}
+		master [active_id][TARGET_MAP_KEY][i] = {}
 		for k in SIZE.y:
 			var average = roundi((SIZE.x + SIZE.y) / 2.0)
 			var random_value = randf_range(-2.5, 2.5)
@@ -220,6 +244,7 @@ func random_center_map(_parameters: Dictionary):
 
 #region Cheats
 func cheat_reveal_all_squares():
+	var SIZE = get_size()
 	for i in SIZE.x:
 		for k in SIZE.y:
 			var position = Vector2i(i, k)
@@ -232,8 +257,9 @@ func cheat_reveal_all_squares():
 #endregion Cheats
 
 func generate_headers():
-	master [HEADERS_KEY] = {}
-	var map = master [TARGET_MAP_KEY]
+	master [active_id][HEADERS_KEY] = {}
+	var map = master [active_id][TARGET_MAP_KEY]
+	var SIZE = get_size()
 	
 	generate_header_for_axis('X', SIZE.x, SIZE.y, map)
 	generate_header_for_axis('Y', SIZE.y, SIZE.x, map)
@@ -247,12 +273,12 @@ func cleanup_danger_segments():
 	update_headers_for_points(changed_points)
 
 func generate_header_for_axis(axis: String, primary_size: int, secondary_size: int, map: Dictionary):
-	master [HEADERS_KEY][axis] = {}
+	master [active_id][HEADERS_KEY][axis] = {}
 	for i in primary_size:
 		var total = 0
 		var count = 0
 		var segment = []
-		master [HEADERS_KEY][axis][i] = []
+		master [active_id][HEADERS_KEY][axis][i] = []
 		for k in secondary_size:
 			var is_marked = false
 			if axis == 'X':
@@ -265,19 +291,19 @@ func generate_header_for_axis(axis: String, primary_size: int, secondary_size: i
 				total += 1
 				segment.append(k)
 			elif count > 0:
-				master [HEADERS_KEY][axis][i].append({'length': str(count), 'segment': segment})
+				master [active_id][HEADERS_KEY][axis][i].append({'length': str(count), 'segment': segment})
 				count = 0
 				segment = []
 		if count > 0:
-			master [HEADERS_KEY][axis][i].append({'length': str(count), 'segment': segment})
+			master [active_id][HEADERS_KEY][axis][i].append({'length': str(count), 'segment': segment})
 		if total == 0:
-			master [HEADERS_KEY][axis][i].append({'length': str(count), 'segment': segment})
+			master [active_id][HEADERS_KEY][axis][i].append({'length': str(count), 'segment': segment})
 
 func get_duplicate_lengths(axis: String) -> Dictionary:
 	var seen_lengths = {}
 	var duplicate_lengths = {}
-	for i in master [HEADERS_KEY][axis]:
-		for k in master [HEADERS_KEY][axis][i]:
+	for i in master [active_id][HEADERS_KEY][axis]:
+		for k in master [active_id][HEADERS_KEY][axis][i]:
 			var length = k['length']
 			if (length == '0'):
 				continue
@@ -362,6 +388,7 @@ func find_shared_end_segments(offset_segments_x: Array, offset_segments_y: Array
 
 		var adjacency_exception = false
 		for point in adjacent_points:
+			var SIZE = get_size()
 			if point.x >= 0 and point.x < SIZE.x and point.y >= 0 and point.y < SIZE.y:
 				if point not in collated_segment_points:
 					if get_target_position(point) == SquareStates.MARKED:
@@ -414,6 +441,7 @@ func resolve_danger_square(cases: Array) -> Array:
 			
 			var valid_points = []
 			for point in adjacent_points:
+				var SIZE = get_size()
 				if point.x >= 0 and point.x < SIZE.x and point.y >= 0 and point.y < SIZE.y:
 					if get_target_position(point) == SquareStates.EMPTY:
 						valid_points.append(point)
@@ -465,11 +493,12 @@ func update_headers_for_points(points: Array):
 
 #region Header Reprocessing
 func update_header_for_row(row: int):
-	var map = master [TARGET_MAP_KEY]
+	var map = master [active_id][TARGET_MAP_KEY]
 	var total = 0
 	var count = 0
 	var segment = []
-	master [HEADERS_KEY]['X'][row] = []
+	master [active_id][HEADERS_KEY]['X'][row] = []
+	var SIZE = get_size()
 	for k in range(SIZE.y):
 		var is_marked = map.has(row) and map[row].has(k) and map[row][k] == SquareStates.MARKED
 
@@ -478,20 +507,21 @@ func update_header_for_row(row: int):
 			total += 1
 			segment.append(k)
 		elif count > 0:
-			master [HEADERS_KEY]['X'][row].append({'length': str(count), 'segment': segment})
+			master [active_id][HEADERS_KEY]['X'][row].append({'length': str(count), 'segment': segment})
 			count = 0
 			segment = []
 	if count > 0:
-		master [HEADERS_KEY]['X'][row].append({'length': str(count), 'segment': segment})
+		master [active_id][HEADERS_KEY]['X'][row].append({'length': str(count), 'segment': segment})
 	if total == 0:
-		master [HEADERS_KEY]['X'][row].append({'length': str(count), 'segment': segment})
+		master [active_id][HEADERS_KEY]['X'][row].append({'length': str(count), 'segment': segment})
 
 func update_header_for_column(column: int):
-	var map = master [TARGET_MAP_KEY]
+	var map = master [active_id][TARGET_MAP_KEY]
 	var total = 0
 	var count = 0
 	var segment = []
-	master [HEADERS_KEY]['Y'][column] = []
+	master [active_id][HEADERS_KEY]['Y'][column] = []
+	var SIZE = get_size()
 	for i in range(SIZE.x):
 		var is_marked = map.has(i) and map[i].has(column) and map[i][column] == SquareStates.MARKED
 
@@ -500,13 +530,13 @@ func update_header_for_column(column: int):
 			total += 1
 			segment.append(i)
 		elif count > 0:
-			master [HEADERS_KEY]['Y'][column].append({'length': str(count), 'segment': segment})
+			master [active_id][HEADERS_KEY]['Y'][column].append({'length': str(count), 'segment': segment})
 			count = 0
 			segment = []
 	if count > 0:
-		master [HEADERS_KEY]['Y'][column].append({'length': str(count), 'segment': segment})
+		master [active_id][HEADERS_KEY]['Y'][column].append({'length': str(count), 'segment': segment})
 	if total == 0:
-		master [HEADERS_KEY]['Y'][column].append({'length': str(count), 'segment': segment})
+		master [active_id][HEADERS_KEY]['Y'][column].append({'length': str(count), 'segment': segment})
 #endregion Header Reprocessing
 
 func sanity_check_parameters(parameters: Dictionary) -> bool:
@@ -535,6 +565,7 @@ func sanity_check_parameters(parameters: Dictionary) -> bool:
 	return true
 
 func check_victory() -> bool:
+	var SIZE = get_size()
 	for x in range(SIZE.x):
 		for y in range(SIZE.y):
 			var coords = Vector2i(x, y)
@@ -554,13 +585,13 @@ func submit():
 
 #region Victory Handling
 func increment_victory():
-	if master.has(VICTORY_KEY):
-		master [VICTORY_KEY] += 1
+	if master [active_id].has(VICTORY_KEY):
+		master [active_id][VICTORY_KEY] += 1
 	else:
-		master [VICTORY_KEY] = 1
+		master [active_id][VICTORY_KEY] = 1
 
 func get_victory_count() -> int:
-	if master.has(VICTORY_KEY):
-		return master [VICTORY_KEY]
+	if master [active_id].has(VICTORY_KEY):
+		return master [active_id][VICTORY_KEY]
 	return 0
 #endregion Victory Handling
