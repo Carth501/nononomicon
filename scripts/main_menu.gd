@@ -3,7 +3,7 @@ extends Control
 @export var save_management_panel: SaveLoadControl
 
 func new_game():
-	get_tree().change_scene_to_file("res://scenes/nonogram_board.tscn")
+	get_tree().change_scene_to_file("res://scenes/nononomicon.tscn")
 
 func exit():
 	get_tree().quit()

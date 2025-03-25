@@ -1,7 +1,7 @@
 class_name Generic_Selection_Button extends Button
 
 signal thing_selected(thing: String)
-var thing: String
+@export var thing: String
 
 func set_value(new_thing: String):
 	thing = new_thing
