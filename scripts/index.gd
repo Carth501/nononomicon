@@ -13,9 +13,11 @@ func _ready() -> void:
 		var chapter_header = Label.new()
 		chapter_header.text = chapters[chapter].title
 		list.add_child(chapter_header)
-		for level in LevelLibrary.get_levels(chapters[chapter].levels):
+		var chapter_levels = LevelLibrary.get_levels(chapters[chapter].levels)
+		for level in chapter_levels:
 			var button := generic_button_scene.instantiate()
 			button.set_value(level)
+			button.set_text(chapter_levels[level].name)
 			list.add_child(button)
 			button.thing_selected.connect(change_level)
 

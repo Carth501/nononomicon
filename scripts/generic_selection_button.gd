@@ -5,7 +5,6 @@ signal thing_selected(thing: String)
 
 func set_value(new_thing: String):
 	thing = new_thing
-	text = thing
 
 func _on_button_pressed():
 	thing_selected.emit(thing)
