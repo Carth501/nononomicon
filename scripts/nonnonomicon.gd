@@ -10,9 +10,10 @@ var pages := {}
 
 func _ready():
 	open_page("index")
+	State.victory.connect(set_next_enabled)
+	State.level_changed.connect(check_page_buttons)
 
 func open_page(id: String):
-	print('open_page ', id)
 	if (id == "index"):
 		game_ui.hide()
 		if (!pages.has(id)):
@@ -25,10 +26,16 @@ func open_page(id: String):
 			State.set_active_id(id)
 			var page: NonogramBoard = nonogram_board.instantiate()
 			pages[id] = page
+			check_page_buttons()
 			page.prepare_board()
 			book.add_child(page)
 		game_ui.show()
 	close_all_except(id)
+
+func check_page_buttons():
+	set_next_button()
+	set_next_enabled()
+	set_prev_button()
 
 func close_all_except(id: String):
 	for page_id in pages.keys():
@@ -57,3 +64,13 @@ func _on_index_button_pressed() -> void:
 
 func _on_prev_button_pressed() -> void:
 	State.prev_level()
+
+func set_next_button():
+	print("Setting next button ", State.has_next_level())
+	next_button.visible = State.has_next_level()
+
+func set_next_enabled():
+	next_button.disabled = not State.get_victory_state()
+
+func set_prev_button():
+	prev_button.visible = State.has_prev_level()

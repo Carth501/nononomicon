@@ -5,6 +5,7 @@ signal board_ready
 signal toggle_state_changed(new_state)
 signal victory
 signal notes_mode_changed(new_mode)
+signal level_changed
 
 enum SquareStates {
 	EMPTY,
@@ -56,6 +57,7 @@ func set_active_id(new_id: String):
 		setup(LevelLibrary.get_level_parameters(new_id))
 	else:
 		board_ready.emit()
+	level_changed.emit()
 
 func get_active_id() -> String:
 	return active_id
@@ -590,11 +592,11 @@ func check_victory() -> bool:
 
 func submit():
 	if check_victory():
+		set_victory()
 		victory.emit()
-		increment_victory()
 
 #region Victory Handling
-func increment_victory():
+func set_victory():
 	if ! master [active_id].has(VICTORY_KEY):
 		master [active_id][VICTORY_KEY] = true
 
@@ -604,6 +606,9 @@ func get_victory_count() -> int:
 		if master [id].has(VICTORY_KEY) and master [id][VICTORY_KEY]:
 			count += 1
 	return count
+
+func get_victory_state() -> bool:
+	return master [active_id].has(VICTORY_KEY) and master [active_id][VICTORY_KEY]
 #endregion Victory Handling
 
 #region Level Change Management
@@ -617,4 +622,11 @@ func prev_level():
 	if (level.has('prev')):
 		set_active_id(level.prev)
 
+func has_next_level():
+	var level = LevelLibrary.get_level(active_id)
+	return level.has('next')
+
+func has_prev_level():
+	var level = LevelLibrary.get_level(active_id)
+	return level.has('prev')
 #endregion Level Change Management

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/nonnonomicon.gd" id="1_yfbcv"]
 
-[node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("book", "game_ui")]
+[node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("book", "game_ui", "next_button", "prev_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,6 +12,8 @@ grow_vertical = 2
 script = ExtResource("1_yfbcv")
 book = NodePath("Book")
 game_ui = NodePath("GameUI")
+next_button = NodePath("GameUI/NextButton")
+prev_button = NodePath("GameUI/PrevButton")
 
 [node name="Book" type="Control" parent="."]
 layout_mode = 1
