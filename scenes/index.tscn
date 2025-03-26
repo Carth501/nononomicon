@@ -11,7 +11,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_q07hl")
 list = NodePath("MarginContainer/List")
-level_buttons = [NodePath("")]
+level_buttons = [null]
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1

@@ -34,6 +34,8 @@ var notes: bool
 var active_id: String = "default"
 
 func setup(parameters: Dictionary) -> void:
+	print(master [active_id])
+	sanity_check_parameters(parameters)
 	if (parameters.has('seed')):
 		set_seed(parameters['seed'])
 	else:
@@ -44,7 +46,6 @@ func setup(parameters: Dictionary) -> void:
 		notes = parameters['notes']
 	if (parameters.has('id')):
 		active_id = parameters['id']
-	sanity_check_parameters(parameters)
 	prepare_square_map(parameters)
 	generate_target_map(parameters)
 
@@ -135,11 +136,15 @@ func get_notes() -> bool:
 
 func prepare_square_map(parameters: Dictionary):
 	if master [active_id].has(SQUARE_MAP_KEY):
+		print("Square map already exists")
 		return
 	elif parameters.has('square_map'):
+		print("Square map supplied by parameters")
 		set_square_map(parameters['square_map'])
 	else:
+		print("Generating square map")
 		generate_empty_map()
+	board_ready.emit()
 
 func generate_empty_map():
 	var SIZE = get_size()
@@ -151,7 +156,6 @@ func generate_empty_map():
 		for k in SIZE.y:
 			column.append(SquareStates.EMPTY)
 		master [active_id][SQUARE_MAP_KEY][i] = column
-	board_ready.emit()
 
 func set_square_map(new_map: Dictionary):
 	master [active_id][SQUARE_MAP_KEY] = new_map

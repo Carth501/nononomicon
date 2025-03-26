@@ -21,9 +21,6 @@ func prepare_board():
 		nonogram_squares.create_square_displays()
 		header_row.generate_cells(State.get_header('X'))
 		header_col.generate_cells(State.get_header('Y'))
-	
-func cheat():
-	State.cheat_reveal_all_squares()
 
 func _process(_delta: float) -> void:
 	var percent_x = get_percent_x()
@@ -42,14 +39,5 @@ func get_percent_y() -> float:
 	var max_y = scroll_container.get_v_scroll_bar().max_value
 	return float(scroll_container.scroll_vertical) / max_y
 
-func _on_submit_pressed() -> void:
-	State.submit()
-
 func display_victory():
 	victory_label.visible = true
-
-func _on_notes_switch_toggled(toggled_on: bool) -> void:
-	State.set_notes_no_signal(toggled_on)
-
-func _on_save_button_pressed() -> void:
-	SaveManager.save("ManualSave")

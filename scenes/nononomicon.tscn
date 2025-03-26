@@ -22,9 +22,13 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="GameUI" type="Control" parent="."]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="SubmitButton" type="Button" parent="GameUI"]
 layout_mode = 1
@@ -51,10 +55,8 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 1053.0
-offset_top = 577.0
-offset_right = 1112.0
-offset_bottom = 608.0
+offset_left = -59.0
+offset_top = -31.0
 grow_horizontal = 0
 grow_vertical = 0
 text = "CHEAT"
@@ -64,9 +66,13 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = 554.0
+offset_top = -54.0
 offset_right = 94.0
-offset_bottom = 608.0
 grow_vertical = 0
 text = "Notes
 Mode"
+
+[connection signal="pressed" from="GameUI/SubmitButton" to="." method="_on_submit_pressed"]
+[connection signal="pressed" from="GameUI/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="GameUI/CheatButton" to="." method="cheat"]
+[connection signal="toggled" from="GameUI/NotesSwitch" to="." method="_on_notes_switch_toggled"]

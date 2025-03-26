@@ -30,4 +30,3 @@ func load(filename: String):
 	var save_data = save_file.get_var()
 	save_file.close()
 	State.master = save_data
-	State.board_ready.emit()
