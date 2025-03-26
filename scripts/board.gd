@@ -6,24 +6,22 @@ class_name NonogramBoard extends Control
 @export var header_col: YHeaderCol
 @export var victory_label: Label
 var scrolling := false
-var id: String
 
 func _ready() -> void:
 	State.board_ready.connect(prepare_board)
 	prepare_board()
 	State.victory.connect(display_victory)
 
-func set_board_id(board_id: String):
-	id = board_id
-
 func prepare_board():
 	if (State.get_board_ready()):
 		nonogram_squares.create_square_displays()
 		header_row.generate_cells(State.get_header('X'))
 		header_col.generate_cells(State.get_header('Y'))
-		if (State.master.has(id) and State.master [id].has(State.VICTORY_KEY)):
-			if (State.master [id][State.VICTORY_KEY]):
-				display_victory()
+		var id = State.get_active_id()
+		if (State.master [id].has(State.VICTORY_KEY) and State.master [id][State.VICTORY_KEY]):
+			display_victory()
+		else:
+			hide_victory()
 
 func _process(_delta: float) -> void:
 	var percent_x = get_percent_x()
@@ -44,3 +42,6 @@ func get_percent_y() -> float:
 
 func display_victory():
 	victory_label.visible = true
+
+func hide_victory():
+	victory_label.visible = false

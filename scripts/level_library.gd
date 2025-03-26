@@ -6,14 +6,16 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 1,
 			"size": Vector2i(5, 5)
-		}
+		},
+		"next": "basics"
 	},
 	"basics": {
 		"name": "Basics",
 		"parameters": {
 			"seed": 2,
 			"size": Vector2i(8, 8)
-		}
+		},
+		"prev": "intro"
 	}
 }
 var chapters: Dictionary = {

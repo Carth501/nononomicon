@@ -5,6 +5,8 @@ var index := preload("res://scenes/index.tscn")
 var pages := {}
 @export var book: Control
 @export var game_ui: Control
+@export var next_button: Button
+@export var prev_button: Button
 
 func _ready():
 	open_page("index")
@@ -18,13 +20,13 @@ func open_page(id: String):
 			pages[id] = page
 			book.add_child(page)
 			page.level_selected.connect(open_page)
-	elif (!pages.has(id)):
-		State.set_active_id(id)
-		var page: NonogramBoard = nonogram_board.instantiate()
-		page.set_board_id(id)
-		pages[id] = page
-		page.prepare_board()
-		book.add_child(page)
+	else:
+		if (!pages.has(id)):
+			State.set_active_id(id)
+			var page: NonogramBoard = nonogram_board.instantiate()
+			pages[id] = page
+			page.prepare_board()
+			book.add_child(page)
 		game_ui.show()
 	close_all_except(id)
 
@@ -46,3 +48,12 @@ func _on_notes_switch_toggled(toggled_on: bool) -> void:
 
 func _on_save_button_pressed() -> void:
 	SaveManager.save("ManualSave")
+
+func _on_next_button_pressed() -> void:
+	State.next_level()
+
+func _on_index_button_pressed() -> void:
+	open_page("index")
+
+func _on_prev_button_pressed() -> void:
+	State.prev_level()

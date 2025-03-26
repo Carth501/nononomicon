@@ -34,7 +34,6 @@ var notes: bool
 var active_id: String = "default"
 
 func setup(parameters: Dictionary) -> void:
-	print(master [active_id])
 	sanity_check_parameters(parameters)
 	if (parameters.has('seed')):
 		set_seed(parameters['seed'])
@@ -46,14 +45,20 @@ func setup(parameters: Dictionary) -> void:
 		notes = parameters['notes']
 	if (parameters.has('id')):
 		active_id = parameters['id']
-	prepare_square_map(parameters)
 	generate_target_map(parameters)
+	prepare_square_map(parameters)
+	board_ready.emit()
 
 func set_active_id(new_id: String):
 	active_id = new_id
 	if (! master.keys().has(active_id)):
 		master [new_id] = {}
 		setup(LevelLibrary.get_level_parameters(new_id))
+	else:
+		board_ready.emit()
+
+func get_active_id() -> String:
+	return active_id
 
 func set_size(new_size: Vector2i):
 	master [active_id][SIZE_KEY] = new_size
@@ -144,7 +149,6 @@ func prepare_square_map(parameters: Dictionary):
 	else:
 		print("Generating square map")
 		generate_empty_map()
-	board_ready.emit()
 
 func generate_empty_map():
 	var SIZE = get_size()
@@ -601,3 +605,16 @@ func get_victory_count() -> int:
 			count += 1
 	return count
 #endregion Victory Handling
+
+#region Level Change Management
+func next_level():
+	var level = LevelLibrary.get_level(active_id)
+	if (level.has('next')):
+		set_active_id(level.next)
+
+func prev_level():
+	var level = LevelLibrary.get_level(active_id)
+	if (level.has('prev')):
+		set_active_id(level.prev)
+
+#endregion Level Change Management

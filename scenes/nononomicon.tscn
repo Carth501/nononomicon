@@ -56,7 +56,8 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -59.0
-offset_top = -31.0
+offset_top = -64.0
+offset_bottom = -33.0
 grow_horizontal = 0
 grow_vertical = 0
 text = "CHEAT"
@@ -72,7 +73,51 @@ grow_vertical = 0
 text = "Notes
 Mode"
 
+[node name="NextButton" type="Button" parent="GameUI"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = -31.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Next"
+
+[node name="IndexButton" type="Button" parent="GameUI"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -106.0
+offset_top = -31.0
+offset_right = -54.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Index"
+
+[node name="PrevButton" type="Button" parent="GameUI"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -191.0
+offset_top = -31.0
+offset_right = -116.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Previous"
+
 [connection signal="pressed" from="GameUI/SubmitButton" to="." method="_on_submit_pressed"]
 [connection signal="pressed" from="GameUI/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="GameUI/CheatButton" to="." method="cheat"]
 [connection signal="toggled" from="GameUI/NotesSwitch" to="." method="_on_notes_switch_toggled"]
+[connection signal="pressed" from="GameUI/NextButton" to="." method="_on_next_button_pressed"]
+[connection signal="pressed" from="GameUI/IndexButton" to="." method="_on_index_button_pressed"]
+[connection signal="pressed" from="GameUI/PrevButton" to="." method="_on_prev_button_pressed"]
