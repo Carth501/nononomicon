@@ -161,6 +161,10 @@ func set_square_map(new_map: Dictionary):
 	master [active_id][SQUARE_MAP_KEY] = new_map
 
 func _process(_delta):
+	if ! master.has(active_id):
+		return
+	if master [active_id].has(VICTORY_KEY) and master [active_id][VICTORY_KEY]:
+		return
 	handle_input_release()
 	handle_note_press()
 	if chosen_coords == Vector2i(-1, -1):
@@ -587,13 +591,13 @@ func submit():
 
 #region Victory Handling
 func increment_victory():
-	if master [active_id].has(VICTORY_KEY):
-		master [active_id][VICTORY_KEY] += 1
-	else:
-		master [active_id][VICTORY_KEY] = 1
+	if ! master [active_id].has(VICTORY_KEY):
+		master [active_id][VICTORY_KEY] = true
 
 func get_victory_count() -> int:
-	if master [active_id].has(VICTORY_KEY):
-		return master [active_id][VICTORY_KEY]
-	return 0
+	var count = 0
+	for id in master.keys():
+		if master [id].has(VICTORY_KEY) and master [id][VICTORY_KEY]:
+			count += 1
+	return count
 #endregion Victory Handling

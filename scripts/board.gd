@@ -21,6 +21,9 @@ func prepare_board():
 		nonogram_squares.create_square_displays()
 		header_row.generate_cells(State.get_header('X'))
 		header_col.generate_cells(State.get_header('Y'))
+		if (State.master.has(id) and State.master [id].has(State.VICTORY_KEY)):
+			if (State.master [id][State.VICTORY_KEY]):
+				display_victory()
 
 func _process(_delta: float) -> void:
 	var percent_x = get_percent_x()
