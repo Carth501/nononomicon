@@ -15,12 +15,21 @@ var levels: Dictionary = {
 			"seed": 2,
 			"size": Vector2i(8, 8)
 		},
+		"next": "big",
 		"prev": "intro"
+	},
+	"big": {
+		"name": "Go Big",
+		"parameters": {
+			"seed": 3,
+			"size": Vector2i(20, 20)
+		},
+		"prev": "basics"
 	}
 }
 var chapters: Dictionary = {
 	"chapter1": {
-		"levels": ["intro", "basics"],
+		"levels": ["intro", "basics", "big"],
 		"title": "Chapter 1"
 	}
 }
