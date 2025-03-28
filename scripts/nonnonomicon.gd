@@ -7,11 +7,13 @@ var pages := {}
 @export var game_ui: Control
 @export var next_button: Button
 @export var prev_button: Button
+@export var coords_display: Label
 
 func _ready():
 	open_page("index")
 	State.victory.connect(set_next_enabled)
 	State.level_changed.connect(check_page_buttons)
+	State.coords_changed.connect(update_coords_display)
 
 func open_page(id: String):
 	if (id == "index"):
@@ -74,3 +76,9 @@ func set_next_enabled():
 
 func set_prev_button():
 	prev_button.visible = State.has_prev_level()
+
+func update_coords_display(new_coords: Vector2i):
+	if (new_coords == Vector2i(-1, -1)):
+		coords_display.text = ""
+	else:
+		coords_display.text = str(new_coords.x + 1) + ", " + str(new_coords.y + 1)

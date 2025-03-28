@@ -6,6 +6,7 @@ signal toggle_state_changed(new_state)
 signal victory
 signal notes_mode_changed(new_mode)
 signal level_changed
+signal coords_changed(coords)
 
 enum SquareStates {
 	EMPTY,
@@ -76,6 +77,7 @@ func set_target_map(new_map: Dictionary):
 
 func set_chosen_coords(new_coords: Vector2i):
 	chosen_coords = new_coords
+	coords_changed.emit(new_coords)
 
 func get_chosen_coords_state() -> SquareStates:
 	return get_position_state(chosen_coords)

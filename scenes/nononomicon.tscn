@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/nonnonomicon.gd" id="1_yfbcv"]
 
-[node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("book", "game_ui", "next_button", "prev_button")]
+[node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("book", "game_ui", "next_button", "prev_button", "coords_display")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,6 +14,7 @@ book = NodePath("Book")
 game_ui = NodePath("GameUI")
 next_button = NodePath("GameUI/NextButton")
 prev_button = NodePath("GameUI/PrevButton")
+coords_display = NodePath("GameUI/CoordinatesDisplay")
 
 [node name="Book" type="Control" parent="."]
 layout_mode = 1
@@ -115,6 +116,15 @@ offset_right = -116.0
 grow_horizontal = 0
 grow_vertical = 0
 text = "Previous"
+
+[node name="CoordinatesDisplay" type="Label" parent="GameUI"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 23.0
+grow_horizontal = 0
 
 [connection signal="pressed" from="GameUI/SubmitButton" to="." method="_on_submit_pressed"]
 [connection signal="pressed" from="GameUI/SaveButton" to="." method="_on_save_button_pressed"]
