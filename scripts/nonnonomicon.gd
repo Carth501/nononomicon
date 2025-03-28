@@ -8,6 +8,7 @@ var pages := {}
 @export var next_button: Button
 @export var prev_button: Button
 @export var coords_display: Label
+@export var command_console: LineEdit
 
 func _ready():
 	open_page("index")
@@ -32,6 +33,7 @@ func open_page(id: String):
 			page.prepare_board()
 			book.add_child(page)
 		game_ui.show()
+		command_console.visible = false
 	close_all_except(id)
 
 func check_page_buttons():
@@ -82,3 +84,15 @@ func update_coords_display(new_coords: Vector2i):
 		coords_display.text = ""
 	else:
 		coords_display.text = str(new_coords.x + 1) + ", " + str(new_coords.y + 1)
+
+func toggle_command_console():
+	command_console.visible = !command_console.visible
+
+func _on_line_edit_text_submitted(new_text: String) -> void:
+	State.interpret_command(new_text)
+	command_console.clear()
+
+func _process(_delta: float) -> void:
+	if (game_ui.visible):
+		if Input.is_action_just_pressed("Console"):
+			toggle_command_console()

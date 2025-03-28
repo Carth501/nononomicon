@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/nonnonomicon.gd" id="1_yfbcv"]
 
-[node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("book", "game_ui", "next_button", "prev_button", "coords_display")]
+[node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("book", "game_ui", "next_button", "prev_button", "coords_display", "command_console")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,6 +15,7 @@ game_ui = NodePath("GameUI")
 next_button = NodePath("GameUI/NextButton")
 prev_button = NodePath("GameUI/PrevButton")
 coords_display = NodePath("GameUI/CoordinatesDisplay")
+command_console = NodePath("GameUI/LineEdit")
 
 [node name="Book" type="Control" parent="."]
 layout_mode = 1
@@ -126,6 +127,17 @@ offset_left = -40.0
 offset_bottom = 23.0
 grow_horizontal = 0
 
+[node name="LineEdit" type="LineEdit" parent="GameUI"]
+visible = false
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+grow_horizontal = 2
+grow_vertical = 0
+
 [connection signal="pressed" from="GameUI/SubmitButton" to="." method="_on_submit_pressed"]
 [connection signal="pressed" from="GameUI/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="GameUI/CheatButton" to="." method="cheat"]
@@ -133,3 +145,4 @@ grow_horizontal = 0
 [connection signal="pressed" from="GameUI/NextButton" to="." method="_on_next_button_pressed"]
 [connection signal="pressed" from="GameUI/IndexButton" to="." method="_on_index_button_pressed"]
 [connection signal="pressed" from="GameUI/PrevButton" to="." method="_on_prev_button_pressed"]
+[connection signal="text_submitted" from="GameUI/LineEdit" to="." method="_on_line_edit_text_submitted"]

@@ -257,6 +257,13 @@ func random_center_map(_parameters: Dictionary):
 #endregion Target Map Generation
 
 #region Cheats
+func interpret_command(command: String) -> void:
+	match command:
+		"reveal_all":
+			cheat_reveal_all_squares()
+		_:
+			print("Unknown command: ", command)
+
 func cheat_reveal_all_squares():
 	var SIZE = get_size()
 	for i in SIZE.x:
