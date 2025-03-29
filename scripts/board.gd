@@ -45,3 +45,6 @@ func display_victory():
 
 func hide_victory():
 	victory_label.visible = false
+
+func get_square(coords: Vector2) -> NonogramSquare:
+	return nonogram_squares.get_square(coords)

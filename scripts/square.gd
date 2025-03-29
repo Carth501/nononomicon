@@ -1,4 +1,4 @@
-extends ColorRect
+class_name NonogramSquare extends ColorRect
 
 @export var coords: Vector2i
 @export var note_label: Label

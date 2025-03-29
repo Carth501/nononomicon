@@ -9,14 +9,18 @@ var pages := {}
 @export var prev_button: Button
 @export var coords_display: Label
 @export var command_console: LineEdit
+@export var x_highligher: ColorRect
+@export var y_highligher: ColorRect
+var current_page: String = "index"
 
 func _ready():
 	open_page("index")
 	State.victory.connect(set_next_enabled)
 	State.level_changed.connect(check_page_buttons)
-	State.coords_changed.connect(update_coords_display)
+	State.coords_changed.connect(update_active_coords)
 
 func open_page(id: String):
+	current_page = id
 	if (id == "index"):
 		game_ui.hide()
 		if (!pages.has(id)):
@@ -79,11 +83,27 @@ func set_next_enabled():
 func set_prev_button():
 	prev_button.visible = State.has_prev_level()
 
-func update_coords_display(new_coords: Vector2i):
+func update_active_coords(new_coords: Vector2i):
 	if (new_coords == Vector2i(-1, -1)):
 		coords_display.text = ""
 	else:
 		coords_display.text = str(new_coords.x + 1) + ", " + str(new_coords.y + 1)
+	update_highlighters(new_coords)
+
+func update_highlighters(new_coords: Vector2i):
+	if (new_coords == Vector2i(-1, -1)):
+		x_highligher.visible = false
+		y_highligher.visible = false
+	else:
+		x_highligher.visible = true
+		y_highligher.visible = true
+		var square = pages[current_page].get_square(new_coords)
+		if (square == null):
+			return
+		var square_pos = square.global_position
+		x_highligher.position.x = square_pos.x - 2
+		y_highligher.position.y = square_pos.y - 2
+
 
 func toggle_command_console():
 	command_console.visible = !command_console.visible
