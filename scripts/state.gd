@@ -97,7 +97,15 @@ func get_board_ready() -> bool:
 	return master [active_id].has(SQUARE_MAP_KEY) and master [active_id].has(TARGET_MAP_KEY)
 
 func get_header(axis: String) -> Dictionary:
-	return master [active_id][HEADERS_KEY][axis]
+	var headers = master [active_id][HEADERS_KEY][axis].duplicate(true)
+	if master [active_id].has(HEADERS_OVERRIDE_KEY):
+		var headers_overrides = master [active_id][HEADERS_OVERRIDE_KEY]
+		if headers_overrides.has(axis):
+			for index in headers_overrides[axis].keys():
+				for complication in headers_overrides[axis][index]:
+					if complication.has('header'):
+						headers[index] = complication['header']
+	return headers
 
 func change_square_state(new_state: SquareStates):
 	if (new_state == SquareStates.MARKED):
@@ -672,30 +680,33 @@ func delta_column_complication(complication: Dictionary):
 	if (! master [active_id][HEADERS_OVERRIDE_KEY]['X'].has(subject_column)):
 		master [active_id][HEADERS_OVERRIDE_KEY]['X'][subject_column] = []
 	var complication_data = {}
-	var complication_subject = str('c', subject_column)
 	var complication_variable: String
+	var variable_axis = 'X'
+	var variable_index = 0
 	if (complication.has('variable_column')):
-		complication_subject = str('c', complication['variable_column'])
+		complication_variable = str('c', complication['variable_column'])
+		variable_index = complication['variable_column']
 	elif (complication.has('variable_row')):
 		if (get_size().x != get_size().y):
 			push_error("For mixed-axis complications, row and column sizes must be equal")
-		complication_subject = str('r', complication['variable_row'])
+		complication_variable = str('r', complication['variable_row'])
+		variable_axis = 'Y'
+		variable_index = complication['variable_row']
 	else:
 		push_error("Complication must have either variable_column or variable_row")
 	var complication_abbreviation = "Δ"
 	var complication_footer = str(
 		complication_abbreviation,
-		complication_subject,
 		complication_variable
 		)
 	complication_data['footer'] = complication_footer
 
-	var complication_header = []
-	
+	var complication_header = generate_delta(
+		master [active_id][HEADERS_KEY]['X'][subject_column],
+		master [active_id][HEADERS_KEY][variable_axis][variable_index]
+	)
 	
 	complication_data['header'] = complication_header
-
-	print('complication_data ', complication_data)
 
 	master [active_id][HEADERS_OVERRIDE_KEY]['X'][subject_column].append(complication_data)
 		
@@ -765,7 +776,6 @@ func generate_delta(headers1: Array, headers2: Array) -> Array:
 		count = 0
 		segment = []
 
-	print('delta ', delta)
 	return delta
 
 	
