@@ -32,6 +32,7 @@ var HEADERS_KEY := 'headers'
 var VICTORY_KEY := 'victory'
 var SIZE_KEY := 'size'
 var HEADERS_OVERRIDE_KEY := 'headers_override'
+var FOOTER_KEY := 'footer'
 var toggle_state: ToggleStates = ToggleStates.NOTHING
 var notes: bool
 var active_id: String = "default"
@@ -106,6 +107,12 @@ func get_header(axis: String) -> Dictionary:
 					if complication.has('header'):
 						headers[index] = complication['header']
 	return headers
+
+func get_footer(axis: String) -> Dictionary:
+	if master [active_id].has(FOOTER_KEY) and master [active_id][FOOTER_KEY].has(axis):
+		return master [active_id][FOOTER_KEY][axis]
+	else:
+		return {}
 
 func change_square_state(new_state: SquareStates):
 	if (new_state == SquareStates.MARKED):
@@ -674,42 +681,57 @@ func handle_delta_complication(complication: Dictionary):
 	# 	delta_row_complication(complication)
 
 func delta_column_complication(complication: Dictionary):
+	generate_delta_header(complication)
+	generate_delta_footer(complication)
+
+func generate_delta_header(complication: Dictionary):
 	var subject_column = complication['subject_column']
 	if (! master [active_id][HEADERS_OVERRIDE_KEY].has('X')):
 		master [active_id][HEADERS_OVERRIDE_KEY]['X'] = {}
 	if (! master [active_id][HEADERS_OVERRIDE_KEY]['X'].has(subject_column)):
 		master [active_id][HEADERS_OVERRIDE_KEY]['X'][subject_column] = []
-	var complication_data = {}
-	var complication_variable: String
 	var variable_axis = 'X'
 	var variable_index = 0
 	if (complication.has('variable_column')):
-		complication_variable = str('c', complication['variable_column'])
 		variable_index = complication['variable_column']
 	elif (complication.has('variable_row')):
 		if (get_size().x != get_size().y):
 			push_error("For mixed-axis complications, row and column sizes must be equal")
-		complication_variable = str('r', complication['variable_row'])
 		variable_axis = 'Y'
 		variable_index = complication['variable_row']
 	else:
 		push_error("Complication must have either variable_column or variable_row")
-	var complication_abbreviation = "Δ"
-	var complication_footer = str(
-		complication_abbreviation,
-		complication_variable
-		)
-	complication_data['footer'] = complication_footer
 
 	var complication_header = generate_delta(
 		master [active_id][HEADERS_KEY]['X'][subject_column],
 		master [active_id][HEADERS_KEY][variable_axis][variable_index]
 	)
-	
-	complication_data['header'] = complication_header
 
-	master [active_id][HEADERS_OVERRIDE_KEY]['X'][subject_column].append(complication_data)
-		
+	master [active_id][HEADERS_OVERRIDE_KEY]['X'][subject_column].append(complication_header)
+
+func generate_delta_footer(complication: Dictionary):
+	var subject_column = complication['subject_column']
+	var complication_abbreviation = "Δ"
+	var complication_variable: String
+	if (complication.has('variable_column')):
+		complication_variable = str('c', complication['variable_column'])
+	elif (complication.has('variable_row')):
+		complication_variable = str('r', complication['variable_row'])
+	
+	var complication_footer = str(
+		complication_abbreviation,
+		complication_variable
+		)
+	if not master [active_id].has(FOOTER_KEY):
+		master [active_id][FOOTER_KEY] = {}
+	if not master [active_id][FOOTER_KEY].has('X'):
+		master [active_id][FOOTER_KEY]['X'] = {}
+	if not master [active_id][FOOTER_KEY]['X'].has(subject_column):
+		master [active_id][FOOTER_KEY]['X'][subject_column] = [complication_footer]
+	else:
+		master [active_id][FOOTER_KEY]['X'][subject_column].append(complication_footer)
+
+
 func generate_delta(headers1: Array, headers2: Array) -> Array:
 	var delta = []
 	var i = 0

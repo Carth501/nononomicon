@@ -19,6 +19,9 @@ func prepare_board():
 		nonogram_squares.create_square_displays()
 		header_row.generate_cells(State.get_header('X'))
 		header_col.generate_cells(State.get_header('Y'))
+		
+		print("State.get_footer('X')", State.get_footer('X'))
+		print("State.get_footer('Y')", State.get_footer('Y'))
 		var id = State.get_active_id()
 		if (State.master [id].has(State.VICTORY_KEY) and State.master [id][State.VICTORY_KEY]):
 			display_victory()
