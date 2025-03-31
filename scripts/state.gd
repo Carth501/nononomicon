@@ -31,6 +31,7 @@ var TARGET_MAP_KEY := 'target_map'
 var HEADERS_KEY := 'headers'
 var VICTORY_KEY := 'victory'
 var SIZE_KEY := 'size'
+var HEADERS_OVERRIDE_KEY := 'headers_override'
 var toggle_state: ToggleStates = ToggleStates.NOTHING
 var notes: bool
 var active_id: String = "default"
@@ -49,13 +50,17 @@ func setup(parameters: Dictionary) -> void:
 		active_id = parameters['id']
 	generate_target_map(parameters)
 	prepare_square_map(parameters)
+	if (parameters.has('complications')):
+		master [active_id][HEADERS_OVERRIDE_KEY] = {}
+		handle_complications(parameters['complications'])
 	board_ready.emit()
 
 func set_active_id(new_id: String):
 	active_id = new_id
 	if (! master.keys().has(active_id)):
 		master [new_id] = {}
-		setup(LevelLibrary.get_level_parameters(new_id))
+		if LevelLibrary.level_exists(new_id):
+			setup(LevelLibrary.get_level_parameters(new_id))
 	else:
 		board_ready.emit()
 	level_changed.emit()
@@ -67,7 +72,10 @@ func set_size(new_size: Vector2i):
 	master [active_id][SIZE_KEY] = new_size
 
 func get_size() -> Vector2i:
-	return master [active_id][SIZE_KEY]
+	if master [active_id].has(SIZE_KEY):
+		return master [active_id][SIZE_KEY]
+	else:
+		return Vector2i(5, 5)
 
 func set_seed(new_seed: int):
 	seed(new_seed)
@@ -510,7 +518,7 @@ func update_headers_for_points(points: Array):
 			update_header_for_column(column)
 			processed_columns[column] = true
 
-# endregion Danger Square Detection
+#endregion Danger Square Detection
 
 #region Header Reprocessing
 func update_header_for_row(row: int):
@@ -639,3 +647,126 @@ func has_prev_level():
 	var level = LevelLibrary.get_level(active_id)
 	return level.has('prev')
 #endregion Level Change Management
+
+#region Complications
+func handle_complications(list: Array):
+	print("Complications: ", list)
+	for i in list:
+		if i.has('type'):
+			match i['type']:
+				"delta":
+					handle_delta_complication(i)
+				_:
+					print("Unknown complication type: ", i['type'])
+
+func handle_delta_complication(complication: Dictionary):
+	if complication.has('subject_column'):
+		delta_column_complication(complication)
+	# elif complication.has('subject_row'):
+	# 	delta_row_complication(complication)
+
+func delta_column_complication(complication: Dictionary):
+	var subject_column = complication['subject_column']
+	if (! master [active_id][HEADERS_OVERRIDE_KEY].has('X')):
+		master [active_id][HEADERS_OVERRIDE_KEY]['X'] = {}
+	if (! master [active_id][HEADERS_OVERRIDE_KEY]['X'].has(subject_column)):
+		master [active_id][HEADERS_OVERRIDE_KEY]['X'][subject_column] = []
+	var complication_data = {}
+	var complication_subject = str('c', subject_column)
+	var complication_variable: String
+	if (complication.has('variable_column')):
+		complication_subject = str('c', complication['variable_column'])
+	elif (complication.has('variable_row')):
+		if (get_size().x != get_size().y):
+			push_error("For mixed-axis complications, row and column sizes must be equal")
+		complication_subject = str('r', complication['variable_row'])
+	else:
+		push_error("Complication must have either variable_column or variable_row")
+	var complication_abbreviation = "Δ"
+	var complication_footer = str(
+		complication_abbreviation,
+		complication_subject,
+		complication_variable
+		)
+	complication_data['footer'] = complication_footer
+
+	var complication_header = []
+	
+	
+	complication_data['header'] = complication_header
+
+	print('complication_data ', complication_data)
+
+	master [active_id][HEADERS_OVERRIDE_KEY]['X'][subject_column].append(complication_data)
+		
+func generate_delta(headers1: Array, headers2: Array) -> Array:
+	var delta = []
+	var i = 0
+	var j = 0
+	var k = 0
+	var count = 0
+	var segment = []
+
+	while i < headers1.size() and j < headers2.size():
+		if k > headers1[i]['segment'][-1]:
+			i += 1
+			if i >= headers1.size():
+				break
+		if k > headers2[j]['segment'][-1]:
+			j += 1
+			if j >= headers2.size():
+				break
+		
+		if (headers1[i]['segment'].has(k) or headers2[j]['segment'].has(k)):
+			if not (headers1[i]['segment'].has(k) and headers2[j]['segment'].has(k)):
+				segment.append(k)
+				count += 1
+			else:
+				if (count > 0):
+					delta.append({'length': str(count), 'segment': segment})
+					count = 0
+					segment = []
+		else:
+			if (count > 0):
+				delta.append({'length': str(count), 'segment': segment})
+				count = 0
+				segment = []
+
+		k += 1
+	
+	while i < headers1.size():
+		if (headers1[i]['segment'].has(k)):
+			segment.append(k)
+			count += 1
+		else:
+			if (count > 0):
+				delta.append({'length': str(count), 'segment': segment})
+				count = 0
+				segment = []
+		k += 1
+		if k > headers1[i]['segment'][-1]:
+			i += 1
+	
+	while j < headers2.size():
+		if (headers2[j]['segment'].has(k)):
+			segment.append(k)
+			count += 1
+		else:
+			if (count > 0):
+				delta.append({'length': str(count), 'segment': segment})
+				count = 0
+				segment = []
+		k += 1
+		if k > headers2[j]['segment'][-1]:
+			j += 1
+	
+	if (count > 0):
+		delta.append({'length': str(count), 'segment': segment})
+		count = 0
+		segment = []
+
+	print('delta ', delta)
+	return delta
+
+	
+#endregion Complications

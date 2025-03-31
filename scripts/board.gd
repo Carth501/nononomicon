@@ -4,6 +4,8 @@ class_name NonogramBoard extends Control
 @export var nonogram_squares: NonogramSquares
 @export var header_row: XHeaderRow
 @export var header_col: YHeaderCol
+@export var footer_row: XFooterRow
+@export var footer_col: YFooterCol
 @export var victory_label: Label
 var scrolling := false
 

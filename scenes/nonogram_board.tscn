@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://dq8gk2xv1r27a"]
+[gd_scene load_steps=7 format=3 uid="uid://dq8gk2xv1r27a"]
 
 [ext_resource type="PackedScene" uid="uid://d4cw6v7fo0k5s" path="res://scenes/nonogram_squares.tscn" id="1_4p2ab"]
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_qoyos"]
 [ext_resource type="Script" path="res://scripts/x_header_row.gd" id="3_22eos"]
 [ext_resource type="Script" path="res://scripts/y_header_col.gd" id="4_cnhxs"]
+[ext_resource type="Script" path="res://scripts/x_footer_row.gd" id="5_erpr3"]
+[ext_resource type="Script" path="res://scripts/y_footer_col.gd" id="6_uo5n4"]
 
 [node name="NonogramBoard" type="Control" node_paths=PackedStringArray("scroll_container", "nonogram_squares", "header_row", "header_col", "victory_label")]
 layout_mode = 3
@@ -124,6 +126,75 @@ theme_override_font_sizes/font_size = 40
 text = "VICTORY"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="XFooterRow" type="Control" parent="."]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 90.0
+offset_top = -90.0
+offset_right = -90.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("5_erpr3")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="XFooterRow"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="XFooterRow/ScrollContainer"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="HBoxContainer" type="HBoxContainer" parent="XFooterRow/ScrollContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="YFooterCol" type="Control" parent="."]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -90.0
+offset_top = 90.0
+offset_bottom = -90.0
+grow_horizontal = 0
+grow_vertical = 2
+script = ExtResource("6_uo5n4")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="YFooterCol"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="YFooterCol/ScrollContainer"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="YFooterCol/ScrollContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
 
 [connection signal="scroll_ended" from="MarginContainer/BoardAndHeaders/NonogramScrollContainer" to="MarginContainer/BoardAndHeaders/NonogramScrollContainer" method="_on_scroll_ended"]
 [connection signal="scroll_started" from="MarginContainer/BoardAndHeaders/NonogramScrollContainer" to="MarginContainer/BoardAndHeaders/NonogramScrollContainer" method="_on_scroll_started"]

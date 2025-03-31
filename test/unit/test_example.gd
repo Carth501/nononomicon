@@ -19,15 +19,17 @@ func test_assert_true_with_true():
 	assert_true(true, "Should pass, true is true")
 
 func test_state_initialization():
+	State.set_active_id('TestKey')
 	State.setup({})
-	assert_has(State.master , State.SQUARE_MAP_KEY, "Should have a square map")
-	assert_has(State.master , State.TARGET_MAP_KEY, "Should have a target map")
-	assert_has(State.master , State.HEADERS_KEY, "Should have headers")
+	assert_has(State.master ['TestKey'], State.SQUARE_MAP_KEY, "Should have a square map")
+	assert_has(State.master ['TestKey'], State.TARGET_MAP_KEY, "Should have a target map")
+	assert_has(State.master ['TestKey'], State.HEADERS_KEY, "Should have headers")
 
 func test_parameterized_state_initialization():
+	State.set_active_id('TestKey')
 	State.setup({'size': Vector2i(4, 4), 'seed': 19024})
-	assert_has(State.master , State.TARGET_MAP_KEY, "Should have headers key")
-	assert_eq(State.master [State.TARGET_MAP_KEY], {0: {0: 0, 1: 0, 2: 0, 3: 1}, 1: {0: 1, 1: 1, 2: 1, 3: 0}, 2: {0: 1, 1: 0, 2: 1, 3: 0}, 3: {0: 1, 1: 1, 2: 0, 3: 0}})
+	assert_has(State.master ['TestKey'], State.TARGET_MAP_KEY, "Should have headers key")
+	assert_eq(State.master ['TestKey'][State.TARGET_MAP_KEY], {0: {0: 0, 1: 0, 2: 0, 3: 1}, 1: {0: 1, 1: 1, 2: 1, 3: 0}, 2: {0: 1, 1: 0, 2: 1, 3: 0}, 3: {0: 1, 1: 1, 2: 0, 3: 0}})
 
 
 class TestStateFunctions:
@@ -36,6 +38,7 @@ class TestStateFunctions:
 	var parameters = {'size': Vector2i(2, 2), 'seed': 7, 'target_map': {0: {0: 0, 1: 1}, 1: {0: 1, 1: 0}}}
 
 	func before_each():
+		State.set_active_id('TestKey')
 		State.set_size(parameters['size'])
 		State.set_seed(parameters['seed'])
 		State.set_target_map(parameters['target_map'])
@@ -88,9 +91,17 @@ class TestStateFunctions:
 class TestAdjacencyException:
 	extends GutTest
 
-	var parameters = {'size': Vector2i(3, 2), 'seed': 6, 'target_map': {0: {0: 0, 1: 1}, 1: {0: 1, 1: 0}, 2: {0: 0, 1: 1}}}
+	var parameters = {
+		'size': Vector2i(3, 2),
+		'seed': 6,
+		'target_map': {
+			0: {0: 0, 1: 1},
+			1: {0: 1, 1: 0},
+			2: {0: 0, 1: 1}
+			}}
 
 	func before_all():
+		State.set_active_id('TestKey')
 		State.set_size(parameters['size'])
 		State.set_seed(parameters['seed'])
 		State.set_target_map(parameters['target_map'])
@@ -118,9 +129,66 @@ class TestAdjacencyException:
 	func test_victory_detection():
 		State.generate_empty_map()
 		State.cheat_reveal_all_squares()
-		print(State.master [State.SQUARE_MAP_KEY])
+		print(State.master ['TestKey'][State.SQUARE_MAP_KEY])
 		assert_true(State.check_victory(), "Should have detected victory")
 
+class TestComplications:
+	extends GutTest
+
+	# var parameters = {
+	# 	'size': Vector2i(3, 2),
+	# 	'seed': 6,
+	# 	'target_map': {
+	# 		0: {0: 0, 1: 1},
+	# 		1: {0: 1, 1: 0},
+	# 		2: {0: 0, 1: 1}},
+	# 	"complications": [
+	# 		{
+	# 			"type": "delta",
+	# 			"subject_column": 4,
+	# 			"variable_column": 3,
+	# 		}
+	# 	]}
+
+	# func before_all():
+	# 	State.set_active_id('TestKey')
+	# 	State.set_size(parameters['size'])
+	# 	State.set_seed(parameters['seed'])
+	# 	State.set_target_map(parameters['target_map'])
+	# 	State.handle_complications(parameters['complications'])
+	# 	State.generate_headers()
+
+	func test_generate_delta():
+		var header1 = [ {'length': 1, 'segment': [1]}]
+		var header2 = [ {'length': 1, 'segment': [0]}, {'length': 1, 'segment': [2]}]
+		var delta = State.generate_delta(header1, header2)
+		assert_eq(delta, [ {'length': '3', 'segment': [0, 1, 2]}], "Should have found the delta pattern")
+
+	func test_generate_delta_2():
+		var header1 = [ {'length': 2, 'segment': [1, 2]}]
+		var header2 = [ {'length': 1, 'segment': [0]}, {'length': 1, 'segment': [2]}]
+		var delta = State.generate_delta(header1, header2)
+		assert_eq(delta, [ {'length': '2', 'segment': [0, 1]}], "Should have found the delta pattern")
+
+	func test_generate_delta_3():
+		var header1 = [ {'length': 3, 'segment': [0, 1, 2]}]
+		var header2 = [ {'length': 1, 'segment': [0]}, {'length': 1, 'segment': [2]}]
+		var delta = State.generate_delta(header1, header2)
+		assert_eq(delta, [ {'length': '1', 'segment': [1]}], "Should have found the delta pattern")
+
+	func test_generate_delta_4():
+		var header1 = [ {'length': 1, 'segment': [0]}]
+		var header2 = [ {'length': 1, 'segment': [0]}, {'length': 1, 'segment': [2]}]
+		var delta = State.generate_delta(header1, header2)
+		assert_eq(delta, [ {'length': '1', 'segment': [2]}], "Should have found the delta pattern")
+
+	func test_generate_delta_5():
+		var header1 = [ {'length': 1, 'segment': [0]}]
+		var header2 = [ {'length': 5, 'segment': [0, 1, 2, 3, 4]}]
+		var delta = State.generate_delta(header1, header2)
+		assert_eq(delta, [ {'length': '4', 'segment': [1, 2, 3, 4]}], "Should have found the delta pattern")
+
+		
 class TestDangerSquareSecondCase:
 	func before_all():
 		State.setup({"seed": 1234, 'size': Vector2i(8, 8)})
