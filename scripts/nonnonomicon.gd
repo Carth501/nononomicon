@@ -22,7 +22,7 @@ func open_page(id: String):
 		if (!pages.has(id)):
 			var page: Index = index.instantiate()
 			pages[id] = page
-			book.add_child(page)
+			add_child(page)
 			page.level_selected.connect(open_page)
 	else:
 		if (!pages.has(id)):
@@ -40,6 +40,12 @@ func check_page_buttons():
 	set_next_button()
 	set_next_enabled()
 	set_prev_button()
+
+func resize_book():
+	var board_size = State.get_size()
+	var game_size = Vector2((board_size.x * 64) + 176, (board_size.y * 64) + 176)
+	game_size = game_size.clamp(Vector2(0, 0), get_viewport().get_visible_rect().size)
+	book.set_custom_minimum_size(game_size)
 
 func close_all_except(id: String):
 	for page_id in pages.keys():
@@ -96,3 +102,4 @@ func _process(_delta: float) -> void:
 	if (game_ui.visible):
 		if Input.is_action_just_pressed("Console"):
 			toggle_command_console()
+	resize_book()

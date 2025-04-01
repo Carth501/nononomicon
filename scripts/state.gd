@@ -73,10 +73,10 @@ func set_size(new_size: Vector2i):
 	master [active_id][SIZE_KEY] = new_size
 
 func get_size() -> Vector2i:
-	if master [active_id].has(SIZE_KEY):
+	if master.has(active_id) and master [active_id].has(SIZE_KEY):
 		return master [active_id][SIZE_KEY]
 	else:
-		return Vector2i(5, 5)
+		return Vector2i(0, 0)
 
 func set_seed(new_seed: int):
 	seed(new_seed)
@@ -714,9 +714,9 @@ func generate_delta_footer(complication: Dictionary):
 	var complication_abbreviation = "Δ"
 	var complication_variable: String
 	if (complication.has('variable_column')):
-		complication_variable = str('c', complication['variable_column'])
+		complication_variable = str('c', complication['variable_column'] + 1)
 	elif (complication.has('variable_row')):
-		complication_variable = str('r', complication['variable_row'])
+		complication_variable = str('r', complication['variable_row'] + 1)
 	
 	var complication_footer = str(
 		complication_abbreviation,

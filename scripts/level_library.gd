@@ -72,7 +72,7 @@ var levels: Dictionary = {
 			"complications": [
 				{
 					"type": "delta",
-					"subject_column": 2,
+					"subject_column": 2, # index, starts at 0
 					"variable_column": 1,
 				},
 				{

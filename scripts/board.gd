@@ -20,8 +20,7 @@ func prepare_board():
 		header_row.generate_cells(State.get_header('X'))
 		header_col.generate_cells(State.get_header('Y'))
 		footer_row.generate_cells(State.get_footer('X'), State.get_size().x)
-		print("State.get_footer('X')", State.get_footer('X'))
-		print("State.get_footer('Y')", State.get_footer('Y'))
+		footer_col.generate_cells(State.get_footer('Y'), State.get_size().y)
 		var id = State.get_active_id()
 		if (State.master [id].has(State.VICTORY_KEY) and State.master [id][State.VICTORY_KEY]):
 			display_victory()

@@ -10,20 +10,23 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_yfbcv")
-book = NodePath("Book")
+book = NodePath("CenterContainer/Book")
 game_ui = NodePath("GameUI")
 next_button = NodePath("GameUI/NextButton")
 prev_button = NodePath("GameUI/PrevButton")
 coords_display = NodePath("GameUI/CoordinatesDisplay")
 command_console = NodePath("GameUI/LineEdit")
 
-[node name="Book" type="Control" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Book" type="Control" parent="CenterContainer"]
+layout_mode = 2
 
 [node name="GameUI" type="Control" parent="."]
 layout_mode = 1
