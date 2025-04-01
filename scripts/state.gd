@@ -103,9 +103,9 @@ func get_header(axis: String) -> Dictionary:
 		var headers_overrides = master [active_id][HEADERS_OVERRIDE_KEY]
 		if headers_overrides.has(axis):
 			for index in headers_overrides[axis].keys():
-				for complication in headers_overrides[axis][index]:
-					if complication.has('header'):
-						headers[index] = complication['header']
+				var complication = headers_overrides[axis][index][-1]
+				# get the last complication, save the rest for documentation
+				headers[index] = complication
 	return headers
 
 func get_footer(axis: String) -> Dictionary:

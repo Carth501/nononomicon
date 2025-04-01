@@ -5,14 +5,18 @@ var x_footer_cell_scene = preload("res://scenes/x_footer_cell.tscn")
 var cells = []
 @export var x_scroll_container: ScrollContainer
 
-func generate_cells(values: Dictionary):
+func generate_cells(values: Dictionary, length: int):
 	if (cells.size() > 0):
 		for i in cells:
 			i.queue_free()
 		cells.clear()
-	for i in values:
+	for i in range(length):
 		var new_cell = x_footer_cell_scene.instantiate()
-		new_cell.generate_labels(values[i])
+		if (values.has(i)):
+			new_cell.set_name("Cell_" + str(i))
+			new_cell.generate_labels(values[i])
+		else:
+			new_cell.set_name("Empty_Cell_" + str(i))
 		footer_row_container.add_child(new_cell)
 		cells.append(new_cell)
 
