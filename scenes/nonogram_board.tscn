@@ -165,7 +165,7 @@ theme_override_constants/margin_bottom = 12
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="YFooterCol" type="Control" parent="."]
+[node name="YFooterCol" type="Control" parent="." node_paths=PackedStringArray("footer_row_container", "y_scroll_container")]
 clip_contents = true
 layout_mode = 1
 anchors_preset = 11
@@ -178,6 +178,8 @@ offset_bottom = -90.0
 grow_horizontal = 0
 grow_vertical = 2
 script = ExtResource("6_uo5n4")
+footer_row_container = NodePath("../XFooterRow/ScrollContainer/MarginContainer/HBoxContainer")
+y_scroll_container = NodePath("ScrollContainer")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="YFooterCol"]
 layout_mode = 1

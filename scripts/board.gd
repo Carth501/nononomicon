@@ -36,6 +36,8 @@ func _process(_delta: float) -> void:
 func set_header_scroll(vector: Vector2):
 	header_row.set_percent_x(vector.x)
 	header_col.set_percent_y(vector.y)
+	footer_row.set_percent_x(vector.x)
+	footer_col.set_percent_y(vector.y)
 
 func get_percent_x() -> float:
 	var max_x = scroll_container.get_h_scroll_bar().max_value

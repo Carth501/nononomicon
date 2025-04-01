@@ -40,7 +40,49 @@ var levels: Dictionary = {
 				}
 			]
 		},
+		"next": "mistrust",
 		"prev": "big"
+	},
+	"mistrust": {
+		"name": "Mistrust",
+		"parameters": {
+			"seed": 5,
+			"size": Vector2i(8, 8),
+			"complications": [
+				{
+					"type": "delta",
+					"subject_column": 4,
+					"variable_column": 3,
+				},
+				{
+					"type": "delta",
+					"subject_column": 5,
+					"variable_column": 4,
+				}
+			]
+		},
+		"next": "contradiction",
+		"prev": "discovery"
+	},
+	"contradiction": {
+		"name": "Contradiction",
+		"parameters": {
+			"seed": 6,
+			"size": Vector2i(8, 8),
+			"complications": [
+				{
+					"type": "delta",
+					"subject_column": 2,
+					"variable_column": 1,
+				},
+				{
+					"type": "delta",
+					"subject_column": 3,
+					"variable_column": 2,
+				}
+			]
+		},
+		"prev": "mistrust"
 	}
 }
 var chapters: Dictionary = {
@@ -49,7 +91,7 @@ var chapters: Dictionary = {
 		"title": "Chapter 1"
 	},
 	"chapter2": {
-		"levels": ["discovery"],
+		"levels": ["discovery", "mistrust", "contradiction"],
 		"title": "Chapter 2"
 	}
 }
