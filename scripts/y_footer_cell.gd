@@ -8,5 +8,5 @@ func generate_labels(values: Array):
 		new_label.rotation_degrees = -90
 		new_label.name = "Label_" + str(i)
 		new_label.set_text(i)
-		add_child(new_label)
+		label_container.add_child(new_label)
 		new_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
