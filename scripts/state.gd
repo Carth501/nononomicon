@@ -678,7 +678,7 @@ func handle_delta_complication(complication: Dictionary):
 	generate_delta_footer(complication)
 
 func generate_delta_header(complication: Dictionary):
-	var subject_axis = 'X' if complication.has('subject_index') else 'Y'
+	var subject_axis = 'X' if complication.has('subject_column') else 'Y'
 	var subject_index = complication['subject_column'] if subject_axis == 'X' else complication['subject_row']
 	if (! master [active_id][HEADERS_OVERRIDE_KEY].has(subject_axis)):
 		master [active_id][HEADERS_OVERRIDE_KEY][subject_axis] = {}
@@ -700,10 +700,9 @@ func generate_delta_footer(complication: Dictionary):
 	var complication_abbreviation = "Δ"
 	var complication_variable: String
 	if (complication.has('variable_column')):
-		complication_variable = str('c', subject_index + 1)
+		complication_variable = str('c', complication['variable_column'] + 1)
 	elif (complication.has('variable_row')):
-		complication_variable = str('r', subject_index + 1)
-	
+		complication_variable = str('r', complication['variable_row'] + 1)
 	var complication_footer = str(
 		complication_abbreviation,
 		complication_variable
