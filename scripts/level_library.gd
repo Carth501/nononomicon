@@ -18,6 +18,15 @@ var levels: Dictionary = {
 		"next": "big",
 		"prev": "intro"
 	},
+	"ellipse": {
+		"name": "Ellipse",
+		"parameters": {
+			"seed": 7,
+			"size": Vector2i(12, 12)
+		},
+		"next": "discovery",
+		"prev": "basics"
+	},
 	"big": {
 		"name": "Go Big",
 		"parameters": {
@@ -87,7 +96,7 @@ var levels: Dictionary = {
 }
 var chapters: Dictionary = {
 	"chapter1": {
-		"levels": ["intro", "basics", "big"],
+		"levels": ["intro", "basics", "ellipse", "big"],
 		"title": "Chapter 1"
 	},
 	"chapter2": {
