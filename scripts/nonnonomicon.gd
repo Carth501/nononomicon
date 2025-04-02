@@ -32,6 +32,7 @@ func open_page(id: String):
 			check_page_buttons()
 			page.prepare_board()
 			book.add_child(page)
+			resize_book()
 		game_ui.show()
 		command_console.visible = false
 	close_all_except(id)
@@ -44,7 +45,7 @@ func check_page_buttons():
 func resize_book():
 	var board_size = State.get_size()
 	var game_size = Vector2((board_size.x * 64) + 176, (board_size.y * 64) + 176)
-	game_size = game_size.clamp(Vector2(0, 0), get_viewport().get_visible_rect().size)
+	game_size = game_size.clamp(Vector2(0, 0), size)
 	book.set_custom_minimum_size(game_size)
 
 func close_all_except(id: String):
@@ -101,4 +102,3 @@ func _process(_delta: float) -> void:
 	if (game_ui.visible):
 		if Input.is_action_just_pressed("Console"):
 			toggle_command_console()
-	resize_book()
