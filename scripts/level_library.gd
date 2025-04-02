@@ -70,7 +70,7 @@ var levels: Dictionary = {
 				}
 			]
 		},
-		"next": "contradiction",
+		"next": "y_can_too",
 		"prev": "discovery"
 	},
 	"y_can_too": {
@@ -86,6 +86,7 @@ var levels: Dictionary = {
 				}
 			]
 		},
+		"next": "contradiction",
 		"prev": "mistrust"
 	},
 	"contradiction": {
@@ -106,7 +107,7 @@ var levels: Dictionary = {
 				}
 			]
 		},
-		"prev": "mistrust"
+		"prev": "y_can_too"
 	}
 }
 var chapters: Dictionary = {
