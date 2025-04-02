@@ -11,7 +11,6 @@ func generate_cells(values: Dictionary, length: int):
 			i.queue_free()
 		cells.clear()
 	for i in range(length):
-		print("Generating cell " + str(i))
 		var new_cell = y_footer_cell_scene.instantiate()
 		if (values.has(i)):
 			new_cell.set_name("Cell_" + str(i))

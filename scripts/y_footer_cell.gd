@@ -1,6 +1,6 @@
 class_name YFooterCell extends Panel
 
-@export var label_container: HBoxContainer
+@export var label_container: VBoxContainer
 
 func generate_labels(values: Array):
 	for i in values:

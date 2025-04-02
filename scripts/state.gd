@@ -168,13 +168,10 @@ func get_notes() -> bool:
 
 func prepare_square_map(parameters: Dictionary):
 	if master [active_id].has(SQUARE_MAP_KEY):
-		print("Square map already exists")
 		return
 	elif parameters.has('square_map'):
-		print("Square map supplied by parameters")
 		set_square_map(parameters['square_map'])
 	else:
-		print("Generating square map")
 		generate_empty_map()
 
 func generate_empty_map():
