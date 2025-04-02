@@ -1,8 +1,6 @@
 extends Node
 
 signal save_file_list_changed
-func _ready():
-	print('get_save_file_list ', get_save_file_list())
 
 func get_save_file_list():
 	var dir = DirAccess.open("user://")

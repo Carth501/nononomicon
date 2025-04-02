@@ -665,7 +665,6 @@ func has_prev_level():
 
 #region Complications
 func handle_complications(list: Array):
-	print("Complications: ", list)
 	for i in list:
 		if i.has('type'):
 			match i['type']:
@@ -675,48 +674,35 @@ func handle_complications(list: Array):
 					print("Unknown complication type: ", i['type'])
 
 func handle_delta_complication(complication: Dictionary):
-	if complication.has('subject_column'):
-		delta_column_complication(complication)
-	# elif complication.has('subject_row'):
-	# 	delta_row_complication(complication)
-
-func delta_column_complication(complication: Dictionary):
 	generate_delta_header(complication)
 	generate_delta_footer(complication)
 
 func generate_delta_header(complication: Dictionary):
-	var subject_column = complication['subject_column']
-	if (! master [active_id][HEADERS_OVERRIDE_KEY].has('X')):
-		master [active_id][HEADERS_OVERRIDE_KEY]['X'] = {}
-	if (! master [active_id][HEADERS_OVERRIDE_KEY]['X'].has(subject_column)):
-		master [active_id][HEADERS_OVERRIDE_KEY]['X'][subject_column] = []
-	var variable_axis = 'X'
-	var variable_index = 0
-	if (complication.has('variable_column')):
-		variable_index = complication['variable_column']
-	elif (complication.has('variable_row')):
-		if (get_size().x != get_size().y):
-			push_error("For mixed-axis complications, row and column sizes must be equal")
-		variable_axis = 'Y'
-		variable_index = complication['variable_row']
-	else:
-		push_error("Complication must have either variable_column or variable_row")
+	var subject_axis = 'X' if complication.has('subject_index') else 'Y'
+	var subject_index = complication['subject_column'] if subject_axis == 'X' else complication['subject_row']
+	if (! master [active_id][HEADERS_OVERRIDE_KEY].has(subject_axis)):
+		master [active_id][HEADERS_OVERRIDE_KEY][subject_axis] = {}
+	if (! master [active_id][HEADERS_OVERRIDE_KEY][subject_axis].has(subject_index)):
+		master [active_id][HEADERS_OVERRIDE_KEY][subject_axis][subject_index] = []
+	var variable_axis = 'X' if complication.has('variable_column') else 'Y'
+	var variable_index = complication['variable_column'] if variable_axis == 'X' else complication['variable_row']
 
 	var complication_header = generate_delta(
-		master [active_id][HEADERS_KEY]['X'][subject_column],
+		master [active_id][HEADERS_KEY][subject_axis][subject_index],
 		master [active_id][HEADERS_KEY][variable_axis][variable_index]
 	)
 
-	master [active_id][HEADERS_OVERRIDE_KEY]['X'][subject_column].append(complication_header)
+	master [active_id][HEADERS_OVERRIDE_KEY][subject_axis][subject_index].append(complication_header)
 
 func generate_delta_footer(complication: Dictionary):
-	var subject_column = complication['subject_column']
+	var subject_axis = 'X' if complication.has('subject_column') else 'Y'
+	var subject_index = complication['subject_column'] if subject_axis == 'X' else complication['subject_row']
 	var complication_abbreviation = "Δ"
 	var complication_variable: String
 	if (complication.has('variable_column')):
-		complication_variable = str('c', complication['variable_column'] + 1)
+		complication_variable = str('c', subject_index + 1)
 	elif (complication.has('variable_row')):
-		complication_variable = str('r', complication['variable_row'] + 1)
+		complication_variable = str('r', subject_index + 1)
 	
 	var complication_footer = str(
 		complication_abbreviation,
@@ -724,12 +710,12 @@ func generate_delta_footer(complication: Dictionary):
 		)
 	if not master [active_id].has(FOOTER_KEY):
 		master [active_id][FOOTER_KEY] = {}
-	if not master [active_id][FOOTER_KEY].has('X'):
-		master [active_id][FOOTER_KEY]['X'] = {}
-	if not master [active_id][FOOTER_KEY]['X'].has(subject_column):
-		master [active_id][FOOTER_KEY]['X'][subject_column] = [complication_footer]
+	if not master [active_id][FOOTER_KEY].has(subject_axis):
+		master [active_id][FOOTER_KEY][subject_axis] = {}
+	if not master [active_id][FOOTER_KEY][subject_axis].has(subject_index):
+		master [active_id][FOOTER_KEY][subject_axis][subject_index] = [complication_footer]
 	else:
-		master [active_id][FOOTER_KEY]['X'][subject_column].append(complication_footer)
+		master [active_id][FOOTER_KEY][subject_axis][subject_index].append(complication_footer)
 
 
 func generate_delta(headers1: Array, headers2: Array) -> Array:

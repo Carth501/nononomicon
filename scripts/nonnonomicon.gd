@@ -76,7 +76,6 @@ func _on_prev_button_pressed() -> void:
 	State.prev_level()
 
 func set_next_button():
-	print("Setting next button ", State.has_next_level())
 	next_button.visible = State.has_next_level()
 
 func set_next_enabled():

@@ -3,18 +3,14 @@
 [ext_resource type="Script" path="res://scripts/y_footer_cell.gd" id="1_jdw6d"]
 
 [node name="Panel" type="Panel" node_paths=PackedStringArray("label_container")]
-custom_minimum_size = Vector2(90, 64)
+custom_minimum_size = Vector2(90, 60)
 script = ExtResource("1_jdw6d")
-label_container = NodePath("VBoxContainer")
+label_container = NodePath("HBoxContainer")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = -1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 64.0
-offset_right = -26.0
-offset_bottom = 90.0
 grow_horizontal = 2
 grow_vertical = 2
-rotation = -1.5708

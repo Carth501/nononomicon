@@ -39,9 +39,7 @@ func set_mode(mode: ManagerMode):
 		ManagerMode.LOAD:
 			save_controls.visible = false
 			load_controls.visible = true
-			print('entering load mode')
 			for button in buttons.values():
-				print('connecting button to load_game')
 				button.thing_selected.connect(load_game)
 
 func save_game(filename: String):
@@ -49,7 +47,6 @@ func save_game(filename: String):
 	hide()
 
 func load_game(filename: String):
-	print('load_game ', filename)
 	SaveManager.load(filename)
 	get_tree().change_scene_to_file("res://scenes/nononomicon.tscn")
 	hide()

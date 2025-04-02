@@ -73,6 +73,21 @@ var levels: Dictionary = {
 		"next": "contradiction",
 		"prev": "discovery"
 	},
+	"y_can_too": {
+		"name": "Y Can Too",
+		"parameters": {
+			"seed": 8,
+			"size": Vector2i(8, 8),
+			"complications": [
+				{
+					"type": "delta",
+					"subject_row": 4,
+					"variable_row": 5,
+				}
+			]
+		},
+		"prev": "mistrust"
+	},
 	"contradiction": {
 		"name": "Contradiction",
 		"parameters": {
@@ -100,7 +115,7 @@ var chapters: Dictionary = {
 		"title": "Chapter 1"
 	},
 	"chapter2": {
-		"levels": ["discovery", "mistrust", "contradiction"],
+		"levels": ["discovery", "mistrust", "y_can_too", "contradiction"],
 		"title": "Chapter 2"
 	}
 }

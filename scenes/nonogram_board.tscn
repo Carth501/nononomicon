@@ -178,7 +178,7 @@ offset_bottom = -90.0
 grow_horizontal = 0
 grow_vertical = 2
 script = ExtResource("6_uo5n4")
-footer_row_container = NodePath("../XFooterRow/ScrollContainer/MarginContainer/HBoxContainer")
+footer_row_container = NodePath("ScrollContainer/MarginContainer/VBoxContainer")
 y_scroll_container = NodePath("ScrollContainer")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="YFooterCol"]
