@@ -8,7 +8,7 @@ class_name NonogramBoard extends Control
 @export var footer_col: YFooterCol
 @export var victory_label: Label
 var scrolling := false
-var highlighting: NonogramSquare
+var highlighting: Vector2i
 
 func _ready() -> void:
 	State.board_ready.connect(prepare_board)
@@ -55,9 +55,17 @@ func hide_victory():
 	victory_label.visible = false
 
 func update_highlighter_square(coords: Vector2i):
-	if highlighting != null:
-		highlighting.set_highlighter(false)
+	if highlighting != Vector2i(-1, -1):
+		nonogram_squares.get_square(highlighting).set_highlighter(false)
+		header_row.get_cell(highlighting.x).set_highlighter(false)
+		header_col.get_cell(highlighting.y).set_highlighter(false)
+		footer_row.get_cell(highlighting.x).set_highlighter(false)
+		footer_col.get_cell(highlighting.y).set_highlighter(false)
+	highlighting = coords
 	if (coords.x == -1 or coords.y == -1):
 		return
-	highlighting = nonogram_squares.get_square(coords)
-	highlighting.set_highlighter(true)
+	nonogram_squares.get_square(highlighting).set_highlighter(true)
+	header_row.get_cell(highlighting.x).set_highlighter(true)
+	header_col.get_cell(highlighting.y).set_highlighter(true)
+	footer_row.get_cell(highlighting.x).set_highlighter(true)
+	footer_col.get_cell(highlighting.y).set_highlighter(true)

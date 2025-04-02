@@ -1,6 +1,7 @@
-class_name YFooterCell extends Panel
+class_name YFooterCell extends Control
 
 @export var label_container: VBoxContainer
+@export var highlight_square: ColorRect
 
 func generate_labels(values: Array):
 	for i in values:
@@ -10,3 +11,6 @@ func generate_labels(values: Array):
 		new_label.set_text(i)
 		label_container.add_child(new_label)
 		new_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+
+func set_highlighter(value: bool):
+	highlight_square.visible = value

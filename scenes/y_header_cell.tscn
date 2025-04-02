@@ -2,8 +2,29 @@
 
 [ext_resource type="Script" path="res://scripts/y_header_cell.gd" id="1_qqp1n"]
 
-[node name="y_header_cell" type="HBoxContainer"]
+[node name="YHeaderCell" type="Control" node_paths=PackedStringArray("numbers_container", "highlight_square")]
+custom_minimum_size = Vector2(90, 60)
+layout_mode = 3
+anchors_preset = 0
+offset_bottom = 60.0
+script = ExtResource("1_qqp1n")
+numbers_container = NodePath("HBoxContainer")
+highlight_square = NodePath("ColorRect")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+offset_right = 90.0
+offset_bottom = 60.0
+color = Color(0.768627, 0.6, 0.286275, 1)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(0, 60)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
 theme_override_constants/separation = 12
 alignment = 2
-script = ExtResource("1_qqp1n")

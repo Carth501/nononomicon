@@ -2,10 +2,21 @@
 
 [ext_resource type="Script" path="res://scripts/y_footer_cell.gd" id="1_jdw6d"]
 
-[node name="Panel" type="Panel" node_paths=PackedStringArray("label_container")]
+[node name="Panel" type="Control" node_paths=PackedStringArray("label_container", "highlight_square")]
 custom_minimum_size = Vector2(90, 60)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 90.0
+offset_bottom = 60.0
 script = ExtResource("1_jdw6d")
 label_container = NodePath("VBoxContainer")
+highlight_square = NodePath("ColorRect")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+offset_right = 90.0
+offset_bottom = 60.0
+color = Color(0.768627, 0.6, 0.286275, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 0

@@ -19,3 +19,8 @@ func generate_cells(values: Dictionary):
 func set_percent_y(percent: float):
 	var value = y_scroll_container.get_v_scroll_bar().max_value * percent
 	y_scroll_container.scroll_vertical = roundi(value)
+
+func get_cell(index: int) -> YHeader:
+	if (index >= 0 and index < cells.size()):
+		return cells[index]
+	return null

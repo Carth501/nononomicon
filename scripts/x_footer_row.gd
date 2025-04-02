@@ -19,7 +19,13 @@ func generate_cells(values: Dictionary, length: int):
 			new_cell.set_name("Empty_Cell_" + str(i))
 		footer_row_container.add_child(new_cell)
 		cells.append(new_cell)
+	print("Generated cells: ", cells)
 
 func set_percent_x(percent: float):
 	var value = x_scroll_container.get_h_scroll_bar().max_value * percent
 	x_scroll_container.scroll_horizontal = roundi(value)
+
+func get_cell(index: int) -> XFooterCell:
+	if (index >= 0 and index < cells.size()):
+		return cells[index]
+	return null
