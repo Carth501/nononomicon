@@ -1,7 +1,8 @@
-extends ColorRect
+class_name NonogramSquare extends ColorRect
 
 @export var coords: Vector2i
 @export var note_label: Label
+@export var highlighter: ColorRect
 
 func setup(new_coords: Vector2i):
 	coords = new_coords
@@ -39,3 +40,6 @@ func set_square_appearance(square_state: State.SquareStates):
 		note_label.visible = true
 		set_color(Color('ECE2D0'))
 		note_label.set("theme_override_colors/font_color", Color('CD1818'))
+
+func set_highlighter(value: bool):
+	highlighter.visible = value
