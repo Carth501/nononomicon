@@ -22,7 +22,7 @@ func compare_coords(updated_square_coords: Vector2i):
 		set_square_appearance(State.get_position_state(coords))
 
 func set_square_appearance(square_state: State.SquareStates):
-	# https://coolors.co/105e6e-321e1e-4e3636-cd1818-ece2d0
+	# https://coolors.co/105e6e-321e1e-4e3636-cd1818-ece2d0-c49949
 	if (square_state == State.SquareStates.EMPTY):
 		note_label.visible = false
 		set_color(Color('ECE2D0'))
