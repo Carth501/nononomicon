@@ -6,17 +6,14 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 1,
 			"size": Vector2i(5, 5)
-		},
-		"next": "basics"
+		}
 	},
 	"basics": {
 		"name": "Basics",
 		"parameters": {
 			"seed": 2,
 			"size": Vector2i(8, 8)
-		},
-		"next": "trig",
-		"prev": "intro"
+		}
 	},
 	"trig": {
 		"name": "Trigonometry",
@@ -29,9 +26,7 @@ var levels: Dictionary = {
 				"frequency": Vector2(1.4, 1.2),
 				"offset": Vector2(3, 3),
 			}
-		},
-		"next": "ellipse",
-		"prev": "basics"
+		}
 	},
 	"ellipse": {
 		"name": "Ellipse",
@@ -43,18 +38,14 @@ var levels: Dictionary = {
 				"method": "ellipse",
 				"scale": Vector2(1.4, 1.2),
 			}
-		},
-		"next": "discovery",
-		"prev": "trig"
+		}
 	},
 	"big": {
 		"name": "Go Big",
 		"parameters": {
 			"seed": 3,
 			"size": Vector2i(20, 20)
-		},
-		"next": "discovery",
-		"prev": "basics"
+		}
 	},
 	"discovery": {
 		"name": "Discovery",
@@ -68,9 +59,7 @@ var levels: Dictionary = {
 					"variable_column": 3,
 				}
 			]
-		},
-		"next": "mistrust",
-		"prev": "big"
+		}
 	},
 	"mistrust": {
 		"name": "Mistrust",
@@ -89,9 +78,7 @@ var levels: Dictionary = {
 					"variable_column": 4,
 				}
 			]
-		},
-		"next": "y_can_too",
-		"prev": "discovery"
+		}
 	},
 	"y_can_too": {
 		"name": "Y Can Too",
@@ -105,9 +92,7 @@ var levels: Dictionary = {
 					"variable_row": 5,
 				}
 			]
-		},
-		"next": "contradiction",
-		"prev": "mistrust"
+		}
 	},
 	"contradiction": {
 		"name": "Contradiction",
@@ -126,8 +111,7 @@ var levels: Dictionary = {
 					"variable_column": 2,
 				}
 			]
-		},
-		"prev": "y_can_too"
+		}
 	},
 	"tundra": {
 		"name": "Tundra",
@@ -161,8 +145,7 @@ var levels: Dictionary = {
 					"variable_row": 5,
 				}
 			]
-		},
-		"prev": "y_can_too"
+		}
 	}
 }
 var chapters: Dictionary = {
@@ -193,3 +176,45 @@ func get_level_parameters(level: String) -> Dictionary:
 
 func level_exists(level: String) -> bool:
 	return levels.has(level)
+
+func get_next_level(level: String) -> String:
+	var chapter_key = get_chapter_for_level(level)
+	if chapter_key == "":
+		return ""
+	var level_index = chapters[chapter_key].levels.find(level)
+	if level_index == -1:
+		return ""
+	if level_index == levels.size() - 1:
+		var chapter_index = chapters.keys().find(chapter_key)
+		if chapter_index == chapters.size() - 1:
+			return ""
+		else:
+			return chapters[chapter_index + 1].levels[0]
+	return levels.keys()[level_index + 1]
+
+func has_next_level(level: String) -> bool:
+	return get_next_level(level) != ""
+
+func get_prev_level(level: String) -> String:
+	var chapter_key = get_chapter_for_level(level)
+	if chapter_key == "":
+		return ""
+	var level_index = chapters[chapter_key].levels.find(level)
+	if level_index == -1:
+		return ""
+	if level_index == 0:
+		var chapter_index = chapters.keys().find(chapter_key)
+		if chapter_index == 0:
+			return ""
+		else:
+			return chapters[chapter_index - 1].levels.back()
+	return levels.keys()[level_index - 1]
+
+func has_prev_level(level: String) -> bool:
+	return get_prev_level(level) != ""
+
+func get_chapter_for_level(level: String) -> String:
+	for chapter in chapters.keys():
+		if level in chapters[chapter].levels:
+			return chapter
+	return ""

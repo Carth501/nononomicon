@@ -706,22 +706,22 @@ func get_victory_state() -> bool:
 
 #region Level Change Management
 func next_level():
-	var level = LevelLibrary.get_level(active_id)
-	if (level.has('next')):
-		set_active_id(level.next)
+	var level = LevelLibrary.get_next_level(active_id)
+	if level == "":
+		return
+	set_active_id(level)
 
 func prev_level():
-	var level = LevelLibrary.get_level(active_id)
-	if (level.has('prev')):
-		set_active_id(level.prev)
+	var level = LevelLibrary.get_prev_level(active_id)
+	if level == "":
+		return
+	set_active_id(level)
 
 func has_next_level():
-	var level = LevelLibrary.get_level(active_id)
-	return level.has('next')
+	return LevelLibrary.has_next_level(active_id)
 
 func has_prev_level():
-	var level = LevelLibrary.get_level(active_id)
-	return level.has('prev')
+	return LevelLibrary.has_prev_level(active_id)
 #endregion Level Change Management
 
 #region Complications
