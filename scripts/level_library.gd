@@ -52,7 +52,6 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 11,
 			"size": Vector2i(24, 16),
-			"randomness": 0.5,
 			"generation": {
 				"method": "waveform",
 				"series": [
@@ -191,7 +190,82 @@ var levels: Dictionary = {
 				}
 			]
 		}
-	}
+	},
+	"trig3": {
+		"name": "Big Trig",
+		"parameters": {
+			"seed": 12,
+			"size": Vector2i(24, 16),
+			"complications": [
+				{
+					"type": "delta",
+					"subject_column": 2,
+					"variable_column": 1,
+				},
+				{
+					"type": "delta",
+					"subject_column": 8,
+					"variable_column": 19,
+				},
+				{
+					"type": "delta",
+					"subject_column": 12,
+					"variable_column": 8,
+				},
+				{
+					"type": "delta",
+					"subject_column": 6,
+					"variable_column": 20,
+				},
+				{
+					"type": "delta",
+					"subject_column": 23,
+					"variable_column": 19,
+				},
+				{
+					"type": "delta",
+					"subject_row": 8,
+					"variable_row": 5,
+				},
+				{
+					"type": "delta",
+					"subject_row": 5,
+					"variable_row": 12,
+				},
+				{
+					"type": "delta",
+					"subject_row": 12,
+					"variable_row": 8,
+				}
+			],
+			"generation": {
+				"method": "waveform",
+				"series": [
+					[
+						{
+							"amplitude": 0.5,
+							"frequency": Vector2(.8, 1.2),
+							"offset": Vector2(3, 3),
+							"nested": {
+								"amplitude": 0.5,
+								"frequency": Vector2(1, 1.2),
+							}
+						}
+					],
+					[
+						{
+							"amplitude": 2,
+							"frequency": Vector2(.9, .9),
+						},
+						{
+							"amplitude": 2,
+							"frequency": Vector2(.6, .6)
+						}
+					]
+				]
+			}
+		}
+	},
 }
 var chapters: Dictionary = {
 	"chapter1": {
@@ -199,7 +273,7 @@ var chapters: Dictionary = {
 		"title": "Chapter 1"
 	},
 	"chapter2": {
-		"levels": ["discovery", "mistrust", "y_can_too", "contradiction", "tundra"],
+		"levels": ["discovery", "mistrust", "y_can_too", "contradiction", "tundra", "trig3"],
 		"title": "Chapter 2"
 	}
 }

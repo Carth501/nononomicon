@@ -349,20 +349,10 @@ func generate_waveform_map(parameters: Dictionary):
 			for series in parameters['generation']['series']:
 				var series_sum = 0.0
 				for term in series:
-					var frequency = term['frequency'] if term.has('frequency') else Vector2(1, 1)
-					var x = i * frequency.x
-					var y = k * frequency.y
-					if term.has('offset'):
-						var offset = term['offset']
-						x += offset.x
-						y += offset.y
-					var term_sum = sin(x) + sin(y)
-					if term.has('amplitude'):
-						term_sum *= term['amplitude']
 					if series_sum == 0.0:
-						series_sum = term_sum
+						series_sum = handle_series(term, i, k)
 					else:
-						series_sum *= term_sum
+						series_sum *= handle_series(term, i, k)
 				sum += series_sum
 			if (parameters.has('randomness')):
 				var r = parameters['randomness']
@@ -371,6 +361,23 @@ func generate_waveform_map(parameters: Dictionary):
 				set_target_position(Vector2i(i, k), SquareStates.MARKED)
 			else:
 				set_target_position(Vector2i(i, k), SquareStates.EMPTY)
+
+func handle_series(term: Dictionary, i: int, k: int) -> float:
+	var frequency = term['frequency'] if term.has('frequency') else Vector2(1, 1)
+	var x = i * frequency.x
+	var y = k * frequency.y
+	if term.has('offset'):
+		var offset = term['offset']
+		x += offset.x
+		y += offset.y
+	var term_sum = 0.0
+	if term.has('nested'):
+		term_sum = sin(handle_series(term['nested'], i, k))
+	else:
+		term_sum = sin(x) + sin(y)
+	if term.has('amplitude'):
+		term_sum *= term['amplitude']
+	return term_sum
 #endregion Target Map Generation
 
 #region Cheats
