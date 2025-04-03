@@ -15,17 +15,37 @@ var levels: Dictionary = {
 			"seed": 2,
 			"size": Vector2i(8, 8)
 		},
-		"next": "big",
+		"next": "trig",
 		"prev": "intro"
+	},
+	"trig": {
+		"name": "Trigonometry",
+		"parameters": {
+			"seed": 10,
+			"size": Vector2i(12, 12),
+			"randomness": 0.5,
+			"generation": {
+				"method": "sine",
+				"frequency": Vector2(1.4, 1.2),
+				"offset": Vector2(3, 3),
+			}
+		},
+		"next": "ellipse",
+		"prev": "basics"
 	},
 	"ellipse": {
 		"name": "Ellipse",
 		"parameters": {
 			"seed": 7,
-			"size": Vector2i(12, 12)
+			"size": Vector2i(10, 6),
+			"randomness": 0.3,
+			"generation": {
+				"method": "ellipse",
+				"scale": Vector2(1.4, 1.2),
+			}
 		},
 		"next": "discovery",
-		"prev": "basics"
+		"prev": "trig"
 	},
 	"big": {
 		"name": "Go Big",
@@ -147,7 +167,7 @@ var levels: Dictionary = {
 }
 var chapters: Dictionary = {
 	"chapter1": {
-		"levels": ["intro", "basics", "ellipse", "big"],
+		"levels": ["intro", "basics", "trig", "ellipse", "big"],
 		"title": "Chapter 1"
 	},
 	"chapter2": {

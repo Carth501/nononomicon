@@ -256,10 +256,25 @@ func handle_note_press():
 
 #region Target Map Generation
 func generate_target_map(parameters: Dictionary):
-	random_center_map(parameters)
+	if (parameters.has('generation')):
+		if not parameters['generation'].has('method'):
+			printerr("Target map generation method not specified")
+			return
+		var method = parameters['generation']['method']
+		match method:
+			"sine":
+				generate_sine_map(parameters)
+			"ellipse":
+				generate_ellipse_map(parameters)
+			"random":
+				random_center_diamond_map(parameters)
+			_:
+				printerr("Unknown target map generation method: ", method)
+	else:
+		random_center_diamond_map(parameters)
 	generate_headers()
 
-func random_center_map(_parameters: Dictionary):
+func random_center_diamond_map(parameters: Dictionary):
 	master [active_id][TARGET_MAP_KEY] = {}
 	var SIZE = get_size()
 	for i in SIZE.x:
@@ -267,6 +282,8 @@ func random_center_map(_parameters: Dictionary):
 		for k in SIZE.y:
 			var average = roundi((SIZE.x + SIZE.y) / 2.0)
 			var random_value = randf_range(-2.5, 2.5)
+			if (parameters.has('randomness')):
+				random_value *= parameters['randomness']
 			var sum = absi(i - roundi(average / 2.0)) + absi(k - roundi(average / 2.0))
 			sum += random_value
 			var marked = sum < roundi(average / 1.95)
@@ -274,6 +291,53 @@ func random_center_map(_parameters: Dictionary):
 				set_target_position(Vector2i(i, k), SquareStates.MARKED)
 			else:
 				set_target_position(Vector2i(i, k), SquareStates.EMPTY)
+
+func generate_sine_map(parameters: Dictionary):
+	master [active_id][TARGET_MAP_KEY] = {}
+	var SIZE = get_size()
+	for i in SIZE.x:
+		master [active_id][TARGET_MAP_KEY][i] = {}
+		for k in SIZE.y:
+			var frequency = parameters['generation']['frequency']
+			var x = i * frequency.x
+			var y = k * frequency.y
+			if parameters['generation'].has('offset'):
+				var offset = parameters['generation']['offset']
+				x += offset.x
+				y += offset.y
+			var sine_value = sin(x) + sin(y)
+			if (parameters.has('randomness')):
+				var r = parameters['randomness']
+				sine_value += randf_range(-r, r)
+			if (sine_value > 0):
+				set_target_position(Vector2i(i, k), SquareStates.MARKED)
+			else:
+				set_target_position(Vector2i(i, k), SquareStates.EMPTY)
+	
+func generate_ellipse_map(parameters: Dictionary):
+	master [active_id][TARGET_MAP_KEY] = {}
+	var SIZE = get_size()
+	for i in SIZE.x:
+		master [active_id][TARGET_MAP_KEY][i] = {}
+		for k in SIZE.y:
+			var s = float(i + .5) / float(SIZE.x)
+			var t = float(k + .5) / float(SIZE.y)
+			var x = pow(s * 2.0 - 1, 2)
+			var y = pow(t * 2.0 - 1, 2)
+			if (parameters.has('generation')):
+				var scale = parameters['generation']['scale']
+				x *= scale.x
+				y *= scale.y
+			var sum = x + y
+			if (parameters.has('randomness')):
+				var r = parameters['randomness']
+				sum += randf_range(-r, r)
+			if (sum < 1):
+				set_target_position(Vector2i(i, k), SquareStates.MARKED)
+			else:
+				set_target_position(Vector2i(i, k), SquareStates.EMPTY)
+
+
 #endregion Target Map Generation
 
 #region Cheats
