@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/x_footer_cell.gd" id="1_ig8fa"]
 
 [node name="Panel" type="Control" node_paths=PackedStringArray("label_container", "highlight_square")]
-custom_minimum_size = Vector2(60, 90)
+custom_minimum_size = Vector2(64, 90)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 60.0
@@ -14,7 +14,8 @@ highlight_square = NodePath("ColorRect")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
-offset_right = 60.0
+layout_mode = 0
+offset_right = 64.0
 offset_bottom = 90.0
 color = Color(0.768627, 0.6, 0.286275, 1)
 

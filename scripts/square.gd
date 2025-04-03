@@ -1,8 +1,9 @@
-class_name NonogramSquare extends ColorRect
+class_name NonogramSquare extends Control
 
 @export var coords: Vector2i
 @export var note_label: Label
 @export var highlighter: ColorRect
+@export var color_square: ColorRect
 
 func setup(new_coords: Vector2i):
 	coords = new_coords
@@ -22,23 +23,23 @@ func compare_coords(updated_square_coords: Vector2i):
 		set_square_appearance(State.get_position_state(coords))
 
 func set_square_appearance(square_state: State.SquareStates):
-	# https://coolors.co/105e6e-321e1e-4e3636-cd1818-ece2d0-c49949
+	# https://coolors.co/105e6e-321e1e-4e3636-cd1818-ece2d0
 	if (square_state == State.SquareStates.EMPTY):
 		note_label.visible = false
-		set_color(Color('ECE2D0'))
+		color_square.set_color(Color('ECE2D0'))
 	elif (square_state == State.SquareStates.MARKED):
 		note_label.visible = false
-		set_color(Color('105E6E'))
+		color_square.set_color(Color('105E6E'))
 	elif (square_state == State.SquareStates.FLAGGED):
 		note_label.visible = false
-		set_color(Color('CD1818'))
+		color_square.set_color(Color('CD1818'))
 	elif (square_state == State.SquareStates.NOTE_MARKED):
 		note_label.visible = true
-		set_color(Color('ECE2D0'))
+		color_square.set_color(Color('ECE2D0'))
 		note_label.set("theme_override_colors/font_color", Color('105E6E'))
 	elif (square_state == State.SquareStates.NOTE_FLAGGED):
 		note_label.visible = true
-		set_color(Color('ECE2D0'))
+		color_square.set_color(Color('ECE2D0'))
 		note_label.set("theme_override_colors/font_color", Color('CD1818'))
 
 func set_highlighter(value: bool):

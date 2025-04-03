@@ -12,6 +12,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_qoyos")
@@ -80,7 +82,7 @@ theme_override_constants/margin_bottom = 12
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/BoardAndHeaders/XHeaderRow/ScrollContainer/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 0
 
 [node name="YHeaderCol" type="Control" parent="MarginContainer/BoardAndHeaders" node_paths=PackedStringArray("header_row_container", "y_scroll_container")]
 clip_contents = true
@@ -113,7 +115,7 @@ theme_override_constants/margin_bottom = 8
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/BoardAndHeaders/YHeaderCol/ScrollContainer/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 0
 
 [node name="Victory" type="Label" parent="."]
 visible = false
@@ -163,7 +165,7 @@ theme_override_constants/margin_bottom = 12
 
 [node name="HBoxContainer" type="HBoxContainer" parent="XFooterRow/ScrollContainer/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 0
 
 [node name="YFooterCol" type="Control" parent="." node_paths=PackedStringArray("footer_row_container", "y_scroll_container")]
 clip_contents = true
@@ -200,7 +202,7 @@ theme_override_constants/margin_bottom = 8
 
 [node name="VBoxContainer" type="VBoxContainer" parent="YFooterCol/ScrollContainer/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 0
 
 [connection signal="scroll_ended" from="MarginContainer/BoardAndHeaders/NonogramScrollContainer" to="MarginContainer/BoardAndHeaders/NonogramScrollContainer" method="_on_scroll_ended"]
 [connection signal="scroll_started" from="MarginContainer/BoardAndHeaders/NonogramScrollContainer" to="MarginContainer/BoardAndHeaders/NonogramScrollContainer" method="_on_scroll_started"]

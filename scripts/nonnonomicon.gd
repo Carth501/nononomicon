@@ -44,7 +44,7 @@ func check_page_buttons():
 
 func resize_book():
 	var board_size = State.get_size()
-	var game_size = Vector2((board_size.x * 64) + 176, (board_size.y * 64) + 176)
+	var game_size = Vector2((board_size.x * 64) + 176 + 4, (board_size.y * 64) + 176 + 4)
 	game_size = game_size.clamp(Vector2(0, 0), size)
 	book.set_custom_minimum_size(game_size)
 
