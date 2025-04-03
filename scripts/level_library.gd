@@ -108,6 +108,41 @@ var levels: Dictionary = {
 			]
 		},
 		"prev": "y_can_too"
+	},
+	"tundra": {
+		"name": "Tundra",
+		"parameters": {
+			"seed": 9,
+			"size": Vector2i(20, 16),
+			"complications": [
+				{
+					"type": "delta",
+					"subject_column": 2, # index, starts at 0
+					"variable_column": 1,
+				},
+				{
+					"type": "delta",
+					"subject_column": 3,
+					"variable_column": 2,
+				},
+				{
+					"type": "delta",
+					"subject_column": 4,
+					"variable_column": 3,
+				},
+				{
+					"type": "delta",
+					"subject_column": 5,
+					"variable_column": 4,
+				},
+				{
+					"type": "delta",
+					"subject_row": 8,
+					"variable_row": 5,
+				}
+			]
+		},
+		"prev": "y_can_too"
 	}
 }
 var chapters: Dictionary = {
@@ -116,7 +151,7 @@ var chapters: Dictionary = {
 		"title": "Chapter 1"
 	},
 	"chapter2": {
-		"levels": ["discovery", "mistrust", "y_can_too", "contradiction"],
+		"levels": ["discovery", "mistrust", "y_can_too", "contradiction", "tundra"],
 		"title": "Chapter 2"
 	}
 }
