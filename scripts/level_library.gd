@@ -47,6 +47,51 @@ var levels: Dictionary = {
 			"size": Vector2i(20, 20)
 		}
 	},
+	"trig2": {
+		"name": "Trig Harder",
+		"parameters": {
+			"seed": 11,
+			"size": Vector2i(24, 16),
+			"randomness": 0.5,
+			"generation": {
+				"method": "waveform",
+				"series": [
+					[
+						{
+							"amplitude": 0.5,
+							"frequency": Vector2(1.4, 1.2),
+							"offset": Vector2(3, 3),
+						},
+						{
+							"amplitude": 0.5,
+						}
+					],
+					[
+						{
+							"frequency": Vector2(2, .5)
+						}
+					],
+					[
+						{
+							"amplitude": 1,
+							"frequency": Vector2(1, 3),
+							"offset": Vector2(3, 3),
+						}
+					],
+					[
+						{
+							"amplitude": 2,
+							"frequency": Vector2(4, 4),
+						},
+						{
+							"amplitude": 2,
+							"frequency": Vector2(1.6, .6)
+						}
+					]
+				]
+			}
+		}
+	},
 	"discovery": {
 		"name": "Discovery",
 		"parameters": {
@@ -150,7 +195,7 @@ var levels: Dictionary = {
 }
 var chapters: Dictionary = {
 	"chapter1": {
-		"levels": ["intro", "basics", "trig", "ellipse", "big"],
+		"levels": ["intro", "basics", "trig", "ellipse", "big", "trig2"],
 		"title": "Chapter 1"
 	},
 	"chapter2": {

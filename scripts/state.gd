@@ -268,6 +268,8 @@ func generate_target_map(parameters: Dictionary):
 				generate_ellipse_map(parameters)
 			"random":
 				random_center_diamond_map(parameters)
+			"waveform":
+				generate_waveform_map(parameters)
 			_:
 				printerr("Unknown target map generation method: ", method)
 	else:
@@ -337,7 +339,38 @@ func generate_ellipse_map(parameters: Dictionary):
 			else:
 				set_target_position(Vector2i(i, k), SquareStates.EMPTY)
 
-
+func generate_waveform_map(parameters: Dictionary):
+	master [active_id][TARGET_MAP_KEY] = {}
+	var SIZE = get_size()
+	for i in SIZE.x:
+		master [active_id][TARGET_MAP_KEY][i] = {}
+		for k in SIZE.y:
+			var sum = 0.0
+			for series in parameters['generation']['series']:
+				var series_sum = 0.0
+				for term in series:
+					var frequency = term['frequency'] if term.has('frequency') else Vector2(1, 1)
+					var x = i * frequency.x
+					var y = k * frequency.y
+					if term.has('offset'):
+						var offset = term['offset']
+						x += offset.x
+						y += offset.y
+					var term_sum = sin(x) + sin(y)
+					if term.has('amplitude'):
+						term_sum *= term['amplitude']
+					if series_sum == 0.0:
+						series_sum = term_sum
+					else:
+						series_sum *= term_sum
+				sum += series_sum
+			if (parameters.has('randomness')):
+				var r = parameters['randomness']
+				sum += randf_range(-r, r)
+			if (sum > 0):
+				set_target_position(Vector2i(i, k), SquareStates.MARKED)
+			else:
+				set_target_position(Vector2i(i, k), SquareStates.EMPTY)
 #endregion Target Map Generation
 
 #region Cheats
