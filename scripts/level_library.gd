@@ -5,7 +5,13 @@ var levels: Dictionary = {
 		"name": "Introduction",
 		"parameters": {
 			"seed": 1,
-			"size": Vector2i(5, 5)
+			"size": Vector2i(5, 5),
+			"tutorial": 'Welcome! This is a nonogram.\n' +
+				'The goal is to fill in the squares according to the numbers on the top and left.\n' +
+				'The numbers indicate how many squares are filled in a row or column.\n' +
+				'For example, if you see "3 1", it means there is a segment of three filled squares followed by a lone filled square.\n' +
+				'You can mark squares with a simple left click, or flag them by right-clicking.\n' +
+				'When you believe you are done, press the submit button.'
 		}
 	},
 	"basics": {

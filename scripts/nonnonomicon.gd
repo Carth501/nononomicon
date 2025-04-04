@@ -10,16 +10,22 @@ var pages := {}
 @export var coords_display: Label
 @export var command_console: LineEdit
 @export var main_view: Control
+@export var drawer: Control
+@export var communications: RichTextLabel
 
 func _ready():
 	open_page("index")
 	State.victory.connect(set_next_enabled)
 	State.level_changed.connect(check_page_buttons)
+	State.level_changed.connect(set_tutorial_text)
+	State.level_changed.connect(resize_book)
 	State.coords_changed.connect(update_coords_display)
 
 func open_page(id: String):
 	if (id == "index"):
 		game_ui.hide()
+		communications.text = ""
+		drawer.hide()
 		if (!pages.has(id)):
 			var page: Index = index.instantiate()
 			pages[id] = page
@@ -35,6 +41,8 @@ func open_page(id: String):
 			book.add_child(page)
 			resize_book()
 		game_ui.show()
+		drawer.show()
+		set_tutorial_text()
 		command_console.visible = false
 	close_all_except(id)
 
@@ -103,3 +111,10 @@ func _process(_delta: float) -> void:
 	if (game_ui.visible):
 		if Input.is_action_just_pressed("Console"):
 			toggle_command_console()
+
+func set_tutorial_text():
+	var params = State.get_level_parameters()
+	if (params.has("tutorial")):
+		communications.text = params["tutorial"]
+	else:
+		communications.text = ""

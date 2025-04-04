@@ -114,6 +114,12 @@ func get_footer(axis: String) -> Dictionary:
 	else:
 		return {}
 
+func get_level_parameters() -> Dictionary:
+	if LevelLibrary.level_exists(active_id):
+		return LevelLibrary.get_level_parameters(active_id)
+	else:
+		return {}
+
 func change_square_state(new_state: SquareStates):
 	if (new_state == SquareStates.MARKED):
 		if get_chosen_coords_state() == SquareStates.EMPTY:
