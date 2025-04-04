@@ -2,6 +2,7 @@ class_name XFooterCell extends Control
 
 @export var label_container: VBoxContainer
 @export var highlight_square: ColorRect
+@export var error_square: ColorRect
 
 func generate_labels(values: Array):
 	for i in values:
@@ -13,3 +14,6 @@ func generate_labels(values: Array):
 
 func set_highlighter(value: bool):
 	highlight_square.visible = value
+
+func set_error(value: bool):
+	error_square.visible = value

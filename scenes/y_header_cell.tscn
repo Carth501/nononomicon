@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/y_header_cell.gd" id="1_qqp1n"]
 
-[node name="YHeaderCell" type="Control" node_paths=PackedStringArray("numbers_container", "highlight_square")]
+[node name="YHeaderCell" type="Control" node_paths=PackedStringArray("numbers_container", "highlight_square", "error_square")]
 custom_minimum_size = Vector2(90, 64)
 layout_mode = 3
 anchors_preset = 0
@@ -10,9 +10,16 @@ offset_right = 90.0
 offset_bottom = 60.0
 script = ExtResource("1_qqp1n")
 numbers_container = NodePath("HBoxContainer")
-highlight_square = NodePath("ColorRect")
+highlight_square = NodePath("HighlighterRect")
+error_square = NodePath("ErrorRect")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ErrorRect" type="ColorRect" parent="."]
+visible = false
+offset_right = 90.0
+offset_bottom = 64.0
+color = Color(0.803922, 0.0941176, 0.0941176, 1)
+
+[node name="HighlighterRect" type="ColorRect" parent="."]
 visible = false
 layout_mode = 0
 offset_right = 90.0

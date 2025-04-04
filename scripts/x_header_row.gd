@@ -24,3 +24,10 @@ func get_cell(index: int) -> XHeader:
 	if (index >= 0 and index < cells.size()):
 		return cells[index]
 	return null
+	
+func set_error_lines(list: Array):
+	for i in cells.size():
+		if list.has(i):
+			cells[i].set_error(true)
+		else:
+			cells[i].set_error(false)
