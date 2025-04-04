@@ -10,11 +10,12 @@ class_name NonogramBoard extends Control
 var scrolling := false
 var highlighting: Vector2i
 
-func _ready() -> void:
-	State.board_ready.connect(prepare_board)
+func _ready():
 	prepare_board()
+	State.board_ready.connect(prepare_board)
 	State.victory.connect(display_victory)
 	State.coords_changed.connect(update_highlighter_square)
+	State.error_lines_updated.connect(error_lines)
 
 func prepare_board():
 	if (State.get_board_ready()):
@@ -69,3 +70,11 @@ func update_highlighter_square(coords: Vector2i):
 	header_col.get_cell(highlighting.y).set_highlighter(true)
 	footer_row.get_cell(highlighting.x).set_highlighter(true)
 	footer_col.get_cell(highlighting.y).set_highlighter(true)
+
+func error_lines(errors: Dictionary):
+	if (errors.has("X")):
+		header_row.set_error_lines(errors["X"])
+		footer_row.set_error_lines(errors["X"])
+	if (errors.has("Y")):
+		header_col.set_error_lines(errors["Y"])
+		footer_col.set_error_lines(errors["Y"])
