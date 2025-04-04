@@ -118,6 +118,17 @@ class TestAdjacencyException:
 		var lengths = State.get_duplicate_lengths('X')
 		assert_eq(lengths, {"1": [ {"x": 0, "segment": [1]}, {"x": 1, "segment": [0]}, {"x": 2, "segment": [1]}]}, "Should have found some duplicates")
 
+	func test_header_generation():
+		var x_header = State.get_header('X')
+		assert_true(x_header == {
+			0: [ {"length": "1", "segment": [1]}],
+			1: [ {"length": "1", "segment": [0]}],
+			2: [ {"length": "1", "segment": [1]}]}, "Should have generated the correct header")
+		var y_header = State.get_header('Y')
+		assert_true(y_header == {
+			0: [ {"length": "1", "segment": [1]}],
+			1: [ {"length": "1", "segment": [0]}, {"length": "1", "segment": [2]}]}, "Should have generated the correct header")
+
 	func test_find_offset_function():
 		var x_offset_segments = State.find_offset_by_one_segments('X')
 		assert_eq(x_offset_segments,
