@@ -9,6 +9,7 @@ var pages := {}
 @export var prev_button: Button
 @export var coords_display: Label
 @export var command_console: LineEdit
+@export var main_view: Control
 
 func _ready():
 	open_page("index")
@@ -45,7 +46,7 @@ func check_page_buttons():
 func resize_book():
 	var board_size = State.get_size()
 	var game_size = Vector2((board_size.x * 64) + 176 + 4, (board_size.y * 64) + 176 + 4)
-	game_size = game_size.clamp(Vector2(0, 0), size)
+	game_size = game_size.clamp(Vector2(0, 0), main_view.size)
 	book.set_custom_minimum_size(game_size)
 
 func close_all_except(id: String):

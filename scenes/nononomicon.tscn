@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/nonnonomicon.gd" id="1_yfbcv"]
 
-[node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("book", "game_ui", "next_button", "prev_button", "coords_display", "command_console")]
+[node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("book", "game_ui", "next_button", "prev_button", "coords_display", "command_console", "main_view")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -10,14 +10,37 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_yfbcv")
-book = NodePath("CenterContainer/Book")
-game_ui = NodePath("GameUI")
-next_button = NodePath("GameUI/NextButton")
-prev_button = NodePath("GameUI/PrevButton")
-coords_display = NodePath("GameUI/CoordinatesDisplay")
-command_console = NodePath("GameUI/LineEdit")
+book = NodePath("HSplitContainer/MainVeiw/CenterContainer/Book")
+game_ui = NodePath("HSplitContainer/MainVeiw/GameUI")
+next_button = NodePath("HSplitContainer/MainVeiw/GameUI/NextButton")
+prev_button = NodePath("HSplitContainer/MainVeiw/GameUI/PrevButton")
+coords_display = NodePath("HSplitContainer/MainVeiw/GameUI/CoordinatesDisplay")
+command_console = NodePath("HSplitContainer/MainVeiw/GameUI/LineEdit")
+main_view = NodePath("HSplitContainer/MainVeiw")
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.196078, 0.117647, 0.117647, 1)
+
+[node name="HSplitContainer" type="HSplitContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+split_offset = 873
+
+[node name="MainVeiw" type="Control" parent="HSplitContainer"]
+custom_minimum_size = Vector2(308, 0)
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="HSplitContainer/MainVeiw"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -25,10 +48,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Book" type="Control" parent="CenterContainer"]
+[node name="Book" type="Control" parent="HSplitContainer/MainVeiw/CenterContainer"]
 layout_mode = 2
 
-[node name="GameUI" type="Control" parent="."]
+[node name="GameUI" type="Control" parent="HSplitContainer/MainVeiw"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -37,7 +60,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="SubmitButton" type="Button" parent="GameUI"]
+[node name="SubmitButton" type="Button" parent="HSplitContainer/MainVeiw/GameUI"]
 layout_mode = 1
 anchors_preset = -1
 offset_left = 8.0
@@ -46,7 +69,7 @@ offset_right = 71.0
 offset_bottom = 39.0
 text = "Submit"
 
-[node name="SaveButton" type="Button" parent="GameUI"]
+[node name="SaveButton" type="Button" parent="HSplitContainer/MainVeiw/GameUI"]
 layout_mode = 1
 anchors_preset = -1
 offset_left = 8.0
@@ -55,7 +78,7 @@ offset_right = 71.0
 offset_bottom = 75.0
 text = "Save"
 
-[node name="CheatButton" type="Button" parent="GameUI"]
+[node name="CheatButton" type="Button" parent="HSplitContainer/MainVeiw/GameUI"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -69,7 +92,7 @@ grow_horizontal = 0
 grow_vertical = 0
 text = "CHEAT"
 
-[node name="NotesSwitch" type="CheckButton" parent="GameUI"]
+[node name="NotesSwitch" type="CheckButton" parent="HSplitContainer/MainVeiw/GameUI"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -80,7 +103,7 @@ grow_vertical = 0
 text = "Notes
 Mode"
 
-[node name="NextButton" type="Button" parent="GameUI"]
+[node name="NextButton" type="Button" parent="HSplitContainer/MainVeiw/GameUI"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -93,7 +116,7 @@ grow_horizontal = 0
 grow_vertical = 0
 text = "Next"
 
-[node name="IndexButton" type="Button" parent="GameUI"]
+[node name="IndexButton" type="Button" parent="HSplitContainer/MainVeiw/GameUI"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -107,7 +130,7 @@ grow_horizontal = 0
 grow_vertical = 0
 text = "Index"
 
-[node name="PrevButton" type="Button" parent="GameUI"]
+[node name="PrevButton" type="Button" parent="HSplitContainer/MainVeiw/GameUI"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -121,7 +144,7 @@ grow_horizontal = 0
 grow_vertical = 0
 text = "Previous"
 
-[node name="CoordinatesDisplay" type="Label" parent="GameUI"]
+[node name="CoordinatesDisplay" type="Label" parent="HSplitContainer/MainVeiw/GameUI"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -130,7 +153,7 @@ offset_left = -40.0
 offset_bottom = 23.0
 grow_horizontal = 0
 
-[node name="LineEdit" type="LineEdit" parent="GameUI"]
+[node name="LineEdit" type="LineEdit" parent="HSplitContainer/MainVeiw/GameUI"]
 visible = false
 layout_mode = 1
 anchors_preset = 12
@@ -141,12 +164,32 @@ offset_top = -31.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[connection signal="resized" from="." to="." method="resize_book"]
-[connection signal="pressed" from="GameUI/SubmitButton" to="." method="_on_submit_pressed"]
-[connection signal="pressed" from="GameUI/SaveButton" to="." method="_on_save_button_pressed"]
-[connection signal="pressed" from="GameUI/CheatButton" to="." method="cheat"]
-[connection signal="toggled" from="GameUI/NotesSwitch" to="." method="_on_notes_switch_toggled"]
-[connection signal="pressed" from="GameUI/NextButton" to="." method="_on_next_button_pressed"]
-[connection signal="pressed" from="GameUI/IndexButton" to="." method="_on_index_button_pressed"]
-[connection signal="pressed" from="GameUI/PrevButton" to="." method="_on_prev_button_pressed"]
-[connection signal="text_submitted" from="GameUI/LineEdit" to="." method="_on_line_edit_text_submitted"]
+[node name="Drawer" type="Control" parent="HSplitContainer"]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="HSplitContainer/Drawer"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VSplitContainer" type="VSplitContainer" parent="HSplitContainer/Drawer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[connection signal="resized" from="HSplitContainer/MainVeiw" to="." method="resize_book"]
+[connection signal="pressed" from="HSplitContainer/MainVeiw/GameUI/SubmitButton" to="." method="_on_submit_pressed"]
+[connection signal="pressed" from="HSplitContainer/MainVeiw/GameUI/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="HSplitContainer/MainVeiw/GameUI/CheatButton" to="." method="cheat"]
+[connection signal="toggled" from="HSplitContainer/MainVeiw/GameUI/NotesSwitch" to="." method="_on_notes_switch_toggled"]
+[connection signal="pressed" from="HSplitContainer/MainVeiw/GameUI/NextButton" to="." method="_on_next_button_pressed"]
+[connection signal="pressed" from="HSplitContainer/MainVeiw/GameUI/IndexButton" to="." method="_on_index_button_pressed"]
+[connection signal="pressed" from="HSplitContainer/MainVeiw/GameUI/PrevButton" to="." method="_on_prev_button_pressed"]
+[connection signal="text_submitted" from="HSplitContainer/MainVeiw/GameUI/LineEdit" to="." method="_on_line_edit_text_submitted"]
