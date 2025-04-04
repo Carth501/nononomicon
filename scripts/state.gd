@@ -257,6 +257,9 @@ func set_toggle_state(new_state: ToggleStates):
 	toggle_state_changed.emit(toggle_state)
 
 func handle_note_press():
+	var features = get_level_parameters().get('features', {})
+	if features.has('notes') and !features['notes']:
+		return
 	if Input.is_action_just_pressed("Note"):
 		set_notes(true)
 	elif Input.is_action_just_released("Note"):

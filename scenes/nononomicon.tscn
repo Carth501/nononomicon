@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://p7emdn1gu7nk"]
+[gd_scene load_steps=5 format=3 uid="uid://p7emdn1gu7nk"]
 
 [ext_resource type="Script" path="res://scripts/nonnonomicon.gd" id="1_yfbcv"]
 [ext_resource type="PackedScene" uid="uid://dq8gk2xv1r27a" path="res://scenes/nonogram_board.tscn" id="2_mnfaj"]
 [ext_resource type="PackedScene" uid="uid://d2malck014txy" path="res://scenes/index.tscn" id="3_c4qpc"]
+[ext_resource type="Script" path="res://scripts/game_ui.gd" id="4_hhnsy"]
 
 [node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("game_ui", "board_container", "board", "index_page", "next_button", "prev_button", "coords_display", "command_console", "main_view", "drawer", "communications")]
 layout_mode = 3
@@ -16,8 +17,8 @@ game_ui = NodePath("HSplitContainer/MainVeiw/GameUI")
 board_container = NodePath("HSplitContainer/MainVeiw/CenterContainer")
 board = NodePath("HSplitContainer/MainVeiw/CenterContainer/NonogramBoard")
 index_page = NodePath("HSplitContainer/MainVeiw/Index")
-next_button = NodePath("HSplitContainer/MainVeiw/GameUI/NextButton")
-prev_button = NodePath("HSplitContainer/MainVeiw/GameUI/PrevButton")
+next_button = NodePath("HSplitContainer/MainVeiw/GameUI/VBoxContainer/NextButton")
+prev_button = NodePath("HSplitContainer/MainVeiw/GameUI/VBoxContainer/PrevButton")
 coords_display = NodePath("HSplitContainer/MainVeiw/GameUI/CoordinatesDisplay")
 command_console = NodePath("HSplitContainer/MainVeiw/GameUI/LineEdit")
 main_view = NodePath("HSplitContainer/MainVeiw")
@@ -60,7 +61,7 @@ grow_vertical = 2
 [node name="NonogramBoard" parent="HSplitContainer/MainVeiw/CenterContainer" instance=ExtResource("2_mnfaj")]
 layout_mode = 2
 
-[node name="GameUI" type="Control" parent="HSplitContainer/MainVeiw"]
+[node name="GameUI" type="Control" parent="HSplitContainer/MainVeiw" node_paths=PackedStringArray("notes_switch")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -68,6 +69,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+script = ExtResource("4_hhnsy")
+notes_switch = NodePath("NotesSwitch")
 
 [node name="SubmitButton" type="Button" parent="HSplitContainer/MainVeiw/GameUI"]
 layout_mode = 1
@@ -89,16 +92,12 @@ text = "Save"
 
 [node name="CheatButton" type="Button" parent="HSplitContainer/MainVeiw/GameUI"]
 layout_mode = 1
-anchors_preset = 3
+anchors_preset = 1
 anchor_left = 1.0
-anchor_top = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
 offset_left = -59.0
-offset_top = -64.0
-offset_bottom = -33.0
+offset_bottom = 31.0
 grow_horizontal = 0
-grow_vertical = 0
 text = "CHEAT"
 
 [node name="NotesSwitch" type="CheckButton" parent="HSplitContainer/MainVeiw/GameUI"]
@@ -111,47 +110,6 @@ offset_right = 94.0
 grow_vertical = 0
 text = "Notes
 Mode"
-
-[node name="NextButton" type="Button" parent="HSplitContainer/MainVeiw/GameUI"]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -45.0
-offset_top = -31.0
-grow_horizontal = 0
-grow_vertical = 0
-text = "Next"
-
-[node name="IndexButton" type="Button" parent="HSplitContainer/MainVeiw/GameUI"]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -106.0
-offset_top = -31.0
-offset_right = -54.0
-grow_horizontal = 0
-grow_vertical = 0
-text = "Index"
-
-[node name="PrevButton" type="Button" parent="HSplitContainer/MainVeiw/GameUI"]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -191.0
-offset_top = -31.0
-offset_right = -116.0
-grow_horizontal = 0
-grow_vertical = 0
-text = "Previous"
 
 [node name="CoordinatesDisplay" type="Label" parent="HSplitContainer/MainVeiw/GameUI"]
 layout_mode = 1
@@ -172,6 +130,31 @@ anchor_bottom = 1.0
 offset_top = -31.0
 grow_horizontal = 2
 grow_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/MainVeiw/GameUI"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -105.0
+offset_top = -105.0
+offset_bottom = -4.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="NextButton" type="Button" parent="HSplitContainer/MainVeiw/GameUI/VBoxContainer"]
+layout_mode = 2
+text = "Next"
+
+[node name="IndexButton" type="Button" parent="HSplitContainer/MainVeiw/GameUI/VBoxContainer"]
+layout_mode = 2
+text = "Index"
+
+[node name="PrevButton" type="Button" parent="HSplitContainer/MainVeiw/GameUI/VBoxContainer"]
+layout_mode = 2
+text = "Previous"
 
 [node name="Drawer" type="Control" parent="HSplitContainer"]
 custom_minimum_size = Vector2(80, 0)
@@ -218,7 +201,7 @@ fit_content = true
 [connection signal="pressed" from="HSplitContainer/MainVeiw/GameUI/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="HSplitContainer/MainVeiw/GameUI/CheatButton" to="." method="cheat"]
 [connection signal="toggled" from="HSplitContainer/MainVeiw/GameUI/NotesSwitch" to="." method="_on_notes_switch_toggled"]
-[connection signal="pressed" from="HSplitContainer/MainVeiw/GameUI/NextButton" to="." method="_on_next_button_pressed"]
-[connection signal="pressed" from="HSplitContainer/MainVeiw/GameUI/IndexButton" to="." method="_on_index_button_pressed"]
-[connection signal="pressed" from="HSplitContainer/MainVeiw/GameUI/PrevButton" to="." method="_on_prev_button_pressed"]
 [connection signal="text_submitted" from="HSplitContainer/MainVeiw/GameUI/LineEdit" to="." method="_on_line_edit_text_submitted"]
+[connection signal="pressed" from="HSplitContainer/MainVeiw/GameUI/VBoxContainer/NextButton" to="." method="_on_next_button_pressed"]
+[connection signal="pressed" from="HSplitContainer/MainVeiw/GameUI/VBoxContainer/IndexButton" to="." method="_on_index_button_pressed"]
+[connection signal="pressed" from="HSplitContainer/MainVeiw/GameUI/VBoxContainer/PrevButton" to="." method="_on_prev_button_pressed"]

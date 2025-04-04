@@ -3,7 +3,7 @@ class_name Nononomicon extends Control
 var nonogram_board := preload("res://scenes/nonogram_board.tscn")
 var index := preload("res://scenes/index.tscn")
 
-@export var game_ui: Control
+@export var game_ui: GameUI
 @export var board_container: CenterContainer
 @export var board: NonogramBoard
 @export var index_page: Control
@@ -22,6 +22,7 @@ func _ready():
 	State.level_changed.connect(set_tutorial_text)
 	State.level_changed.connect(resize_board)
 	State.coords_changed.connect(update_coords_display)
+	State.level_changed.connect(handle_features)
 
 func open_page(id: String):
 	if (id == "index"):
@@ -39,6 +40,7 @@ func open_page(id: String):
 		set_tutorial_text()
 		command_console.visible = false
 		resize_board()
+		handle_features()
 
 func check_page_buttons():
 	set_next_button()
@@ -105,3 +107,10 @@ func set_tutorial_text():
 		communications.text = params["tutorial"]
 	else:
 		communications.text = ""
+
+func handle_features():
+	var params = State.get_level_parameters()
+	if params.has("features"):
+		game_ui.toggle_features(params["features"])
+	else:
+		game_ui.toggle_features({}) # triggers default feature set
