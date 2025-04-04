@@ -167,10 +167,10 @@ grow_horizontal = 2
 grow_vertical = 0
 
 [node name="Drawer" type="Control" parent="HSplitContainer"]
+custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 
 [node name="Panel" type="Panel" parent="HSplitContainer/Drawer"]
-custom_minimum_size = Vector2(20, 0)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
