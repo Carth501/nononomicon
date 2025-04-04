@@ -7,6 +7,7 @@ signal victory
 signal notes_mode_changed(new_mode)
 signal level_changed
 signal coords_changed(coords)
+signal error_lines_updated(errors)
 
 enum SquareStates {
 	EMPTY,
@@ -95,6 +96,8 @@ func get_position_state(coords: Vector2i) -> SquareStates:
 	return master [active_id][SQUARE_MAP_KEY][coords.x][coords.y]
 
 func get_board_ready() -> bool:
+	if active_id == "default":
+		return false
 	return master [active_id].has(SQUARE_MAP_KEY) and master [active_id].has(TARGET_MAP_KEY)
 
 func get_header(axis: String) -> Dictionary:
@@ -407,6 +410,7 @@ func cheat_reveal_all_squares():
 	board_ready.emit()
 #endregion Cheats
 
+#region Header Generation
 func generate_headers():
 	master [active_id][HEADERS_KEY] = {}
 	var map = master [active_id][TARGET_MAP_KEY]
@@ -415,6 +419,39 @@ func generate_headers():
 	generate_header_for_axis('X', SIZE.x, SIZE.y, map)
 	generate_header_for_axis('Y', SIZE.y, SIZE.x, map)
 
+func generate_header_for_axis(axis: String, primary_size: int, secondary_size: int, map: Dictionary):
+	master [active_id][HEADERS_KEY][axis] = {}
+	for i in primary_size:
+		var line = []
+		for k in secondary_size:
+			if axis == 'X':
+				if map.has(i) and map[i].has(k):
+					line.append(map[i][k])
+			else:
+				if map.has(k) and map[k].has(i):
+					line.append(map[k][i])
+		master [active_id][HEADERS_KEY][axis][i] = generate_sequence_for_array(line)
+
+func generate_sequence_for_array(line: Array) -> Array:
+	var sequence = []
+	var total = 0
+	var count = 0
+	var segment = []
+	for i in line.size():
+		var is_marked = line[i] == SquareStates.MARKED
+		if is_marked:
+			count += 1
+			total += 1
+			segment.append(i)
+		elif count > 0:
+			sequence.append({'length': str(count), 'segment': segment})
+			count = 0
+			segment = []
+	if count > 0 || total == 0:
+		sequence.append({'length': str(count), 'segment': segment})
+	return sequence
+#endregion Header Generation
+
 #region Danger Square Detection
 func cleanup_danger_segments():
 	var x_offset_segments = find_offset_by_one_segments('X')
@@ -422,33 +459,6 @@ func cleanup_danger_segments():
 	var danger_segments = find_shared_end_segments(x_offset_segments, y_offset_segments)
 	var changed_points = resolve_danger_square(danger_segments)
 	update_headers_for_points(changed_points)
-
-func generate_header_for_axis(axis: String, primary_size: int, secondary_size: int, map: Dictionary):
-	master [active_id][HEADERS_KEY][axis] = {}
-	for i in primary_size:
-		var total = 0
-		var count = 0
-		var segment = []
-		master [active_id][HEADERS_KEY][axis][i] = []
-		for k in secondary_size:
-			var is_marked = false
-			if axis == 'X':
-				is_marked = map[i].has(k) and map[i][k] == SquareStates.MARKED
-			else:
-				is_marked = map[k].has(i) and map[k][i] == SquareStates.MARKED
-
-			if is_marked:
-				count += 1
-				total += 1
-				segment.append(k)
-			elif count > 0:
-				master [active_id][HEADERS_KEY][axis][i].append({'length': str(count), 'segment': segment})
-				count = 0
-				segment = []
-		if count > 0:
-			master [active_id][HEADERS_KEY][axis][i].append({'length': str(count), 'segment': segment})
-		if total == 0:
-			master [active_id][HEADERS_KEY][axis][i].append({'length': str(count), 'segment': segment})
 
 func get_duplicate_lengths(axis: String) -> Dictionary:
 	var seen_lengths = {}
@@ -733,7 +743,42 @@ func submit():
 	if check_victory():
 		set_victory()
 		victory.emit()
+	else:
+		error_lines_updated.emit(find_error_lines())
 
+func find_error_lines():
+	return {
+		'X': find_error_lines_for_axis('X'),
+		'Y': find_error_lines_for_axis('Y')
+	}
+
+func find_error_lines_for_axis(axis: String) -> Array:
+	var errors = []
+	var map = master [active_id][SQUARE_MAP_KEY]
+	var SIZE = get_size()
+	var primary_size
+	var secondary_size
+	if axis == 'X':
+		primary_size = SIZE.x
+		secondary_size = SIZE.y
+	else:
+		primary_size = SIZE.y
+		secondary_size = SIZE.x
+	for i in primary_size:
+		var line = []
+		for k in secondary_size:
+			if axis == 'X':
+				line.append(map[i][k])
+			else:
+				line.append(map[k][i])
+		var sequence = generate_sequence_for_array(line)
+		if sequence != master [active_id][HEADERS_KEY][axis][i]:
+			print('sequence does not match generated header for axis ', axis, ' at index ', i)
+			print('generated: ', sequence)
+			print('expected: ', master [active_id][HEADERS_KEY][axis][i])
+			errors.append(i)
+	return errors
+	
 #region Victory Handling
 func set_victory():
 	if ! master [active_id].has(VICTORY_KEY):
