@@ -118,11 +118,12 @@ var levels: Dictionary = {
 					"variable_column": 3,
 				}
 			],
-			'tutorial': "\tThis level introduces the first complication. " +
+			'tutorial': "\tSee that thing below the grid? \tThis level introduces the first complication. " +
 				"Complications are additional rules that can be applied to a line, or board.\n" +
 				"\tThis one is the 'delta' complication. The numbers in the header of that column " +
 				"do not correspond directly to what squares must be filled in. These numbers are " +
-				"where the differences between the squares are between it and column 4."
+				"where the differences between the squares are between it and column 4.\n" +
+				"\tIn this case, there are exactly 2 differences between columns 4 and 5, and they are not adjacent."
 		}
 	},
 	"mistrust": {
@@ -352,7 +353,8 @@ func get_prev_level(level: String) -> String:
 		if chapter_index == 0:
 			return ""
 		else:
-			return chapters[chapter_index - 1].levels.back()
+			var prev_chapter_key = chapters.keys()[chapter_index - 1]
+			return chapters[prev_chapter_key].levels.back()
 	return levels.keys()[level_index - 1]
 
 func has_prev_level(level: String) -> bool:
