@@ -48,6 +48,12 @@ class TestStateFunctions:
 		State.generate_empty_map()
 		assert_false(State.check_victory(), "Should not have detected victory")
 
+	func test_header_generation():
+		var x_header = State.get_header('X')
+		assert_true(x_header == {0: [ {"length": "1", "segment": [1]}], 1: [ {"length": "1", "segment": [0]}]}, "Should have generated the correct header")
+		var y_header = State.get_header('Y')
+		assert_true(y_header == {0: [ {"length": "1", "segment": [1]}], 1: [ {"length": "1", "segment": [0]}]}, "Should have generated the correct header")
+
 	func test_get_duplicate_lengths():
 		var lengths = State.get_duplicate_lengths('X')
 		assert_true(lengths != {}, "Should have found some duplicates")
