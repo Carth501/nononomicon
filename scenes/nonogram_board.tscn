@@ -7,205 +7,80 @@
 [ext_resource type="Script" path="res://scripts/x_footer_row.gd" id="5_erpr3"]
 [ext_resource type="Script" path="res://scripts/y_footer_col.gd" id="6_uo5n4"]
 
-[node name="NonogramBoard" type="Control" node_paths=PackedStringArray("nonogram_scroll_container", "nonogram_squares", "header_row", "header_col", "footer_row", "footer_col", "victory_label", "margin_container")]
-layout_mode = 3
+[node name="NonogramBoard" type="HBoxContainer" node_paths=PackedStringArray("nonogram_scroll_container", "nonogram_squares", "header_row", "header_col", "footer_row", "footer_col")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -1.0
-offset_right = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_qoyos")
-nonogram_scroll_container = NodePath("MarginContainer/BoardAndHeaders/NonogramScrollContainer")
-nonogram_squares = NodePath("MarginContainer/BoardAndHeaders/NonogramScrollContainer/NonogramSquares")
-header_row = NodePath("XHeaderRow")
-header_col = NodePath("YHeaderCol")
-footer_row = NodePath("XFooterRow")
-footer_col = NodePath("YFooterCol")
-victory_label = NodePath("Victory")
-margin_container = NodePath("MarginContainer")
+nonogram_scroll_container = NodePath("CenterCell/NonogramScrollContainer")
+nonogram_squares = NodePath("CenterCell/NonogramScrollContainer/NonogramSquares")
+header_row = NodePath("CenterCell/XHeaderRow")
+header_col = NodePath("LeftEdge/YHeaderCol")
+footer_row = NodePath("CenterCell/XFooterRow")
+footer_col = NodePath("RightEdge/YFooterCol")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 90
-theme_override_constants/margin_top = 90
-theme_override_constants/margin_right = 90
-theme_override_constants/margin_bottom = 90
-
-[node name="BoardAndHeaders" type="Control" parent="MarginContainer"]
+[node name="LeftEdge" type="VBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="NonogramScrollContainer" type="ScrollContainer" parent="MarginContainer/BoardAndHeaders"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="TopLeft" type="Control" parent="LeftEdge"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+
+[node name="YHeaderCol" type="VBoxContainer" parent="LeftEdge"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+script = ExtResource("4_cnhxs")
+
+[node name="BottomLeft" type="Control" parent="LeftEdge"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+
+[node name="CenterCell" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="XHeaderRow" type="HBoxContainer" parent="CenterCell"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+theme_override_constants/separation = 0
+script = ExtResource("3_22eos")
+
+[node name="NonogramScrollContainer" type="ScrollContainer" parent="CenterCell"]
+custom_minimum_size = Vector2(134, 134)
+layout_mode = 2
+size_flags_vertical = 3
 follow_focus = true
 
-[node name="NonogramSquares" parent="MarginContainer/BoardAndHeaders/NonogramScrollContainer" instance=ExtResource("1_4p2ab")]
+[node name="NonogramSquares" parent="CenterCell/NonogramScrollContainer" instance=ExtResource("1_4p2ab")]
 layout_mode = 2
 
-[node name="Victory" type="Label" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0.305882, 0.211765, 0.211765, 1)
-theme_override_font_sizes/font_size = 40
-text = "VICTORY"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="XHeaderRow" type="Control" parent="." node_paths=PackedStringArray("header_row_container", "scroll_container")]
-clip_contents = true
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = 90.0
-offset_right = -90.0
-offset_bottom = 90.0
-grow_horizontal = 2
-script = ExtResource("3_22eos")
-header_row_container = NodePath("ScrollContainer/MarginContainer/HBoxContainer")
-scroll_container = NodePath("ScrollContainer")
-
-[node name="ScrollContainer" type="ScrollContainer" parent="XHeaderRow"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-horizontal_scroll_mode = 3
-vertical_scroll_mode = 3
-
-[node name="MarginContainer" type="MarginContainer" parent="XHeaderRow/ScrollContainer"]
+[node name="XFooterRow" type="HBoxContainer" parent="CenterCell"]
 custom_minimum_size = Vector2(0, 90)
 layout_mode = 2
-theme_override_constants/margin_top = 12
-theme_override_constants/margin_bottom = 12
-
-[node name="HBoxContainer" type="HBoxContainer" parent="XHeaderRow/ScrollContainer/MarginContainer"]
-layout_mode = 2
 theme_override_constants/separation = 0
-
-[node name="YHeaderCol" type="Control" parent="." node_paths=PackedStringArray("header_row_container", "scroll_container")]
-clip_contents = true
-layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
-offset_top = 90.0
-offset_right = 90.0
-offset_bottom = -90.0
-grow_vertical = 2
-script = ExtResource("4_cnhxs")
-header_row_container = NodePath("ScrollContainer/MarginContainer/VBoxContainer")
-scroll_container = NodePath("ScrollContainer")
-
-[node name="ScrollContainer" type="ScrollContainer" parent="YHeaderCol"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-horizontal_scroll_mode = 3
-vertical_scroll_mode = 3
-
-[node name="MarginContainer" type="MarginContainer" parent="YHeaderCol/ScrollContainer"]
-custom_minimum_size = Vector2(90, 0)
-layout_mode = 2
-theme_override_constants/margin_left = 12
-theme_override_constants/margin_right = 12
-theme_override_constants/margin_bottom = 8
-
-[node name="VBoxContainer" type="VBoxContainer" parent="YHeaderCol/ScrollContainer/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="XFooterRow" type="Control" parent="." node_paths=PackedStringArray("footer_row_container", "scroll_container")]
-clip_contents = true
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 90.0
-offset_top = -90.0
-offset_right = -90.0
-grow_horizontal = 2
-grow_vertical = 0
 script = ExtResource("5_erpr3")
-footer_row_container = NodePath("ScrollContainer/MarginContainer/HBoxContainer")
-scroll_container = NodePath("ScrollContainer")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="XFooterRow"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-horizontal_scroll_mode = 3
-vertical_scroll_mode = 0
+[node name="RightEdge" type="VBoxContainer" parent="."]
+layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="XFooterRow/ScrollContainer"]
+[node name="TopRight" type="Control" parent="RightEdge"]
 custom_minimum_size = Vector2(0, 90)
 layout_mode = 2
-theme_override_constants/margin_top = 12
-theme_override_constants/margin_bottom = 12
 
-[node name="HBoxContainer" type="HBoxContainer" parent="XFooterRow/ScrollContainer/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="YFooterCol" type="Control" parent="." node_paths=PackedStringArray("footer_row_container", "scroll_container")]
-clip_contents = true
-layout_mode = 1
-anchors_preset = 11
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -90.0
-offset_top = 90.0
-offset_bottom = -90.0
-grow_horizontal = 0
-grow_vertical = 2
-script = ExtResource("6_uo5n4")
-footer_row_container = NodePath("ScrollContainer/MarginContainer/VBoxContainer")
-scroll_container = NodePath("ScrollContainer")
-
-[node name="ScrollContainer" type="ScrollContainer" parent="YFooterCol"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-horizontal_scroll_mode = 0
-vertical_scroll_mode = 3
-
-[node name="MarginContainer" type="MarginContainer" parent="YFooterCol/ScrollContainer"]
+[node name="YFooterCol" type="VBoxContainer" parent="RightEdge"]
 custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
-theme_override_constants/margin_left = 12
-theme_override_constants/margin_right = 12
-theme_override_constants/margin_bottom = 8
-
-[node name="VBoxContainer" type="VBoxContainer" parent="YFooterCol/ScrollContainer/MarginContainer"]
-layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/separation = 0
+script = ExtResource("6_uo5n4")
 
-[connection signal="scroll_ended" from="MarginContainer/BoardAndHeaders/NonogramScrollContainer" to="MarginContainer/BoardAndHeaders/NonogramScrollContainer" method="_on_scroll_ended"]
-[connection signal="scroll_started" from="MarginContainer/BoardAndHeaders/NonogramScrollContainer" to="MarginContainer/BoardAndHeaders/NonogramScrollContainer" method="_on_scroll_started"]
+[node name="BottomRight" type="Control" parent="RightEdge"]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+
+[connection signal="scroll_ended" from="CenterCell/NonogramScrollContainer" to="CenterCell/NonogramScrollContainer" method="_on_scroll_ended"]
+[connection signal="scroll_started" from="CenterCell/NonogramScrollContainer" to="CenterCell/NonogramScrollContainer" method="_on_scroll_started"]

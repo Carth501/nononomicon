@@ -4,14 +4,12 @@ var nonogram_board := preload("res://scenes/nonogram_board.tscn")
 var index := preload("res://scenes/index.tscn")
 
 @export var game_ui: GameUI
-@export var board_container: CenterContainer
 @export var board: NonogramBoard
 @export var index_page: Control
 @export var next_button: Button
 @export var prev_button: Button
 @export var coords_display: Label
 @export var command_console: LineEdit
-@export var main_view: Control
 @export var drawer: Control
 @export var communications: RichTextLabel
 
@@ -20,7 +18,6 @@ func _ready():
 	State.victory.connect(set_next_enabled)
 	State.level_changed.connect(check_page_buttons)
 	State.level_changed.connect(set_tutorial_text)
-	State.level_changed.connect(resize_board)
 	State.coords_changed.connect(update_coords_display)
 	State.level_changed.connect(handle_features)
 
@@ -29,29 +26,20 @@ func open_page(id: String):
 		communications.text = ""
 		game_ui.hide()
 		drawer.hide()
-		board_container.hide()
 		index_page.show()
 	else:
 		State.set_active_id(id)
 		game_ui.show()
 		drawer.show()
-		board_container.show()
 		index_page.hide()
 		set_tutorial_text()
 		command_console.visible = false
-		resize_board()
 		handle_features()
 
 func check_page_buttons():
 	set_next_button()
 	set_next_enabled()
 	set_prev_button()
-
-func resize_board():
-	var board_size = State.get_size()
-	var game_size = Vector2((board_size.x * 64) + 176 + 4, (board_size.y * 64) + 176 + 4)
-	game_size = game_size.clamp(Vector2(0, 0), main_view.size)
-	board.set_custom_minimum_size(game_size)
 
 func cheat():
 	State.cheat_reveal_all_squares()
