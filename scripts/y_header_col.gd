@@ -3,7 +3,7 @@ class_name YHeaderCol extends Control
 @export var header_row_container: VBoxContainer
 var y_header_cell_scene = preload("res://scenes/y_header_cell.tscn")
 var cells = []
-@export var y_scroll_container: ScrollContainer
+@export var scroll_container: ScrollContainer
 
 func generate_cells(values: Dictionary):
 	if (cells.size() > 0):
@@ -16,9 +16,11 @@ func generate_cells(values: Dictionary):
 		header_row_container.add_child(new_cell)
 		cells.append(new_cell)
 
-func set_percent_y(percent: float):
-	var value = y_scroll_container.get_v_scroll_bar().max_value * percent
-	y_scroll_container.scroll_vertical = roundi(value)
+func set_percent(percent: Vector2):
+	var value_y = scroll_container.get_v_scroll_bar().max_value * percent.y
+	scroll_container.scroll_vertical = roundi(value_y)
+	var value_x = scroll_container.get_h_scroll_bar().max_value * percent.x
+	scroll_container.scroll_horizontal = roundi(value_x)
 
 func get_cell(index: int) -> YHeader:
 	if (index >= 0 and index < cells.size()):

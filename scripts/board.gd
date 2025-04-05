@@ -1,12 +1,13 @@
 class_name NonogramBoard extends Control
 
-@export var scroll_container: ScrollContainer
+@export var nonogram_scroll_container: ScrollContainer
 @export var nonogram_squares: NonogramSquares
 @export var header_row: XHeaderRow
 @export var header_col: YHeaderCol
 @export var footer_row: XFooterRow
 @export var footer_col: YFooterCol
 @export var victory_label: Label
+@export var margin_container: MarginContainer
 var scrolling := false
 var highlighting: Vector2i
 
@@ -36,18 +37,18 @@ func _process(_delta: float) -> void:
 	set_header_scroll(Vector2(percent_x, percent_y))
 
 func set_header_scroll(vector: Vector2):
-	header_row.set_percent_x(vector.x)
-	header_col.set_percent_y(vector.y)
-	footer_row.set_percent_x(vector.x)
-	footer_col.set_percent_y(vector.y)
+	header_row.set_percent(vector)
+	header_col.set_percent(vector)
+	footer_row.set_percent(vector)
+	footer_col.set_percent(vector)
 
 func get_percent_x() -> float:
-	var max_x = scroll_container.get_h_scroll_bar().max_value
-	return float(scroll_container.scroll_horizontal) / max_x
+	var max_x = nonogram_scroll_container.get_h_scroll_bar().max_value
+	return float(nonogram_scroll_container.scroll_horizontal) / max_x
 
 func get_percent_y() -> float:
-	var max_y = scroll_container.get_v_scroll_bar().max_value
-	return float(scroll_container.scroll_vertical) / max_y
+	var max_y = nonogram_scroll_container.get_v_scroll_bar().max_value
+	return float(nonogram_scroll_container.scroll_vertical) / max_y
 
 func display_victory():
 	victory_label.visible = true
