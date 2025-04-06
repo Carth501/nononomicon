@@ -15,6 +15,7 @@ func generate_cells(values: Dictionary, length: int):
 			new_cell.generate_labels(values[i])
 		else:
 			new_cell.set_name("Empty_Cell_" + str(i))
+		add_child(new_cell)
 		cells.append(new_cell)
 
 func get_cell(index: int) -> XFooterCell:
