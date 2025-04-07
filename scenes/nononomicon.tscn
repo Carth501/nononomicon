@@ -41,10 +41,9 @@ grow_horizontal = 2
 grow_vertical = 2
 split_offset = 918
 
-[node name="MainVeiw" type="BoxContainer" parent="HSplitContainer"]
+[node name="MainVeiw" type="CenterContainer" parent="HSplitContainer"]
 custom_minimum_size = Vector2(308, 0)
 layout_mode = 2
-alignment = 1
 
 [node name="Index" parent="HSplitContainer/MainVeiw" instance=ExtResource("3_c4qpc")]
 visible = false
@@ -183,6 +182,7 @@ fit_content = true
 [connection signal="resized" from="." to="." method="resize_board"]
 [connection signal="resized" from="HSplitContainer/MainVeiw" to="." method="resize_board"]
 [connection signal="level_selected" from="HSplitContainer/MainVeiw/Index" to="." method="open_page"]
+[connection signal="resized" from="HSplitContainer/MainVeiw/NonogramBoard" to="HSplitContainer/MainVeiw/NonogramBoard" method="resize_board"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/SubmitButton" to="." method="_on_submit_pressed"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/CheatButton" to="." method="cheat"]
