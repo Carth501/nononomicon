@@ -98,5 +98,5 @@ vertical_scroll_mode = 2
 layout_mode = 2
 
 [connection signal="sort_children" from="." to="." method="sort_children"]
-[connection signal="scroll_ended" from="BoardBox/NonogramScrollContainer" to="BoardBox/NonogramScrollContainer" method="_on_scroll_ended"]
-[connection signal="scroll_started" from="BoardBox/NonogramScrollContainer" to="BoardBox/NonogramScrollContainer" method="_on_scroll_started"]
+[connection signal="scroll_ended" from="BoardBox/NonogramScrollContainer" to="." method="end_scrolling"]
+[connection signal="scroll_started" from="BoardBox/NonogramScrollContainer" to="." method="begin_scrolling"]

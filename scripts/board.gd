@@ -11,7 +11,7 @@ class_name NonogramBoard extends Container
 @export var footer_row_scroll: ScrollContainer
 @export var footer_col_scroll: ScrollContainer
 @export var board_margin_control: Control
-var scrolling := false
+@export var SCROLLBAR_MARGIN: int = 6
 var highlighting: Vector2i
 
 func _ready():
@@ -65,6 +65,14 @@ func error_lines(errors: Dictionary):
 		header_col.set_error_lines(errors["Y"])
 		footer_col.set_error_lines(errors["Y"])
 
+func _process(_delta):
+	var h_bar = nonogram_scroll_container.get_h_scroll_bar()
+	header_row_scroll.get_h_scroll_bar().value = h_bar.value
+	footer_row_scroll.get_h_scroll_bar().value = h_bar.value
+	var v_bar = nonogram_scroll_container.get_v_scroll_bar()
+	header_col_scroll.get_v_scroll_bar().value = v_bar.value
+	footer_col_scroll.get_v_scroll_bar().value = v_bar.value
+
 func sort_children() -> void:
 	var col_head_width = maxf(header_col.get_size().x, 90)
 	var row_head_height = maxf(header_row.get_size().y, 90)
@@ -72,8 +80,8 @@ func sort_children() -> void:
 	header_col_scroll.size.x = col_head_width
 	var nonogram_scroll_size = size - Vector2(col_head_width + 90, row_head_height + 90)
 	var squares_size = State.get_size() * 64
-	nonogram_scroll_container.size.x = clamp(nonogram_scroll_size.x, 0, squares_size.x + 6)
-	nonogram_scroll_container.size.y = clamp(nonogram_scroll_size.y, 0, squares_size.y + 6)
+	nonogram_scroll_container.size.x = clamp(nonogram_scroll_size.x, 0, squares_size.x + SCROLLBAR_MARGIN)
+	nonogram_scroll_container.size.y = clamp(nonogram_scroll_size.y, 0, squares_size.y + SCROLLBAR_MARGIN)
 	header_row_scroll.size.x = nonogram_scroll_container.size.x
 	header_col_scroll.size.y = nonogram_scroll_container.size.y
 	footer_row_scroll.size = Vector2(nonogram_scroll_container.size.x, 90)
