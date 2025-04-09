@@ -1,4 +1,4 @@
-class_name NonogramBoard extends Control
+class_name NonogramBoard extends Container
 
 @export var nonogram_scroll_container: ScrollContainer
 @export var nonogram_squares: NonogramSquares
@@ -6,6 +6,10 @@ class_name NonogramBoard extends Control
 @export var header_col: YHeaderCol
 @export var footer_row: XFooterRow
 @export var footer_col: YFooterCol
+@export var header_row_scroll: ScrollContainer
+@export var header_col_scroll: ScrollContainer
+@export var footer_row_scroll: ScrollContainer
+@export var footer_col_scroll: ScrollContainer
 var scrolling := false
 var highlighting: Vector2i
 
@@ -59,6 +63,22 @@ func error_lines(errors: Dictionary):
 		header_col.set_error_lines(errors["Y"])
 		footer_col.set_error_lines(errors["Y"])
 
-
-func _on_resized() -> void:
-	nonogram_scroll_container.size = size - Vector2(180, 180)
+func NOTIFICATION_SORT_CHILDREN() -> void:
+	var col_head_width = maxf(header_col.get_size().x, 90)
+	var row_head_height = maxf(header_row.get_size().y, 90)
+	header_row_scroll.size.y = row_head_height
+	header_col_scroll.size.x = col_head_width
+	var nonogram_scroll_size = size - Vector2(col_head_width + 90, row_head_height + 90)
+	nonogram_scroll_container.size.x = clamp(nonogram_scroll_size.x, 0, nonogram_squares.size.x + 6)
+	nonogram_scroll_container.size.y = clamp(nonogram_scroll_size.y, 0, nonogram_squares.size.y + 6)
+	header_row_scroll.size.x = nonogram_scroll_container.size.x
+	header_col_scroll.size.y = nonogram_scroll_container.size.y
+	footer_row_scroll.size = Vector2(nonogram_scroll_container.size.x, 90)
+	footer_col_scroll.size = Vector2(90, nonogram_scroll_container.size.y)
+	var x_margin = (size.x - col_head_width - nonogram_scroll_container.size.x - 90) / 2
+	var y_margin = (size.y - row_head_height - nonogram_scroll_container.size.y - 90) / 2
+	nonogram_scroll_container.position = Vector2(x_margin + col_head_width, y_margin + row_head_height)
+	header_row_scroll.position = Vector2(x_margin + col_head_width, y_margin)
+	header_col_scroll.position = Vector2(x_margin + 0, y_margin + row_head_height)
+	footer_row_scroll.position = Vector2(x_margin + col_head_width, y_margin + row_head_height + nonogram_scroll_container.size.y)
+	footer_col_scroll.position = Vector2(x_margin + col_head_width + nonogram_scroll_container.size.x, y_margin + row_head_height)
