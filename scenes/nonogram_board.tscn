@@ -97,6 +97,6 @@ vertical_scroll_mode = 2
 [node name="NonogramSquares" parent="BoardBox/NonogramScrollContainer" instance=ExtResource("1_4p2ab")]
 layout_mode = 2
 
-[connection signal="sort_children" from="." to="." method="NOTIFICATION_SORT_CHILDREN"]
+[connection signal="sort_children" from="." to="." method="sort_children"]
 [connection signal="scroll_ended" from="BoardBox/NonogramScrollContainer" to="BoardBox/NonogramScrollContainer" method="_on_scroll_ended"]
 [connection signal="scroll_started" from="BoardBox/NonogramScrollContainer" to="BoardBox/NonogramScrollContainer" method="_on_scroll_started"]

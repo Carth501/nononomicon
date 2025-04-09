@@ -23,16 +23,17 @@ func _ready():
 
 func prepare_board():
 	if (State.get_board_ready()):
-		nonogram_squares.create_square_displays()
 		header_row.generate_cells(State.get_header('X'))
 		header_col.generate_cells(State.get_header('Y'))
 		footer_row.generate_cells(State.get_footer('X'), State.get_size().x)
 		footer_col.generate_cells(State.get_footer('Y'), State.get_size().y)
+		nonogram_squares.create_square_displays()
 		# var id = State.get_active_id()
 		# if (State.master [id].has(State.VICTORY_KEY) and State.master [id][State.VICTORY_KEY]):
 		# 	display_victory()
 		# else:
 		# 	hide_victory()
+		sort_children()
 
 # func display_victory():
 # 	victory_label.visible = true
@@ -64,14 +65,15 @@ func error_lines(errors: Dictionary):
 		header_col.set_error_lines(errors["Y"])
 		footer_col.set_error_lines(errors["Y"])
 
-func NOTIFICATION_SORT_CHILDREN() -> void:
+func sort_children() -> void:
 	var col_head_width = maxf(header_col.get_size().x, 90)
 	var row_head_height = maxf(header_row.get_size().y, 90)
 	header_row_scroll.size.y = row_head_height
 	header_col_scroll.size.x = col_head_width
 	var nonogram_scroll_size = size - Vector2(col_head_width + 90, row_head_height + 90)
-	nonogram_scroll_container.size.x = clamp(nonogram_scroll_size.x, 0, nonogram_squares.size.x + 6)
-	nonogram_scroll_container.size.y = clamp(nonogram_scroll_size.y, 0, nonogram_squares.size.y + 6)
+	var squares_size = State.get_size() * 64
+	nonogram_scroll_container.size.x = clamp(nonogram_scroll_size.x, 0, squares_size.x + 6)
+	nonogram_scroll_container.size.y = clamp(nonogram_scroll_size.y, 0, squares_size.y + 6)
 	header_row_scroll.size.x = nonogram_scroll_container.size.x
 	header_col_scroll.size.y = nonogram_scroll_container.size.y
 	footer_row_scroll.size = Vector2(nonogram_scroll_container.size.x, 90)
