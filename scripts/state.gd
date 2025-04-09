@@ -775,11 +775,15 @@ func find_error_lines_for_axis(axis: String) -> Array:
 			else:
 				line.append(map[k][i])
 		var sequence = generate_sequence_for_array(line)
-		if sequence != master [active_id][HEADERS_KEY][axis][i]:
-			print('sequence does not match generated header for axis ', axis, ' at index ', i)
-			print('generated: ', sequence)
-			print('expected: ', master [active_id][HEADERS_KEY][axis][i])
-			errors.append(i)
+		var target_sequence = master [active_id][HEADERS_KEY][axis][i]
+		for j in range(target_sequence.size()):
+			if j >= sequence.size():
+				errors.append(i)
+				break
+			if target_sequence[j]['length'] != sequence[j]['length']:
+				errors.append(i)
+				break
+			
 	return errors
 	
 #region Victory Handling
