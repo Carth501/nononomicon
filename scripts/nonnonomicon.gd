@@ -5,6 +5,7 @@ var index := preload("res://scenes/index.tscn")
 
 @export var game_ui: GameUI
 @export var board: NonogramBoard
+@export var split_container: SplitContainer
 @export var index_page: Control
 @export var next_button: Button
 @export var prev_button: Button
@@ -24,13 +25,11 @@ func _ready():
 func open_page(id: String):
 	if (id == "index"):
 		communications.text = ""
-		drawer.hide()
-		board.hide()
+		split_container.hide()
 		index_page.show()
 	else:
 		State.set_active_id(id)
-		drawer.show()
-		board.show()
+		split_container.show()
 		index_page.hide()
 		set_tutorial_text()
 		command_console.visible = false

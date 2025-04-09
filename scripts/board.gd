@@ -58,3 +58,7 @@ func error_lines(errors: Dictionary):
 	if (errors.has("Y")):
 		header_col.set_error_lines(errors["Y"])
 		footer_col.set_error_lines(errors["Y"])
+
+
+func _on_resized() -> void:
+	nonogram_scroll_container.size = size - Vector2(180, 180)
