@@ -1,11 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://p7emdn1gu7nk"]
+[gd_scene load_steps=6 format=3 uid="uid://p7emdn1gu7nk"]
 
 [ext_resource type="Script" path="res://scripts/nonnonomicon.gd" id="1_yfbcv"]
 [ext_resource type="PackedScene" uid="uid://dq8gk2xv1r27a" path="res://scenes/nonogram_board.tscn" id="2_mnfaj"]
 [ext_resource type="PackedScene" uid="uid://d2malck014txy" path="res://scenes/index.tscn" id="3_c4qpc"]
+[ext_resource type="Script" path="res://scripts/SplitContainerDebug.gd" id="3_pn8h0"]
 [ext_resource type="Script" path="res://scripts/game_ui.gd" id="4_hhnsy"]
 
-[node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("game_ui", "board", "index_page", "next_button", "prev_button", "coords_display", "command_console", "drawer", "communications")]
+[node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("game_ui", "board", "split_container", "index_page", "next_button", "prev_button", "coords_display", "command_console", "drawer", "communications")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,8 +15,9 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_yfbcv")
 game_ui = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI")
-board = NodePath("HSplitContainer/MainVeiw/NonogramBoard")
-index_page = NodePath("HSplitContainer/MainVeiw/Index")
+board = NodePath("HSplitContainer/NonogramBoard")
+split_container = NodePath("HSplitContainer")
+index_page = NodePath("Index")
 next_button = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer/NextButton")
 prev_button = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer/PrevButton")
 coords_display = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/CoordinatesDisplay")
@@ -32,6 +34,11 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.196078, 0.117647, 0.117647, 1)
 
+[node name="Index" parent="." instance=ExtResource("3_c4qpc")]
+layout_mode = 2
+anchors_preset = 0
+size_flags_horizontal = 3
+
 [node name="HSplitContainer" type="HSplitContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -40,18 +47,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 split_offset = 918
+script = ExtResource("3_pn8h0")
 
-[node name="MainVeiw" type="BoxContainer" parent="HSplitContainer"]
-custom_minimum_size = Vector2(308, 0)
-layout_mode = 2
-alignment = 1
-
-[node name="Index" parent="HSplitContainer/MainVeiw" instance=ExtResource("3_c4qpc")]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="NonogramBoard" parent="HSplitContainer/MainVeiw" instance=ExtResource("2_mnfaj")]
+[node name="NonogramBoard" parent="HSplitContainer" instance=ExtResource("2_mnfaj")]
 layout_mode = 2
 
 [node name="Drawer" type="Panel" parent="HSplitContainer"]
@@ -181,8 +179,8 @@ bbcode_enabled = true
 fit_content = true
 
 [connection signal="resized" from="." to="." method="resize_board"]
-[connection signal="resized" from="HSplitContainer/MainVeiw" to="." method="resize_board"]
-[connection signal="level_selected" from="HSplitContainer/MainVeiw/Index" to="." method="open_page"]
+[connection signal="level_selected" from="Index" to="." method="open_page"]
+[connection signal="resized" from="HSplitContainer/NonogramBoard" to="HSplitContainer/NonogramBoard" method="resize_board"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/SubmitButton" to="." method="_on_submit_pressed"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/CheatButton" to="." method="cheat"]

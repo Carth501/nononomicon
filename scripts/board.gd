@@ -1,4 +1,4 @@
-class_name NonogramBoard extends Control
+class_name NonogramBoard extends Container
 
 @export var nonogram_scroll_container: ScrollContainer
 @export var nonogram_squares: NonogramSquares
@@ -6,34 +6,42 @@ class_name NonogramBoard extends Control
 @export var header_col: YHeaderCol
 @export var footer_row: XFooterRow
 @export var footer_col: YFooterCol
-var scrolling := false
+@export var header_row_scroll: ScrollContainer
+@export var header_col_scroll: ScrollContainer
+@export var footer_row_scroll: ScrollContainer
+@export var footer_col_scroll: ScrollContainer
+@export var board_margin_control: Control
+@export var SCROLLBAR_MARGIN: int = 6
+@export var victory_label: Label
 var highlighting: Vector2i
 
 func _ready():
 	prepare_board()
 	State.board_ready.connect(prepare_board)
-	# State.victory.connect(display_victory)
+	State.victory.connect(display_victory)
 	State.coords_changed.connect(update_highlighter_square)
 	State.error_lines_updated.connect(error_lines)
+	victory_label.visible = false
 
 func prepare_board():
 	if (State.get_board_ready()):
-		nonogram_squares.create_square_displays()
 		header_row.generate_cells(State.get_header('X'))
 		header_col.generate_cells(State.get_header('Y'))
 		footer_row.generate_cells(State.get_footer('X'), State.get_size().x)
 		footer_col.generate_cells(State.get_footer('Y'), State.get_size().y)
-		# var id = State.get_active_id()
-		# if (State.master [id].has(State.VICTORY_KEY) and State.master [id][State.VICTORY_KEY]):
-		# 	display_victory()
-		# else:
-		# 	hide_victory()
+		nonogram_squares.create_square_displays()
+		var id = State.get_active_id()
+		if (State.master [id].has(State.VICTORY_KEY) and State.master [id][State.VICTORY_KEY]):
+			display_victory()
+		else:
+			hide_victory()
+		sort_children()
 
-# func display_victory():
-# 	victory_label.visible = true
+func display_victory():
+	victory_label.visible = true
 
-# func hide_victory():
-# 	victory_label.visible = false
+func hide_victory():
+	victory_label.visible = false
 
 func update_highlighter_square(coords: Vector2i):
 	if highlighting != Vector2i(-1, -1):
@@ -58,3 +66,34 @@ func error_lines(errors: Dictionary):
 	if (errors.has("Y")):
 		header_col.set_error_lines(errors["Y"])
 		footer_col.set_error_lines(errors["Y"])
+
+func _process(_delta):
+	var h_bar = nonogram_scroll_container.get_h_scroll_bar()
+	header_row_scroll.get_h_scroll_bar().value = h_bar.value
+	footer_row_scroll.get_h_scroll_bar().value = h_bar.value
+	var v_bar = nonogram_scroll_container.get_v_scroll_bar()
+	header_col_scroll.get_v_scroll_bar().value = v_bar.value
+	footer_col_scroll.get_v_scroll_bar().value = v_bar.value
+
+func sort_children() -> void:
+	var col_head_width = maxf(header_col.get_size().x, 90)
+	var row_head_height = maxf(header_row.get_size().y, 90)
+	header_row_scroll.size.y = row_head_height
+	header_col_scroll.size.x = col_head_width
+	var nonogram_scroll_size = size - Vector2(col_head_width + 90, row_head_height + 90)
+	var squares_size = State.get_size() * 64
+	nonogram_scroll_container.size.x = clamp(nonogram_scroll_size.x, 0, squares_size.x + SCROLLBAR_MARGIN)
+	nonogram_scroll_container.size.y = clamp(nonogram_scroll_size.y, 0, squares_size.y + SCROLLBAR_MARGIN)
+	header_row_scroll.size.x = nonogram_scroll_container.size.x
+	header_col_scroll.size.y = nonogram_scroll_container.size.y
+	footer_row_scroll.size = Vector2(nonogram_scroll_container.size.x, 90)
+	footer_col_scroll.size = Vector2(90, nonogram_scroll_container.size.y)
+	var x_margin = (size.x - col_head_width - nonogram_scroll_container.size.x - 90) / 2
+	var y_margin = (size.y - row_head_height - nonogram_scroll_container.size.y - 90) / 2
+	board_margin_control.position = Vector2(x_margin, y_margin)
+	board_margin_control.size = Vector2(size.x - x_margin, size.y - y_margin)
+	nonogram_scroll_container.position = Vector2(col_head_width, row_head_height)
+	header_row_scroll.position = Vector2(col_head_width, 0)
+	header_col_scroll.position = Vector2(0, row_head_height)
+	footer_row_scroll.position = Vector2(col_head_width, row_head_height + nonogram_scroll_container.size.y)
+	footer_col_scroll.position = Vector2(col_head_width + nonogram_scroll_container.size.x, row_head_height)
