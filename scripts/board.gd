@@ -12,14 +12,16 @@ class_name NonogramBoard extends Container
 @export var footer_col_scroll: ScrollContainer
 @export var board_margin_control: Control
 @export var SCROLLBAR_MARGIN: int = 6
+@export var victory_label: Label
 var highlighting: Vector2i
 
 func _ready():
 	prepare_board()
 	State.board_ready.connect(prepare_board)
-	# State.victory.connect(display_victory)
+	State.victory.connect(display_victory)
 	State.coords_changed.connect(update_highlighter_square)
 	State.error_lines_updated.connect(error_lines)
+	victory_label.visible = false
 
 func prepare_board():
 	if (State.get_board_ready()):
@@ -28,18 +30,18 @@ func prepare_board():
 		footer_row.generate_cells(State.get_footer('X'), State.get_size().x)
 		footer_col.generate_cells(State.get_footer('Y'), State.get_size().y)
 		nonogram_squares.create_square_displays()
-		# var id = State.get_active_id()
-		# if (State.master [id].has(State.VICTORY_KEY) and State.master [id][State.VICTORY_KEY]):
-		# 	display_victory()
-		# else:
-		# 	hide_victory()
+		var id = State.get_active_id()
+		if (State.master [id].has(State.VICTORY_KEY) and State.master [id][State.VICTORY_KEY]):
+			display_victory()
+		else:
+			hide_victory()
 		sort_children()
 
-# func display_victory():
-# 	victory_label.visible = true
+func display_victory():
+	victory_label.visible = true
 
-# func hide_victory():
-# 	victory_label.visible = false
+func hide_victory():
+	victory_label.visible = false
 
 func update_highlighter_square(coords: Vector2i):
 	if highlighting != Vector2i(-1, -1):
@@ -89,6 +91,7 @@ func sort_children() -> void:
 	var x_margin = (size.x - col_head_width - nonogram_scroll_container.size.x - 90) / 2
 	var y_margin = (size.y - row_head_height - nonogram_scroll_container.size.y - 90) / 2
 	board_margin_control.position = Vector2(x_margin, y_margin)
+	board_margin_control.size = Vector2(size.x - x_margin, size.y - y_margin)
 	nonogram_scroll_container.position = Vector2(col_head_width, row_head_height)
 	header_row_scroll.position = Vector2(col_head_width, 0)
 	header_col_scroll.position = Vector2(0, row_head_height)
