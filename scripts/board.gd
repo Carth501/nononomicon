@@ -10,6 +10,7 @@ class_name NonogramBoard extends Container
 @export var header_col_scroll: ScrollContainer
 @export var footer_row_scroll: ScrollContainer
 @export var footer_col_scroll: ScrollContainer
+@export var board_margin_control: Control
 var scrolling := false
 var highlighting: Vector2i
 
@@ -77,8 +78,9 @@ func NOTIFICATION_SORT_CHILDREN() -> void:
 	footer_col_scroll.size = Vector2(90, nonogram_scroll_container.size.y)
 	var x_margin = (size.x - col_head_width - nonogram_scroll_container.size.x - 90) / 2
 	var y_margin = (size.y - row_head_height - nonogram_scroll_container.size.y - 90) / 2
-	nonogram_scroll_container.position = Vector2(x_margin + col_head_width, y_margin + row_head_height)
-	header_row_scroll.position = Vector2(x_margin + col_head_width, y_margin)
-	header_col_scroll.position = Vector2(x_margin + 0, y_margin + row_head_height)
-	footer_row_scroll.position = Vector2(x_margin + col_head_width, y_margin + row_head_height + nonogram_scroll_container.size.y)
-	footer_col_scroll.position = Vector2(x_margin + col_head_width + nonogram_scroll_container.size.x, y_margin + row_head_height)
+	board_margin_control.position = Vector2(x_margin, y_margin)
+	nonogram_scroll_container.position = Vector2(col_head_width, row_head_height)
+	header_row_scroll.position = Vector2(col_head_width, 0)
+	header_col_scroll.position = Vector2(0, row_head_height)
+	footer_row_scroll.position = Vector2(col_head_width, row_head_height + nonogram_scroll_container.size.y)
+	footer_col_scroll.position = Vector2(col_head_width + nonogram_scroll_container.size.x, row_head_height)
