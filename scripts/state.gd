@@ -234,7 +234,21 @@ func handle_input_press():
 		undo()
 	elif Input.is_action_just_pressed("Redo"):
 		redo()
+	if Input.is_action_just_pressed("Up"):
+		arrow_move(Vector2i(chosen_coords.x, chosen_coords.y - 1))
+	elif Input.is_action_just_pressed("Down"):
+		arrow_move(Vector2i(chosen_coords.x, chosen_coords.y + 1))
+	elif Input.is_action_just_pressed("Left"):
+		arrow_move(Vector2i(chosen_coords.x - 1, chosen_coords.y))
+	elif Input.is_action_just_pressed("Right"):
+		arrow_move(Vector2i(chosen_coords.x + 1, chosen_coords.y))
 	handle_toggle_state()
+
+
+func arrow_move(direction: Vector2i):
+	if direction.x < 0 || direction.x >= get_size().x || direction.y < 0 || direction.y >= get_size().y:
+		return
+	set_chosen_coords(direction)
 
 func handle_mark_press(state: SquareStates):
 	if state == SquareStates.EMPTY || state == SquareStates.NOTE_MARKED:

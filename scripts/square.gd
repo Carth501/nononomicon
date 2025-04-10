@@ -8,6 +8,7 @@ class_name NonogramSquare extends Control
 func setup(new_coords: Vector2i):
 	coords = new_coords
 	State.square_changed.connect(compare_coords)
+	set_focus_mode(FOCUS_ALL)
 
 func _on_mouse_entered() -> void:
 	State.set_chosen_coords(coords)
@@ -44,3 +45,8 @@ func set_square_appearance(square_state: State.SquareStates):
 
 func set_highlighter(value: bool):
 	highlighter.visible = value
+	if value:
+		take_focus()
+
+func take_focus():
+	grab_focus()
