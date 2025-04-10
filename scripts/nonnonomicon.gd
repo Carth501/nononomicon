@@ -13,6 +13,9 @@ var index := preload("res://scenes/index.tscn")
 @export var command_console: LineEdit
 @export var drawer: Control
 @export var communications: RichTextLabel
+@export var debug_menu: Control
+@export var stack_container: ScrollContainer
+@export var stack_list: VBoxContainer
 
 func _ready():
 	open_page("index")
@@ -21,6 +24,7 @@ func _ready():
 	State.level_changed.connect(set_tutorial_text)
 	State.coords_changed.connect(update_coords_display)
 	State.level_changed.connect(handle_features)
+	
 
 func open_page(id: String):
 	if (id == "index"):
@@ -78,9 +82,18 @@ func update_coords_display(new_coords: Vector2i):
 
 func toggle_command_console():
 	command_console.visible = !command_console.visible
+	command_console.grab_focus()
 
 func _on_line_edit_text_submitted(new_text: String) -> void:
 	State.interpret_command(new_text)
+	if new_text == "show debug":
+		show_debug_menu()
+	elif new_text == "hide debug":
+		hide_debug_menu()
+	elif new_text == "show stack":
+		toggle_stack_view(true)
+	elif new_text == "hide stack":
+		toggle_stack_view(false)
 	command_console.clear()
 
 func _process(_delta: float) -> void:
@@ -100,3 +113,35 @@ func handle_features():
 		game_ui.toggle_features(params["features"])
 	else:
 		game_ui.toggle_features({}) # triggers default feature set
+
+func show_debug_menu():
+	debug_menu.show()
+
+func hide_debug_menu():
+	debug_menu.hide()
+
+func toggle_stack_view(value: bool):
+	if (value):
+		open_stack_view()
+	else:
+		close_stack_view()
+
+func open_stack_view():
+	stack_container.show()
+	State.stack_changed.connect(update_stack_view)
+	update_stack_view()
+
+func close_stack_view():
+	State.stack_changed.disconnect(update_stack_view)
+	stack_container.hide()
+
+func update_stack_view():
+	for i in range(stack_list.get_child_count()):
+		stack_list.get_child(i).queue_free()
+	var stack = State.get_stack()
+	for i in range(stack.size()):
+		var new_label = Label.new()
+		new_label.add_theme_color_override("font_color", Color(0, 1, 0))
+		new_label.text = str(i) + ": " + str(stack[i])
+		new_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		stack_list.add_child(new_label)

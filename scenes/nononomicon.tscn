@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://scripts/SplitContainerDebug.gd" id="3_pn8h0"]
 [ext_resource type="Script" path="res://scripts/game_ui.gd" id="4_hhnsy"]
 
-[node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("game_ui", "board", "split_container", "index_page", "next_button", "prev_button", "coords_display", "command_console", "drawer", "communications")]
+[node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("game_ui", "board", "split_container", "index_page", "next_button", "prev_button", "coords_display", "command_console", "drawer", "communications", "debug_menu", "stack_container", "stack_list")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,9 +21,12 @@ index_page = NodePath("Index")
 next_button = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer/NextButton")
 prev_button = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer/PrevButton")
 coords_display = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/CoordinatesDisplay")
-command_console = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/LineEdit")
+command_console = NodePath("LineEdit")
 drawer = NodePath("HSplitContainer/Drawer")
 communications = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/RichTextLabel")
+debug_menu = NodePath("DebugOptions")
+stack_container = NodePath("StackDisplay")
+stack_list = NodePath("StackDisplay/PanelContainer/List")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -120,17 +123,6 @@ offset_right = -67.0
 offset_bottom = 68.0
 grow_horizontal = 0
 
-[node name="LineEdit" type="LineEdit" parent="HSplitContainer/Drawer/VBoxContainer/GameUI"]
-visible = false
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -31.0
-grow_horizontal = 2
-grow_vertical = 0
-
 [node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/Drawer/VBoxContainer/GameUI"]
 layout_mode = 1
 anchors_preset = 3
@@ -178,6 +170,49 @@ layout_mode = 2
 bbcode_enabled = true
 fit_content = true
 
+[node name="DebugOptions" type="ScrollContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_bottom = 1.0
+offset_right = 200.0
+grow_vertical = 2
+
+[node name="List" type="VBoxContainer" parent="DebugOptions"]
+layout_mode = 2
+
+[node name="StackToggle" type="CheckBox" parent="DebugOptions/List"]
+layout_mode = 2
+text = "Show Stack"
+
+[node name="StackDisplay" type="ScrollContainer" parent="."]
+visible = false
+layout_mode = 2
+anchor_bottom = 1.0
+offset_left = 200.0
+offset_right = 600.0
+grow_vertical = 2
+mouse_filter = 2
+mouse_default_cursor_shape = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="StackDisplay"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="List" type="VBoxContainer" parent="StackDisplay/PanelContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="LineEdit" type="LineEdit" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+grow_horizontal = 2
+grow_vertical = 0
+
 [connection signal="resized" from="." to="." method="resize_board"]
 [connection signal="level_selected" from="Index" to="." method="open_page"]
 [connection signal="resized" from="HSplitContainer/NonogramBoard" to="HSplitContainer/NonogramBoard" method="resize_board"]
@@ -185,7 +220,8 @@ fit_content = true
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/CheatButton" to="." method="cheat"]
 [connection signal="toggled" from="HSplitContainer/Drawer/VBoxContainer/GameUI/NotesSwitch" to="." method="_on_notes_switch_toggled"]
-[connection signal="text_submitted" from="HSplitContainer/Drawer/VBoxContainer/GameUI/LineEdit" to="." method="_on_line_edit_text_submitted"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer/NextButton" to="." method="_on_next_button_pressed"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer/IndexButton" to="." method="_on_index_button_pressed"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer/PrevButton" to="." method="_on_prev_button_pressed"]
+[connection signal="toggled" from="DebugOptions/List/StackToggle" to="." method="toggle_stack_view"]
+[connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]

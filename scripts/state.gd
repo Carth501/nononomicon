@@ -8,6 +8,7 @@ signal notes_mode_changed(new_mode)
 signal level_changed
 signal coords_changed(coords)
 signal error_lines_updated(errors)
+signal stack_changed
 
 enum SquareStates {
 	EMPTY,
@@ -31,6 +32,8 @@ var SQUARE_MAP_KEY := 'square_map'
 var TARGET_MAP_KEY := 'target_map'
 var HEADERS_KEY := 'headers'
 var VICTORY_KEY := 'victory'
+var STACK_KEY := 'stack'
+var STACK_INDEX_KEY := 'stack_index'
 var SIZE_KEY := 'size'
 var HEADERS_OVERRIDE_KEY := 'headers_override'
 var FOOTER_KEY := 'footer'
@@ -147,6 +150,11 @@ func change_square_state(new_state: SquareStates):
 	square_changed.emit(chosen_coords)
 
 func set_square_state(coords: Vector2i, new_state: SquareStates):
+	push_stack({
+		'coords': coords,
+		'old_state': get_position_state(coords),
+		'new_state': new_state
+	})
 	master [active_id][SQUARE_MAP_KEY][coords.x][coords.y] = new_state
 	square_changed.emit(coords)
 
@@ -947,3 +955,107 @@ func generate_delta(headers1: Array, headers2: Array) -> Array:
 
 	
 #endregion Complications
+
+#region Stack Functions
+func get_stack() -> Array:
+	if ! master.has(active_id):
+		return []
+	if ! master [active_id].has(STACK_KEY):
+		return []
+	return master [active_id][STACK_KEY]
+
+func set_stack(stack: Array):
+	if ! master.has(active_id):
+		push_error("Attempted to set the stack with invalid id: ", active_id)
+		return
+	if ! master [active_id].has(STACK_KEY):
+		master [active_id][STACK_KEY] = []
+	master [active_id][STACK_INDEX_KEY] = stack.size() - 1
+	master [active_id][STACK_KEY] = stack
+	stack_changed.emit()
+
+func push_stack(action: Dictionary):
+	if ! master.has(active_id):
+		push_error("Attempted to push to the stack with invalid id: ", active_id)
+		return
+	if ! master [active_id].has(STACK_KEY):
+		master [active_id][STACK_KEY] = []
+	if ! master [active_id].has(STACK_INDEX_KEY):
+		master [active_id][STACK_INDEX_KEY] = get_stack_size() - 1
+	master [active_id][STACK_KEY] = master [active_id][STACK_KEY].slice(0, master [active_id][STACK_INDEX_KEY])
+	master [active_id][STACK_INDEX_KEY] += 1
+	master [active_id][STACK_KEY].append(action)
+	stack_changed.emit()
+
+func pop_stack() -> Dictionary:
+	if ! master.has(active_id):
+		push_error("Attempted to pop from the stack with invalid id: ", active_id)
+		return {}
+	if ! master [active_id].has(STACK_KEY):
+		return {}
+	if master [active_id][STACK_KEY].size() == 0:
+		return {}
+	if master [active_id][STACK_INDEX_KEY] == master [active_id][STACK_KEY].size() - 1:
+		master [active_id][STACK_INDEX_KEY] = master [active_id][STACK_KEY].size() - 1
+	var pop = master [active_id][STACK_KEY].pop_back()
+	stack_changed.emit()
+	return pop
+
+func undo_stack() -> Dictionary:
+	if ! master.has(active_id):
+		push_error("Attempted to undo from the stack with invalid id: ", active_id)
+		return {}
+	if ! master [active_id].has(STACK_KEY):
+		return {}
+	if master [active_id][STACK_KEY].size() == 0:
+		return {}
+	if master [active_id][STACK_INDEX_KEY] == 0:
+		return {}
+	master [active_id][STACK_INDEX_KEY] -= 1
+	var index = master [active_id][STACK_INDEX_KEY]
+	stack_changed.emit()
+	return master [active_id][STACK_KEY][index]
+
+func redo_stack() -> Dictionary:
+	if ! master.has(active_id):
+		push_error("Attempted to redo from the stack with invalid id: ", active_id)
+		return {}
+	if ! master [active_id].has(STACK_KEY):
+		return {}
+	if master [active_id][STACK_KEY].size() == 0:
+		return {}
+	if master [active_id][STACK_INDEX_KEY] >= master [active_id][STACK_KEY].size():
+		return {}
+	var index = master [active_id][STACK_INDEX_KEY]
+	master [active_id][STACK_INDEX_KEY] += 1
+	stack_changed.emit()
+	return master [active_id][STACK_KEY][index]
+
+func get_stack_index() -> int:
+	if ! master.has(active_id):
+		push_error("Attempted to get the stack index with invalid id: ", active_id)
+		return -1
+	if ! master [active_id].has(STACK_INDEX_KEY):
+		return -1
+	return master [active_id][STACK_INDEX_KEY]
+
+func clear_stack():
+	if ! master.has(active_id):
+		push_error("Attempted to clear the stack with invalid id: ", active_id)
+		return
+	if ! master [active_id].has(STACK_KEY):
+		return
+	master [active_id][STACK_INDEX_KEY] = -1
+	master [active_id][STACK_KEY] = []
+	stack_changed.emit()
+
+func get_stack_size() -> int:
+	if ! master.has(active_id):
+		push_error("Attempted to get the stack size with invalid id: ", active_id)
+		return 0
+	if ! master [active_id].has(STACK_KEY):
+		return 0
+	return master [active_id][STACK_KEY].size()
+
+
+#endregion Stack Functions
