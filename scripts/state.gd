@@ -210,18 +210,19 @@ func _process(_delta):
 
 #region Input Handling
 func handle_input_release():
-	if Input.is_action_just_released("Mark") and (toggle_state == ToggleStates.MARKING or toggle_state == ToggleStates.EMPTYING_MARKED):
+	if Input.is_action_just_released("Flag") and (toggle_state == ToggleStates.FLAGGING or toggle_state == ToggleStates.EMPTYING_FLAGGED):
 		reset_toggle_state()
-	elif Input.is_action_just_released("Flag") and (toggle_state == ToggleStates.FLAGGING or toggle_state == ToggleStates.EMPTYING_FLAGGED):
+	elif Input.is_action_just_released("Mark") and (toggle_state == ToggleStates.MARKING or toggle_state == ToggleStates.EMPTYING_MARKED):
 		reset_toggle_state()
 
 func handle_input_press():
 	var state = get_chosen_coords_state()
 	if toggle_state == ToggleStates.NOTHING:
-		if Input.is_action_just_pressed("Mark"):
-			handle_mark_press(state)
-		elif Input.is_action_just_pressed("Flag"):
+		if Input.is_action_just_pressed("Flag"):
 			handle_flag_press(state)
+		elif Input.is_action_just_pressed("Mark"):
+			handle_mark_press(state)
+		
 	handle_toggle_state()
 
 func handle_mark_press(state: SquareStates):
