@@ -231,9 +231,9 @@ func handle_input_press():
 		elif Input.is_action_just_pressed("Mark"):
 			handle_mark_press(state)
 	if Input.is_action_just_pressed("Undo"):
-		undo_stack()
+		undo()
 	elif Input.is_action_just_pressed("Redo"):
-		redo_stack()
+		redo()
 	handle_toggle_state()
 
 func handle_mark_press(state: SquareStates):
@@ -1060,5 +1060,22 @@ func get_stack_size() -> int:
 		return 0
 	return master [active_id][STACK_KEY].size()
 
+func undo():
+	var action = undo_stack()
+	if action == {}:
+		return
+	var coords = action['coords']
+	var old_state = action['old_state']
+	master [active_id][SQUARE_MAP_KEY][coords.x][coords.y] = old_state
+	square_changed.emit(coords)
+
+func redo():
+	var action = redo_stack()
+	if action == {}:
+		return
+	var coords = action['coords']
+	var new_state = action['new_state']
+	master [active_id][SQUARE_MAP_KEY][coords.x][coords.y] = new_state
+	square_changed.emit(coords)
 
 #endregion Stack Functions
