@@ -230,7 +230,10 @@ func handle_input_press():
 			handle_flag_press(state)
 		elif Input.is_action_just_pressed("Mark"):
 			handle_mark_press(state)
-		
+	if Input.is_action_just_pressed("Undo"):
+		undo_stack()
+	elif Input.is_action_just_pressed("Redo"):
+		redo_stack()
 	handle_toggle_state()
 
 func handle_mark_press(state: SquareStates):
