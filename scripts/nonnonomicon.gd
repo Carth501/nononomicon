@@ -139,9 +139,13 @@ func update_stack_view():
 	for i in range(stack_list.get_child_count()):
 		stack_list.get_child(i).queue_free()
 	var stack = State.get_stack()
+	var stack_index = State.get_stack_index()
 	for i in range(stack.size()):
 		var new_label = Label.new()
-		new_label.add_theme_color_override("font_color", Color(0, 1, 0))
+		if stack_index > i:
+			new_label.add_theme_color_override("font_color", Color(0, 1, 0))
+		else:
+			new_label.add_theme_color_override("font_color", Color(.8, .8, .8))
 		new_label.text = str(i) + ": " + str(stack[i])
 		new_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		stack_list.add_child(new_label)
