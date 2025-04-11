@@ -32,6 +32,38 @@ var levels: Dictionary = {
 				'half the grid, it will occupy the middle squares.'
 		}
 	},
+	"didactic": {
+		"name": "Didactic",
+		"parameters": {
+			"seed": 13,
+			"size": Vector2i(8, 8),
+			"randomness": 2,
+			"generation": {
+				"method": "sine",
+				"frequency": Vector2(6, 1),
+			}
+		}
+	},
+	"jack_and_hide": {
+		"name": "Jack and Hide",
+		"parameters": {
+			"seed": 14,
+			"size": Vector2i(16, 6),
+			"randomness": 0.5
+		}
+	},
+	"elaborate": {
+		"name": "Elaborate",
+		"parameters": {
+			"seed": 16,
+			"size": Vector2i(8, 8),
+			"randomness": 0.5,
+			"generation": {
+				"method": "sine",
+				"frequency": Vector2(5, 5),
+			}
+		}
+	},
 	"trig": {
 		"name": "Trigonometry",
 		"parameters": {
@@ -307,7 +339,7 @@ var levels: Dictionary = {
 }
 var chapters: Dictionary = {
 	"chapter1": {
-		"levels": ["intro", "basics", "trig", "ellipse", "big", "trig2"],
+		"levels": ["intro", "basics", "didactic", "jack_and_hide", "elaborate", "trig", "ellipse", "big", "trig2"],
 		"title": "Chapter 1"
 	},
 	"chapter2": {
