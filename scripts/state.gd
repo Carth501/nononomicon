@@ -9,6 +9,7 @@ signal level_changed
 signal coords_changed(coords)
 signal error_lines_updated(errors)
 signal stack_changed
+signal lines_compared(comparison)
 
 enum SquareStates {
 	EMPTY,
@@ -157,6 +158,7 @@ func set_square_state(coords: Vector2i, new_state: SquareStates):
 	})
 	master [active_id][SQUARE_MAP_KEY][coords.x][coords.y] = new_state
 	square_changed.emit(coords)
+	generate_line_comparisons()
 
 func set_chosen_coords_state(new_state: SquareStates):
 	set_square_state(chosen_coords, new_state)
@@ -729,6 +731,52 @@ func update_header_for_column(column: int):
 		master [active_id][HEADERS_KEY]['Y'][column].append({'length': str(count), 'segment': segment})
 #endregion Header Reprocessing
 
+#region Header Assistance
+func generate_line_comparisons():
+	var x_comparisons = compare_line_to_header('X')
+	var y_comparisons = compare_line_to_header('Y')
+	lines_compared.emit({
+		'X': x_comparisons,
+		'Y': y_comparisons
+	})
+
+func compare_line_to_header(axis: String):
+	var results = {}
+	var map = master [active_id][SQUARE_MAP_KEY]
+	var headers = master [active_id][HEADERS_KEY][axis]
+	var SIZE = get_size()
+	var primary_size = SIZE.x if axis == 'X' else SIZE.y
+	var secondary_size = SIZE.y if axis == 'X' else SIZE.x
+
+	for i in range(primary_size):
+		var line = []
+		for k in range(secondary_size):
+			if axis == 'X':
+				line.append(map[i][k])
+			else:
+				line.append(map[k][i])
+		var generated_segments = generate_sequence_for_array(line)
+		var header_segments = headers[i]
+		var comparison = []
+		var index = -1
+		for h in header_segments:
+			var p = 0
+			var found = false
+			for j in generated_segments:
+				if h['length'] == j['length']:
+					if p > index:
+						index = p
+						comparison.append(true)
+						found = true
+						break
+				p += 1
+			if !found:
+				comparison.append(false)
+		results[i] = comparison
+
+	return results
+#endregion Header Assistance
+
 func sanity_check_parameters(parameters: Dictionary) -> bool:
 	if parameters.has('size'):
 		var size = parameters['size']
@@ -1082,6 +1130,7 @@ func undo():
 	var old_state = action['old_state']
 	master [active_id][SQUARE_MAP_KEY][coords.x][coords.y] = old_state
 	square_changed.emit(coords)
+	generate_line_comparisons()
 
 func redo():
 	var action = redo_stack()
@@ -1091,5 +1140,6 @@ func redo():
 	var new_state = action['new_state']
 	master [active_id][SQUARE_MAP_KEY][coords.x][coords.y] = new_state
 	square_changed.emit(coords)
+	generate_line_comparisons()
 
 #endregion Stack Functions

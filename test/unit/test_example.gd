@@ -212,3 +212,80 @@ class TestDangerSquareSecondCase:
 		# This one has a danger square that cannot be
 		# detected by the current algorithm.
 		State.generate_headers()
+
+
+class TestHeaderAssist:
+	extends GutTest
+
+	func test_header_assist_1():
+		State.set_active_id('TestKey')
+		State.set_target_map({
+				0: {0: 0, 1: 1, 2: 0, 3: 1},
+				1: {0: 0, 1: 1, 2: 1, 3: 1},
+				2: {0: 1, 1: 1, 2: 1, 3: 0},
+				3: {0: 0, 1: 1, 2: 0, 3: 1}
+			})
+		State.set_size(Vector2i(4, 4))
+		State.generate_headers()
+		State.set_square_map({
+			0: [0, 0, 0, 1],
+			1: [0, 1, 1, 0],
+			2: [0, 0, 1, 1],
+			3: [0, 0, 0, 1],
+			})
+		var x = State.compare_line_to_header('X')
+		assert_eq(x, {0: [true, false], 1: [false], 2: [false], 3: [true, false]}, "Should have generated the correct comparison")
+		var y = State.compare_line_to_header('Y')
+		assert_eq(y, {0: [false], 1: [false], 2: [true], 3: [true, false]}, "Should have generated the correct comparison")
+
+	func test_header_assist_2():
+		State.set_active_id('TestKey')
+		State.set_size(Vector2i(1, 7))
+		State.set_target_map({
+				0: {0: 1, 1: 1, 2: 0, 3: 1, 4: 0, 5: 1, 6: 1},
+			})
+		State.generate_headers()
+		State.set_square_map({
+			0: [1, 1, 0, 1, 0, 1, 1],
+			})
+		var x = State.compare_line_to_header('X')
+		assert_eq(x, {0: [true, true, true]}, "Should have generated the correct comparison")
+
+	func test_header_assist_3():
+		State.set_active_id('TestKey')
+		State.set_size(Vector2i(1, 7))
+		State.set_target_map({
+				0: {0: 0, 1: 1, 2: 0, 3: 1, 4: 0, 5: 1, 6: 1},
+			})
+		State.generate_headers()
+		State.set_square_map({
+			0: [0, 0, 0, 1, 0, 1, 1],
+			})
+		var x = State.compare_line_to_header('X')
+		assert_eq(x, {0: [true, false, true]}, "Should have generated the correct comparison")
+
+	func test_header_assist_4():
+		State.set_active_id('TestKey')
+		State.set_size(Vector2i(1, 7))
+		State.set_target_map({
+				0: {0: 1, 1: 1, 2: 0, 3: 1, 4: 0, 5: 1, 6: 1},
+			})
+		State.generate_headers()
+		State.set_square_map({
+			0: [1, 0, 1, 1, 0, 1, 1],
+			})
+		var x = State.compare_line_to_header('X')
+		assert_eq(x, {0: [true, false, true]}, "Should skip the middle length out of place")
+
+	func test_header_assist_5():
+		State.set_active_id('TestKey')
+		State.set_size(Vector2i(1, 8))
+		State.set_target_map({
+				0: {0: 1, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 1, 7: 1},
+		})
+		State.generate_headers()
+		State.set_square_map({
+			0: [1, 0, 1, 1, 1, 0, 1, 1],
+			})
+		var x = State.compare_line_to_header('X')
+		assert_eq(x, {0: [true, true]}, "Should ignore the extra length")
