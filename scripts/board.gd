@@ -37,6 +37,7 @@ func prepare_board():
 		else:
 			hide_victory()
 		sort_children()
+		State.generate_line_comparisons()
 
 func display_victory():
 	victory_label.visible = true
