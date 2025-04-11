@@ -21,6 +21,7 @@ func _ready():
 	State.victory.connect(display_victory)
 	State.coords_changed.connect(update_highlighter_square)
 	State.error_lines_updated.connect(error_lines)
+	State.lines_compared.connect(update_header_assist)
 	victory_label.visible = false
 
 func prepare_board():
@@ -97,3 +98,9 @@ func sort_children() -> void:
 	header_col_scroll.position = Vector2(0, row_head_height)
 	footer_row_scroll.position = Vector2(col_head_width, row_head_height + nonogram_scroll_container.size.y)
 	footer_col_scroll.position = Vector2(col_head_width + nonogram_scroll_container.size.x, row_head_height)
+
+func update_header_assist(comparisons: Dictionary):
+	if comparisons.has("X"):
+		header_row.set_assist(comparisons["X"])
+	if comparisons.has("Y"):
+		header_col.set_assist(comparisons["Y"])

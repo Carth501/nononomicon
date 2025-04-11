@@ -24,7 +24,6 @@ func _ready():
 	State.level_changed.connect(set_tutorial_text)
 	State.coords_changed.connect(update_coords_display)
 	State.level_changed.connect(handle_features)
-	
 
 func open_page(id: String):
 	if (id == "index"):
