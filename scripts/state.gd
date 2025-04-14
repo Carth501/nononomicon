@@ -213,6 +213,16 @@ func reset():
 		board_ready.emit()
 		clear_stack()
 
+func clear_notes():
+	if master.has(active_id):
+		for i in master [active_id][SQUARE_MAP_KEY].keys():
+			for index in range(master [active_id][SQUARE_MAP_KEY][i].size()):
+				if master [active_id][SQUARE_MAP_KEY][i][index] == SquareStates.NOTE_MARKED:
+					master [active_id][SQUARE_MAP_KEY][i][index] = SquareStates.EMPTY
+				elif master [active_id][SQUARE_MAP_KEY][i][index] == SquareStates.NOTE_FLAGGED:
+					master [active_id][SQUARE_MAP_KEY][i][index] = SquareStates.EMPTY
+		board_ready.emit()
+
 func _process(_delta):
 	if ! master.has(active_id):
 		return

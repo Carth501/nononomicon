@@ -53,6 +53,9 @@ func _on_submit_pressed() -> void:
 func _on_reset_pressed() -> void:
 	State.reset()
 
+func _on_clear_notes() -> void:
+	State.clear_notes()
+
 func _on_notes_switch_toggled(toggled_on: bool) -> void:
 	State.set_notes_no_signal(toggled_on)
 

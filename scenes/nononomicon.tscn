@@ -72,7 +72,7 @@ custom_minimum_size = Vector2(0, 184)
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("4_hhnsy")
-notes_switch = NodePath("NotesSwitch")
+notes_switch = NodePath("VBoxContainer/NotesSwitch")
 
 [node name="LevelControlsContainer" type="VBoxContainer" parent="HSplitContainer/Drawer/VBoxContainer/GameUI"]
 layout_mode = 2
@@ -104,10 +104,17 @@ text = "Save"
 layout_mode = 2
 text = "Reset"
 
-[node name="NotesSwitch" type="CheckButton" parent="HSplitContainer/Drawer/VBoxContainer/GameUI"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/Drawer/VBoxContainer/GameUI"]
+layout_mode = 2
+
+[node name="NotesSwitch" type="CheckButton" parent="HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer"]
 layout_mode = 2
 text = "Notes
 Mode"
+
+[node name="ClearNotesButton" type="Button" parent="HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer"]
+layout_mode = 2
+text = "Clear Notes"
 
 [node name="CheatButton" type="Button" parent="HSplitContainer/Drawer/VBoxContainer/GameUI"]
 layout_mode = 2
@@ -192,7 +199,8 @@ grow_vertical = 0
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/GameControlsContainer/SubmitButton" to="." method="_on_submit_pressed"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/GameControlsContainer/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/GameControlsContainer/ResetButton" to="." method="_on_reset_pressed"]
-[connection signal="toggled" from="HSplitContainer/Drawer/VBoxContainer/GameUI/NotesSwitch" to="." method="_on_notes_switch_toggled"]
+[connection signal="toggled" from="HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer/NotesSwitch" to="." method="_on_notes_switch_toggled"]
+[connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer/ClearNotesButton" to="." method="_on_clear_notes"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/CheatButton" to="." method="cheat"]
 [connection signal="toggled" from="DebugOptions/List/StackToggle" to="." method="toggle_stack_view"]
 [connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]
