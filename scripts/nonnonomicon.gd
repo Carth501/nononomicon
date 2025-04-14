@@ -50,6 +50,9 @@ func cheat():
 func _on_submit_pressed() -> void:
 	State.submit()
 
+func _on_reset_pressed() -> void:
+	State.reset()
+
 func _on_notes_switch_toggled(toggled_on: bool) -> void:
 	State.set_notes_no_signal(toggled_on)
 

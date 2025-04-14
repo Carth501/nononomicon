@@ -207,6 +207,12 @@ func generate_empty_map():
 func set_square_map(new_map: Dictionary):
 	master [active_id][SQUARE_MAP_KEY] = new_map
 
+func reset():
+	if master.has(active_id):
+		generate_empty_map()
+		board_ready.emit()
+		clear_stack()
+
 func _process(_delta):
 	if ! master.has(active_id):
 		return
