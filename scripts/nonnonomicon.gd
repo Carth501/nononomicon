@@ -16,6 +16,7 @@ var index := preload("res://scenes/index.tscn")
 @export var debug_menu: Control
 @export var stack_container: ScrollContainer
 @export var stack_list: VBoxContainer
+var drawer_width_percent := 0.7
 
 func _ready():
 	open_page("index")
@@ -148,3 +149,10 @@ func update_stack_view():
 		new_label.text = str(i) + ": " + str(stack[i])
 		new_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		stack_list.add_child(new_label)
+
+
+func _on_resized() -> void:
+	split_container.split_offset = roundi(size.x * drawer_width_percent)
+
+func on_drawer_dragged(value: int):
+	drawer_width_percent = value / size.x
