@@ -38,6 +38,7 @@ var STACK_INDEX_KEY := 'stack_index'
 var SIZE_KEY := 'size'
 var HEADERS_OVERRIDE_KEY := 'headers_override'
 var FOOTER_KEY := 'footer'
+var COMPLICATIONS_KEY := 'complications'
 var toggle_state: ToggleStates = ToggleStates.NOTHING
 var notes: bool
 var active_id: String = "default"
@@ -158,7 +159,7 @@ func set_square_state(coords: Vector2i, new_state: SquareStates):
 	})
 	master [active_id][SQUARE_MAP_KEY][coords.x][coords.y] = new_state
 	square_changed.emit(coords)
-	generate_line_comparisons()
+	generate_line_comparisons(coords)
 
 func set_chosen_coords_state(new_state: SquareStates):
 	set_square_state(chosen_coords, new_state)
@@ -497,6 +498,37 @@ func generate_sequence_for_array(line: Array) -> Array:
 	if count > 0 || total == 0:
 		sequence.append({'length': str(count), 'segment': segment})
 	return sequence
+
+func generate_complicated_sequence_for_array(line: Array, complications: Array) -> Array:
+	var sequence = []
+	var total = 0
+	var count = 0
+	var segment = []
+	for i in line.size():
+		var is_different = line[i] == SquareStates.MARKED
+		for complication in complications:
+			if complication["type"] == "delta":
+				var variable_axis = 'X' if complication.has('variable_column') else 'Y'
+				var x = complication['subject_column'] if variable_axis == 'X' else i
+				var y = i if variable_axis == 'X' else complication['subject_row']
+				var value = master [active_id][SQUARE_MAP_KEY][x][y]
+				var value_eval = value == SquareStates.MARKED
+				if value_eval == is_different:
+					is_different = false
+				else:
+					is_different = true
+				
+		if is_different:
+			count += 1
+			total += 1
+			segment.append(i)
+		elif count > 0:
+			sequence.append({'length': str(count), 'segment': segment})
+			count = 0
+			segment = []
+	if count > 0 || total == 0:
+		sequence.append({'length': str(count), 'segment': segment})
+	return sequence
 #endregion Header Generation
 
 #region Danger Square Detection
@@ -748,49 +780,61 @@ func update_header_for_column(column: int):
 #endregion Header Reprocessing
 
 #region Header Assistance
-func generate_line_comparisons():
-	var x_comparisons = compare_line_to_header('X')
-	var y_comparisons = compare_line_to_header('Y')
+func generate_all_line_comparisons():
+	var x_comparisons = {}
+	for x in range(get_size().x):
+		x_comparisons[x] = compare_line_to_header('X', x)
+	var y_comparisons = {}
+	for y in range(get_size().y):
+		y_comparisons[y] = compare_line_to_header('Y', y)
 	lines_compared.emit({
-		'X': x_comparisons,
-		'Y': y_comparisons
+		"X": x_comparisons,
+		"Y": y_comparisons
 	})
 
-func compare_line_to_header(axis: String):
-	var results = {}
+func generate_line_comparisons(coords: Vector2i):
+	var x_comparisons = compare_line_to_header('X', coords.x)
+	var y_comparisons = compare_line_to_header('Y', coords.y)
+	lines_compared.emit({
+		"X": {coords.x: x_comparisons},
+		"Y": {coords.y: y_comparisons}
+	})
+
+func compare_line_to_header(axis: String, line_index: int = -1) -> Array:
 	var map = master [active_id][SQUARE_MAP_KEY]
-	var headers = master [active_id][HEADERS_KEY][axis]
+	var headers = get_header(axis)
 	var SIZE = get_size()
-	var primary_size = SIZE.x if axis == 'X' else SIZE.y
 	var secondary_size = SIZE.y if axis == 'X' else SIZE.x
 
-	for i in range(primary_size):
-		var line = []
-		for k in range(secondary_size):
-			if axis == 'X':
-				line.append(map[i][k])
-			else:
-				line.append(map[k][i])
-		var generated_segments = generate_sequence_for_array(line)
-		var header_segments = headers[i]
-		var comparison = []
-		var index = -1
-		for h in header_segments:
-			var p = 0
-			var found = false
-			for j in generated_segments:
-				if h['length'] == j['length']:
-					if p > index:
-						index = p
-						comparison.append(true)
-						found = true
-						break
-				p += 1
-			if !found:
-				comparison.append(false)
-		results[i] = comparison
-
-	return results
+	var line = []
+	for k in range(secondary_size):
+		if axis == 'X':
+			line.append(map[line_index][k])
+		else:
+			line.append(map[k][line_index])
+	var complications = get_complications(axis, line_index)
+	var generated_segments = []
+	if complications.size() == 0:
+		generated_segments = generate_sequence_for_array(line)
+	else:
+		generated_segments = generate_complicated_sequence_for_array(line, complications)
+	var header_segments = headers[line_index]
+	var comparison = []
+	var length_index = -1
+	for h in header_segments:
+		var p = 0
+		var found = false
+		for j in generated_segments:
+			if h['length'] == j['length']:
+				if p > length_index:
+					length_index = p
+					comparison.append(true)
+					found = true
+					break
+			p += 1
+		if !found:
+			comparison.append(false)
+	return comparison
 #endregion Header Assistance
 
 func sanity_check_parameters(parameters: Dictionary) -> bool:
@@ -923,6 +967,9 @@ func handle_complications(list: Array):
 					print("Unknown complication type: ", i['type'])
 
 func handle_delta_complication(complication: Dictionary):
+	if ! master [active_id].has(COMPLICATIONS_KEY):
+		master [active_id][COMPLICATIONS_KEY] = []
+	master [active_id][COMPLICATIONS_KEY].append(complication)
 	generate_delta_header(complication)
 	generate_delta_footer(complication)
 
@@ -1034,7 +1081,22 @@ func generate_delta(headers1: Array, headers2: Array) -> Array:
 
 	return delta
 
-	
+func get_complications(axis: String, index: int) -> Array:
+	if ! master.has(active_id):
+		push_error("Attempted to get complications with invalid id: ", active_id)
+		return []
+	if ! master [active_id].has(COMPLICATIONS_KEY):
+		return []
+	var result_list = []
+	for complication in master [active_id][COMPLICATIONS_KEY]:
+		var complication_axis = 'X' if complication.has('subject_column') else 'Y'
+		if complication_axis != axis:
+			continue
+		var subject_index = complication['subject_column'] if complication_axis == 'X' else complication['subject_row']
+		if subject_index != index:
+			continue
+		result_list.append(complication)
+	return result_list
 #endregion Complications
 
 #region Stack Functions
@@ -1146,7 +1208,7 @@ func undo():
 	var old_state = action['old_state']
 	master [active_id][SQUARE_MAP_KEY][coords.x][coords.y] = old_state
 	square_changed.emit(coords)
-	generate_line_comparisons()
+	generate_line_comparisons(coords)
 
 func redo():
 	var action = redo_stack()
@@ -1156,6 +1218,6 @@ func redo():
 	var new_state = action['new_state']
 	master [active_id][SQUARE_MAP_KEY][coords.x][coords.y] = new_state
 	square_changed.emit(coords)
-	generate_line_comparisons()
+	generate_line_comparisons(coords)
 
 #endregion Stack Functions

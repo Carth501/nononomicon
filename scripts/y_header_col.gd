@@ -27,6 +27,5 @@ func set_error_lines(list: Array):
 			cells[i].set_error(false)
 
 func set_assist(comparisons: Dictionary):
-	for i in cells.size():
-		if comparisons.has(i):
-			cells[i].set_assist(comparisons[i])
+	for i in comparisons.keys():
+		cells[i].set_assist(comparisons[i])

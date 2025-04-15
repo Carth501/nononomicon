@@ -37,7 +37,7 @@ func prepare_board():
 		else:
 			hide_victory()
 		sort_children()
-		State.generate_line_comparisons()
+		State.generate_all_line_comparisons()
 
 func display_victory():
 	victory_label.visible = true
@@ -101,7 +101,5 @@ func sort_children() -> void:
 	footer_col_scroll.position = Vector2(col_head_width + nonogram_scroll_container.size.x, row_head_height)
 
 func update_header_assist(comparisons: Dictionary):
-	if comparisons.has("X"):
-		header_row.set_assist(comparisons["X"])
-	if comparisons.has("Y"):
-		header_col.set_assist(comparisons["Y"])
+	header_row.set_assist(comparisons["X"])
+	header_col.set_assist(comparisons["Y"])

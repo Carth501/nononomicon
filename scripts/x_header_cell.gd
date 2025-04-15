@@ -20,7 +20,11 @@ func set_error(value: bool):
 	error_square.visible = value
 
 func set_assist(comparison: Array):
-	for i in labels.size():
+	if labels.size() != comparison.size():
+		push_error("something went wrong with the comparison. ", labels.size(), " != ", comparison.size(), "\n",
+			"comparison: ", comparison)
+		return
+	for i in range(labels.size()):
 		if comparison[i]:
 			labels[i].set("theme_override_colors/font_color", Color(0.1, 0.9, 0.1))
 		else:
