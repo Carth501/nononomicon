@@ -1,8 +1,6 @@
 class_name XHeader extends Control
 
 @export var numbers_container: VBoxContainer
-@export var highlight_square: ColorRect
-@export var error_square: ColorRect
 var x_header_label_scene = preload("res://scenes/x_header_label.tscn")
 var labels: Array = []
 
@@ -14,10 +12,12 @@ func generate_labels(values: Array):
 		labels.append(new_label)
 
 func set_highlighter(value: bool):
-	highlight_square.visible = value
+	for label in labels:
+		label.set_highlighter(value)
 
 func set_error(value: bool):
-	error_square.visible = value
+	for label in labels:
+		label.set_error(value)
 
 func set_assist(comparison: Array):
 	if labels.size() != comparison.size():

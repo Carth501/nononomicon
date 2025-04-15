@@ -188,8 +188,8 @@ offset_top = -31.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[connection signal="resized" from="." to="." method="resize_board"]
 [connection signal="resized" from="." to="." method="_on_resized"]
+[connection signal="resized" from="." to="." method="resize_board"]
 [connection signal="level_selected" from="Index" to="." method="open_page"]
 [connection signal="dragged" from="HSplitContainer" to="." method="on_drawer_dragged"]
 [connection signal="resized" from="HSplitContainer/NonogramBoard" to="HSplitContainer/NonogramBoard" method="resize_board"]
