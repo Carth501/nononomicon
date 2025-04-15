@@ -509,8 +509,8 @@ func generate_complicated_sequence_for_array(line: Array, complications: Array) 
 		for complication in complications:
 			if complication["type"] == "delta":
 				var variable_axis = 'X' if complication.has('variable_column') else 'Y'
-				var x = complication['subject_column'] if variable_axis == 'X' else i
-				var y = i if variable_axis == 'X' else complication['subject_row']
+				var x = complication['variable_column'] if variable_axis == 'X' else i
+				var y = i if variable_axis == 'X' else complication['variable_row']
 				var value = master [active_id][SQUARE_MAP_KEY][x][y]
 				var value_eval = value == SquareStates.MARKED
 				if value_eval == is_different:
