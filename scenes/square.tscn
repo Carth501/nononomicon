@@ -1,8 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://dquc4fovbtrhl"]
+[gd_scene load_steps=3 format=3 uid="uid://dquc4fovbtrhl"]
 
 [ext_resource type="Script" path="res://scripts/square.gd" id="1_136qj"]
+[ext_resource type="Texture2D" uid="uid://d1gmnt1mno2w1" path="res://assets/icons/lock-closed-svgrepo-com.svg" id="2_lr3oy"]
 
-[node name="Square" type="Control" node_paths=PackedStringArray("note_label", "highlighter", "color_square")]
+[node name="Square" type="Control" node_paths=PackedStringArray("note_label", "highlighter", "color_square", "lock_tex")]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 3
 anchors_preset = 0
@@ -12,6 +13,7 @@ script = ExtResource("1_136qj")
 note_label = NodePath("Label")
 highlighter = NodePath("HighlighterSquare")
 color_square = NodePath("ColorRect")
+lock_tex = NodePath("LockTexture")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 custom_minimum_size = Vector2(60, 60)
@@ -45,6 +47,22 @@ offset_right = 64.0
 offset_bottom = 64.0
 mouse_filter = 2
 color = Color(0.768627, 0.6, 0.286275, 1)
+
+[node name="LockTexture" type="TextureRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_lr3oy")
+expand_mode = 4
+stretch_mode = 4
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

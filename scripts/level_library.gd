@@ -94,6 +94,25 @@ var levels: Dictionary = {
 			}
 		}
 	},
+	"locks": {
+		"name": "Locks",
+		"parameters": {
+			"seed": 17,
+			"size": Vector2i(12, 8),
+			"randomness": 0.9,
+			"generation": {
+				"method": "ellipse",
+				"scale": Vector2(0.8, 1.1),
+			},
+			"locks": [
+				Vector2i(6, 7),
+				Vector2i(3, 5),
+				Vector2i(2, 2),
+				Vector2i(8, 1)],
+		},
+		"tutorial": "\tSome levels will have locked squares. You don't need to " +
+		"worry about them! They have been solved for you."
+	},
 	"big": {
 		"name": "Go Big",
 		"parameters": {
@@ -339,7 +358,7 @@ var levels: Dictionary = {
 }
 var chapters: Dictionary = {
 	"chapter1": {
-		"levels": ["intro", "basics", "didactic", "jack_and_hide", "elaborate", "trig", "ellipse", "big", "trig2"],
+		"levels": ["intro", "basics", "didactic", "jack_and_hide", "elaborate", "trig", "ellipse", "locks", "big", "trig2"],
 		"title": "Chapter 1"
 	},
 	"chapter2": {

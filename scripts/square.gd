@@ -4,6 +4,7 @@ class_name NonogramSquare extends Control
 @export var note_label: Label
 @export var highlighter: ColorRect
 @export var color_square: ColorRect
+@export var lock_tex: TextureRect
 
 func setup(new_coords: Vector2i):
 	coords = new_coords
@@ -50,3 +51,9 @@ func set_highlighter(value: bool):
 
 func take_focus():
 	grab_focus()
+
+func lock_square(value: bool):
+	if value:
+		lock_tex.show()
+	else:
+		lock_tex.hide()

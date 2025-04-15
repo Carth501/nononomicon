@@ -10,6 +10,7 @@ signal coords_changed(coords)
 signal error_lines_updated(errors)
 signal stack_changed
 signal lines_compared(comparison)
+signal lock_added_to_square(coords)
 
 enum SquareStates {
 	EMPTY,
@@ -39,6 +40,7 @@ var SIZE_KEY := 'size'
 var HEADERS_OVERRIDE_KEY := 'headers_override'
 var FOOTER_KEY := 'footer'
 var COMPLICATIONS_KEY := 'complications'
+var LOCKS_KEY := 'locks'
 var toggle_state: ToggleStates = ToggleStates.NOTHING
 var notes: bool
 var active_id: String = "default"
@@ -61,6 +63,9 @@ func setup(parameters: Dictionary) -> void:
 		master [active_id][HEADERS_OVERRIDE_KEY] = {}
 		handle_complications(parameters['complications'])
 	board_ready.emit()
+	if (parameters.has('locks')):
+		for coords in parameters.locks:
+			lock_square(coords)
 
 func set_active_id(new_id: String):
 	active_id = new_id
@@ -152,12 +157,21 @@ func change_square_state(new_state: SquareStates):
 	square_changed.emit(chosen_coords)
 
 func set_square_state(coords: Vector2i, new_state: SquareStates):
+	if master [active_id].has(LOCKS_KEY):
+		if master [active_id][LOCKS_KEY].has(coords):
+			return
 	push_stack({
 		'coords': coords,
 		'old_state': get_position_state(coords),
 		'new_state': new_state
 	})
 	master [active_id][SQUARE_MAP_KEY][coords.x][coords.y] = new_state
+	square_changed.emit(coords)
+	generate_line_comparisons(coords)
+
+func solve_square(coords: Vector2i):
+	var new_square_state = master [active_id][TARGET_MAP_KEY][coords.x][coords.y]
+	master [active_id][SQUARE_MAP_KEY][coords.x][coords.y] = new_square_state
 	square_changed.emit(coords)
 	generate_line_comparisons(coords)
 
@@ -1231,3 +1245,18 @@ func redo():
 	generate_line_comparisons(coords)
 
 #endregion Stack Functions
+
+#region locking
+func lock_square(coords: Vector2i):
+	if ! master.has(active_id):
+		push_error("Attempted to lock square with invalid id: ", active_id)
+		return
+	if ! master [active_id].has(LOCKS_KEY):
+		master [active_id][LOCKS_KEY] = []
+	if ! master [active_id][LOCKS_KEY].has(coords):
+		solve_square(coords)
+		master [active_id][LOCKS_KEY].append(coords)
+		lock_added_to_square.emit(coords)
+	
+	
+#endregion locking

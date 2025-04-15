@@ -22,6 +22,7 @@ func _ready():
 	State.coords_changed.connect(update_highlighter_square)
 	State.error_lines_updated.connect(error_lines)
 	State.lines_compared.connect(update_header_assist)
+	State.lock_added_to_square.connect(lock_square)
 	victory_label.visible = false
 
 func prepare_board():
@@ -103,3 +104,11 @@ func sort_children() -> void:
 func update_header_assist(comparisons: Dictionary):
 	header_row.set_assist(comparisons["X"])
 	header_col.set_assist(comparisons["Y"])
+
+func lock_square(coords: Vector2i):
+	nonogram_squares.get_square(coords).lock_square(true)
+
+func clear_locks():
+	for i in State.get_size().x:
+		for j in State.get_size().y:
+			nonogram_squares.get_square(Vector2i(i, j)).lock_square(false)
