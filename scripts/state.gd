@@ -337,7 +337,7 @@ func random_center_diamond_map(parameters: Dictionary):
 	master [active_id][TARGET_MAP_KEY] = {}
 	var SIZE = get_size()
 	for i in SIZE.x:
-		master [active_id][TARGET_MAP_KEY][i] = {}
+		master [active_id][TARGET_MAP_KEY][i] = create_empty_array(SIZE.y)
 		for k in SIZE.y:
 			var average = roundi((SIZE.x + SIZE.y) / 2.0)
 			var random_value = randf_range(-2.5, 2.5)
@@ -355,7 +355,7 @@ func generate_sine_map(parameters: Dictionary):
 	master [active_id][TARGET_MAP_KEY] = {}
 	var SIZE = get_size()
 	for i in SIZE.x:
-		master [active_id][TARGET_MAP_KEY][i] = {}
+		master [active_id][TARGET_MAP_KEY][i] = create_empty_array(SIZE.y)
 		for k in SIZE.y:
 			var frequency = parameters['generation']['frequency']
 			var x = i * frequency.x
@@ -377,7 +377,7 @@ func generate_ellipse_map(parameters: Dictionary):
 	master [active_id][TARGET_MAP_KEY] = {}
 	var SIZE = get_size()
 	for i in SIZE.x:
-		master [active_id][TARGET_MAP_KEY][i] = {}
+		master [active_id][TARGET_MAP_KEY][i] = create_empty_array(SIZE.y)
 		for k in SIZE.y:
 			var s = float(i + .5) / float(SIZE.x)
 			var t = float(k + .5) / float(SIZE.y)
@@ -400,7 +400,7 @@ func generate_waveform_map(parameters: Dictionary):
 	master [active_id][TARGET_MAP_KEY] = {}
 	var SIZE = get_size()
 	for i in SIZE.x:
-		master [active_id][TARGET_MAP_KEY][i] = {}
+		master [active_id][TARGET_MAP_KEY][i] = create_empty_array(SIZE.y)
 		for k in SIZE.y:
 			var sum = 0.0
 			for series in parameters['generation']['series']:
@@ -435,6 +435,12 @@ func handle_series(term: Dictionary, i: int, k: int) -> float:
 	if term.has('amplitude'):
 		term_sum *= term['amplitude']
 	return term_sum
+
+func create_empty_array(length: int) -> Array:
+	var array = []
+	for i in length:
+		array.append(SquareStates.EMPTY)
+	return array
 #endregion Target Map Generation
 
 #region Cheats
@@ -473,10 +479,10 @@ func generate_header_for_axis(axis: String, primary_size: int, secondary_size: i
 		var line = []
 		for k in secondary_size:
 			if axis == 'X':
-				if map.has(i) and map[i].has(k):
+				if map.has(i):
 					line.append(map[i][k])
 			else:
-				if map.has(k) and map[k].has(i):
+				if map.has(k):
 					line.append(map[k][i])
 		master [active_id][HEADERS_KEY][axis][i] = generate_sequence_for_array(line)
 
@@ -740,7 +746,7 @@ func update_header_for_row(row: int):
 	master [active_id][HEADERS_KEY]['X'][row] = []
 	var SIZE = get_size()
 	for k in range(SIZE.y):
-		var is_marked = map.has(row) and map[row].has(k) and map[row][k] == SquareStates.MARKED
+		var is_marked = map.has(row) and map[row][k] == SquareStates.MARKED
 
 		if is_marked:
 			count += 1
@@ -763,7 +769,7 @@ func update_header_for_column(column: int):
 	master [active_id][HEADERS_KEY]['Y'][column] = []
 	var SIZE = get_size()
 	for i in range(SIZE.x):
-		var is_marked = map.has(i) and map[i].has(column) and map[i][column] == SquareStates.MARKED
+		var is_marked = map.has(i) and map[i][column] == SquareStates.MARKED
 
 		if is_marked:
 			count += 1
@@ -791,6 +797,10 @@ func generate_all_line_comparisons():
 		"X": x_comparisons,
 		"Y": y_comparisons
 	})
+	return {
+		"X": x_comparisons,
+		"Y": y_comparisons
+	}
 
 func generate_line_comparisons(coords: Vector2i):
 	var x_comparisons = compare_line_to_header('X', coords.x)

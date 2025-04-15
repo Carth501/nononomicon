@@ -29,13 +29,22 @@ func test_parameterized_state_initialization():
 	State.set_active_id('TestKey')
 	State.setup({'size': Vector2i(4, 4), 'seed': 19024})
 	assert_has(State.master ['TestKey'], State.TARGET_MAP_KEY, "Should have headers key")
-	assert_eq(State.master ['TestKey'][State.TARGET_MAP_KEY], {0: {0: 0, 1: 0, 2: 0, 3: 1}, 1: {0: 1, 1: 1, 2: 1, 3: 0}, 2: {0: 1, 1: 0, 2: 1, 3: 0}, 3: {0: 1, 1: 1, 2: 0, 3: 0}})
+	assert_eq(State.master ['TestKey'][State.TARGET_MAP_KEY], {
+		0: [0, 0, 0, 1],
+		1: [1, 1, 1, 0],
+		2: [1, 0, 1, 0],
+		3: [1, 1, 0, 0]})
 
 
 class TestStateFunctions:
 	extends GutTest
 
-	var parameters = {'size': Vector2i(2, 2), 'seed': 7, 'target_map': {0: {0: 0, 1: 1}, 1: {0: 1, 1: 0}}}
+	var parameters = {
+		'size': Vector2i(2, 2),
+		'seed': 7,
+		'target_map': {
+			0: [0, 1],
+			1: [1, 0]}}
 
 	func before_each():
 		State.set_active_id('TestKey')
@@ -90,7 +99,7 @@ class TestStateFunctions:
 		var y_offset_segments = State.find_offset_by_one_segments('Y')
 		var shared_end_segments = State.find_shared_end_segments(x_offset_segments, y_offset_segments)
 		State.resolve_danger_square(shared_end_segments)
-		State.set_square_map({0: {0: 0, 1: 1}, 1: {0: 1, 1: 0}})
+		State.set_square_map({0: [0, 1], 1: [1, 0]})
 		assert_false(State.check_victory(), "Should not have detected victory")
 
 
@@ -101,9 +110,9 @@ class TestAdjacencyException:
 		'size': Vector2i(3, 2),
 		'seed': 6,
 		'target_map': {
-			0: {0: 0, 1: 1},
-			1: {0: 1, 1: 0},
-			2: {0: 0, 1: 1}
+			0: [0, 1],
+			1: [1, 0],
+			2: [0, 1]
 			}}
 
 	func before_all():
@@ -220,10 +229,10 @@ class TestHeaderAssist:
 	func test_header_assist_1():
 		State.set_active_id('TestKey')
 		State.set_target_map({
-				0: {0: 0, 1: 1, 2: 0, 3: 1},
-				1: {0: 0, 1: 1, 2: 1, 3: 1},
-				2: {0: 1, 1: 1, 2: 1, 3: 0},
-				3: {0: 0, 1: 1, 2: 0, 3: 1}
+				0: [0, 1, 0, 1],
+				1: [0, 1, 1, 1],
+				2: [1, 1, 1, 0],
+				3: [0, 1, 0, 1]
 			})
 		State.set_size(Vector2i(4, 4))
 		State.generate_headers()
@@ -233,59 +242,58 @@ class TestHeaderAssist:
 			2: [0, 0, 1, 1],
 			3: [0, 0, 0, 1],
 			})
-		var x = State.compare_line_to_header('X')
-		assert_eq(x, {0: [true, false], 1: [false], 2: [false], 3: [true, false]}, "Should have generated the correct comparison")
-		var y = State.compare_line_to_header('Y')
-		assert_eq(y, {0: [false], 1: [false], 2: [true], 3: [true, false]}, "Should have generated the correct comparison")
+		var comparisons = State.generate_all_line_comparisons()
+		assert_eq(comparisons["X"], {0: [true, false], 1: [false], 2: [false], 3: [true, false]}, "Should have generated the correct comparison")
+		assert_eq(comparisons["Y"], {0: [false], 1: [false], 2: [true], 3: [true, false]}, "Should have generated the correct comparison")
 
 	func test_header_assist_2():
 		State.set_active_id('TestKey')
 		State.set_size(Vector2i(1, 7))
 		State.set_target_map({
-				0: {0: 1, 1: 1, 2: 0, 3: 1, 4: 0, 5: 1, 6: 1},
+				0: [1, 1, 0, 1, 0, 1, 1],
 			})
 		State.generate_headers()
 		State.set_square_map({
 			0: [1, 1, 0, 1, 0, 1, 1],
 			})
-		var x = State.compare_line_to_header('X')
-		assert_eq(x, {0: [true, true, true]}, "Should have generated the correct comparison")
+		var comparisons = State.generate_all_line_comparisons()
+		assert_eq(comparisons["X"], {0: [true, true, true]}, "Should have generated the correct comparison")
 
 	func test_header_assist_3():
 		State.set_active_id('TestKey')
 		State.set_size(Vector2i(1, 7))
 		State.set_target_map({
-				0: {0: 0, 1: 1, 2: 0, 3: 1, 4: 0, 5: 1, 6: 1},
+				0: [0, 1, 0, 1, 0, 1, 1],
 			})
 		State.generate_headers()
 		State.set_square_map({
 			0: [0, 0, 0, 1, 0, 1, 1],
 			})
-		var x = State.compare_line_to_header('X')
-		assert_eq(x, {0: [true, false, true]}, "Should have generated the correct comparison")
+		var comparisons = State.generate_all_line_comparisons()
+		assert_eq(comparisons["X"], {0: [true, false, true]}, "Should have generated the correct comparison")
 
 	func test_header_assist_4():
 		State.set_active_id('TestKey')
 		State.set_size(Vector2i(1, 7))
 		State.set_target_map({
-				0: {0: 1, 1: 1, 2: 0, 3: 1, 4: 0, 5: 1, 6: 1},
+				0: [1, 1, 0, 1, 0, 1, 1],
 			})
 		State.generate_headers()
 		State.set_square_map({
 			0: [1, 0, 1, 1, 0, 1, 1],
 			})
-		var x = State.compare_line_to_header('X')
-		assert_eq(x, {0: [true, false, true]}, "Should skip the middle length out of place")
+		var comparisons = State.generate_all_line_comparisons()
+		assert_eq(comparisons["X"], {0: [true, false, true]}, "Should skip the middle length out of place")
 
 	func test_header_assist_5():
 		State.set_active_id('TestKey')
 		State.set_size(Vector2i(1, 8))
 		State.set_target_map({
-				0: {0: 1, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 1, 7: 1},
+				0: [1, 0, 0, 0, 0, 0, 1, 1],
 		})
 		State.generate_headers()
 		State.set_square_map({
 			0: [1, 0, 1, 1, 1, 0, 1, 1],
 			})
-		var x = State.compare_line_to_header('X')
-		assert_eq(x, {0: [true, true]}, "Should ignore the extra length")
+		var comparisons = State.generate_all_line_comparisons()
+		assert_eq(comparisons["X"], {0: [true, true]}, "Should ignore the extra length")
