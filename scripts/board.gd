@@ -11,7 +11,7 @@ class_name NonogramBoard extends Container
 @export var footer_row_scroll: ScrollContainer
 @export var footer_col_scroll: ScrollContainer
 @export var board_margin_control: Control
-@export var SCROLLBAR_MARGIN: int = 6
+@export var SCROLLBAR_MARGIN: int = 8
 @export var victory_label: Label
 var highlighting: Vector2i
 
