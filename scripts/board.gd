@@ -13,6 +13,7 @@ class_name NonogramBoard extends Container
 @export var board_margin_control: Control
 @export var SCROLLBAR_MARGIN: int = 8
 @export var victory_label: Label
+@export var guidelines: Guidelines
 var highlighting: Vector2i
 
 func _ready():
@@ -39,6 +40,7 @@ func prepare_board():
 			hide_victory()
 		sort_children()
 		State.generate_all_line_comparisons()
+		guidelines.create_lines(State.get_guideline_interval())
 
 func display_victory():
 	victory_label.visible = true

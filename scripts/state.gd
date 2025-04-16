@@ -133,6 +133,13 @@ func get_level_parameters() -> Dictionary:
 	else:
 		return {}
 
+func get_guideline_interval() -> Vector2i:
+	var SIZE = master [active_id][SIZE_KEY]
+	var result = Vector2i(0, 0)
+	result.x = roundi(SIZE.x / floor(sqrt(SIZE.x)))
+	result.y = roundi(SIZE.y / floor(sqrt(SIZE.y)))
+	return result
+
 func change_square_state(new_state: SquareStates):
 	if (new_state == SquareStates.MARKED):
 		if get_chosen_coords_state() == SquareStates.EMPTY:

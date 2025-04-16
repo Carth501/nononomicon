@@ -16,12 +16,12 @@ color_square = NodePath("ColorRect")
 lock_tex = NodePath("LockTexture")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-custom_minimum_size = Vector2(60, 60)
+custom_minimum_size = Vector2(58, 58)
 layout_mode = 0
-offset_left = 2.0
-offset_top = 2.0
-offset_right = 62.0
-offset_bottom = 62.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 61.0
+offset_bottom = 61.0
 mouse_filter = 2
 color = Color(0.92549, 0.886275, 0.815686, 1)
 
