@@ -28,6 +28,12 @@ enum ToggleStates {
 	EMPTYING_FLAGGED,
 }
 
+enum Axis {
+	NONE,
+	X,
+	Y
+}
+
 var chosen_coords: Vector2i = Vector2i(-1, -1)
 var master: Dictionary
 var SQUARE_MAP_KEY := 'square_map'
@@ -44,6 +50,8 @@ var LOCKS_KEY := 'locks'
 var toggle_state: ToggleStates = ToggleStates.NOTHING
 var notes: bool
 var active_id: String = "default"
+var drag_direction: Axis = Axis.NONE
+var drag_start := Vector2i(-1, -1)
 
 func setup(parameters: Dictionary) -> void:
 	sanity_check_parameters(parameters)
@@ -260,16 +268,22 @@ func _process(_delta):
 func handle_input_release():
 	if Input.is_action_just_released("Flag") and (toggle_state == ToggleStates.FLAGGING or toggle_state == ToggleStates.EMPTYING_FLAGGED):
 		reset_toggle_state()
+		drag_direction = Axis.NONE
+		drag_start = Vector2i(-1, -1)
 	elif Input.is_action_just_released("Mark") and (toggle_state == ToggleStates.MARKING or toggle_state == ToggleStates.EMPTYING_MARKED):
 		reset_toggle_state()
+		drag_direction = Axis.NONE
+		drag_start = Vector2i(-1, -1)
 
 func handle_input_press():
 	var state = get_chosen_coords_state()
 	if toggle_state == ToggleStates.NOTHING:
 		if Input.is_action_just_pressed("Flag"):
 			handle_flag_press(state)
+			drag_start = chosen_coords
 		elif Input.is_action_just_pressed("Mark"):
 			handle_mark_press(state)
+			drag_start = chosen_coords
 	if Input.is_action_just_pressed("Undo"):
 		undo()
 	elif Input.is_action_just_pressed("Redo"):
@@ -282,8 +296,22 @@ func handle_input_press():
 		arrow_move(Vector2i(chosen_coords.x - 1, chosen_coords.y))
 	elif Input.is_action_just_pressed("Right"):
 		arrow_move(Vector2i(chosen_coords.x + 1, chosen_coords.y))
+	handle_drag_motion()
 	handle_toggle_state()
 
+func handle_drag_motion():
+	if drag_start != Vector2i(-1, -1) && drag_start != chosen_coords:
+		if drag_direction == Axis.NONE:
+			var delta_x = abs(chosen_coords.x - drag_start.x)
+			var delta_y = abs(chosen_coords.y - drag_start.y)
+			if delta_x > delta_y:
+				drag_direction = Axis.X
+			else:
+				drag_direction = Axis.Y
+		if drag_direction == Axis.X:
+			set_chosen_coords(Vector2i(chosen_coords.x, drag_start.y))
+		elif drag_direction == Axis.Y:
+			set_chosen_coords(Vector2i(drag_start.x, chosen_coords.y))
 
 func arrow_move(direction: Vector2i):
 	if direction.x < 0 || direction.x >= get_size().x || direction.y < 0 || direction.y >= get_size().y:
