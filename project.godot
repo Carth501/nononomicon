@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 State="*res://scripts/state.gd"
 SaveManager="*res://scripts/save_manager.gd"
 LevelLibrary="*res://scripts/level_library.gd"
+PowersLibary="*res://scripts/powers_libary.gd"
 
 [editor_plugins]
 

@@ -11,6 +11,9 @@ signal error_lines_updated(errors)
 signal stack_changed
 signal lines_compared(comparison)
 signal lock_added_to_square(coords)
+signal show_power(power_id)
+signal hide_power()
+signal powers_changed()
 
 enum SquareStates {
 	EMPTY,
@@ -47,11 +50,13 @@ var HEADERS_OVERRIDE_KEY := 'headers_override'
 var FOOTER_KEY := 'footer'
 var COMPLICATIONS_KEY := 'complications'
 var LOCKS_KEY := 'locks'
+var POWERS_KEY := 'powers'
 var toggle_state: ToggleStates = ToggleStates.NOTHING
 var notes: bool
 var active_id: String = "default"
 var drag_direction: Axis = Axis.NONE
 var drag_start := Vector2i(-1, -1)
+var power_id: String = ""
 
 func setup(parameters: Dictionary) -> void:
 	sanity_check_parameters(parameters)
@@ -63,8 +68,9 @@ func setup(parameters: Dictionary) -> void:
 		set_size(parameters['size'])
 	if (parameters.has('notes')):
 		notes = parameters['notes']
-	if (parameters.has('id')):
-		active_id = parameters['id']
+	if parameters.has('powers'):
+		print("Setting powers: ", parameters['powers'])
+		set_powers(parameters['powers'])
 	generate_target_map(parameters)
 	prepare_square_map(parameters)
 	if (parameters.has('complications')):
@@ -74,6 +80,28 @@ func setup(parameters: Dictionary) -> void:
 	if (parameters.has('locks')):
 		for coords in parameters.locks:
 			lock_square(coords)
+
+func load_save(save: Dictionary):
+	for level in save.keys():
+		master [level] = {}
+		active_id = level
+		setup(LevelLibrary.get_level_parameters(level))
+		if (save[level].has(SQUARE_MAP_KEY)): # it would be weird for this to be missing
+			master [level][SQUARE_MAP_KEY] = save[level][SQUARE_MAP_KEY]
+		else:
+			push_warning("Missing square map for level: ", level)
+		# master[level][TARGET_MAP_KEY] = save[level][TARGET_MAP_KEY]
+		# master[level][HEADERS_KEY] = save[level][HEADERS_KEY]
+		if (save[level].has(VICTORY_KEY)):
+			master [level][VICTORY_KEY] = save[level][VICTORY_KEY]
+		if (save[level].has(STACK_KEY)):
+			master [level][STACK_KEY] = save[level][STACK_KEY]
+		# master[level][SIZE_KEY] = save[level][SIZE_KEY]
+		# master[level][HEADERS_OVERRIDE_KEY] = save[level].get(HEADERS_OVERRIDE_KEY, {})
+		# master[level][FOOTER_KEY] = save[level].get(FOOTER_KEY, {})
+		if (save[level].has(LOCKS_KEY)):
+			master [level][LOCKS_KEY] = save[level].get(LOCKS_KEY, {})
+		# master[level][POWERS_KEY] = save[level].get(POWERS_KEY, {})
 
 func set_active_id(new_id: String):
 	active_id = new_id
@@ -282,8 +310,11 @@ func handle_input_press():
 			handle_flag_press(state)
 			drag_start = chosen_coords
 		elif Input.is_action_just_pressed("Mark"):
-			handle_mark_press(state)
-			drag_start = chosen_coords
+			if power_id != "":
+				use_power()
+			else:
+				handle_mark_press(state)
+				drag_start = chosen_coords
 	if Input.is_action_just_pressed("Undo"):
 		undo()
 	elif Input.is_action_just_pressed("Redo"):
@@ -1295,3 +1326,39 @@ func lock_square(coords: Vector2i):
 	
 	
 #endregion locking
+
+#region powers
+func start_power(id: String):
+	power_id = id
+	show_power.emit()
+
+func use_power():
+	if power_id == "":
+		return
+	if power_id == "power_divine":
+		power_divine()
+	power_id = ""
+	hide_power.emit()
+
+func power_divine():
+	lock_square(chosen_coords)
+
+func get_powers():
+	if active_id == "default":
+		return []
+	if ! master.has(active_id):
+		push_error("Attempted to get powers with invalid id: ", active_id)
+		return []
+	if ! master [active_id].has(POWERS_KEY):
+		return []
+	return master [active_id][POWERS_KEY]
+
+func set_powers(powers: Array):
+	if ! master.has(active_id):
+		push_error("Attempted to set powers with invalid id: ", active_id)
+		return
+	if ! master [active_id].has(POWERS_KEY):
+		master [active_id][POWERS_KEY] = []
+	master [active_id][POWERS_KEY] = powers
+	powers_changed.emit()
+#endregion powers

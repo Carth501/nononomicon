@@ -117,7 +117,8 @@ var levels: Dictionary = {
 		"name": "Go Big",
 		"parameters": {
 			"seed": 3,
-			"size": Vector2i(20, 20)
+			"size": Vector2i(20, 20),
+			"powers": ["power_divine"]
 		},
 		"tutorial": '\tThis level is much larger than the previous ones. ' +
 			'Size does not determine difficulty, but it can get overwhelming.' +

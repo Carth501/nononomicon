@@ -27,4 +27,4 @@ func load(filename: String):
 	var save_file = FileAccess.open(save_name, FileAccess.READ)
 	var save_data = save_file.get_var()
 	save_file.close()
-	State.master = save_data
+	State.load_save(save_data)
