@@ -11,8 +11,8 @@ signal error_lines_updated(errors)
 signal stack_changed
 signal lines_compared(comparison)
 signal lock_added_to_square(coords)
-signal show_power(power_id)
-signal hide_power()
+signal showing_power(power_id)
+signal hiding_power()
 signal powers_changed()
 
 enum SquareStates {
@@ -1330,7 +1330,7 @@ func lock_square(coords: Vector2i):
 #region powers
 func start_power(id: String):
 	power_id = id
-	show_power.emit()
+	showing_power.emit()
 
 func use_power():
 	if power_id == "":
@@ -1338,7 +1338,7 @@ func use_power():
 	if power_id == "power_divine":
 		power_divine()
 	power_id = ""
-	hide_power.emit()
+	hiding_power.emit()
 
 func power_divine():
 	lock_square(chosen_coords)
