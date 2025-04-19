@@ -391,6 +391,8 @@ func handle_note_press():
 		set_notes(true)
 	elif Input.is_action_just_released("Note"):
 		set_notes(false)
+	if Input.is_action_just_pressed("Cancel"):
+		cancel_power()
 #endregion Input Handling
 
 #region Target Map Generation
@@ -1331,8 +1333,11 @@ func lock_square(coords: Vector2i):
 
 #region powers
 func start_power(id: String):
-	power_id = id
-	showing_power.emit(id)
+	if !power_id == id:
+		power_id = id
+		showing_power.emit(id)
+	else:
+		cancel_power()
 
 func use_power():
 	if power_id == "":
@@ -1404,4 +1409,10 @@ func use_charge(id: String):
 		if powers[id].has('charges'):
 			powers[id]['charges'] -= 1
 			power_charge_used.emit(id)
+
+func cancel_power():
+	if power_id == "":
+		return
+	power_id = ""
+	hiding_power.emit()
 #endregion powers
