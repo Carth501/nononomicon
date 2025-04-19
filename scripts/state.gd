@@ -14,6 +14,7 @@ signal lock_added_to_square(coords)
 signal showing_power(power_id)
 signal hiding_power()
 signal powers_changed()
+signal power_charge_used(power_id)
 
 enum SquareStates {
 	EMPTY,
@@ -69,7 +70,6 @@ func setup(parameters: Dictionary) -> void:
 	if (parameters.has('notes')):
 		notes = parameters['notes']
 	if parameters.has('powers'):
-		print("Setting powers: ", parameters['powers'])
 		set_powers(parameters['powers'])
 	generate_target_map(parameters)
 	prepare_square_map(parameters)
@@ -1336,7 +1336,9 @@ func use_power():
 	if power_id == "":
 		return
 	if power_id == "power_divine":
-		power_divine()
+		if get_charges(power_id) > 0:
+			power_divine()
+			use_charge(power_id)
 	power_id = ""
 	hiding_power.emit()
 
@@ -1353,7 +1355,7 @@ func get_powers():
 		return []
 	return master [active_id][POWERS_KEY]
 
-func set_powers(powers: Array):
+func set_powers(powers: Dictionary):
 	if ! master.has(active_id):
 		push_error("Attempted to set powers with invalid id: ", active_id)
 		return
@@ -1361,4 +1363,43 @@ func set_powers(powers: Array):
 		master [active_id][POWERS_KEY] = []
 	master [active_id][POWERS_KEY] = powers
 	powers_changed.emit()
+
+func load_powers():
+	if ! master.has(active_id):
+		push_error("Attempted to load powers with invalid id: ", active_id)
+		return
+	if ! master [active_id].has(POWERS_KEY):
+		return
+	var powers = master [active_id][POWERS_KEY]
+	for power in powers:
+		if power.has('type'):
+			match power['type']:
+				"power_divine":
+					start_power(power['id'])
+				_:
+					print("Unknown power type: ", power['type'])
+
+func get_charges(id: String) -> int:
+	if ! master.has(active_id):
+		push_error("Attempted to get charges with invalid id: ", active_id)
+		return 0
+	if ! master [active_id].has(POWERS_KEY):
+		return 0
+	var powers = master [active_id][POWERS_KEY]
+	if powers.has(id):
+		if powers[id].has('charges'):
+			return powers[id]['charges']
+	return 0
+
+func use_charge(id: String):
+	if ! master.has(active_id):
+		push_error("Attempted to use charge with invalid id: ", active_id)
+		return
+	if ! master [active_id].has(POWERS_KEY):
+		return
+	var powers = master [active_id][POWERS_KEY]
+	if powers.has(id):
+		if powers[id].has('charges'):
+			powers[id]['charges'] -= 1
+			power_charge_used.emit(id)
 #endregion powers

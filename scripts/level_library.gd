@@ -118,7 +118,7 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 3,
 			"size": Vector2i(20, 20),
-			"powers": ["power_divine"]
+			"powers": {"power_divine": {"charges": 2}},
 		},
 		"tutorial": '\tThis level is much larger than the previous ones. ' +
 			'Size does not determine difficulty, but it can get overwhelming.' +
@@ -129,6 +129,7 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 11,
 			"size": Vector2i(24, 16),
+			"powers": {"power_divine": {"charges": 4}},
 			"generation": {
 				"method": "waveform",
 				"series": [
