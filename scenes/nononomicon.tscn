@@ -1,13 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://p7emdn1gu7nk"]
+[gd_scene load_steps=6 format=3 uid="uid://p7emdn1gu7nk"]
 
 [ext_resource type="Script" path="res://scripts/nonnonomicon.gd" id="1_yfbcv"]
 [ext_resource type="PackedScene" uid="uid://dq8gk2xv1r27a" path="res://scenes/nonogram_board.tscn" id="2_mnfaj"]
 [ext_resource type="PackedScene" uid="uid://d2malck014txy" path="res://scenes/index.tscn" id="3_c4qpc"]
-[ext_resource type="Script" path="res://scripts/SplitContainerDebug.gd" id="3_pn8h0"]
 [ext_resource type="Script" path="res://scripts/game_ui.gd" id="4_hhnsy"]
 [ext_resource type="PackedScene" uid="uid://ytd3m12r45sh" path="res://scenes/powers_scroll_container.tscn" id="6_3fro6"]
 
-[node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("game_ui", "board", "split_container", "index_page", "next_button", "prev_button", "coords_display", "command_console", "drawer", "communications", "debug_menu", "stack_container", "stack_list")]
+[node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("game_ui", "board", "split_container", "index_page", "next_button", "prev_button", "coords_display", "command_console", "drawer", "tutorial_text", "power_description_container", "power_description", "power_name", "debug_menu", "stack_container", "stack_list")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -24,7 +23,10 @@ prev_button = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/LevelControl
 coords_display = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/CoordinatesDisplay")
 command_console = NodePath("LineEdit")
 drawer = NodePath("HSplitContainer/Drawer")
-communications = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/RichTextLabel")
+tutorial_text = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/Tutorial")
+power_description_container = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer")
+power_description = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer/PowerDescription")
+power_name = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer/PowerName")
 debug_menu = NodePath("DebugOptions")
 stack_container = NodePath("StackDisplay")
 stack_list = NodePath("StackDisplay/PanelContainer/List")
@@ -51,7 +53,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 split_offset = 918
-script = ExtResource("3_pn8h0")
 
 [node name="NonogramBoard" parent="HSplitContainer" instance=ExtResource("2_mnfaj")]
 layout_mode = 2
@@ -129,6 +130,7 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer"]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_vertical = 3
 follow_focus = true
@@ -142,12 +144,23 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="RichTextLabel" type="RichTextLabel" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer"]
+[node name="Tutorial" type="RichTextLabel" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer"]
 layout_mode = 2
 bbcode_enabled = true
 fit_content = true
 
+[node name="PowerDetailsContainer" type="VBoxContainer" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="PowerName" type="Label" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer"]
+layout_mode = 2
+
+[node name="PowerDescription" type="RichTextLabel" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer"]
+layout_mode = 2
+fit_content = true
+
 [node name="PowersMenu" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer" instance=ExtResource("6_3fro6")]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_vertical = 3
 

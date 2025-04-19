@@ -12,7 +12,10 @@ var index := preload("res://scenes/index.tscn")
 @export var coords_display: Label
 @export var command_console: LineEdit
 @export var drawer: Control
-@export var communications: RichTextLabel
+@export var tutorial_text: RichTextLabel
+@export var power_description_container: VBoxContainer
+@export var power_description: RichTextLabel
+@export var power_name: Label
 @export var debug_menu: Control
 @export var stack_container: ScrollContainer
 @export var stack_list: VBoxContainer
@@ -25,10 +28,12 @@ func _ready():
 	State.level_changed.connect(set_tutorial_text)
 	State.coords_changed.connect(update_coords_display)
 	State.level_changed.connect(handle_features)
+	State.showing_power.connect(show_power_description)
+	State.hiding_power.connect(hide_power_description)
 
 func open_page(id: String):
 	if (id == "index"):
-		communications.text = ""
+		tutorial_text.text = ""
 		split_container.hide()
 		index_page.show()
 	else:
@@ -108,10 +113,11 @@ func _process(_delta: float) -> void:
 
 func set_tutorial_text():
 	var params = State.get_level_parameters()
-	if (params.has("tutorial")):
-		communications.text = params["tutorial"]
+	if (params.has("tutorial_text")):
+		tutorial_text.text = params["tutorial_text"]
 	else:
-		communications.text = ""
+		tutorial_text.text = ""
+	hide_power_description()
 
 func handle_features():
 	var params = State.get_level_parameters()
@@ -162,3 +168,14 @@ func _on_resized() -> void:
 
 func on_drawer_dragged(value: int):
 	drawer_width_percent = value / size.x
+
+func show_power_description(power_id: String):
+	var power_locale = PowersLibary.data[power_id]
+	power_name.text = power_locale["power_name"]
+	power_description.text = power_locale["power_description"]
+	power_description_container.show()
+	tutorial_text.hide()
+
+func hide_power_description():
+	power_description_container.hide()
+	tutorial_text.show()

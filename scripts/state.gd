@@ -112,6 +112,8 @@ func set_active_id(new_id: String):
 	else:
 		board_ready.emit()
 	level_changed.emit()
+	power_id = ""
+	hiding_power.emit()
 
 func get_active_id() -> String:
 	return active_id
@@ -1330,7 +1332,7 @@ func lock_square(coords: Vector2i):
 #region powers
 func start_power(id: String):
 	power_id = id
-	showing_power.emit()
+	showing_power.emit(id)
 
 func use_power():
 	if power_id == "":
