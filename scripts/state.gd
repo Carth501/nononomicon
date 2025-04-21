@@ -102,7 +102,10 @@ func load_save(save: Dictionary):
 		# master[level][FOOTER_KEY] = save[level].get(FOOTER_KEY, {})
 		if (save[level].has(LOCKS_KEY)):
 			master [level][LOCKS_KEY] = save[level].get(LOCKS_KEY, {})
-		# master[level][POWERS_KEY] = save[level].get(POWERS_KEY, {})
+		if master [level].has(POWERS_KEY) and save[level].has(POWERS_KEY):
+			for power in master [level][POWERS_KEY].keys():
+				if save[level][POWERS_KEY].has(power):
+					master [level][POWERS_KEY][power]["charges"] = save[level][POWERS_KEY][power]["charges"]
 
 func set_active_id(new_id: String):
 	active_id = new_id
