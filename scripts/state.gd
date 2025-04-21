@@ -223,6 +223,8 @@ func set_square_state(coords: Vector2i, new_state: SquareStates):
 
 func solve_square(coords: Vector2i):
 	var new_square_state = master [active_id][TARGET_MAP_KEY][coords.x][coords.y]
+	if new_square_state == SquareStates.EMPTY:
+		new_square_state = SquareStates.FLAGGED
 	master [active_id][SQUARE_MAP_KEY][coords.x][coords.y] = new_square_state
 	square_changed.emit(coords)
 	generate_line_comparisons(coords)
