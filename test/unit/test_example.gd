@@ -244,7 +244,7 @@ class TestHeaderAssist:
 			})
 		var comparisons = State.generate_all_line_comparisons()
 		assert_eq(comparisons["X"], {0: [true, false], 1: [false], 2: [false], 3: [true, false]}, "Should have generated the correct comparison")
-		assert_eq(comparisons["Y"], {0: [false], 1: [false], 2: [true], 3: [true, false]}, "Should have generated the correct comparison")
+		assert_eq(comparisons["Y"], {0: [false], 1: [false], 2: [true], 3: [true, true]}, "Should have generated the correct comparison")
 
 	func test_header_assist_2():
 		State.set_active_id('TestKey')
@@ -270,7 +270,7 @@ class TestHeaderAssist:
 			0: [0, 0, 0, 1, 0, 1, 1],
 			})
 		var comparisons = State.generate_all_line_comparisons()
-		assert_eq(comparisons["X"], {0: [true, false, true]}, "Should have generated the correct comparison")
+		assert_eq(comparisons["X"], {0: [true, false, true]}, "Should have skipped the second length value")
 
 	func test_header_assist_4():
 		State.set_active_id('TestKey')
@@ -283,7 +283,7 @@ class TestHeaderAssist:
 			0: [1, 0, 1, 1, 0, 1, 1],
 			})
 		var comparisons = State.generate_all_line_comparisons()
-		assert_eq(comparisons["X"], {0: [true, false, true]}, "Should skip the middle length out of place")
+		assert_eq(comparisons["X"], {0: [true, true, true]}, "Should ignore the lengths being out of order")
 
 	func test_header_assist_5():
 		State.set_active_id('TestKey')

@@ -869,7 +869,7 @@ func update_header_for_column(column: int):
 		master [active_id][HEADERS_KEY]['Y'][column].append({'length': str(count), 'segment': segment})
 #endregion Header Reprocessing
 
-#region Header Assistance
+#region Header Aid
 func generate_all_line_comparisons():
 	var x_comparisons = {}
 	for x in range(get_size().x):
@@ -914,22 +914,19 @@ func compare_line_to_header(axis: String, line_index: int = -1) -> Array:
 		generated_segments = generate_complicated_sequence_for_array(line, complications)
 	var header_segments = headers[line_index]
 	var comparison = []
-	var length_index = -1
 	for h in header_segments:
-		var p = 0
 		var found = false
-		for j in generated_segments:
-			if h['length'] == j['length']:
-				if p > length_index:
-					length_index = p
-					comparison.append(true)
-					found = true
-					break
-			p += 1
-		if !found:
+		for j in range(generated_segments.size()):
+			if h['length'] == generated_segments[j]['length']:
+				generated_segments.remove_at(j)
+				found = true
+				break
+		if found:
+			comparison.append(true)
+		else:
 			comparison.append(false)
 	return comparison
-#endregion Header Assistance
+#endregion Header Aid
 
 func sanity_check_parameters(parameters: Dictionary) -> bool:
 	if parameters.has('size'):
