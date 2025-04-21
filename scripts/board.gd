@@ -41,6 +41,7 @@ func prepare_board():
 		sort_children()
 		State.generate_all_line_comparisons()
 		guidelines.create_lines(State.get_guideline_interval())
+		check_locks()
 
 func display_victory():
 	victory_label.visible = true
@@ -106,6 +107,11 @@ func sort_children() -> void:
 func update_header_assist(comparisons: Dictionary):
 	header_row.set_assist(comparisons["X"])
 	header_col.set_assist(comparisons["Y"])
+
+func check_locks():
+	var locks = State.get_locks()
+	for lock in locks:
+		nonogram_squares.get_square(lock).lock_square(true)
 
 func lock_square(coords: Vector2i):
 	nonogram_squares.get_square(coords).lock_square(true)

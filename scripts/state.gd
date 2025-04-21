@@ -100,8 +100,9 @@ func load_save(save: Dictionary):
 		# master[level][SIZE_KEY] = save[level][SIZE_KEY]
 		# master[level][HEADERS_OVERRIDE_KEY] = save[level].get(HEADERS_OVERRIDE_KEY, {})
 		# master[level][FOOTER_KEY] = save[level].get(FOOTER_KEY, {})
-		if (save[level].has(LOCKS_KEY)):
-			master [level][LOCKS_KEY] = save[level].get(LOCKS_KEY, {})
+		if save[level].has(LOCKS_KEY):
+			for coords in save[level].get(LOCKS_KEY, {}):
+				lock_square(coords)
 		if master [level].has(POWERS_KEY) and save[level].has(POWERS_KEY):
 			for power in master [level][POWERS_KEY].keys():
 				if save[level][POWERS_KEY].has(power):
@@ -1331,6 +1332,13 @@ func lock_square(coords: Vector2i):
 		master [active_id][LOCKS_KEY].append(coords)
 		lock_added_to_square.emit(coords)
 	
+func get_locks() -> Array:
+	if ! master.has(active_id):
+		push_error("Attempted to get locks with invalid id: ", active_id)
+		return []
+	if ! master [active_id].has(LOCKS_KEY):
+		return []
+	return master [active_id][LOCKS_KEY]
 	
 #endregion locking
 #region etching
