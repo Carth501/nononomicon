@@ -22,6 +22,7 @@ enum SquareStates {
 	NOTE_MARKED,
 	FLAGGED,
 	NOTE_FLAGGED,
+	INVALID
 }
 
 enum ToggleStates {
@@ -141,6 +142,8 @@ func get_chosen_coords_state() -> SquareStates:
 	return get_position_state(chosen_coords)
 
 func get_position_state(coords: Vector2i) -> SquareStates:
+	if (coords.x < 0 || coords.x >= get_size().x || coords.y < 0 || coords.y >= get_size().y):
+		return SquareStates.INVALID
 	return master [active_id][SQUARE_MAP_KEY][coords.x][coords.y]
 
 func get_board_ready() -> bool:
@@ -1327,6 +1330,23 @@ func lock_square(coords: Vector2i):
 	
 	
 #endregion locking
+#region etching
+func find_etching_number(coords: Vector2i) -> int:
+	var value = 0
+	var x = coords.x
+	var y = coords.y
+	value += 1 if get_position_state(Vector2i(x - 1, y - 1)) == SquareStates.MARKED else 0
+	value += 1 if get_position_state(Vector2i(x - 1, y)) == SquareStates.MARKED else 0
+	value += 1 if get_position_state(Vector2i(x - 1, y + 1)) == SquareStates.MARKED else 0
+	value += 1 if get_position_state(Vector2i(x, y - 1)) == SquareStates.MARKED else 0
+	value += 1 if get_position_state(Vector2i(x, y)) == SquareStates.MARKED else 0
+	value += 1 if get_position_state(Vector2i(x, y + 1)) == SquareStates.MARKED else 0
+	value += 1 if get_position_state(Vector2i(x + 1, y - 1)) == SquareStates.MARKED else 0
+	value += 1 if get_position_state(Vector2i(x + 1, y)) == SquareStates.MARKED else 0
+	value += 1 if get_position_state(Vector2i(x + 1, y + 1)) == SquareStates.MARKED else 0
+	return value
+
+#endregion etching
 
 #region powers
 func start_power(id: String):
