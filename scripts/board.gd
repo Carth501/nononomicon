@@ -24,6 +24,7 @@ func _ready():
 	State.error_lines_updated.connect(error_lines)
 	State.lines_compared.connect(update_header_assist)
 	State.lock_added_to_square.connect(lock_square)
+	State.locks_cleared.connect(clear_locks)
 	victory_label.visible = false
 
 func prepare_board():

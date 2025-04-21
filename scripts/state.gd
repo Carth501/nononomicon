@@ -11,6 +11,7 @@ signal error_lines_updated(errors)
 signal stack_changed
 signal lines_compared(comparison)
 signal lock_added_to_square(coords)
+signal locks_cleared
 signal showing_power(power_id)
 signal hiding_power()
 signal powers_changed()
@@ -279,6 +280,16 @@ func set_square_map(new_map: Dictionary):
 func reset():
 	if master.has(active_id):
 		generate_empty_map()
+		clear_stack()
+		clear_locks()
+		var level_data = LevelLibrary.get_level(active_id)
+		if level_data.has("parameters"):
+			var parameters = level_data["parameters"]
+			if parameters.has("locks"):
+				for coords in parameters["locks"]:
+					lock_square(coords)
+			if parameters.has("powers"):
+				set_powers(parameters["powers"])
 		board_ready.emit()
 		clear_stack()
 
@@ -1341,8 +1352,17 @@ func get_locks() -> Array:
 	if ! master [active_id].has(LOCKS_KEY):
 		return []
 	return master [active_id][LOCKS_KEY]
-	
+
+func clear_locks():
+	if ! master.has(active_id):
+		push_error("Attempted to clear locks with invalid id: ", active_id)
+		return
+	if ! master [active_id].has(LOCKS_KEY):
+		return
+	master [active_id][LOCKS_KEY] = []
+	locks_cleared.emit()
 #endregion locking
+
 #region etching
 func find_etching_number(coords: Vector2i) -> int:
 	var value = 0
@@ -1398,7 +1418,7 @@ func set_powers(powers: Dictionary):
 		return
 	if ! master [active_id].has(POWERS_KEY):
 		master [active_id][POWERS_KEY] = []
-	master [active_id][POWERS_KEY] = powers
+	master [active_id][POWERS_KEY] = powers.duplicate()
 	powers_changed.emit()
 
 func load_powers():
