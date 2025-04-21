@@ -117,11 +117,11 @@ var levels: Dictionary = {
 		"name": "Go Big",
 		"parameters": {
 			"seed": 3,
-			"size": Vector2i(20, 20),
+			"size": Vector2i(20, 16),
 			"powers": {"power_divine": {"charges": 2}},
 		},
 		"tutorial": '\tThis level is much larger than the previous ones. ' +
-			'Size does not determine difficulty, but it can get overwhelming.' +
+			'To help, this level has a new feature: Divine Power. Try it out!' +
 			'Don\'t worry, you are doing great!'
 	},
 	"trig2": {
@@ -129,7 +129,7 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 11,
 			"size": Vector2i(24, 16),
-			"powers": {"power_divine": {"charges": 4}},
+			"powers": {"power_divine": {"charges": 6}},
 			"generation": {
 				"method": "waveform",
 				"series": [
@@ -167,7 +167,9 @@ var levels: Dictionary = {
 					]
 				]
 			},
-			'tutorial': "\tChaos, like so much else, can be beautiful."
+			'tutorial': "\tThis level is even bigger than the last one. " +
+				"You have more charges of Divine Power, so use them wisely.\n" +
+				"\tMy suggestion: wait until you are truely stuck to use the power."
 		}
 	},
 	"discovery": {
