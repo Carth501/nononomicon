@@ -129,7 +129,7 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 11,
 			"size": Vector2i(24, 16),
-			"powers": {"power_divine": {"charges": 6}},
+			"powers": {"power_divine": {"charges": 9}},
 			"generation": {
 				"method": "waveform",
 				"series": [
