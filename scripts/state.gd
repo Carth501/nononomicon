@@ -3,7 +3,7 @@ extends Node
 signal square_changed(coords)
 signal board_ready
 signal toggle_state_changed(new_state)
-signal victory
+signal victory_changed(victory)
 signal notes_mode_changed(new_mode)
 signal level_changed
 signal coords_changed(coords)
@@ -292,6 +292,9 @@ func reset():
 				set_powers(parameters["powers"])
 		board_ready.emit()
 		clear_stack()
+		if master [active_id].has(VICTORY_KEY):
+			master [active_id][VICTORY_KEY] = false
+			victory_changed.emit(false)
 
 func clear_notes():
 	if master.has(active_id):
@@ -989,8 +992,7 @@ func check_victory() -> bool:
 
 func submit():
 	if check_victory():
-		set_victory()
-		victory.emit()
+		set_victory_true()
 	else:
 		error_lines_updated.emit(find_error_lines())
 
@@ -1032,9 +1034,9 @@ func find_error_lines_for_axis(axis: String) -> Array:
 	return errors
 	
 #region Victory Handling
-func set_victory():
-	if ! master [active_id].has(VICTORY_KEY):
-		master [active_id][VICTORY_KEY] = true
+func set_victory_true():
+	master [active_id][VICTORY_KEY] = true
+	victory_changed.emit(true)
 
 func get_victory_count() -> int:
 	var count = 0

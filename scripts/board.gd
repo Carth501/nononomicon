@@ -19,7 +19,7 @@ var highlighting: Vector2i
 func _ready():
 	prepare_board()
 	State.board_ready.connect(prepare_board)
-	State.victory.connect(display_victory)
+	State.victory_changed.connect(toggle_victory)
 	State.coords_changed.connect(update_highlighter_square)
 	State.error_lines_updated.connect(error_lines)
 	State.lines_compared.connect(update_header_assist)
@@ -35,20 +35,15 @@ func prepare_board():
 		footer_col.generate_cells(State.get_footer('Y'), State.get_size().y)
 		nonogram_squares.create_square_displays()
 		var id = State.get_active_id()
-		if (State.master [id].has(State.VICTORY_KEY) and State.master [id][State.VICTORY_KEY]):
-			display_victory()
-		else:
-			hide_victory()
+		if State.master [id].has(State.VICTORY_KEY):
+			toggle_victory(State.master [id][State.VICTORY_KEY])
 		sort_children()
 		State.generate_all_line_comparisons()
 		guidelines.create_lines(State.get_guideline_interval())
 		check_locks()
 
-func display_victory():
-	victory_label.visible = true
-
-func hide_victory():
-	victory_label.visible = false
+func toggle_victory(value: bool):
+	victory_label.visible = value
 
 func update_highlighter_square(coords: Vector2i):
 	if highlighting != Vector2i(-1, -1):

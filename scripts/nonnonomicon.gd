@@ -23,7 +23,7 @@ var drawer_width_percent := 0.7
 
 func _ready():
 	open_page("index")
-	State.victory.connect(set_next_enabled)
+	State.victory_changed.connect(set_next_enabled)
 	State.level_changed.connect(check_page_buttons)
 	State.level_changed.connect(set_tutorial_text)
 	State.coords_changed.connect(update_coords_display)
@@ -46,7 +46,7 @@ func open_page(id: String):
 
 func check_page_buttons():
 	set_next_button()
-	set_next_enabled()
+	set_next_enabled(State.get_victory_state())
 	set_prev_button()
 
 func cheat():
@@ -79,8 +79,8 @@ func _on_prev_button_pressed() -> void:
 func set_next_button():
 	next_button.visible = State.has_next_level()
 
-func set_next_enabled():
-	next_button.disabled = not State.get_victory_state()
+func set_next_enabled(value: bool):
+	next_button.disabled = !value
 
 func set_prev_button():
 	prev_button.visible = State.has_prev_level()
