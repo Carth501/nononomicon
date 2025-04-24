@@ -1,6 +1,7 @@
 class_name Guidelines extends Control
 
 var lines = []
+@export var squares: NonogramSquares
 
 func create_lines(interval: Vector2i):
 	if lines.size() > 0:

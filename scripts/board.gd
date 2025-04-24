@@ -14,7 +14,9 @@ class_name NonogramBoard extends Container
 @export var SCROLLBAR_MARGIN: int = 8
 @export var victory_label: Label
 @export var guidelines: Guidelines
+@export var guidelines_mask: Control
 var highlighting: Vector2i
+var scrolling: bool = false
 
 func _ready():
 	prepare_board()
@@ -76,6 +78,7 @@ func _process(_delta):
 	var v_bar = nonogram_scroll_container.get_v_scroll_bar()
 	header_col_scroll.get_v_scroll_bar().value = v_bar.value
 	footer_col_scroll.get_v_scroll_bar().value = v_bar.value
+	guidelines.global_position = nonogram_squares.global_position
 
 func sort_children() -> void:
 	var col_head_width = maxf(header_col.get_size().x, 90)
@@ -99,6 +102,8 @@ func sort_children() -> void:
 	header_col_scroll.position = Vector2(0, row_head_height)
 	footer_row_scroll.position = Vector2(col_head_width, row_head_height + nonogram_scroll_container.size.y)
 	footer_col_scroll.position = Vector2(col_head_width + nonogram_scroll_container.size.x, row_head_height)
+	guidelines_mask.size = nonogram_scroll_container.size
+	guidelines_mask.global_position = nonogram_scroll_container.global_position
 
 func update_header_assist(comparisons: Dictionary):
 	header_row.set_assist(comparisons["X"])
