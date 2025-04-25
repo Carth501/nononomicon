@@ -39,6 +39,8 @@ func prepare_board():
 		var id = State.get_active_id()
 		if State.master [id].has(State.VICTORY_KEY):
 			toggle_victory(State.master [id][State.VICTORY_KEY])
+		else:
+			toggle_victory(false)
 		sort_children()
 		State.generate_all_line_comparisons()
 		guidelines.create_lines(State.get_guideline_interval())
