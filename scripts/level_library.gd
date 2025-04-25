@@ -113,6 +113,16 @@ var levels: Dictionary = {
 		"tutorial": "\tSome levels will have locked squares. You don't need to " +
 		"worry about them! They have been solved for you."
 	},
+	"response": {
+		"name": "Response",
+		"parameters": {
+			"seed": 18,
+			"size": Vector2i(6, 6),
+			"powers": {"power_divine": {"charges": 2}},
+			"tutorial": 'This level has a new feature: Divine Power. ' +
+				'You can use it to fill in squares that you are unsure about.'
+		},
+	},
 	"big": {
 		"name": "Go Big",
 		"parameters": {
@@ -121,7 +131,7 @@ var levels: Dictionary = {
 			"powers": {"power_divine": {"charges": 2}},
 		},
 		"tutorial": '\tThis level is much larger than the previous ones. ' +
-			'To help, this level has a new feature: Divine Power. Try it out!' +
+			'This will be a real test to practice the divine power.' +
 			'Don\'t worry, you are doing great!'
 	},
 	"trig2": {
@@ -234,6 +244,7 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 6,
 			"size": Vector2i(8, 8),
+			"powers": {"power_divine": {"charges": 1}},
 			"complications": [
 				{
 					"type": "delta",
@@ -244,6 +255,62 @@ var levels: Dictionary = {
 					"type": "delta",
 					"subject_column": 3,
 					"variable_column": 2,
+				}
+			],
+			'tutorial': "\tPowers can make complications a lot easier to solve."
+		}
+	},
+	"category": {
+		"name": "Category",
+		"parameters": {
+			"seed": 19,
+			"size": Vector2i(9, 9),
+			"powers": {"power_divine": {"charges": 2}},
+			"complications": [
+				{
+					"type": "delta",
+					"subject_row": 7, # index, starts at 0
+					"variable_row": 3,
+				},
+				{
+					"type": "delta",
+					"subject_row": 3,
+					"variable_row": 5,
+				}
+			]
+		}
+	},
+	"education": {
+		"name": "Education",
+		"parameters": {
+			"seed": 20,
+			"size": Vector2i(12, 9),
+			"powers": {"power_divine": {"charges": 2}},
+			"complications": [
+				{
+					"type": "delta",
+					"subject_column": 0, # index, starts at 0
+					"variable_column": 1,
+				},
+				{
+					"type": "delta",
+					"subject_column": 1,
+					"variable_column": 2,
+				},
+				{
+					"type": "delta",
+					"subject_column": 2,
+					"variable_column": 3,
+				},
+				{
+					"type": "delta",
+					"subject_column": 3,
+					"variable_column": 4,
+				},
+				{
+					"type": "delta",
+					"subject_column": 4,
+					"variable_column": 5,
 				}
 			]
 		}
@@ -280,6 +347,7 @@ var levels: Dictionary = {
 					"variable_row": 5,
 				}
 			],
+			"powers": {"power_divine": {"charges": 4}},
 			'tutorial': "\tThis one is big, with 4 complications. Don't worry, " +
 				"I believe in you."
 		}
@@ -362,11 +430,11 @@ var levels: Dictionary = {
 }
 var chapters: Dictionary = {
 	"chapter1": {
-		"levels": ["intro", "basics", "didactic", "jack_and_hide", "elaborate", "trig", "ellipse", "locks", "big", "trig2"],
+		"levels": ["intro", "basics", "didactic", "jack_and_hide", "elaborate", "trig", "ellipse", "locks", "response", "big", "trig2"],
 		"title": "Chapter 1"
 	},
 	"chapter2": {
-		"levels": ["discovery", "mistrust", "y_can_too", "contradiction", "tundra", "trig3"],
+		"levels": ["discovery", "mistrust", "y_can_too", "contradiction", "category", "education", "tundra", "trig3"],
 		"title": "Chapter 2"
 	}
 }
