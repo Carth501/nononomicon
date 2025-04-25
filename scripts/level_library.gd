@@ -396,13 +396,14 @@ func get_next_level(level: String) -> String:
 	var level_index = chapters[chapter_key].levels.find(level)
 	if level_index == -1:
 		return ""
-	if level_index == levels.size() - 1:
+	if level_index == chapters[chapter_key].levels.size() - 1:
 		var chapter_index = chapters.keys().find(chapter_key)
 		if chapter_index == chapters.size() - 1:
 			return ""
 		else:
-			return chapters[chapter_index + 1].levels[0]
-	return levels.keys()[level_index + 1]
+			var next_chapter_key = chapters.keys()[chapter_index + 1]
+			return chapters[next_chapter_key].levels[0]
+	return chapters[chapter_key]["levels"][level_index + 1]
 
 func has_next_level(level: String) -> bool:
 	return get_next_level(level) != ""
@@ -420,8 +421,10 @@ func get_prev_level(level: String) -> String:
 			return ""
 		else:
 			var prev_chapter_key = chapters.keys()[chapter_index - 1]
+			print("prev_chapter_key: ", prev_chapter_key)
 			return chapters[prev_chapter_key].levels.back()
-	return levels.keys()[level_index - 1]
+	print("chapter_key: ", chapter_key, " level_index: ", level_index)
+	return chapters[chapter_key]["levels"][level_index - 1]
 
 func has_prev_level(level: String) -> bool:
 	return get_prev_level(level) != ""
