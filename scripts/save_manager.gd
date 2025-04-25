@@ -19,7 +19,7 @@ func save(filename: String):
 	save_file.store_var(State.master )
 	save_file.close()
 
-func load(filename: String):
+func load_file(filename: String):
 	var dir = DirAccess.open("user://")
 	if (!dir.dir_exists("user://saves")):
 		dir.make_dir("user://saves")
@@ -28,3 +28,12 @@ func load(filename: String):
 	var save_data = save_file.get_var()
 	save_file.close()
 	State.load_save(save_data)
+
+
+func load_latest_save():
+	var save_files = DirAccess.get_files_at("user://saves")
+	if save_files.size() == 0:
+		return
+	save_files.sort()
+	var latest_save = save_files[-1]
+	load_file(latest_save)

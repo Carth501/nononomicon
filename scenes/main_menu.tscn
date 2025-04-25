@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_3swsp"]
 [ext_resource type="PackedScene" uid="uid://cwnur7r84mgka" path="res://scenes/SaveManagementPanel.tscn" id="2_0ss3t"]
 
-[node name="Main Menu" type="Control" node_paths=PackedStringArray("save_management_panel")]
+[node name="Main Menu" type="Control" node_paths=PackedStringArray("save_management_panel", "continue_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,6 +12,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3swsp")
 save_management_panel = NodePath("SaveManagementPanel")
+continue_button = NodePath("VBoxContainer/ContinueButton")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -42,10 +43,10 @@ text = "New Game"
 
 [node name="ContinueButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-disabled = true
 text = "Continue"
 
 [node name="LoadButton" type="Button" parent="VBoxContainer"]
+visible = false
 layout_mode = 2
 text = "Load Game
 "
@@ -70,5 +71,6 @@ offset_right = 179.0
 offset_bottom = 70.0
 
 [connection signal="pressed" from="VBoxContainer/NewGameButton" to="." method="new_game"]
+[connection signal="pressed" from="VBoxContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/LoadButton" to="." method="load_game"]
 [connection signal="pressed" from="VBoxContainer/Exit" to="." method="exit"]

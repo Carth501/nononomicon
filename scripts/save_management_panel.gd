@@ -12,9 +12,8 @@ var overwrite := false
 @export var load_controls: Control
 @export var custom_name_line_edit: LineEdit
 
-func _ready():
-	prepare_save_list()
-	SaveManager.save_file_list_changed.connect(prepare_save_list)
+# func _ready():
+# 	prepare_save_list()
 
 func prepare_save_list():
 	if buttons.size() > 0:
