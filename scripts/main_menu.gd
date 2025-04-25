@@ -10,6 +10,7 @@ func _ready() -> void:
 		continue_button.disabled = false
 
 func new_game():
+	State.new_game()
 	get_tree().change_scene_to_file("res://scenes/nononomicon.tscn")
 
 func exit():

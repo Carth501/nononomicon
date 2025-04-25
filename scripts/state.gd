@@ -83,6 +83,10 @@ func setup(parameters: Dictionary) -> void:
 		for coords in parameters.locks:
 			lock_square(coords)
 
+func new_game():
+	master = {}
+	active_id = "default"
+
 func load_save(save: Dictionary):
 	for level in save.keys():
 		master [level] = {}

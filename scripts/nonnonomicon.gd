@@ -179,3 +179,7 @@ func show_power_description(power_id: String):
 func hide_power_description():
 	power_description_container.hide()
 	tutorial_text.show()
+
+
+func _on_main_menu_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
