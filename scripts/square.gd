@@ -26,23 +26,24 @@ func compare_coords(updated_square_coords: Vector2i):
 
 func set_square_appearance(square_state: State.SquareStates):
 	# https://coolors.co/105e6e-321e1e-4e3636-cd1818-ece2d0
+	# v2 https://coolors.co/f1e9d2-382012-03180c-6d2817-0c0c0c
 	if (square_state == State.SquareStates.EMPTY):
 		note_label.visible = false
-		color_square.set_color(Color('ECE2D0'))
+		color_square.set_color(Color('F1E9D2'))
 	elif (square_state == State.SquareStates.MARKED):
 		note_label.visible = false
-		color_square.set_color(Color('105E6E'))
+		color_square.set_color(Color('6D2817'))
 	elif (square_state == State.SquareStates.FLAGGED):
 		note_label.visible = false
-		color_square.set_color(Color('CD1818'))
+		color_square.set_color(Color('0C0C0C'))
 	elif (square_state == State.SquareStates.NOTE_MARKED):
 		note_label.visible = true
-		color_square.set_color(Color('ECE2D0'))
-		note_label.set("theme_override_colors/font_color", Color('105E6E'))
+		color_square.set_color(Color('F1E9D2'))
+		note_label.set("theme_override_colors/font_color", Color('6D2817'))
 	elif (square_state == State.SquareStates.NOTE_FLAGGED):
 		note_label.visible = true
-		color_square.set_color(Color('ECE2D0'))
-		note_label.set("theme_override_colors/font_color", Color('CD1818'))
+		color_square.set_color(Color('F1E9D2'))
+		note_label.set("theme_override_colors/font_color", Color('0C0C0C'))
 
 func set_highlighter(value: bool):
 	highlighter.visible = value

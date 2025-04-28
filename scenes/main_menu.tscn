@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://wwy8xmdrcl8p"]
+[gd_scene load_steps=4 format=3 uid="uid://wwy8xmdrcl8p"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_3swsp"]
+[ext_resource type="Theme" uid="uid://01675knsq84l" path="res://assets/themes/main_menu_theme.tres" id="1_8ih8i"]
 [ext_resource type="PackedScene" uid="uid://cwnur7r84mgka" path="res://scenes/SaveManagementPanel.tscn" id="2_0ss3t"]
 
 [node name="Main Menu" type="Control" node_paths=PackedStringArray("save_management_panel", "continue_button")]
@@ -10,30 +11,31 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_8ih8i")
 script = ExtResource("1_3swsp")
 save_management_panel = NodePath("SaveManagementPanel")
 continue_button = NodePath("VBoxContainer/ContinueButton")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.196078, 0.117647, 0.117647, 1)
+color = Color(0.0509804, 0.0156863, 0.0745098, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -46.5
-offset_top = -68.0
-offset_right = 46.5
-offset_bottom = 68.0
+offset_left = -104.0
+offset_top = -80.0
+offset_right = 96.0
+offset_bottom = 80.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -69,6 +71,17 @@ offset_left = 86.0
 offset_top = 70.0
 offset_right = 179.0
 offset_bottom = 70.0
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 155.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 104
+text = "NONONOMICON"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="VBoxContainer/NewGameButton" to="." method="new_game"]
 [connection signal="pressed" from="VBoxContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
