@@ -68,5 +68,15 @@ func change_color(new_color: Color, edge_color: Color = Color(0, 0, 0, 0)):
 	if edge_color == Color(0, 0, 0, 0):
 		edge_color = new_color.lerp(old_color, 0.5)
 	
-	bleed_away.start_bleeding(Vector2(0, 0), old_color, edge_color)
+	bleed_away.start_bleeding(get_point() / size, old_color, edge_color)
 	color_square.set_color(new_color)
+
+func get_point() -> Vector2:
+	var mouse_relative: Vector2 = get_global_mouse_position() - get_global_position()
+	var pos_clamped = mouse_relative.clamp(Vector2(0, 0), Vector2(size.x, size.y))
+	if pos_clamped == mouse_relative:
+		return pos_clamped
+	else:
+		var x = randf_range(0, size.x)
+		var y = randf_range(0, size.y)
+		return Vector2(x, y)
