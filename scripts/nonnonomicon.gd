@@ -113,8 +113,8 @@ func _process(_delta: float) -> void:
 
 func set_tutorial_text():
 	var params = State.get_level_parameters()
-	if (params.has("tutorial_text")):
-		tutorial_text.text = params["tutorial_text"]
+	if (params.has("tutorial")):
+		tutorial_text.text = params["tutorial"]
 	else:
 		tutorial_text.text = ""
 	hide_power_description()
