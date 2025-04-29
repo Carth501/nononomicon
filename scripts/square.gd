@@ -3,7 +3,8 @@ class_name NonogramSquare extends Control
 @export var coords: Vector2i
 @export var note_label: Label
 @export var highlighter: ColorRect
-@export var color_square: BleedAway
+@export var color_square: ColorRect
+var bleed_away_scene = preload("res://scenes/burnaway.tscn")
 @export var lock_tex: TextureRect
 
 func setup(new_coords: Vector2i):
@@ -32,7 +33,7 @@ func set_square_appearance(square_state: State.SquareStates):
 		change_color(Color('F1E9D2'))
 	elif (square_state == State.SquareStates.MARKED):
 		note_label.visible = false
-		change_color(Color('6D2817'))
+		change_color(Color('6D2817'), Color('880808'))
 	elif (square_state == State.SquareStates.FLAGGED):
 		note_label.visible = false
 		change_color(Color('0C0C0C'))
@@ -59,9 +60,13 @@ func lock_square(value: bool):
 	else:
 		lock_tex.hide()
 
-func change_color(color: Color):
-	var bleed_away: BleedAway = color_square.duplicate()
+func change_color(new_color: Color, edge_color: Color = Color(0, 0, 0, 0)):
+	var bleed_away := bleed_away_scene.instantiate()
 	add_child(bleed_away)
 	move_child(bleed_away, -1)
-	bleed_away.start_bleeding(Vector2(0, 0), color)
-	color_square.set_color(color)
+	var old_color = color_square.color
+	if edge_color == Color(0, 0, 0, 0):
+		edge_color = new_color.lerp(old_color, 0.5)
+	
+	bleed_away.start_bleeding(Vector2(0, 0), old_color, edge_color)
+	color_square.set_color(new_color)

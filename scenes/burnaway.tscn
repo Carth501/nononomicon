@@ -1,0 +1,56 @@
+[gd_scene load_steps=7 format=3 uid="uid://pktsifml4xue"]
+
+[ext_resource type="Shader" path="res://assets/shaders/bloodstain_square.gdshader" id="1_uhrdh"]
+
+[sub_resource type="Gradient" id="Gradient_wkqc8"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_4senq"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_mdb86"]
+color_ramp = SubResource("Gradient_wkqc8")
+noise = SubResource("FastNoiseLite_4senq")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8en17"]
+shader = ExtResource("1_uhrdh")
+shader_parameter/position = null
+shader_parameter/radius = 0.74
+shader_parameter/borderWidth = 0.16
+shader_parameter/burnMult = 0.155
+shader_parameter/burnColor = Color(0.945098, 0.027451, 0.0352941, 1)
+shader_parameter/noiseTexture = SubResource("NoiseTexture2D_mdb86")
+
+[sub_resource type="GDScript" id="GDScript_kulno"]
+script/source = "extends ColorRect
+
+var running: bool = false
+var radius: float = 0.0
+# var border_width: float = 0.0
+@export var radius_speed: float = 1.5
+# @export var width_speed: float = 1.5
+
+func start_bleeding(coords: Vector2, old_color: Color, edge_color: Color):
+	color = old_color
+	running = true
+	material.resource_local_to_scene = true
+	material.set_shader_parameter(\"position\", coords)
+	material.set_shader_parameter(\"burnColor\", edge_color)
+	radius = 0.0
+
+func _process(delta: float) -> void:
+	if running:
+		radius += radius_speed * delta
+		material.set_shader_parameter(\"radius\", radius)
+		# border_width += width_speed * delta
+		if radius >= 1.5:
+			running = false
+			queue_free()
+"
+
+[node name="Burnaway" type="ColorRect"]
+material = SubResource("ShaderMaterial_8en17")
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 61.0
+offset_bottom = 61.0
+mouse_filter = 2
+script = SubResource("GDScript_kulno")

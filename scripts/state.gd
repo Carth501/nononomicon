@@ -213,7 +213,6 @@ func change_square_state(new_state: SquareStates):
 				set_chosen_coords_state(SquareStates.FLAGGED)
 	elif (new_state == SquareStates.EMPTY):
 		set_chosen_coords_state(SquareStates.EMPTY)
-	square_changed.emit(chosen_coords)
 
 func set_square_state(coords: Vector2i, new_state: SquareStates):
 	if master [active_id].has(LOCKS_KEY):
