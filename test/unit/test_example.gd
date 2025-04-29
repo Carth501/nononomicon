@@ -155,7 +155,6 @@ class TestAdjacencyException:
 	func test_victory_detection():
 		State.generate_empty_map()
 		State.cheat_reveal_all_squares()
-		print(State.master ['TestKey'][State.SQUARE_MAP_KEY])
 		assert_true(State.check_victory(), "Should have detected victory")
 
 class TestComplications:

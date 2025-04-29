@@ -489,9 +489,7 @@ func get_prev_level(level: String) -> String:
 			return ""
 		else:
 			var prev_chapter_key = chapters.keys()[chapter_index - 1]
-			print("prev_chapter_key: ", prev_chapter_key)
 			return chapters[prev_chapter_key].levels.back()
-	print("chapter_key: ", chapter_key, " level_index: ", level_index)
 	return chapters[chapter_key]["levels"][level_index - 1]
 
 func has_prev_level(level: String) -> bool:
