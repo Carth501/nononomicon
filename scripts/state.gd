@@ -96,15 +96,10 @@ func load_save(save: Dictionary):
 			master [level][SQUARE_MAP_KEY] = save[level][SQUARE_MAP_KEY]
 		else:
 			push_warning("Missing square map for level: ", level)
-		# master[level][TARGET_MAP_KEY] = save[level][TARGET_MAP_KEY]
-		# master[level][HEADERS_KEY] = save[level][HEADERS_KEY]
 		if (save[level].has(VICTORY_KEY)):
 			master [level][VICTORY_KEY] = save[level][VICTORY_KEY]
 		if (save[level].has(STACK_KEY)):
 			master [level][STACK_KEY] = save[level][STACK_KEY]
-		# master[level][SIZE_KEY] = save[level][SIZE_KEY]
-		# master[level][HEADERS_OVERRIDE_KEY] = save[level].get(HEADERS_OVERRIDE_KEY, {})
-		# master[level][FOOTER_KEY] = save[level].get(FOOTER_KEY, {})
 		if save[level].has(LOCKS_KEY):
 			for coords in save[level].get(LOCKS_KEY, {}):
 				lock_square(coords)
