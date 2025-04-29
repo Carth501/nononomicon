@@ -25,7 +25,7 @@ func create_verticals(interval: int):
 		line.size.x = 6
 		line.size.y = grid_size.y * 64
 		line.position = Vector2(((i + 1) * interval * 64) - 3, 0)
-		line.color = Color("adadad")
+		line.color = Color("c49949")
 		add_child(line)
 		lines.append(line)
 
@@ -43,6 +43,6 @@ func create_horizontals(interval: int):
 		line.size.x = grid_size.x * 64
 		line.size.y = 6
 		line.position = Vector2(0, ((i + 1) * interval * 64) - 3)
-		line.color = Color("adadad")
+		line.color = Color("c49949")
 		add_child(line)
 		lines.append(line)
