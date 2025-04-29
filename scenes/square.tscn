@@ -30,6 +30,7 @@ color = Color(0.945098, 0.913725, 0.823529, 1)
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="."]
 visible = false
