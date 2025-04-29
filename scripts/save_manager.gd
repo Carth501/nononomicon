@@ -16,7 +16,7 @@ func save(filename: String):
 		dir.make_dir("user://saves")
 	var save_name = "user://saves/%s.nononosave" % filename
 	var save_file = FileAccess.open(save_name, FileAccess.WRITE)
-	save_file.store_var(State.master )
+	save_file.store_var(State.get_trimmed_master())
 	save_file.close()
 
 func load_file(filename: String):

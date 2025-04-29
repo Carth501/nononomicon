@@ -113,6 +113,20 @@ func load_save(save: Dictionary):
 				if save[level][POWERS_KEY].has(power):
 					master [level][POWERS_KEY][power]["charges"] = save[level][POWERS_KEY][power]["charges"]
 
+func get_trimmed_master() -> Dictionary:
+	var trimmed_master = {}
+	for level in master.keys():
+		trimmed_master[level] = {}
+		trimmed_master[level][SQUARE_MAP_KEY] = master [level][SQUARE_MAP_KEY]
+		trimmed_master[level][STACK_KEY] = master [level][STACK_KEY]
+		if (master [level].has(LOCKS_KEY)):
+			trimmed_master[level][LOCKS_KEY] = master [level][LOCKS_KEY]
+		if (master [level].has(POWERS_KEY)):
+			trimmed_master[level][POWERS_KEY] = master [level][POWERS_KEY]
+		if (master [level].has(VICTORY_KEY)):
+			trimmed_master[level][VICTORY_KEY] = master [level][VICTORY_KEY]
+	return trimmed_master
+
 func set_active_id(new_id: String):
 	active_id = new_id
 	if (! master.keys().has(active_id)):
