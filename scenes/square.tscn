@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/square.gd" id="1_136qj"]
 [ext_resource type="Texture2D" uid="uid://d1gmnt1mno2w1" path="res://assets/icons/lock-closed-svgrepo-com.svg" id="2_lr3oy"]
 
-[node name="Square" type="Control" node_paths=PackedStringArray("note_label", "highlighter", "color_square", "lock_tex")]
+[node name="Square" type="Control" node_paths=PackedStringArray("note_label", "highlighter", "color_square", "lock_tex", "effect_list")]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 3
 anchors_preset = 0
@@ -14,6 +14,7 @@ note_label = NodePath("Label")
 highlighter = NodePath("HighlighterSquare")
 color_square = NodePath("ColorRect")
 lock_tex = NodePath("LockTexture")
+effect_list = NodePath("EffectList")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 custom_minimum_size = Vector2(58, 58)
@@ -24,6 +25,11 @@ offset_right = 61.0
 offset_bottom = 61.0
 mouse_filter = 2
 color = Color(0.945098, 0.913725, 0.823529, 1)
+
+[node name="EffectList" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
 [node name="Label" type="Label" parent="."]
 visible = false

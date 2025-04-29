@@ -6,6 +6,7 @@ class_name NonogramSquare extends Control
 @export var color_square: ColorRect
 var bleed_away_scene = preload("res://scenes/burnaway.tscn")
 @export var lock_tex: TextureRect
+@export var effect_list: Control
 
 func setup(new_coords: Vector2i):
 	coords = new_coords
@@ -62,8 +63,8 @@ func lock_square(value: bool):
 
 func change_color(new_color: Color, edge_color: Color = Color(0, 0, 0, 0)):
 	var bleed_away := bleed_away_scene.instantiate()
-	add_child(bleed_away)
-	move_child(bleed_away, -1)
+	effect_list.add_child(bleed_away)
+	effect_list.move_child(bleed_away, 0)
 	var old_color = color_square.color
 	if edge_color == Color(0, 0, 0, 0):
 		edge_color = new_color.lerp(old_color, 0.5)
