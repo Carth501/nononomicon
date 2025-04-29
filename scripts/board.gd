@@ -83,6 +83,7 @@ func _process(_delta):
 	guidelines.global_position = nonogram_squares.global_position
 
 func sort_children() -> void:
+	await get_tree().process_frame
 	var col_head_width = maxf(header_col.get_size().x, 90)
 	var row_head_height = maxf(header_row.get_size().y, 90)
 	header_row_scroll.size.y = row_head_height
