@@ -3,7 +3,7 @@ class_name NonogramSquare extends Control
 @export var coords: Vector2i
 @export var note_label: Label
 @export var highlighter: ColorRect
-@export var color_square: ColorRect
+@export var color_square: BleedAway
 @export var lock_tex: TextureRect
 
 func setup(new_coords: Vector2i):
@@ -29,20 +29,20 @@ func set_square_appearance(square_state: State.SquareStates):
 	# v2 https://coolors.co/f1e9d2-382012-03180c-6d2817-0c0c0c
 	if (square_state == State.SquareStates.EMPTY):
 		note_label.visible = false
-		color_square.set_color(Color('F1E9D2'))
+		change_color(Color('F1E9D2'))
 	elif (square_state == State.SquareStates.MARKED):
 		note_label.visible = false
-		color_square.set_color(Color('6D2817'))
+		change_color(Color('6D2817'))
 	elif (square_state == State.SquareStates.FLAGGED):
 		note_label.visible = false
-		color_square.set_color(Color('0C0C0C'))
+		change_color(Color('0C0C0C'))
 	elif (square_state == State.SquareStates.NOTE_MARKED):
 		note_label.visible = true
-		color_square.set_color(Color('F1E9D2'))
+		change_color(Color('F1E9D2'))
 		note_label.set("theme_override_colors/font_color", Color('6D2817'))
 	elif (square_state == State.SquareStates.NOTE_FLAGGED):
 		note_label.visible = true
-		color_square.set_color(Color('F1E9D2'))
+		change_color(Color('F1E9D2'))
 		note_label.set("theme_override_colors/font_color", Color('0C0C0C'))
 
 func set_highlighter(value: bool):
@@ -58,3 +58,10 @@ func lock_square(value: bool):
 		lock_tex.show()
 	else:
 		lock_tex.hide()
+
+func change_color(color: Color):
+	var bleed_away: BleedAway = color_square.duplicate()
+	add_child(bleed_away)
+	move_child(bleed_away, -1)
+	bleed_away.start_bleeding(Vector2(0, 0), color)
+	color_square.set_color(color)

@@ -1,7 +1,25 @@
-[gd_scene load_steps=3 format=3 uid="uid://dquc4fovbtrhl"]
+[gd_scene load_steps=8 format=3 uid="uid://dquc4fovbtrhl"]
 
 [ext_resource type="Script" path="res://scripts/square.gd" id="1_136qj"]
 [ext_resource type="Texture2D" uid="uid://d1gmnt1mno2w1" path="res://assets/icons/lock-closed-svgrepo-com.svg" id="2_lr3oy"]
+[ext_resource type="Shader" path="res://assets/shaders/bloodstain_square.gdshader" id="2_x4hiu"]
+
+[sub_resource type="Gradient" id="Gradient_tw8em"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_k65bi"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_o065q"]
+color_ramp = SubResource("Gradient_tw8em")
+noise = SubResource("FastNoiseLite_k65bi")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t6mqe"]
+shader = ExtResource("2_x4hiu")
+shader_parameter/position = null
+shader_parameter/radius = 0.0
+shader_parameter/borderWidth = 0.06
+shader_parameter/burnMult = 0.071
+shader_parameter/burnColor = Color(0.858824, 0.0156863, 0.0352941, 1)
+shader_parameter/noiseTexture = SubResource("NoiseTexture2D_o065q")
 
 [node name="Square" type="Control" node_paths=PackedStringArray("note_label", "highlighter", "color_square", "lock_tex")]
 custom_minimum_size = Vector2(64, 64)
@@ -16,6 +34,7 @@ color_square = NodePath("ColorRect")
 lock_tex = NodePath("LockTexture")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_t6mqe")
 custom_minimum_size = Vector2(58, 58)
 layout_mode = 0
 offset_left = 3.0

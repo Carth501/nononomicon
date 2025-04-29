@@ -191,6 +191,8 @@ func get_guideline_interval() -> Vector2i:
 	return result
 
 func change_square_state(new_state: SquareStates):
+	if get_chosen_coords_state() == new_state:
+		return
 	if (new_state == SquareStates.MARKED):
 		if get_chosen_coords_state() == SquareStates.EMPTY:
 			if (!notes):
