@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/y_header_cell.gd" id="1_qqp1n"]
 
-[node name="YHeaderCell" type="BoxContainer" node_paths=PackedStringArray("numbers_container")]
+[node name="YHeaderCell" type="BoxContainer" node_paths=PackedStringArray("numbers_container", "highlighter_spacer", "error_spacer")]
 custom_minimum_size = Vector2(90, 64)
 offset_right = 90.0
 offset_bottom = 64.0
@@ -10,8 +10,23 @@ size_flags_horizontal = 3
 alignment = 2
 script = ExtResource("1_qqp1n")
 numbers_container = NodePath("HBoxContainer")
+highlighter_spacer = NodePath("HBoxContainer/HighlighterSpacer")
+error_spacer = NodePath("HBoxContainer/ErrorSpacer")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 0
 alignment = 2
+
+[node name="HighlighterSpacer" type="ColorRect" parent="HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.768627, 0.6, 0.286275, 1)
+
+[node name="ErrorSpacer" type="ColorRect" parent="HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.803922, 0.0941176, 0.0941176, 1)
