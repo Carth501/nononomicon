@@ -122,8 +122,9 @@ var levels: Dictionary = {
 			"seed": 18,
 			"size": Vector2i(6, 6),
 			"powers": {"power_divine": {"charges": 2}},
-			"tutorial": 'This level has a new feature: Divine Power. ' +
-				'You can use it to fill in squares that you are unsure about.'
+			"tutorial": '\tThe first power granted. Divination can give sight into ' +
+				'the truth, but it is not to be wasted. Use it with purpose, as ' +
+				'it will not be replenished before the next page.'
 		},
 	},
 	"big": {
@@ -131,10 +132,8 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 3,
 			"size": Vector2i(20, 16),
-			"powers": {"power_divine": {"charges": 2}},
-			"tutorial": '\tThis level is much larger than the previous ones. ' +
-				'This will be a real test to practice the divine power.' +
-				'Don\'t worry, you are doing great!'
+			"powers": {"power_divine": {"charges": 3}},
+			"tutorial": '\tOne triumph brings a greater demand.'
 		}
 	},
 	"trig2": {
@@ -180,9 +179,14 @@ var levels: Dictionary = {
 					]
 				]
 			},
-			'tutorial': "\tThis level is even bigger than the last one. " +
-				"You have more charges of Divine Power, so use them wisely.\n" +
-				"\tMy suggestion: wait until you are truely stuck to use the power."
+			'tutorial': '\tWake now from the dream. Look through eyes without veil ' +
+				'at a night without breaking. The truth is out there, yet it does ' +
+				'not wait for you. You may imagine it, but you only imagine the ' +
+				'as it would appear to you. It is not the truth you leap for but the ' +
+				'construction of tools for further delving. You do not explore uncharted ' +
+				'depths, only retread with yet-unsullen feet the paths of those before.\n' +
+				'\tKnow that tenacity is required to reach deeper in this page, and still ' +
+				'deeper in this tome.'
 		}
 	},
 	"discovery": {
@@ -197,12 +201,11 @@ var levels: Dictionary = {
 					"variable_column": 3,
 				}
 			],
-			'tutorial': "\tSee that thing below the grid? \tThis level introduces the first complication. " +
-				"Complications are additional rules that can be applied to a line, or board.\n" +
-				"\tThis one is the 'delta' complication. The numbers in the header of that column " +
-				"do not correspond directly to what squares must be filled in. These numbers are " +
-				"where the differences between the squares are between it and column 4.\n" +
-				"\tIn this case, there are exactly 2 differences between columns 4 and 5, and they are not adjacent."
+			'tutorial': '\tAnd so you find the first complication, the weapon of devious forces you ' +
+				'will face. This one can be named "delta", and it is unwise to look for the more true ' +
+				'name. This one, presented with a triangle at the bottom of the column, indicates that ' +
+				'the numbers in the header of that column do not correspond directly to what squares must be. ' +
+				'Instead, the numbers speak of the differences between that column and the 4th column.'
 		}
 	},
 	"mistrust": {
@@ -222,8 +225,9 @@ var levels: Dictionary = {
 					"variable_column": 4,
 				}
 			],
-			'tutorial': "\tComplications need not be lonely. This one has two delta complications, " +
-				"with one referencing the other."
+			'tutorial': '\tComplications are the weapons you must be ever-aware of, lest they lead you to ruin. ' +
+				'This one has two delta complications, with one referencing the other. Such a chain can cause ' +
+				'strife.'
 		}
 	},
 	"y_can_too": {
@@ -238,8 +242,7 @@ var levels: Dictionary = {
 					"variable_row": 5,
 				}
 			],
-			'tutorial': "\tComplications are not restricted to columns. " +
-				"This one is on a row, but it still works the same way."
+			'tutorial': "\tYet complications are not restricted to columns."
 		}
 	},
 	"contradiction": {
@@ -260,7 +263,8 @@ var levels: Dictionary = {
 					"variable_column": 2,
 				}
 			],
-			'tutorial': "\tPowers can make complications a lot easier to solve."
+			'tutorial': "\tComplications do not inhibit powers, and powers can " +
+				'prove invaluable counters to their nefarious tricks.'
 		}
 	},
 	"category": {
@@ -348,11 +352,18 @@ var levels: Dictionary = {
 					"type": "delta",
 					"subject_row": 8,
 					"variable_row": 5,
+				},
+				{
+					"type": "delta",
+					"subject_row": 6,
+					"variable_row": 12,
 				}
 			],
 			"powers": {"power_divine": {"charges": 4}},
-			'tutorial': "\tThis one is big, with 4 complications. Don't worry, " +
-				"I believe in you."
+			'tutorial': 'Complications can result in a chain of dependencies, ' +
+				'with one line requiring another that requires another that requires another. ' +
+				'The only hope is to be found in what information can be gleaned from the opposing ' +
+				'axis, trusting that there is enough information to find the answer.'
 		}
 	},
 	"trig3": {
