@@ -113,7 +113,8 @@ func get_trimmed_master() -> Dictionary:
 	for level in master.keys():
 		trimmed_master[level] = {}
 		trimmed_master[level][SQUARE_MAP_KEY] = master [level][SQUARE_MAP_KEY]
-		trimmed_master[level][STACK_KEY] = master [level][STACK_KEY]
+		if (master [level].has(STACK_KEY)):
+			trimmed_master[level][STACK_KEY] = master [level][STACK_KEY]
 		if (master [level].has(LOCKS_KEY)):
 			trimmed_master[level][LOCKS_KEY] = master [level][LOCKS_KEY]
 		if (master [level].has(POWERS_KEY)):
