@@ -490,6 +490,8 @@ func generate_sine_map(parameters: Dictionary):
 			if (parameters.has('randomness')):
 				var r = parameters['randomness']
 				sine_value += randf_range(-r, r)
+			if parameters['generation'].has('constant'):
+				sine_value += parameters['generation']['constant']
 			if (sine_value > 0):
 				set_target_position(Vector2i(i, k), SquareStates.MARKED)
 			else:
