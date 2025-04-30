@@ -47,6 +47,32 @@ var levels: Dictionary = {
 			}
 		}
 	},
+	"orbitals": {
+		"name": "Orbitals",
+		"parameters": {
+			"seed": 22,
+			"size": Vector2i(9, 9),
+			"generation": {
+				"method": "waveform",
+				"constant": - 0.2,
+				"series": [
+					[
+						{
+							"amplitude": 1,
+							"frequency": Vector2(3, 3),
+							"offset": Vector2(2, 2),
+						}
+					],
+					[
+						{
+							"amplitude": 1,
+							"frequency": Vector2(1.2, 1.2),
+						}
+					],
+				]
+			}
+		}
+	},
 	"jack_and_hide": {
 		"name": "Jack and Hide",
 		"parameters": {
@@ -116,29 +142,25 @@ var levels: Dictionary = {
 				"but that may not make the pattern easy, maybe mearly possible."
 		}
 	},
-	"professional": {
-		"name": "Professional",
+	"magenta": {
+		"name": "Magenta",
 		"parameters": {
-			"seed": 21,
+			"seed": 23,
 			"size": Vector2i(9, 9),
-			"randomness": 0.3,
+			"randomness": 3,
 			"generation": {
-				"method": "waveform",
-				"constant": - 0.5,
-				"series": [
-					[
-						{
-							"amplitude": 1,
-							"frequency": Vector2(2, 2),
-						}
-					],
-				]
+				"method": "sine",
+				"frequency": Vector2(1.15, 1.18),
+				"offset": Vector2(6.21, 2.55),
 			},
 			"locks": [
-				Vector2i(6, 7),
-				Vector2i(3, 5),
+				Vector2i(0, 0),
+				Vector2i(1, 1),
 				Vector2i(2, 2),
-				Vector2i(0, 1)]
+				Vector2i(3, 3),
+				Vector2i(4, 4),
+				Vector2i(5, 5),
+			],
 		}
 	},
 	"response": {
@@ -392,6 +414,46 @@ var levels: Dictionary = {
 				'axis, trusting that there is enough information to find the answer.'
 		}
 	},
+	"professional": {
+		"name": "Professional",
+		"parameters": {
+			"seed": 21,
+			"size": Vector2i(9, 9),
+			"generation": {
+				"method": "waveform",
+				"constant": - 0.5,
+				"series": [
+					[
+						{
+							"amplitude": 2,
+							"frequency": Vector2(1.85, 1.25),
+							"offset": Vector2(2, 2),
+						},
+						{
+							"amplitude": 2,
+							"frequency": Vector2(2.35, 1.95),
+						}
+					]
+				]
+			},
+			"powers": {"power_lock": {"charges": 3}},
+			"locks": [
+				Vector2i(4, 0),
+				Vector2i(3, 6),
+				Vector2i(4, 6),
+				Vector2i(0, 7),
+				Vector2i(0, 8),
+				Vector2i(1, 7),
+				Vector2i(1, 8)],
+			"complications": [
+				{
+					"type": "delta",
+					"subject_row": 4,
+					"variable_row": 5,
+				}
+			],
+		}
+	},
 	"trig3": {
 		"name": "Big Trig",
 		"parameters": {
@@ -470,11 +532,14 @@ var levels: Dictionary = {
 }
 var chapters: Dictionary = {
 	"chapter1": {
-		"levels": ["intro", "basics", "didactic", "jack_and_hide", "elaborate", "trig", "ellipse", "locks", "professional", "response", "big", "trig2"],
+		"levels": ["intro", "basics", "didactic", "orbitals",
+			"jack_and_hide", "elaborate", "trig", "ellipse",
+			"locks", "magenta", "response", "big", "trig2"],
 		"title": "Chapter 1"
 	},
 	"chapter2": {
-		"levels": ["discovery", "mistrust", "y_can_too", "contradiction", "category", "education", "tundra", "trig3"],
+		"levels": ["discovery", "mistrust", "y_can_too", "contradiction",
+			"category", "education", "tundra", "professional", "trig3"],
 		"title": "Chapter 2"
 	}
 }

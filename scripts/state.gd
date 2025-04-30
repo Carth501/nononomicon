@@ -545,15 +545,15 @@ func generate_waveform_map(parameters: Dictionary):
 
 func handle_series(term: Dictionary, i: int, k: int) -> float:
 	var frequency = term['frequency'] if term.has('frequency') else Vector2(1, 1)
-	var x = i * frequency.x
-	var y = k * frequency.y
+	var x = float(i) * float(frequency.x)
+	var y = float(k) * float(frequency.y)
 	if term.has('offset'):
 		var offset = term['offset']
 		x += offset.x
 		y += offset.y
 	var term_sum = 0.0
 	if term.has('nested'):
-		term_sum = sin(handle_series(term['nested'], i, k))
+		term_sum = sin(handle_series(term['nested'], i, k)) # + sin(x) + sin(y)?
 	else:
 		term_sum = sin(x) + sin(y)
 	if term.has('amplitude'):
