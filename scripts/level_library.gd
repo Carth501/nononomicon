@@ -152,6 +152,7 @@ var levels: Dictionary = {
 				"method": "sine",
 				"frequency": Vector2(1.15, 1.18),
 				"offset": Vector2(6.21, 2.55),
+				"constant": - 0.5
 			},
 			"locks": [
 				Vector2i(0, 0),
