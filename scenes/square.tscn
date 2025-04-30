@@ -56,6 +56,7 @@ mouse_filter = 2
 color = Color(0.768627, 0.6, 0.286275, 1)
 
 [node name="LockTexture" type="TextureRect" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
