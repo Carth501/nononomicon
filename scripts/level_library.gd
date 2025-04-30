@@ -161,6 +161,7 @@ var levels: Dictionary = {
 				Vector2i(3, 3),
 				Vector2i(4, 4),
 				Vector2i(5, 5),
+				Vector2i(0, 8),
 			],
 		}
 	},
