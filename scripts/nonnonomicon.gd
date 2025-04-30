@@ -12,6 +12,8 @@ var index := preload("res://scenes/index.tscn")
 @export var coords_display: Label
 @export var command_console: LineEdit
 @export var drawer: Control
+@export var descriptions: Control
+@export var level_title: Label
 @export var tutorial_text: RichTextLabel
 @export var power_description_container: VBoxContainer
 @export var power_description: RichTextLabel
@@ -25,6 +27,7 @@ func _ready():
 	open_page("index")
 	State.victory_changed.connect(set_next_enabled)
 	State.level_changed.connect(check_page_buttons)
+	State.level_changed.connect(set_level_title)
 	State.level_changed.connect(set_tutorial_text)
 	State.coords_changed.connect(update_coords_display)
 	State.level_changed.connect(handle_features)
@@ -41,6 +44,7 @@ func open_page(id: String):
 		split_container.show()
 		index_page.hide()
 		set_tutorial_text()
+		set_level_title()
 		command_console.visible = false
 		handle_features()
 
@@ -111,6 +115,13 @@ func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("Console"):
 		toggle_command_console()
 
+func set_level_title():
+	var level_id = State.get_active_id()
+	var level_name = LevelLibrary.get_level_name(level_id)
+	var chapter_id = LevelLibrary.get_chapter_for_level(level_id)
+	var chapter_name = LevelLibrary.get_chapter_name(chapter_id)
+	level_title.text = chapter_name + " - " + level_name
+
 func set_tutorial_text():
 	var params = State.get_level_parameters()
 	if (params.has("tutorial")):
@@ -174,11 +185,11 @@ func show_power_description(power_id: String):
 	power_name.text = power_locale["power_name"]
 	power_description.text = power_locale["power_description"]
 	power_description_container.show()
-	tutorial_text.hide()
+	descriptions.hide()
 
 func hide_power_description():
 	power_description_container.hide()
-	tutorial_text.show()
+	descriptions.show()
 
 
 func _on_main_menu_button_pressed() -> void:

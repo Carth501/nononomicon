@@ -606,3 +606,9 @@ func get_chapter_for_level(level: String) -> String:
 		if level in chapters[chapter].levels:
 			return chapter
 	return ""
+
+func get_level_name(level: String) -> String:
+	return levels[level].name
+
+func get_chapter_name(chapter: String) -> String:
+	return chapters[chapter].title
