@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d1gmnt1mno2w1"
-path="res://.godot/imported/lock-closed-svgrepo-com.svg-f329d8bf6d0f791239cfd1f67a821d72.ctex"
+uid="uid://cxlqbx4m1n0c1"
+path="res://.godot/imported/two-tone-lock-closed-svgrepo-com.svg-b9aca86f1a1ad0be29917ea9dd850c12.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/lock-closed-svgrepo-com.svg"
-dest_files=["res://.godot/imported/lock-closed-svgrepo-com.svg-f329d8bf6d0f791239cfd1f67a821d72.ctex"]
+source_file="res://assets/icons/two-tone-lock-closed-svgrepo-com.svg"
+dest_files=["res://.godot/imported/two-tone-lock-closed-svgrepo-com.svg-b9aca86f1a1ad0be29917ea9dd850c12.ctex"]
 
 [params]
 
