@@ -144,6 +144,7 @@ var levels: Dictionary = {
 			"powers": {"power_divine": {"charges": 9}},
 			"generation": {
 				"method": "waveform",
+				"constant": 0.5,
 				"series": [
 					[
 						{

@@ -535,6 +535,8 @@ func generate_waveform_map(parameters: Dictionary):
 			if (parameters.has('randomness')):
 				var r = parameters['randomness']
 				sum += randf_range(-r, r)
+			if parameters['generation'].has('constant'):
+				sum += parameters['generation']['constant']
 			if (sum > 0):
 				set_target_position(Vector2i(i, k), SquareStates.MARKED)
 			else:
