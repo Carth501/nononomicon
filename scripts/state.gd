@@ -1410,14 +1410,14 @@ func start_power(id: String):
 func use_power():
 	if power_id == "":
 		return
-	if power_id == "power_divine":
+	if power_id == "power_lock":
 		if get_charges(power_id) > 0:
-			power_divine()
+			power_lock()
 			use_charge(power_id)
 	power_id = ""
 	hiding_power.emit()
 
-func power_divine():
+func power_lock():
 	lock_square(chosen_coords)
 
 func get_powers():
@@ -1449,7 +1449,7 @@ func load_powers():
 	for power in powers:
 		if power.has('type'):
 			match power['type']:
-				"power_divine":
+				"power_lock":
 					start_power(power['id'])
 				_:
 					print("Unknown power type: ", power['type'])

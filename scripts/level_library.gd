@@ -101,19 +101,44 @@ var levels: Dictionary = {
 		"name": "Locks",
 		"parameters": {
 			"seed": 17,
-			"size": Vector2i(12, 8),
-			"randomness": 0.9,
+			"size": Vector2i(8, 8),
+			"randomness": 3,
 			"generation": {
 				"method": "ellipse",
-				"scale": Vector2(0.8, 1.1),
+				"scale": Vector2(1, 1),
+			},
+			"locks": [
+				Vector2i(6, 7),
+				Vector2i(3, 5),
+				Vector2i(4, 2),
+				Vector2i(0, 1)],
+			"tutorial": "\tThe first locked squares. These answers are provided, " +
+				"but that may not make the pattern easy, maybe mearly possible."
+		}
+	},
+	"professional": {
+		"name": "Professional",
+		"parameters": {
+			"seed": 21,
+			"size": Vector2i(9, 9),
+			"randomness": 0.3,
+			"generation": {
+				"method": "waveform",
+				"constant": - 0.5,
+				"series": [
+					[
+						{
+							"amplitude": 1,
+							"frequency": Vector2(2, 2),
+						}
+					],
+				]
 			},
 			"locks": [
 				Vector2i(6, 7),
 				Vector2i(3, 5),
 				Vector2i(2, 2),
-				Vector2i(8, 1)],
-			"tutorial": "\tThe first locked squares. These answers are provided, " +
-				"but that may not make the pattern easy, maybe mearly possible."
+				Vector2i(0, 1)]
 		}
 	},
 	"response": {
@@ -121,9 +146,9 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 18,
 			"size": Vector2i(6, 6),
-			"powers": {"power_divine": {"charges": 2}},
-			"tutorial": '\tThe first power granted. Divination can give sight into ' +
-				'the truth, but it is not to be wasted. Use it with purpose, as ' +
+			"powers": {"power_lock": {"charges": 2}},
+			"tutorial": '\tThe first power granted. Choosing where to apply locks can give ' +
+				'sight into the truth, but it is not to be wasted. Use it with purpose, as ' +
 				'it will not be replenished before the next page.'
 		},
 	},
@@ -132,7 +157,7 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 3,
 			"size": Vector2i(20, 16),
-			"powers": {"power_divine": {"charges": 3}},
+			"powers": {"power_lock": {"charges": 3}},
 			"tutorial": '\tOne triumph brings a greater demand.'
 		}
 	},
@@ -141,7 +166,7 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 11,
 			"size": Vector2i(24, 16),
-			"powers": {"power_divine": {"charges": 9}},
+			"powers": {"power_lock": {"charges": 9}},
 			"generation": {
 				"method": "waveform",
 				"constant": 0.5,
@@ -251,7 +276,7 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 6,
 			"size": Vector2i(8, 8),
-			"powers": {"power_divine": {"charges": 1}},
+			"powers": {"power_lock": {"charges": 1}},
 			"complications": [
 				{
 					"type": "delta",
@@ -273,7 +298,7 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 19,
 			"size": Vector2i(9, 9),
-			"powers": {"power_divine": {"charges": 2}},
+			"powers": {"power_lock": {"charges": 2}},
 			"complications": [
 				{
 					"type": "delta",
@@ -293,7 +318,7 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 20,
 			"size": Vector2i(12, 9),
-			"powers": {"power_divine": {"charges": 2}},
+			"powers": {"power_lock": {"charges": 2}},
 			"complications": [
 				{
 					"type": "delta",
@@ -360,7 +385,7 @@ var levels: Dictionary = {
 					"variable_row": 12,
 				}
 			],
-			"powers": {"power_divine": {"charges": 4}},
+			"powers": {"power_lock": {"charges": 4}},
 			'tutorial': 'Complications can result in a chain of dependencies, ' +
 				'with one line requiring another that requires another that requires another. ' +
 				'The only hope is to be found in what information can be gleaned from the opposing ' +
@@ -445,7 +470,7 @@ var levels: Dictionary = {
 }
 var chapters: Dictionary = {
 	"chapter1": {
-		"levels": ["intro", "basics", "didactic", "jack_and_hide", "elaborate", "trig", "ellipse", "locks", "response", "big", "trig2"],
+		"levels": ["intro", "basics", "didactic", "jack_and_hide", "elaborate", "trig", "ellipse", "locks", "professional", "response", "big", "trig2"],
 		"title": "Chapter 1"
 	},
 	"chapter2": {
