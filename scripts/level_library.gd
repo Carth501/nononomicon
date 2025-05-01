@@ -16,7 +16,7 @@ var levels: Dictionary = {
 				'\tVenture no further, however, if you find a piece of yourself missing. ' +
 				'It cannot be stated plainly enough: there is evil in these pages, and ' +
 				'greater evils to confront will be all that you earn.\n' +
-				'To begin, fill in the squares according to the numbers on the top and left. ' +
+				'\tTo begin, fill in the squares according to the numbers on the top and left. ' +
 				'The numbers indicate how many squares are filled in a row or column, and the ' +
 				'length of the segments they should make up.\n\t"3 1" means ' +
 				'there is a segment of three filled squares followed by a lone filled square.' +
@@ -32,7 +32,7 @@ var levels: Dictionary = {
 				{
 					"notes": false
 				},
-			"tutorial": 'For these simple spells, look for the highest numbers first.'
+			"tutorial": '\tFor these simple spells, look for the highest numbers first.'
 		}
 	},
 	"didactic": {
@@ -79,7 +79,7 @@ var levels: Dictionary = {
 			"seed": 14,
 			"size": Vector2i(16, 6),
 			"randomness": 0.5,
-			"tutorial": 'Differences in thought emerge, but the pattern may ' +
+			"tutorial": '\tDifferences in thought emerge, but the pattern may ' +
 				'yet be preserved. These shapes are not harmless, but you are not their target.'
 		}
 	},
@@ -106,7 +106,7 @@ var levels: Dictionary = {
 				"frequency": Vector2(1.4, 1.2),
 				"offset": Vector2(3, 3),
 			},
-			"tutorial": 'A cage you have escape from, yet you are still here. ' +
+			"tutorial": '\tA cage you have escape from, yet you are still here. ' +
 				'This author may only wonder at your reasons, but do not err; ' +
 				'this text will provide no gift nor boon.'
 		}
@@ -410,7 +410,7 @@ var levels: Dictionary = {
 				}
 			],
 			"powers": {"power_lock": {"charges": 4}},
-			'tutorial': 'Complications can result in a chain of dependencies, ' +
+			'tutorial': '\tComplications can result in a chain of dependencies, ' +
 				'with one line requiring another that requires another that requires another. ' +
 				'The only hope is to be found in what information can be gleaned from the opposing ' +
 				'axis, trusting that there is enough information to find the answer.'
