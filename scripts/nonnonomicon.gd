@@ -9,7 +9,6 @@ var index := preload("res://scenes/index.tscn")
 @export var index_page: Control
 @export var next_button: Button
 @export var prev_button: Button
-@export var coords_display: Label
 @export var command_console: LineEdit
 @export var drawer: Control
 @export var descriptions: Control
@@ -29,7 +28,6 @@ func _ready():
 	State.level_changed.connect(check_page_buttons)
 	State.level_changed.connect(set_level_title)
 	State.level_changed.connect(set_tutorial_text)
-	State.coords_changed.connect(update_coords_display)
 	State.level_changed.connect(handle_features)
 	State.showing_power.connect(show_power_description)
 	State.hiding_power.connect(hide_power_description)
@@ -88,12 +86,6 @@ func set_next_enabled(value: bool):
 
 func set_prev_button():
 	prev_button.visible = State.has_prev_level()
-
-func update_coords_display(new_coords: Vector2i):
-	if (new_coords == Vector2i(-1, -1)):
-		coords_display.text = ""
-	else:
-		coords_display.text = str(new_coords.x + 1) + ", " + str(new_coords.y + 1)
 
 func toggle_command_console():
 	command_console.visible = !command_console.visible

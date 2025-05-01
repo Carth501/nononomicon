@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://scripts/game_ui.gd" id="4_hhnsy"]
 [ext_resource type="PackedScene" uid="uid://ytd3m12r45sh" path="res://scenes/powers_scroll_container.tscn" id="6_3fro6"]
 
-[node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("game_ui", "board", "split_container", "index_page", "next_button", "prev_button", "coords_display", "command_console", "drawer", "descriptions", "level_title", "tutorial_text", "power_description_container", "power_description", "power_name", "debug_menu", "stack_container", "stack_list")]
+[node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("game_ui", "board", "split_container", "index_page", "next_button", "prev_button", "command_console", "drawer", "descriptions", "level_title", "tutorial_text", "power_description_container", "power_description", "power_name", "debug_menu", "stack_container", "stack_list")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -22,7 +22,6 @@ split_container = NodePath("HSplitContainer")
 index_page = NodePath("Index")
 next_button = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/LevelControlsContainer/NextButton")
 prev_button = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/LevelControlsContainer/PrevButton")
-coords_display = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/CoordinatesDisplay")
 command_console = NodePath("LineEdit")
 drawer = NodePath("HSplitContainer/Drawer")
 descriptions = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/LevelDescription")
@@ -129,9 +128,6 @@ text = "Clear Notes"
 [node name="CheatButton" type="Button" parent="HSplitContainer/Drawer/VBoxContainer/GameUI"]
 layout_mode = 2
 text = "CHEAT"
-
-[node name="CoordinatesDisplay" type="Label" parent="HSplitContainer/Drawer/VBoxContainer/GameUI"]
-layout_mode = 2
 
 [node name="VSplitContainer" type="VSplitContainer" parent="HSplitContainer/Drawer/VBoxContainer"]
 layout_mode = 2

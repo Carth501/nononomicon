@@ -8,7 +8,7 @@
 [ext_resource type="Script" path="res://scripts/y_footer_col.gd" id="6_uo5n4"]
 [ext_resource type="Script" path="res://scripts/guidelines.gd" id="7_oseot"]
 
-[node name="CenterContainer" type="Container" node_paths=PackedStringArray("nonogram_scroll_container", "nonogram_squares", "header_row", "header_col", "footer_row", "footer_col", "header_row_scroll", "header_col_scroll", "footer_row_scroll", "footer_col_scroll", "board_margin_control", "victory_label", "guidelines", "guidelines_mask")]
+[node name="CenterContainer" type="Container" node_paths=PackedStringArray("nonogram_scroll_container", "nonogram_squares", "header_row", "header_col", "footer_row", "footer_col", "header_row_scroll", "header_col_scroll", "footer_row_scroll", "footer_col_scroll", "board_margin_control", "victory_label", "guidelines", "guidelines_mask", "coords_display")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -26,9 +26,10 @@ header_col_scroll = NodePath("BoardBox/YHeaderScrollContainer")
 footer_row_scroll = NodePath("BoardBox/XFooterScrollContainer")
 footer_col_scroll = NodePath("BoardBox/YFooterScrollContainer")
 board_margin_control = NodePath("BoardBox")
-victory_label = NodePath("BoardBox/Label")
+victory_label = NodePath("BoardBox/VictoryLabel")
 guidelines = NodePath("BoardBox/GuidelinesMask/Guidelines")
 guidelines_mask = NodePath("BoardBox/GuidelinesMask")
+coords_display = NodePath("BoardBox/CoordsLabel")
 
 [node name="BoardBox" type="Control" parent="."]
 layout_mode = 2
@@ -117,7 +118,7 @@ vertical_scroll_mode = 2
 [node name="NonogramSquares" parent="BoardBox/NonogramScrollContainer" instance=ExtResource("1_4p2ab")]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="BoardBox"]
+[node name="VictoryLabel" type="Label" parent="BoardBox"]
 layout_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -133,6 +134,15 @@ theme_override_font_sizes/font_size = 40
 text = "Victory"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="CoordsLabel" type="Label" parent="BoardBox"]
+layout_mode = 0
+offset_left = 83.0
+offset_top = 138.0
+offset_right = 123.0
+offset_bottom = 161.0
+text = "1, 2"
+horizontal_alignment = 1
 
 [connection signal="sort_children" from="." to="." method="sort_children"]
 [connection signal="scroll_ended" from="BoardBox/NonogramScrollContainer" to="." method="end_scrolling"]
