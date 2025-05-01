@@ -134,6 +134,7 @@ func set_active_id(new_id: String):
 	level_changed.emit()
 	power_id = ""
 	hiding_power.emit()
+	drag_start = Vector2i(-1, -1)
 
 func get_active_id() -> String:
 	return active_id
@@ -310,6 +311,7 @@ func reset():
 		if master [active_id].has(VICTORY_KEY):
 			master [active_id][VICTORY_KEY] = false
 			victory_changed.emit(false)
+		drag_start = Vector2i(-1, -1)
 
 func clear_notes():
 	if master.has(active_id):
