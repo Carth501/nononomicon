@@ -16,6 +16,7 @@ class_name NonogramBoard extends Container
 @export var guidelines: Guidelines
 @export var guidelines_mask: Control
 @export var coords_display: Label
+@export var board_size_display: Label
 var highlighting: Vector2i
 var scrolling: bool = false
 
@@ -29,6 +30,7 @@ func _ready():
 	State.lock_added_to_square.connect(lock_square)
 	State.locks_cleared.connect(clear_locks)
 	State.coords_changed.connect(update_coords_display)
+	State.level_changed.connect(update_board_size)
 	victory_label.visible = false
 
 func prepare_board():
@@ -113,6 +115,10 @@ func sort_children() -> void:
 		x_margin + col_head_width + header_row_scroll.size.x + 8,
 		y_margin + row_head_height - coords_display.size.y - 8
 		)
+	board_size_display.global_position = Vector2(
+		x_margin + col_head_width - board_size_display.size.x - 8,
+		y_margin + row_head_height - board_size_display.size.y - 8
+		)
 
 func update_header_assist(comparisons: Dictionary):
 	header_row.set_assist(comparisons["X"])
@@ -136,3 +142,7 @@ func update_coords_display(new_coords: Vector2i):
 		coords_display.text = ""
 	else:
 		coords_display.text = str(new_coords.x + 1) + ", " + str(new_coords.y + 1)
+
+func update_board_size():
+	var board_size = State.get_size()
+	board_size_display.text = str(board_size.x) + " x " + str(board_size.y)
