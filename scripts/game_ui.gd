@@ -1,9 +1,9 @@
 class_name GameUI extends Control
 
-@export var notes_switch: Button
+@export var notes_controls: VBoxContainer
 
 func toggle_features(features: Dictionary):
 	if features.has("notes"):
-		notes_switch.visible = features["notes"]
+		notes_controls.visible = features["notes"]
 	else:
-		notes_switch.visible = true
+		notes_controls.visible = true

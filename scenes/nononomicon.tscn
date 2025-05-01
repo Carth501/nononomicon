@@ -55,6 +55,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/minimum_grab_thickness = 16
+theme_override_constants/autohide = 0
 split_offset = 918
 
 [node name="NonogramBoard" parent="HSplitContainer" instance=ExtResource("2_mnfaj")]
@@ -72,12 +74,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="GameUI" type="HFlowContainer" parent="HSplitContainer/Drawer/VBoxContainer" node_paths=PackedStringArray("notes_switch")]
+[node name="GameUI" type="HFlowContainer" parent="HSplitContainer/Drawer/VBoxContainer" node_paths=PackedStringArray("notes_controls")]
 custom_minimum_size = Vector2(0, 184)
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("4_hhnsy")
-notes_switch = NodePath("VBoxContainer/NotesSwitch")
+notes_controls = NodePath("NotesContainer")
 
 [node name="LevelControlsContainer" type="VBoxContainer" parent="HSplitContainer/Drawer/VBoxContainer/GameUI"]
 layout_mode = 2
@@ -113,15 +115,15 @@ text = "Reset"
 layout_mode = 2
 text = "Main Menu"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/Drawer/VBoxContainer/GameUI"]
+[node name="NotesContainer" type="VBoxContainer" parent="HSplitContainer/Drawer/VBoxContainer/GameUI"]
 layout_mode = 2
 
-[node name="NotesSwitch" type="CheckButton" parent="HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer"]
+[node name="NotesSwitch" type="CheckButton" parent="HSplitContainer/Drawer/VBoxContainer/GameUI/NotesContainer"]
 layout_mode = 2
 text = "Notes
 Mode"
 
-[node name="ClearNotesButton" type="Button" parent="HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer"]
+[node name="ClearNotesButton" type="Button" parent="HSplitContainer/Drawer/VBoxContainer/GameUI/NotesContainer"]
 layout_mode = 2
 text = "Clear Notes"
 
@@ -132,6 +134,8 @@ text = "CHEAT"
 [node name="VSplitContainer" type="VSplitContainer" parent="HSplitContainer/Drawer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/minimum_grab_thickness = 16
+theme_override_constants/autohide = 0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer"]
 custom_minimum_size = Vector2(0, 64)
@@ -231,8 +235,8 @@ grow_vertical = 0
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/GameControlsContainer/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/GameControlsContainer/ResetButton" to="." method="_on_reset_pressed"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/GameControlsContainer/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
-[connection signal="toggled" from="HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer/NotesSwitch" to="." method="_on_notes_switch_toggled"]
-[connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer/ClearNotesButton" to="." method="_on_clear_notes"]
+[connection signal="toggled" from="HSplitContainer/Drawer/VBoxContainer/GameUI/NotesContainer/NotesSwitch" to="." method="_on_notes_switch_toggled"]
+[connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/NotesContainer/ClearNotesButton" to="." method="_on_clear_notes"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/CheatButton" to="." method="cheat"]
 [connection signal="toggled" from="DebugOptions/List/StackToggle" to="." method="toggle_stack_view"]
 [connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]
