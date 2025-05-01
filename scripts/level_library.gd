@@ -20,7 +20,15 @@ var levels: Dictionary = {
 				'The numbers indicate how many squares are filled in a row or column, and the ' +
 				'length of the segments they should make up.\n\t"3 1" means ' +
 				'there is a segment of three filled squares followed by a lone filled square.' +
-				'Mark with left click, flag with the right. Submit when you believe yourself done.'
+				'Mark with left click, flag with the right. Submit when you believe yourself done.',
+			"locks": [
+				Vector2i(0, 0),
+				Vector2i(1, 0),
+				Vector2i(2, 0),
+				Vector2i(4, 0),
+				Vector2i(2, 3),
+				Vector2i(4, 4),
+				]
 		}
 	},
 	"basics": {
@@ -32,7 +40,12 @@ var levels: Dictionary = {
 				{
 					"notes": false
 				},
-			"tutorial": '\tFor these simple spells, look for the highest numbers first.'
+			"tutorial": '\tFor these simple trials, look for the zeros first, ' +
+				'then search for the highest numbers.',
+			"locks": [
+				Vector2i(3, 5),
+				Vector2i(6, 2),
+				]
 		}
 	},
 	"didactic": {
@@ -70,17 +83,28 @@ var levels: Dictionary = {
 						}
 					],
 				]
-			}
+			},
+			"locks": [
+				Vector2i(4, 4),
+				]
 		}
 	},
 	"jack_and_hide": {
 		"name": "Jack and Hide",
 		"parameters": {
 			"seed": 14,
-			"size": Vector2i(16, 6),
-			"randomness": 0.5,
+			"size": Vector2i(10, 7),
+			"randomness": 2,
 			"tutorial": '\tDifferences in thought emerge, but the pattern may ' +
-				'yet be preserved. These shapes are not harmless, but you are not their target.'
+				'yet be preserved. These shapes are not harmless, but you are not their target.',
+			"locks": [
+				Vector2i(1, 4),
+				Vector2i(3, 4),
+				Vector2i(5, 4),
+				Vector2i(7, 4),
+				Vector2i(9, 4),
+				Vector2i(8, 2),
+				]
 		}
 	},
 	"elaborate": {
@@ -108,7 +132,9 @@ var levels: Dictionary = {
 			},
 			"tutorial": '\tA cage you have escape from, yet you are still here. ' +
 				'This author may only wonder at your reasons, but do not err; ' +
-				'this text will provide no gift nor boon.'
+				'this text will provide no gift nor boon.',
+			"locks": [
+				Vector2i(5, 5), ],
 		}
 	},
 	"ellipse": {
@@ -138,8 +164,6 @@ var levels: Dictionary = {
 				Vector2i(3, 5),
 				Vector2i(4, 2),
 				Vector2i(0, 1)],
-			"tutorial": "\tThe first locked squares. These answers are provided, " +
-				"but that may not make the pattern easy, maybe mearly possible."
 		}
 	},
 	"magenta": {
@@ -180,9 +204,42 @@ var levels: Dictionary = {
 		"name": "Go Big",
 		"parameters": {
 			"seed": 3,
-			"size": Vector2i(20, 16),
+			"size": Vector2i(19, 16),
 			"powers": {"power_lock": {"charges": 3}},
-			"tutorial": '\tOne triumph brings a greater demand.'
+			"tutorial": '\tOne triumph brings a greater demand.',
+			# "locks": [
+			# 	Vector2i(0, 9),
+			# 	Vector2i(0, 10),
+			# 	Vector2i(1, 8),
+			# 	Vector2i(1, 11),
+			# 	Vector2i(2, 7),
+			# 	Vector2i(2, 12),
+			# 	Vector2i(3, 6),
+			# 	Vector2i(3, 13),
+			# 	Vector2i(4, 5),
+			# 	Vector2i(4, 14),
+			# 	Vector2i(5, 4),
+			# 	Vector2i(5, 15),
+			# 	Vector2i(6, 3),
+			# 	Vector2i(7, 2),
+			# 	Vector2i(8, 1),
+			# 	Vector2i(9, 0),
+			# 	Vector2i(10, 1),
+			# 	Vector2i(11, 2),
+			# 	Vector2i(12, 3),
+			# 	Vector2i(13, 4),
+			# 	Vector2i(13, 15),
+			# 	Vector2i(14, 5),
+			# 	Vector2i(14, 14),
+			# 	Vector2i(15, 6),
+			# 	Vector2i(15, 13),
+			# 	Vector2i(16, 7),
+			# 	Vector2i(16, 12),
+			# 	Vector2i(17, 8),
+			# 	Vector2i(17, 11),
+			# 	Vector2i(18, 9),
+			# 	Vector2i(18, 10),
+			# 	]
 		}
 	},
 	"trig2": {
