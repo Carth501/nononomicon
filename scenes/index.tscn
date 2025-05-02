@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dngpky84kip3v" path="res://scripts/index.gd" id="1_q07hl"]
 
-[node name="Index" type="Control" node_paths=PackedStringArray("list", "level_buttons")]
+[node name="Index" type="Control" node_paths=PackedStringArray("list")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +11,6 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_q07hl")
 list = NodePath("MarginContainer/List")
-level_buttons = [null]
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1

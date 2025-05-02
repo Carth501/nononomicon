@@ -271,6 +271,13 @@ func set_notes(value: bool):
 func get_notes() -> bool:
 	return notes
 
+func get_complete_levels() -> Array:
+	var complete_levels = []
+	for level in master.keys():
+		if master [level].has(VICTORY_KEY) and master [level][VICTORY_KEY]:
+			complete_levels.append(level)
+	return complete_levels
+
 func prepare_square_map(parameters: Dictionary):
 	if master [active_id].has(SQUARE_MAP_KEY):
 		return
