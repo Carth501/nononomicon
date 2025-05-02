@@ -426,7 +426,14 @@ var levels: Dictionary = {
 					"subject_column": 4,
 					"variable_column": 5,
 				}
-			]
+			],
+			'tutorial': "\tCircles in spirals in the squares. The void " +
+				"is a threat to me. I cannot stand where it has is, but " +
+				"it has been everywhere. Only here, for a moment, ephemeral, " +
+				"can I breathe and believe. It will consume this place now, " +
+				"and I will be off, always a moment ahead of the emptiness.\n" +
+				"\tCan I keep it up? If I don't, I will be consumed. Will " +
+				"that truely be worse?"
 		}
 	},
 	"tundra": {
