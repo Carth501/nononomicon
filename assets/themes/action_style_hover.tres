@@ -1,6 +1,8 @@
 [gd_resource type="StyleBoxFlat" format=3 uid="uid://dlt8vl4e4jfq2"]
 
 [resource]
+content_margin_left = 10.0
+content_margin_right = 10.0
 bg_color = Color(0.529898, 0.311457, 0.183631, 1)
 border_width_left = 4
 border_width_top = 4
