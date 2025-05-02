@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://d2malck014txy"]
 
-[ext_resource type="Script" path="res://scripts/index.gd" id="1_q07hl"]
+[ext_resource type="Script" uid="uid://dngpky84kip3v" path="res://scripts/index.gd" id="1_q07hl"]
 
 [node name="Index" type="Control" node_paths=PackedStringArray("list", "level_buttons")]
 layout_mode = 3

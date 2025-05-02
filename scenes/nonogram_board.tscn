@@ -1,12 +1,12 @@
 [gd_scene load_steps=8 format=3 uid="uid://dq8gk2xv1r27a"]
 
 [ext_resource type="PackedScene" uid="uid://d4cw6v7fo0k5s" path="res://scenes/nonogram_squares.tscn" id="1_4p2ab"]
-[ext_resource type="Script" path="res://scripts/board.gd" id="1_qoyos"]
-[ext_resource type="Script" path="res://scripts/x_header_row.gd" id="3_22eos"]
-[ext_resource type="Script" path="res://scripts/y_header_col.gd" id="4_cnhxs"]
-[ext_resource type="Script" path="res://scripts/x_footer_row.gd" id="5_erpr3"]
-[ext_resource type="Script" path="res://scripts/y_footer_col.gd" id="6_uo5n4"]
-[ext_resource type="Script" path="res://scripts/guidelines.gd" id="7_oseot"]
+[ext_resource type="Script" uid="uid://b4e3oljsvce7e" path="res://scripts/board.gd" id="1_qoyos"]
+[ext_resource type="Script" uid="uid://cst4dwl3yer6o" path="res://scripts/x_header_row.gd" id="3_22eos"]
+[ext_resource type="Script" uid="uid://2smht508mfmv" path="res://scripts/y_header_col.gd" id="4_cnhxs"]
+[ext_resource type="Script" uid="uid://bsigslo5jli3y" path="res://scripts/x_footer_row.gd" id="5_erpr3"]
+[ext_resource type="Script" uid="uid://dcd1ado5a3r8i" path="res://scripts/y_footer_col.gd" id="6_uo5n4"]
+[ext_resource type="Script" uid="uid://b3pd7wvudic24" path="res://scripts/guidelines.gd" id="7_oseot"]
 
 [node name="CenterContainer" type="Container" node_paths=PackedStringArray("nonogram_scroll_container", "nonogram_squares", "header_row", "header_col", "footer_row", "footer_col", "header_row_scroll", "header_col_scroll", "footer_row_scroll", "footer_col_scroll", "board_margin_control", "victory_label", "guidelines", "guidelines_mask", "coords_display", "board_size_display")]
 anchors_preset = 15

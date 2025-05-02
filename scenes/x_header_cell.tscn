@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://csarnlsk05pt4"]
 
-[ext_resource type="Script" path="res://scripts/x_header_cell.gd" id="1_yv2ja"]
+[ext_resource type="Script" uid="uid://bycfx840ky4hq" path="res://scripts/x_header_cell.gd" id="1_yv2ja"]
 
 [node name="XHeaderCell" type="BoxContainer" node_paths=PackedStringArray("numbers_container", "highlighter_spacer", "error_spacer")]
 custom_minimum_size = Vector2(64, 90)

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dquc4fovbtrhl"]
 
-[ext_resource type="Script" path="res://scripts/square.gd" id="1_136qj"]
+[ext_resource type="Script" uid="uid://bn0gddjg4jk4m" path="res://scripts/square.gd" id="1_136qj"]
 [ext_resource type="Texture2D" uid="uid://cxlqbx4m1n0c1" path="res://assets/icons/two-tone-lock-closed-svgrepo-com.svg" id="2_jmgrr"]
 
 [node name="Square" type="Control" node_paths=PackedStringArray("note_label", "highlighter", "color_square", "lock_tex", "effect_list")]

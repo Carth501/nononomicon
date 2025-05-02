@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://d4cw6v7fo0k5s"]
 
-[ext_resource type="Script" path="res://scripts/nonogram_squares.gd" id="1_7irg4"]
+[ext_resource type="Script" uid="uid://bxklgiyqxislt" path="res://scripts/nonogram_squares.gd" id="1_7irg4"]
 
 [node name="NonogramSquares" type="GridContainer"]
 offset_right = 40.0

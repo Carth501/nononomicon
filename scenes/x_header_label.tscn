@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cvfi37vrqlfw"]
 
-[ext_resource type="Script" path="res://scripts/header_label.gd" id="1_ya2hn"]
+[ext_resource type="Script" uid="uid://bm6js1uwd3b07" path="res://scripts/header_label.gd" id="1_ya2hn"]
 
 [node name="XHeaderLabel" type="Label" node_paths=PackedStringArray("highlight_square", "error_square")]
 size_flags_horizontal = 3

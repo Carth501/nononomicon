@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ytd3m12r45sh"]
 
-[ext_resource type="Script" path="res://scripts/powers_menu.gd" id="1_065p0"]
+[ext_resource type="Script" uid="uid://bvuh6udtfdml0" path="res://scripts/powers_menu.gd" id="1_065p0"]
 
 [node name="PowersMenu" type="ScrollContainer" node_paths=PackedStringArray("power_button_container")]
 follow_focus = true

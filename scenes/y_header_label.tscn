@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dfubfnlmbdwwq"]
 
-[ext_resource type="Script" path="res://scripts/header_label.gd" id="1_jy4g2"]
+[ext_resource type="Script" uid="uid://bm6js1uwd3b07" path="res://scripts/header_label.gd" id="1_jy4g2"]
 
 [node name="y_header_label" type="Label" node_paths=PackedStringArray("highlight_square", "error_square")]
 anchors_preset = 15

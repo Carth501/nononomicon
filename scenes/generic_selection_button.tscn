@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bejgy7af10co1"]
 
-[ext_resource type="Script" path="res://scripts/generic_selection_button.gd" id="1_n0tmu"]
+[ext_resource type="Script" uid="uid://dwhhafu30hbj5" path="res://scripts/generic_selection_button.gd" id="1_n0tmu"]
 
 [node name="SaveSelectionButton" type="Button"]
 text = "Save file name"

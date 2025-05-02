@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bypdcd1fjmyf"]
 
-[ext_resource type="Script" path="res://scripts/y_footer_cell.gd" id="1_jdw6d"]
+[ext_resource type="Script" uid="uid://b1hvjfwcsagpi" path="res://scripts/y_footer_cell.gd" id="1_jdw6d"]
 
 [node name="Panel" type="Control" node_paths=PackedStringArray("label_container", "highlight_square", "error_square")]
 custom_minimum_size = Vector2(90, 64)
