@@ -186,12 +186,11 @@ func hide_power_description():
 	power_description_container.hide()
 	descriptions.show()
 
-
 func _on_main_menu_button_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
 func set_hint_button():
-	hint_button.disabled = !State.has_hints()
+	hint_button.visible = !State.has_hints()
 
 func _on_hint_button_pressed() -> void:
 	State.request_hint()
