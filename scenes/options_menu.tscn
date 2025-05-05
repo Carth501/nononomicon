@@ -67,7 +67,7 @@ ticks_on_borders = true
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 2
-mouse_filter = 1
+mouse_filter = 2
 
 [node name="ExitButton" type="Button" parent="Control"]
 layout_mode = 1
@@ -79,6 +79,7 @@ offset_top = 20.0
 offset_right = -20.0
 offset_bottom = 31.0
 grow_horizontal = 0
+mouse_filter = 1
 text = "X"
 
 [connection signal="value_changed" from="MarginContainer/ScrollContainer/VBoxContainer/MasterAudioControl/HSlider" to="." method="set_master_volume"]
