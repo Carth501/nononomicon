@@ -66,10 +66,14 @@ var levels: Dictionary = {
 				],
 			"hints": [
 				[
-					Vector2i(2, 1),
-					Vector2i(3, 1),
-					Vector2i(4, 1),
-					Vector2i(5, 1)
+					Vector2i(0, 4),
+					Vector2i(1, 4),
+					Vector2i(2, 4),
+					Vector2i(3, 4),
+					Vector2i(4, 4),
+					Vector2i(5, 4),
+					Vector2i(6, 4),
+					Vector2i(7, 4),
 				],
 				[
 					Vector2i(3, 1),
@@ -79,7 +83,55 @@ var levels: Dictionary = {
 					Vector2i(3, 5),
 					Vector2i(3, 6),
 					Vector2i(3, 7),
-				]
+				],
+				[
+					Vector2i(4, 1),
+					Vector2i(4, 2),
+					Vector2i(4, 3),
+					Vector2i(4, 4),
+					Vector2i(4, 5),
+					Vector2i(4, 6),
+					Vector2i(4, 7),
+				],
+				[
+					Vector2i(5, 1),
+					Vector2i(5, 2),
+					Vector2i(5, 3),
+					Vector2i(5, 4),
+					Vector2i(5, 5),
+					Vector2i(5, 6),
+					Vector2i(5, 7),
+				],
+				[
+					Vector2i(2, 1),
+					Vector2i(2, 3),
+					Vector2i(2, 4),
+					Vector2i(2, 5),
+					Vector2i(2, 7)
+				],
+				[
+					Vector2i(0, 3),
+					Vector2i(2, 3),
+					Vector2i(3, 3),
+					Vector2i(4, 3),
+					Vector2i(5, 3),
+					Vector2i(7, 3)
+				],
+				[
+					Vector2i(0, 3),
+					Vector2i(2, 3),
+					Vector2i(3, 3),
+					Vector2i(4, 3),
+					Vector2i(5, 3),
+					Vector2i(7, 3)
+				],
+				[
+					Vector2i(3, 6),
+					Vector2i(4, 6),
+					Vector2i(5, 6),
+					Vector2i(6, 6),
+					Vector2i(7, 6),
+				],
 			]
 		}
 	},
@@ -633,8 +685,8 @@ var levels: Dictionary = {
 }
 var chapters: Dictionary = {
 	"chapter1": {
-		"levels": ["intro", "basics", "didactic", "orbitals",
-			"jack_and_hide", "elaborate", "trig", "ellipse",
+		"levels": ["intro", "basics", "orbitals", "jack_and_hide",
+			"elaborate", "trig", "ellipse", "didactic",
 			"locks", "magenta", "response", "big", "trig2"],
 		"title": "Chapter 1"
 	},
