@@ -27,3 +27,8 @@ func get_square(coords: Vector2i) -> NonogramSquare:
 		if squares[coords.x].has(coords.y):
 			return squares[coords.x][coords.y]
 	return null
+
+func clear_hint_squares():
+	for i in squares.keys():
+		for j in squares[i].keys():
+			squares[i][j].set_hint_square(false)

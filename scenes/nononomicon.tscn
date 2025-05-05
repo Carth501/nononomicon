@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://c1el5b0x6d6xe" path="res://scripts/game_ui.gd" id="4_hhnsy"]
 [ext_resource type="PackedScene" uid="uid://ytd3m12r45sh" path="res://scenes/powers_scroll_container.tscn" id="6_3fro6"]
 
-[node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("game_ui", "board", "split_container", "index_page", "next_button", "prev_button", "command_console", "drawer", "descriptions", "level_title", "tutorial_text", "power_description_container", "power_description", "power_name", "debug_menu", "stack_container", "stack_list")]
+[node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("game_ui", "board", "split_container", "index_page", "next_button", "prev_button", "command_console", "drawer", "descriptions", "level_title", "tutorial_text", "power_description_container", "power_description", "power_name", "debug_menu", "stack_container", "stack_list", "hint_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -33,6 +33,7 @@ power_name = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/Scro
 debug_menu = NodePath("DebugOptions")
 stack_container = NodePath("StackDisplay")
 stack_list = NodePath("StackDisplay/PanelContainer/List")
+hint_button = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer/HintButton")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -127,7 +128,14 @@ Mode"
 layout_mode = 2
 text = "Clear Notes"
 
-[node name="CheatButton" type="Button" parent="HSplitContainer/Drawer/VBoxContainer/GameUI"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/Drawer/VBoxContainer/GameUI"]
+layout_mode = 2
+
+[node name="HintButton" type="Button" parent="HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer"]
+layout_mode = 2
+text = "Hint"
+
+[node name="CheatButton" type="Button" parent="HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer"]
 layout_mode = 2
 text = "CHEAT"
 
@@ -237,6 +245,7 @@ grow_vertical = 0
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/GameControlsContainer/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
 [connection signal="toggled" from="HSplitContainer/Drawer/VBoxContainer/GameUI/NotesContainer/NotesSwitch" to="." method="_on_notes_switch_toggled"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/NotesContainer/ClearNotesButton" to="." method="_on_clear_notes"]
-[connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/CheatButton" to="." method="cheat"]
+[connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer/HintButton" to="." method="_on_hint_button_pressed"]
+[connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer/CheatButton" to="." method="cheat"]
 [connection signal="toggled" from="DebugOptions/List/StackToggle" to="." method="toggle_stack_view"]
 [connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]

@@ -3,6 +3,7 @@ class_name NonogramSquare extends Control
 @export var coords: Vector2i
 @export var note_label: Label
 @export var highlighter: ColorRect
+@export var hint_square: ColorRect
 @export var color_square: ColorRect
 var bleed_away_scene = preload("res://scenes/burnaway.tscn")
 @export var lock_tex: TextureRect
@@ -51,6 +52,9 @@ func set_highlighter(value: bool):
 	highlighter.visible = value
 	if value:
 		take_focus()
+
+func set_hint_square(value: bool):
+	hint_square.visible = value
 
 func take_focus():
 	grab_focus()

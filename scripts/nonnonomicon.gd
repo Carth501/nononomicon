@@ -20,6 +20,7 @@ var index := preload("res://scenes/index.tscn")
 @export var debug_menu: Control
 @export var stack_container: ScrollContainer
 @export var stack_list: VBoxContainer
+@export var hint_button: Button
 var drawer_width_percent := 0.7
 
 func _ready():
@@ -29,6 +30,7 @@ func _ready():
 	State.level_changed.connect(set_level_title)
 	State.level_changed.connect(set_tutorial_text)
 	State.level_changed.connect(handle_features)
+	State.level_changed.connect(set_hint_button)
 	State.showing_power.connect(show_power_description)
 	State.hiding_power.connect(hide_power_description)
 
@@ -187,3 +189,9 @@ func hide_power_description():
 
 func _on_main_menu_button_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+
+func set_hint_button():
+	hint_button.disabled = !State.has_hints()
+
+func _on_hint_button_pressed() -> void:
+	State.request_hint()

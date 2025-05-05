@@ -31,6 +31,7 @@ func _ready():
 	State.locks_cleared.connect(clear_locks)
 	State.coords_changed.connect(update_coords_display)
 	State.level_changed.connect(update_board_size)
+	State.hint_display_changed.connect(set_hint_squares)
 	victory_label.visible = false
 
 func prepare_board():
@@ -146,3 +147,11 @@ func update_coords_display(new_coords: Vector2i):
 func update_board_size():
 	var board_size = State.get_size()
 	board_size_display.text = str(board_size.x) + " x " + str(board_size.y)
+
+func set_hint_squares():
+	nonogram_squares.clear_hint_squares()
+	for square in State.hint_display:
+		nonogram_squares.get_square(square).set_hint_square(true)
+
+func clear_hint_squares():
+	nonogram_squares.clear_hint_squares()

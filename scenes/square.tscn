@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bn0gddjg4jk4m" path="res://scripts/square.gd" id="1_136qj"]
 [ext_resource type="Texture2D" uid="uid://cxlqbx4m1n0c1" path="res://assets/icons/two-tone-lock-closed-svgrepo-com.svg" id="2_jmgrr"]
 
-[node name="Square" type="Control" node_paths=PackedStringArray("note_label", "highlighter", "color_square", "lock_tex", "effect_list")]
+[node name="Square" type="Control" node_paths=PackedStringArray("note_label", "highlighter", "hint_square", "color_square", "lock_tex", "effect_list")]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 3
 anchors_preset = 0
@@ -12,6 +12,7 @@ offset_bottom = 64.0
 script = ExtResource("1_136qj")
 note_label = NodePath("Label")
 highlighter = NodePath("HighlighterSquare")
+hint_square = NodePath("HintSquare")
 color_square = NodePath("ColorRect")
 lock_tex = NodePath("LockTexture")
 effect_list = NodePath("EffectList")
@@ -45,6 +46,14 @@ theme_override_font_sizes/font_size = 40
 text = "X"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="HintSquare" type="ColorRect" parent="."]
+visible = false
+show_behind_parent = true
+offset_right = 64.0
+offset_bottom = 64.0
+mouse_filter = 2
+color = Color(0.626631, 0.82458, 0.385406, 1)
 
 [node name="HighlighterSquare" type="ColorRect" parent="."]
 visible = false

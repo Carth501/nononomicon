@@ -14,12 +14,12 @@ var levels: Dictionary = {
 				'The secrets contained are encoded such that you will learn their purpose ' +
 				'as you craft their construction.\n' +
 				'\tVenture no further, however, if you find a piece of yourself missing. ' +
-				'It cannot be stated plainly enough: there is evil in these pages, and ' +
+				'It cannot be stated plainly enough: there are evils in these pages, and ' +
 				'greater evils to confront will be all that you earn.\n' +
 				'\tTo begin, fill in the squares according to the numbers on the top and left. ' +
 				'The numbers indicate how many squares are filled in a row or column, and the ' +
 				'length of the segments they should make up.\n\t"3 1" means ' +
-				'there is a segment of three filled squares followed by a lone filled square.' +
+				'there is a segment of three filled squares followed by a lone filled square. ' +
 				'Mark with left click, flag with the right. Submit when you believe yourself done.',
 			"locks": [
 				Vector2i(0, 0),
@@ -28,7 +28,25 @@ var levels: Dictionary = {
 				Vector2i(4, 0),
 				Vector2i(2, 3),
 				Vector2i(4, 4),
+				],
+			"hints": [
+				[
+					Vector2i(0, 3),
+					Vector2i(1, 3),
+					Vector2i(2, 3),
+					Vector2i(3, 3),
+					Vector2i(4, 3),
+				],
+				[
+					Vector2i(2, 1),
+					Vector2i(4, 1),
+				],
+				[
+					Vector2i(3, 2),
+					Vector2i(3, 3),
+					Vector2i(3, 4),
 				]
+			]
 		}
 	},
 	"basics": {
@@ -45,7 +63,24 @@ var levels: Dictionary = {
 			"locks": [
 				Vector2i(3, 5),
 				Vector2i(6, 2),
+				],
+			"hints": [
+				[
+					Vector2i(2, 1),
+					Vector2i(3, 1),
+					Vector2i(4, 1),
+					Vector2i(5, 1)
+				],
+				[
+					Vector2i(3, 1),
+					Vector2i(3, 2),
+					Vector2i(3, 3),
+					Vector2i(3, 4),
+					Vector2i(3, 5),
+					Vector2i(3, 6),
+					Vector2i(3, 7),
 				]
+			]
 		}
 	},
 	"didactic": {

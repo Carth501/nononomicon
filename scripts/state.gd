@@ -16,6 +16,7 @@ signal showing_power(power_id)
 signal hiding_power()
 signal powers_changed()
 signal power_charge_used(power_id)
+signal hint_display_changed
 
 enum SquareStates {
 	EMPTY,
@@ -54,12 +55,14 @@ var FOOTER_KEY := 'footer'
 var COMPLICATIONS_KEY := 'complications'
 var LOCKS_KEY := 'locks'
 var POWERS_KEY := 'powers'
+var HINTS_KEY := 'hints'
 var toggle_state: ToggleStates = ToggleStates.NOTHING
 var notes: bool
 var active_id: String = "default"
 var drag_direction: Axis = Axis.NONE
 var drag_start := Vector2i(-1, -1)
 var power_id: String = ""
+var hint_display: Array = []
 
 func setup(parameters: Dictionary) -> void:
 	sanity_check_parameters(parameters)
@@ -71,6 +74,8 @@ func setup(parameters: Dictionary) -> void:
 		set_size(parameters['size'])
 	if (parameters.has('notes')):
 		notes = parameters['notes']
+	if (parameters.has('hints')):
+		set_hints(parameters['hints'])
 	if parameters.has('powers'):
 		set_powers(parameters['powers'])
 	generate_target_map(parameters)
@@ -237,6 +242,7 @@ func set_square_state(coords: Vector2i, new_state: SquareStates):
 	master [active_id][SQUARE_MAP_KEY][coords.x][coords.y] = new_state
 	square_changed.emit(coords)
 	generate_line_comparisons(coords)
+	check_hints()
 
 func solve_square(coords: Vector2i):
 	var new_square_state = master [active_id][TARGET_MAP_KEY][coords.x][coords.y]
@@ -1496,3 +1502,44 @@ func cancel_power():
 	power_id = ""
 	hiding_power.emit()
 #endregion powers
+
+#region Hint
+func set_hints(list: Array):
+	master [active_id][HINTS_KEY] = list
+
+func has_hints() -> bool:
+	return master [active_id].has(HINTS_KEY) and master [active_id][HINTS_KEY].size() > 0
+
+func get_hints() -> Array:
+	if ! master.has(active_id):
+		push_error("Attempted to get hints with invalid id: ", active_id)
+		return []
+	if ! master [active_id].has(HINTS_KEY):
+		return []
+	return master [active_id][HINTS_KEY]
+
+func get_next_hint() -> Array:
+	var hints = get_hints()
+	for hint in hints:
+		var complete = true
+		for square in hint:
+			if get_position_state(square) != get_target_position(square):
+				complete = false
+		if !complete:
+			return hint
+	return []
+
+func request_hint():
+	hint_display = get_next_hint()
+	hint_display_changed.emit()
+
+func check_hints():
+	var complete = true
+	for hint in hint_display:
+		if get_position_state(hint) != get_target_position(hint):
+			complete = false
+	if complete:
+		hint_display = []
+		hint_display_changed.emit()
+
+#endregion Hint
