@@ -21,6 +21,7 @@ State="*res://scripts/state.gd"
 SaveManager="*res://scripts/save_manager.gd"
 LevelLibrary="*res://scripts/level_library.gd"
 PowersLibary="*res://scripts/powers_libary.gd"
+MusicPlayer="*res://scripts/music_player.gd"
 
 [editor_plugins]
 
