@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://wwy8xmdrcl8p"]
+[gd_scene load_steps=6 format=3 uid="uid://wwy8xmdrcl8p"]
 
 [ext_resource type="Script" uid="uid://cpm1qqxsxkkf7" path="res://scripts/main_menu.gd" id="1_3swsp"]
 [ext_resource type="Theme" uid="uid://01675knsq84l" path="res://assets/themes/main_menu_theme.tres" id="1_8ih8i"]
 [ext_resource type="PackedScene" uid="uid://cwnur7r84mgka" path="res://scenes/SaveManagementPanel.tscn" id="2_0ss3t"]
+[ext_resource type="Texture2D" uid="uid://dudu1hg35v3q1" path="res://assets/textures/nononomicon_transparent.png" id="3_8ln24"]
 [ext_resource type="PackedScene" uid="uid://c6wo4df14noqf" path="res://scenes/options_menu.tscn" id="4_wu84c"]
 
 [node name="Main Menu" type="Control" node_paths=PackedStringArray("save_management_panel", "continue_button", "options_menu")]
@@ -41,6 +42,26 @@ offset_bottom = 80.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Control" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -322.5
+offset_top = -377.0
+offset_right = 322.5
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("3_8ln24")
+expand_mode = 1
+stretch_mode = 5
+
 [node name="NewGameButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "New Game"
@@ -75,6 +96,7 @@ offset_right = 179.0
 offset_bottom = 70.0
 
 [node name="Label" type="Label" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
