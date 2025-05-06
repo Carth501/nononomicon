@@ -467,7 +467,15 @@ var levels: Dictionary = {
 				'will face. This one can be named "delta", and it is unwise to look for the more true ' +
 				'name. This one, presented with a triangle at the bottom of the column, indicates that ' +
 				'the numbers in the header of that column do not correspond directly to what squares must be. ' +
-				'Instead, the numbers speak of the differences between that column and the 4th column.'
+				'Instead, the numbers speak of the differences between that column and the 4th column.',
+			"locks": [
+				Vector2i(3, 2),
+				Vector2i(4, 2),
+				Vector2i(3, 3),
+				Vector2i(4, 3),
+				Vector2i(3, 4),
+				Vector2i(4, 4),
+			]
 		}
 	},
 	"mistrust": {
