@@ -23,6 +23,7 @@ SaveManager="*res://scripts/save_manager.gd"
 LevelLibrary="*res://scripts/level_library.gd"
 PowersLibary="*res://scripts/powers_libary.gd"
 MusicPlayer="*res://scripts/music_player.gd"
+GlobalTooltip="*res://scripts/global_tooltip.gd"
 
 [editor_plugins]
 

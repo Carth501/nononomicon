@@ -30,6 +30,7 @@ func load_powers():
 			"button": power_instance,
 			"label": power_charge_label
 		}
+		power_instance.set_global_tooltip_text(power_locale["power_description"])
 
 func update_power_charge(power_id: String) -> void:
 	var new_charges = State.get_charges(power_id)
