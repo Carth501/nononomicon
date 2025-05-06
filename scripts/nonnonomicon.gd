@@ -194,3 +194,9 @@ func set_hint_button():
 
 func _on_hint_button_pressed() -> void:
 	State.request_hint()
+
+func _on_undo_button_pressed() -> void:
+	State.undo()
+
+func _on_redo_button_pressed() -> void:
+	State.redo()

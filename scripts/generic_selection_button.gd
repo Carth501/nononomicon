@@ -2,8 +2,8 @@ class_name Generic_Selection_Button extends Button
 
 signal thing_selected(thing: String)
 @export var thing: String
-var global_tooltip_text: String
-var tooltips_enabled: bool = false
+@export var global_tooltip_text: String
+@export var tooltips_enabled: bool = false
 
 func _ready():
 	mouse_entered.connect(_on_mouse_entered)
