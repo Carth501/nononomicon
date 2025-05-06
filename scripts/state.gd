@@ -17,6 +17,9 @@ signal hiding_power()
 signal powers_changed()
 signal power_charge_used(power_id)
 signal hint_display_changed
+signal drag_begun
+signal drag_length_changed(length)
+signal drag_ended
 
 enum SquareStates {
 	EMPTY,
@@ -61,6 +64,8 @@ var notes: bool
 var active_id: String = "default"
 var drag_direction: Axis = Axis.NONE
 var drag_start := Vector2i(-1, -1)
+var drag_min: int = -1
+var drag_max: int = -1
 var power_id: String = ""
 var hint_display: Array = []
 
@@ -325,6 +330,8 @@ func reset():
 			master [active_id][VICTORY_KEY] = false
 			victory_changed.emit(false)
 		drag_start = Vector2i(-1, -1)
+		drag_min = -1
+		drag_max = -1
 
 func clear_notes():
 	if master.has(active_id):
@@ -353,10 +360,16 @@ func handle_input_release():
 		reset_toggle_state()
 		drag_direction = Axis.NONE
 		drag_start = Vector2i(-1, -1)
+		drag_ended.emit()
+		drag_min = -1
+		drag_max = -1
 	elif Input.is_action_just_released("Mark") and (toggle_state == ToggleStates.MARKING or toggle_state == ToggleStates.EMPTYING_MARKED):
 		reset_toggle_state()
 		drag_direction = Axis.NONE
 		drag_start = Vector2i(-1, -1)
+		drag_ended.emit()
+		drag_min = -1
+		drag_max = -1
 
 func handle_input_press():
 	var state = get_chosen_coords_state()
@@ -364,12 +377,14 @@ func handle_input_press():
 		if Input.is_action_just_pressed("Flag"):
 			handle_flag_press(state)
 			drag_start = chosen_coords
+			drag_begun.emit()
 		elif Input.is_action_just_pressed("Mark"):
 			if power_id != "":
 				use_power()
 			else:
 				handle_mark_press(state)
 				drag_start = chosen_coords
+				drag_begun.emit()
 	if Input.is_action_just_pressed("Undo"):
 		undo()
 	elif Input.is_action_just_pressed("Redo"):
@@ -392,12 +407,26 @@ func handle_drag_motion():
 			var delta_y = abs(chosen_coords.y - drag_start.y)
 			if delta_x > delta_y:
 				drag_direction = Axis.X
+				drag_min = drag_start.x
+				drag_max = drag_start.x
 			else:
 				drag_direction = Axis.Y
+				drag_min = drag_start.y
+				drag_max = drag_start.y
 		if drag_direction == Axis.X:
 			set_chosen_coords(Vector2i(chosen_coords.x, drag_start.y))
+			update_drag_length(chosen_coords.x)
 		elif drag_direction == Axis.Y:
 			set_chosen_coords(Vector2i(drag_start.x, chosen_coords.y))
+			update_drag_length(chosen_coords.y)
+
+func update_drag_length(index: int):
+	if index < drag_min:
+		drag_min = index
+		drag_length_changed.emit(drag_max - drag_min + 1)
+	elif index > drag_max:
+		drag_max = index
+		drag_length_changed.emit(drag_max - drag_min + 1)
 
 func arrow_move(direction: Vector2i):
 	if direction.x < 0 || direction.x >= get_size().x || direction.y < 0 || direction.y >= get_size().y:

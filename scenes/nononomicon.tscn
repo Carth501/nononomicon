@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://p7emdn1gu7nk"]
+[gd_scene load_steps=8 format=3 uid="uid://p7emdn1gu7nk"]
 
 [ext_resource type="Theme" uid="uid://6b5skotjmdvf" path="res://assets/themes/primary_theme.tres" id="1_r5qd4"]
 [ext_resource type="Script" uid="uid://c8ccsg4ye4e7r" path="res://scripts/nonnonomicon.gd" id="1_yfbcv"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://d2malck014txy" path="res://scenes/index.tscn" id="3_c4qpc"]
 [ext_resource type="Script" uid="uid://c1el5b0x6d6xe" path="res://scripts/game_ui.gd" id="4_hhnsy"]
 [ext_resource type="PackedScene" uid="uid://ytd3m12r45sh" path="res://scenes/powers_scroll_container.tscn" id="6_3fro6"]
+[ext_resource type="Script" uid="uid://bxpwwpcfkjrk" path="res://scripts/drag_display_handler.gd" id="7_lsml7"]
 
 [node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("game_ui", "board", "split_container", "index_page", "next_button", "prev_button", "command_console", "drawer", "descriptions", "level_title", "tutorial_text", "power_description_container", "power_description", "power_name", "debug_menu", "stack_container", "stack_list", "hint_button")]
 layout_mode = 3
@@ -230,6 +231,9 @@ anchor_bottom = 1.0
 offset_top = -31.0
 grow_horizontal = 2
 grow_vertical = 0
+
+[node name="DragHandler" type="Node" parent="."]
+script = ExtResource("7_lsml7")
 
 [connection signal="resized" from="." to="." method="resize_board"]
 [connection signal="resized" from="." to="." method="_on_resized"]
