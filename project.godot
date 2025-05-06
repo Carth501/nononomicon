@@ -29,6 +29,10 @@ GlobalTooltip="*res://scripts/global_tooltip.gd"
 
 enabled=PackedStringArray("res://addons/gut/plugin.cfg")
 
+[gui]
+
+theme/custom="uid://6b5skotjmdvf"
+
 [input]
 
 Mark={

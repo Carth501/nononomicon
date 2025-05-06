@@ -9,18 +9,10 @@ func _ready() -> void:
 	screensize = get_viewport().get_visible_rect().size
 	get_viewport().size_changed.connect(_on_size_changed)
 	mouse_filter = MouseFilter.MOUSE_FILTER_IGNORE
-	var margin = MarginContainer.new()
-	margin.name = "TooltipMargin"
-	margin.mouse_filter = MouseFilter.MOUSE_FILTER_IGNORE
-	margin.add_theme_constant_override("margin_top", 4)
-	margin.add_theme_constant_override("margin_bottom", 4)
-	margin.add_theme_constant_override("margin_right", 4)
-	margin.add_theme_constant_override("margin_left", 4)
-	add_child(margin)
 	tooltip_label = Label.new()
 	tooltip_label.name = "TooltipLabel"
 	tooltip_label.mouse_filter = MouseFilter.MOUSE_FILTER_IGNORE
-	margin.add_child(tooltip_label)
+	add_child(tooltip_label)
 	z_index = 10
 	hide()
 
@@ -36,8 +28,11 @@ func _process(_delta):
 	set_position(adj_pos)
 
 func show_tooltip(text: String):
-	tooltip_label.text = text
 	show()
+	tooltip_label.text = text
+	size = Vector2(0, 0)
+	await RenderingServer.frame_post_draw
+	tooltip_label.text = text
 
 func hide_tooltip():
 	hide()
