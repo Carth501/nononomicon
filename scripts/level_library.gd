@@ -304,6 +304,34 @@ var levels: Dictionary = {
 			}
 		}
 	},
+	"painting": {
+		"name": "Painting",
+		"parameters": {
+			"seed": 24, # shouldn't need a seed, but just in case
+			"size": Vector2i(9, 9),
+			"generation": {
+				"method": "handcrafted",
+				"marked": {
+					0: [1, 0, 0, 0, 0, 0, 0, 1, 1],
+					1: [1, 1, 0, 0, 0, 0, 0, 1, 0],
+					2: [0, 0, 1, 0, 1, 0, 1, 1, 0],
+					3: [1, 1, 0, 1, 0, 1, 0, 0, 0],
+					4: [0, 0, 0, 0, 1, 0, 0, 1, 0],
+					5: [0, 0, 1, 1, 0, 1, 1, 1, 0],
+					6: [0, 0, 1, 0, 0, 0, 1, 0, 0],
+					7: [0, 1, 0, 0, 1, 0, 0, 1, 1],
+					8: [1, 1, 0, 0, 1, 0, 0, 0, 1]
+				}
+			},
+			"locks": [
+				Vector2i(0, 0),
+				Vector2i(8, 0),
+				Vector2i(0, 8),
+				Vector2i(8, 8),
+				Vector2i(4, 4),
+				],
+		}
+	},
 	"locks": {
 		"name": "Locks",
 		"parameters": {
@@ -762,7 +790,7 @@ var levels: Dictionary = {
 var chapters: Dictionary = {
 	"chapter1": {
 		"levels": ["intro", "basics", "orbitals", "jack_and_hide",
-			"elaborate", "trig", "ellipse", "didactic",
+			"elaborate", "trig", "ellipse", "didactic", "painting",
 			"locks", "magenta", "response", "big", "trig2"],
 		"title": "Chapter 1"
 	},

@@ -493,6 +493,8 @@ func generate_target_map(parameters: Dictionary):
 				random_center_diamond_map(parameters)
 			"waveform":
 				generate_waveform_map(parameters)
+			"handcrafted":
+				build_handcrafted_map(parameters)
 			_:
 				printerr("Unknown target map generation method: ", method)
 	else:
@@ -605,6 +607,29 @@ func handle_series(term: Dictionary, i: int, k: int) -> float:
 	if term.has('amplitude'):
 		term_sum *= term['amplitude']
 	return term_sum
+
+func build_handcrafted_map(parameters: Dictionary):
+	master [active_id][TARGET_MAP_KEY] = {}
+	var gen = parameters['generation']
+	var marking = gen['marked']
+	var SIZE = parameters['size']
+	if !gen.has('marked'):
+		push_error("Handcrafted map generation parameters not specified")
+	if marking.keys().size() != SIZE.y:
+		push_error("Handcrafted map vertical does not match target map size: ",
+		marking.keys().size(), " != ", SIZE.y)
+	for i in range(SIZE.x):
+		master [active_id][TARGET_MAP_KEY][i] = create_empty_array(SIZE.y)
+	for y in marking.keys():
+		if marking[y].size() != SIZE.x:
+			push_error("Handcrafted map horizontal does not match target map size: ",
+			marking[y].size(), " != ", SIZE.x)
+		var row = marking[y]
+		for x in range(row.size()):
+			if row[x] == 1:
+				set_target_position(Vector2i(x, y), SquareStates.MARKED)
+			else:
+				set_target_position(Vector2i(x, y), SquareStates.EMPTY)
 
 func create_empty_array(length: int) -> Array:
 	var array = []
