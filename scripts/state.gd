@@ -1006,11 +1006,19 @@ func generate_all_line_comparisons():
 	}
 
 func generate_line_comparisons(coords: Vector2i):
-	var x_comparisons = compare_line_to_header('X', coords.x)
-	var y_comparisons = compare_line_to_header('Y', coords.y)
+	var x_comparisons = {coords.x: compare_line_to_header('X', coords.x)}
+	var y_comparisons = {coords.y: compare_line_to_header('Y', coords.y)}
+	var complications = get_complications_by_variable(coords)
+	for complication in complications:
+		var subject_axis = 'X' if complication.has('subject_column') else 'Y'
+		var subject_index = complication['subject_column'] if subject_axis == 'X' else complication['subject_row']
+		if subject_axis == 'X':
+			x_comparisons[subject_index] = compare_line_to_header('X', subject_index)
+		else:
+			y_comparisons[subject_index] = compare_line_to_header('Y', subject_index)
 	lines_compared.emit({
-		"X": {coords.x: x_comparisons},
-		"Y": {coords.y: y_comparisons}
+		"X": x_comparisons,
+		"Y": y_comparisons
 	})
 
 func compare_line_to_header(axis: String, line_index: int = -1) -> Array:
@@ -1045,6 +1053,17 @@ func compare_line_to_header(axis: String, line_index: int = -1) -> Array:
 		else:
 			comparison.append(false)
 	return comparison
+
+func get_complications_by_variable(coords: Vector2i) -> Array:
+	var complications = []
+	if master [active_id].has(COMPLICATIONS_KEY):
+		for complication in master [active_id][COMPLICATIONS_KEY]:
+			if complication.has('variable_column') and complication['variable_column'] == coords.x:
+				complications.append(complication)
+			elif complication.has('variable_row') and complication['variable_row'] == coords.y:
+				complications.append(complication)
+	return complications
+
 #endregion Header Aid
 
 func sanity_check_parameters(parameters: Dictionary) -> bool:
