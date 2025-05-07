@@ -377,6 +377,15 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 18,
 			"size": Vector2i(6, 6),
+			"override":
+				{
+					"marked": [
+						Vector2i(2, 0),
+					],
+					"empty": [
+						Vector2i(3, 3),
+					]
+				},
 			"powers": {"power_lock": {"charges": 2}},
 			"tutorial": '\tThe first power granted. Choosing where to apply locks can give ' +
 				'sight into the truth, but it is not to be wasted. Use it with purpose, as ' +

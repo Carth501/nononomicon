@@ -499,6 +499,14 @@ func generate_target_map(parameters: Dictionary):
 				printerr("Unknown target map generation method: ", method)
 	else:
 		random_center_diamond_map(parameters)
+	if parameters.has('override'):
+		var override = parameters['override']
+		if override.has('marked'):
+			for coords in override['marked']:
+				set_target_position(coords, SquareStates.MARKED)
+		if override.has('empty'):
+			for coords in override['empty']:
+				set_target_position(coords, SquareStates.EMPTY)
 	generate_headers()
 
 func random_center_diamond_map(parameters: Dictionary):
