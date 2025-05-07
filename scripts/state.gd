@@ -44,6 +44,12 @@ enum Axis {
 	Y
 }
 
+enum HeaderAssistLevel {
+	NO_ASSIST,
+	LENGTH,
+	LENGTH_AND_LOCATION,
+}
+
 var chosen_coords: Vector2i = Vector2i(-1, -1)
 var master: Dictionary
 var SQUARE_MAP_KEY := 'square_map'
@@ -989,6 +995,14 @@ func update_header_for_column(column: int):
 #endregion Header Reprocessing
 
 #region Header Aid
+func get_assist_level() -> HeaderAssistLevel:
+	var params = get_level_parameters()
+	if params.has('features'):
+		if params['features'].has('header_assist'):
+			print("params['features']['header_assist']: ", params['features']['header_assist'])
+			return params['features']['header_assist']
+	return HeaderAssistLevel.NO_ASSIST
+
 func generate_all_line_comparisons():
 	var x_comparisons = {}
 	for x in range(get_size().x):
@@ -1006,6 +1020,9 @@ func generate_all_line_comparisons():
 	}
 
 func generate_line_comparisons(coords: Vector2i):
+	var assist_level = get_assist_level()
+	if assist_level == HeaderAssistLevel.NO_ASSIST:
+		return
 	var x_comparisons = {coords.x: compare_line_to_header('X', coords.x)}
 	var y_comparisons = {coords.y: compare_line_to_header('Y', coords.y)}
 	var complications = get_complications_by_variable(coords)
@@ -1022,6 +1039,7 @@ func generate_line_comparisons(coords: Vector2i):
 	})
 
 func compare_line_to_header(axis: String, line_index: int = -1) -> Array:
+	var assist_level = get_assist_level()
 	var map = master [active_id][SQUARE_MAP_KEY]
 	var headers = get_header(axis)
 	var SIZE = get_size()
@@ -1041,17 +1059,38 @@ func compare_line_to_header(axis: String, line_index: int = -1) -> Array:
 		generated_segments = generate_complicated_sequence_for_array(line, complications)
 	var header_segments = headers[line_index]
 	var comparison = []
-	for h in header_segments:
-		var found = false
-		for j in range(generated_segments.size()):
-			if h['length'] == generated_segments[j]['length']:
-				generated_segments.remove_at(j)
-				found = true
-				break
-		if found:
-			comparison.append(true)
-		else:
-			comparison.append(false)
+	if assist_level == HeaderAssistLevel.LENGTH:
+		for h in header_segments:
+			var found = false
+			for j in range(generated_segments.size()):
+				if h['length'] == generated_segments[j]['length']:
+					generated_segments.remove_at(j)
+					found = true
+					break
+			if found:
+				comparison.append({'length': true})
+			else:
+				comparison.append({'length': false})
+	elif assist_level == HeaderAssistLevel.LENGTH_AND_LOCATION:
+		for h in header_segments:
+			var found = -1
+			var right_place = false
+			for j in range(generated_segments.size()):
+				if h['length'] == generated_segments[j]['length']:
+					found = j
+					if h['segment'] == generated_segments[j]['segment']:
+						generated_segments.remove_at(j)
+						comparison.append({'length': true, 'location': true})
+						right_place = true
+						break
+			if right_place:
+				continue
+			if found == -1:
+				comparison.append({'length': false, 'location': false})
+			else:
+				comparison.append({'length': true, 'location': false})
+				generated_segments.remove_at(found)
+
 	return comparison
 
 func get_complications_by_variable(coords: Vector2i) -> Array:

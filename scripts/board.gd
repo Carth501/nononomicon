@@ -47,7 +47,9 @@ func prepare_board():
 		else:
 			toggle_victory(false)
 		sort_children()
-		State.generate_all_line_comparisons()
+		var assist_level = State.get_assist_level()
+		if assist_level != State.HeaderAssistLevel.NO_ASSIST:
+			State.generate_all_line_comparisons()
 		guidelines.create_lines(State.get_guideline_interval())
 		check_locks()
 

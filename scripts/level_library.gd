@@ -8,7 +8,8 @@ var levels: Dictionary = {
 			"size": Vector2i(5, 5),
 			"features":
 				{
-					"notes": false
+					"notes": false,
+					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 				},
 			"tutorial": '\tOne should not attempt these challenges without ambition. ' +
 				'The secrets contained are encoded such that you will learn their purpose ' +
@@ -56,7 +57,8 @@ var levels: Dictionary = {
 			"size": Vector2i(8, 8),
 			"features":
 				{
-					"notes": false
+					"notes": false,
+					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 				},
 			"tutorial": '\tFor these simple trials, look for the zeros first, ' +
 				'then search for the highest numbers.',
@@ -144,7 +146,13 @@ var levels: Dictionary = {
 			"generation": {
 				"method": "sine",
 				"frequency": Vector2(6, 1),
-			}
+			},
+			"tutorial": '\tNotes are now available. Use them to speculate on the ' +
+				'possibilities.',
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+				},
 		}
 	},
 	"orbitals": {
@@ -152,6 +160,10 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 22,
 			"size": Vector2i(9, 9),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+				},
 			"generation": {
 				"method": "waveform",
 				"constant": - 0.2,
@@ -181,6 +193,10 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 14,
 			"size": Vector2i(10, 7),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+				},
 			"randomness": 2,
 			"tutorial": '\tDifferences in thought emerge, but the pattern may ' +
 				'yet be preserved. These shapes are not harmless, but you are not their target.',
@@ -239,6 +255,10 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 16,
 			"size": Vector2i(8, 8),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+				},
 			"randomness": 0.5,
 			"generation": {
 				"method": "sine",
@@ -279,6 +299,10 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 10,
 			"size": Vector2i(12, 12),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+				},
 			"randomness": 0.5,
 			"generation": {
 				"method": "sine",
@@ -297,6 +321,10 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 7,
 			"size": Vector2i(10, 6),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+				},
 			"randomness": 0.3,
 			"generation": {
 				"method": "ellipse",
@@ -309,6 +337,10 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 24, # shouldn't need a seed, but just in case
 			"size": Vector2i(9, 9),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+				},
 			"generation": {
 				"method": "handcrafted",
 				"marked": {
@@ -337,6 +369,10 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 17,
 			"size": Vector2i(8, 8),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+				},
 			"randomness": 3,
 			"generation": {
 				"method": "ellipse",
@@ -354,6 +390,10 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 23,
 			"size": Vector2i(9, 9),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+				},
 			"randomness": 3,
 			"generation": {
 				"method": "sine",
@@ -377,6 +417,10 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 18,
 			"size": Vector2i(6, 6),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+				},
 			"override":
 				{
 					"marked": [
@@ -397,6 +441,10 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 3,
 			"size": Vector2i(19, 16),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+				},
 			"powers": {"power_lock": {"charges": 3}},
 			"tutorial": '\tOne triumph brings a greater demand.',
 			# "locks": [
@@ -439,6 +487,10 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 11,
 			"size": Vector2i(24, 16),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+				},
 			"powers": {"power_lock": {"charges": 9}},
 			"generation": {
 				"method": "waveform",
@@ -493,6 +545,10 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 4,
 			"size": Vector2i(6, 6),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+				},
 			"complications": [
 				{
 					"type": "delta",
@@ -520,6 +576,10 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 5,
 			"size": Vector2i(8, 8),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+				},
 			"complications": [
 				{
 					"type": "delta",
@@ -542,6 +602,10 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 8,
 			"size": Vector2i(8, 8),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+				},
 			"complications": [
 				{
 					"type": "delta",
@@ -557,6 +621,10 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 6,
 			"size": Vector2i(8, 8),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+				},
 			"powers": {"power_lock": {"charges": 1}},
 			"complications": [
 				{
@@ -579,6 +647,10 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 19,
 			"size": Vector2i(9, 9),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+				},
 			"powers": {"power_lock": {"charges": 2}},
 			"complications": [
 				{
@@ -599,6 +671,10 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 20,
 			"size": Vector2i(12, 9),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+				},
 			"powers": {"power_lock": {"charges": 2}},
 			"complications": [
 				{
@@ -641,6 +717,10 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 9,
 			"size": Vector2i(20, 16),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+				},
 			"complications": [
 				{
 					"type": "delta",
@@ -685,6 +765,10 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 21,
 			"size": Vector2i(9, 9),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+				},
 			"generation": {
 				"method": "waveform",
 				"constant": - 0.5,
@@ -725,6 +809,10 @@ var levels: Dictionary = {
 		"parameters": {
 			"seed": 12,
 			"size": Vector2i(24, 16),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+				},
 			"complications": [
 				{
 					"type": "delta",
