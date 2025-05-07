@@ -24,6 +24,8 @@ LevelLibrary="*res://scripts/level_library.gd"
 PowersLibary="*res://scripts/powers_libary.gd"
 MusicPlayer="*res://scripts/music_player.gd"
 GlobalTooltip="*res://scripts/global_tooltip.gd"
+DisplayHandler="*res://scripts/display_handler.gd"
+ConfigHandler="*res://scripts/config_handler.gd"
 
 [editor_plugins]
 

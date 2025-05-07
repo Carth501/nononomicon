@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bn44ihmrw2q02" path="res://scripts/options_menu.gd" id="1_liyum"]
 
-[node name="OptionsMenu" type="PanelContainer" node_paths=PackedStringArray("master_volume_slider", "music_volume_slider")]
+[node name="OptionsMenu" type="PanelContainer" node_paths=PackedStringArray("master_volume_slider", "music_volume_slider", "fullscreen_checkbox")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -11,6 +11,7 @@ grow_vertical = 2
 script = ExtResource("1_liyum")
 master_volume_slider = NodePath("MarginContainer/ScrollContainer/VBoxContainer/MasterAudioControl/HSlider")
 music_volume_slider = NodePath("MarginContainer/ScrollContainer/VBoxContainer/MusicAudioControl/HSlider")
+fullscreen_checkbox = NodePath("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/CheckBox")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -25,6 +26,7 @@ layout_mode = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
+theme_override_constants/separation = 10
 
 [node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -52,7 +54,7 @@ ticks_on_borders = true
 layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/MusicAudioControl"]
-custom_minimum_size = Vector2(100, 0)
+custom_minimum_size = Vector2(100.02, 0)
 layout_mode = 2
 text = "Music"
 
@@ -65,23 +67,28 @@ rounded = true
 tick_count = 5
 ticks_on_borders = true
 
-[node name="Control" type="Control" parent="."]
+[node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-mouse_filter = 2
+theme_override_font_sizes/font_size = 32
+text = "Graphics"
 
-[node name="ExitButton" type="Button" parent="Control"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -50.0
-offset_top = 20.0
-offset_right = -20.0
-offset_bottom = 31.0
-grow_horizontal = 0
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Fullscreen"
+
+[node name="CheckBox" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="ExitButton" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
 mouse_filter = 1
-text = "X"
+text = "Done"
 
 [connection signal="value_changed" from="MarginContainer/ScrollContainer/VBoxContainer/MasterAudioControl/HSlider" to="." method="set_master_volume"]
 [connection signal="value_changed" from="MarginContainer/ScrollContainer/VBoxContainer/MusicAudioControl/HSlider" to="." method="set_music_volume"]
-[connection signal="pressed" from="Control/ExitButton" to="." method="_on_exit_button_pressed"]
+[connection signal="toggled" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/CheckBox" to="." method="set_fullscreen"]
+[connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
