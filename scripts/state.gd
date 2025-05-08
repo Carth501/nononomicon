@@ -20,6 +20,7 @@ signal hint_display_changed
 signal drag_begun
 signal drag_length_changed(length)
 signal drag_ended
+signal submission_error_count_changed
 
 enum SquareStates {
 	EMPTY,
@@ -65,6 +66,7 @@ var COMPLICATIONS_KEY := 'complications'
 var LOCKS_KEY := 'locks'
 var POWERS_KEY := 'powers'
 var HINTS_KEY := 'hints'
+var SUBMISSION_ERROR_COUNT_KEY := 'submission_error_count'
 var toggle_state: ToggleStates = ToggleStates.NOTHING
 var notes: bool
 var active_id: String = "default"
@@ -361,6 +363,8 @@ func reset():
 		drag_start = Vector2i(-1, -1)
 		drag_min = -1
 		drag_max = -1
+		if master [active_id].has(SUBMISSION_ERROR_COUNT_KEY):
+			master [active_id][SUBMISSION_ERROR_COUNT_KEY] = 0
 
 func clear_notes():
 	if master.has(active_id):
@@ -1172,6 +1176,18 @@ func submit():
 		set_victory_true()
 	else:
 		error_lines_updated.emit(find_error_lines())
+		increment_submission_error_count()
+
+func increment_submission_error_count():
+	if ! master [active_id].has(SUBMISSION_ERROR_COUNT_KEY):
+		master [active_id][SUBMISSION_ERROR_COUNT_KEY] = 0
+	master [active_id][SUBMISSION_ERROR_COUNT_KEY] += 1
+	submission_error_count_changed.emit(master [active_id][SUBMISSION_ERROR_COUNT_KEY])
+
+func get_submission_errors() -> int:
+	if ! master [active_id].has(SUBMISSION_ERROR_COUNT_KEY):
+		return 0
+	return master [active_id][SUBMISSION_ERROR_COUNT_KEY]
 
 func find_error_lines():
 	return {

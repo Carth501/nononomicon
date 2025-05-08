@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dq8gk2xv1r27a"]
+[gd_scene load_steps=9 format=3 uid="uid://dq8gk2xv1r27a"]
 
 [ext_resource type="PackedScene" uid="uid://d4cw6v7fo0k5s" path="res://scenes/nonogram_squares.tscn" id="1_4p2ab"]
 [ext_resource type="Script" uid="uid://b4e3oljsvce7e" path="res://scripts/board.gd" id="1_qoyos"]
@@ -7,8 +7,9 @@
 [ext_resource type="Script" uid="uid://bsigslo5jli3y" path="res://scripts/x_footer_row.gd" id="5_erpr3"]
 [ext_resource type="Script" uid="uid://dcd1ado5a3r8i" path="res://scripts/y_footer_col.gd" id="6_uo5n4"]
 [ext_resource type="Script" uid="uid://b3pd7wvudic24" path="res://scripts/guidelines.gd" id="7_oseot"]
+[ext_resource type="Script" uid="uid://briqtm3ws8i7d" path="res://scripts/submission_error_display.gd" id="8_pwibh"]
 
-[node name="CenterContainer" type="Container" node_paths=PackedStringArray("nonogram_scroll_container", "nonogram_squares", "header_row", "header_col", "footer_row", "footer_col", "header_row_scroll", "header_col_scroll", "footer_row_scroll", "footer_col_scroll", "board_margin_control", "victory_label", "guidelines", "guidelines_mask", "coords_display", "board_size_display", "percent_marked_label")]
+[node name="CenterContainer" type="Container" node_paths=PackedStringArray("nonogram_scroll_container", "nonogram_squares", "header_row", "header_col", "footer_row", "footer_col", "header_row_scroll", "header_col_scroll", "footer_row_scroll", "footer_col_scroll", "board_margin_control", "victory_label", "guidelines", "guidelines_mask", "coords_display", "board_size_display", "percent_marked_label", "submission_error_display")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -32,6 +33,7 @@ guidelines_mask = NodePath("BoardBox/GuidelinesMask")
 coords_display = NodePath("BoardBox/CoordsLabel")
 board_size_display = NodePath("BoardBox/BoardSizeLabel")
 percent_marked_label = NodePath("BoardBox/PercentMarked")
+submission_error_display = NodePath("BoardBox/SubmissionErrorDisplay")
 
 [node name="BoardBox" type="Control" parent="."]
 layout_mode = 2
@@ -155,6 +157,14 @@ offset_bottom = 23.0
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 37.0
+
+[node name="SubmissionErrorDisplay" type="GridContainer" parent="BoardBox"]
+layout_direction = 3
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(0.002, 0.002)
+script = ExtResource("8_pwibh")
 
 [connection signal="sort_children" from="." to="." method="sort_children"]
 [connection signal="scroll_ended" from="BoardBox/NonogramScrollContainer" to="." method="end_scrolling"]

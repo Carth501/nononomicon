@@ -18,6 +18,7 @@ class_name NonogramBoard extends Container
 @export var coords_display: Label
 @export var board_size_display: Label
 @export var percent_marked_label: Label
+@export var submission_error_display: SubmissionErrorDisplay
 var highlighting: Vector2i
 var scrolling: bool = false
 
@@ -35,6 +36,7 @@ func _ready():
 	State.hint_display_changed.connect(set_hint_squares)
 	State.square_changed.connect(calculate_percent_marked)
 	State.level_changed.connect(toggle_percent_marked_label)
+	State.level_changed.connect(toggle_submission_error_display)
 	victory_label.visible = false
 
 func prepare_board():
@@ -129,6 +131,10 @@ func sort_children() -> void:
 		x_margin + col_head_width + header_row_scroll.size.x + 8,
 		y_margin + row_head_height + header_col_scroll.size.y + 8
 		)
+	submission_error_display.global_position = Vector2(
+		x_margin + col_head_width - 8,
+		y_margin + row_head_height + header_col_scroll.size.y + 8
+		)
 
 func update_header_assist(comparisons: Dictionary):
 	header_row.set_assist(comparisons["X"])
@@ -181,3 +187,17 @@ func calculate_percent_marked(_coords: Vector2i):
 		percent_marked_label.add_theme_color_override("font_color", Color(0.1, 0.8, 0.1))
 	else:
 		percent_marked_label.add_theme_color_override("font_color", Color(1, 1, 1))
+
+func toggle_submission_error_display():
+	var params = State.get_level_parameters()
+	var features = params.get("features", {})
+	var submission_errors = features.get("submission_errors", 0)
+	if submission_errors > 0:
+		submission_error_display.show()
+		submission_error_display.create_list(submission_errors)
+	else:
+		submission_error_display.hide()
+
+func set_submission_error_count():
+	var errors = State.get_submission_errors()
+	submission_error_display.set_error_count(errors)
