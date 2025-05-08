@@ -21,6 +21,7 @@ signal drag_begun
 signal drag_length_changed(length)
 signal drag_ended
 signal submission_error_count_changed
+signal timer_changed(time)
 
 enum SquareStates {
 	EMPTY,
@@ -67,6 +68,7 @@ var LOCKS_KEY := 'locks'
 var POWERS_KEY := 'powers'
 var HINTS_KEY := 'hints'
 var SUBMISSION_ERROR_COUNT_KEY := 'submission_error_count'
+var TIMER_KEY := 'timer'
 var toggle_state: ToggleStates = ToggleStates.NOTHING
 var notes: bool
 var active_id: String = "default"
@@ -76,6 +78,14 @@ var drag_min: int = -1
 var drag_max: int = -1
 var power_id: String = ""
 var hint_display: Array = []
+var timer: Timer
+
+func _ready():
+	timer = Timer.new()
+	add_child(timer)
+	timer.wait_time = 1
+	timer.one_shot = false
+	timer.timeout.connect(handle_timer)
 
 func setup(parameters: Dictionary) -> void:
 	sanity_check_parameters(parameters)
@@ -125,6 +135,10 @@ func load_save(save: Dictionary):
 			for power in master [level][POWERS_KEY].keys():
 				if save[level][POWERS_KEY].has(power):
 					master [level][POWERS_KEY][power]["charges"] = save[level][POWERS_KEY][power]["charges"]
+		if save[level].has(SUBMISSION_ERROR_COUNT_KEY):
+			master [level][SUBMISSION_ERROR_COUNT_KEY] = save[level][SUBMISSION_ERROR_COUNT_KEY]
+		if save[level].has(TIMER_KEY):
+			master [level][TIMER_KEY] = save[level][TIMER_KEY]
 
 func get_trimmed_master() -> Dictionary:
 	var trimmed_master = {}
@@ -139,6 +153,10 @@ func get_trimmed_master() -> Dictionary:
 			trimmed_master[level][POWERS_KEY] = master [level][POWERS_KEY]
 		if (master [level].has(VICTORY_KEY)):
 			trimmed_master[level][VICTORY_KEY] = master [level][VICTORY_KEY]
+		if master [level].has(SUBMISSION_ERROR_COUNT_KEY):
+			trimmed_master[level][SUBMISSION_ERROR_COUNT_KEY] = master [level][SUBMISSION_ERROR_COUNT_KEY]
+		if master [level].has(TIMER_KEY):
+			trimmed_master[level][TIMER_KEY] = master [level][TIMER_KEY]
 	return trimmed_master
 
 func set_active_id(new_id: String):
@@ -365,6 +383,8 @@ func reset():
 		drag_max = -1
 		if master [active_id].has(SUBMISSION_ERROR_COUNT_KEY):
 			master [active_id][SUBMISSION_ERROR_COUNT_KEY] = 0
+		if master [active_id].has(TIMER_KEY):
+			master [active_id][TIMER_KEY] = 0
 
 func clear_notes():
 	if master.has(active_id):
@@ -1026,7 +1046,6 @@ func get_assist_level() -> HeaderAssistLevel:
 	var params = get_level_parameters()
 	if params.has('features'):
 		if params['features'].has('header_assist'):
-			print("params['features']['header_assist']: ", params['features']['header_assist'])
 			return params['features']['header_assist']
 	return HeaderAssistLevel.NO_ASSIST
 
@@ -1702,3 +1721,26 @@ func check_hints():
 		hint_display_changed.emit()
 
 #endregion Hint
+
+#region Timer
+func handle_timer():
+	if ! master.has(active_id):
+		return
+	if ! master [active_id].has(TIMER_KEY):
+		master [active_id][TIMER_KEY] = 0.0
+	master [active_id][TIMER_KEY] += 1.0
+	timer_changed.emit(master [active_id][TIMER_KEY])
+
+func start_timer():
+	timer.start()
+
+func stop_timer():
+	timer.stop()
+
+func get_time() -> float:
+	if ! master.has(active_id):
+		return 0.0
+	if ! master [active_id].has(TIMER_KEY):
+		return 0.0
+	return master [active_id][TIMER_KEY]
+#endregion Timer

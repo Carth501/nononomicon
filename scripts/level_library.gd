@@ -308,6 +308,7 @@ var levels: Dictionary = {
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": true,
+					"timer": true,
 				},
 			"randomness": 0.5,
 			"generation": {
@@ -331,6 +332,7 @@ var levels: Dictionary = {
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": true,
+					"timer": true,
 				},
 			"randomness": 0.3,
 			"generation": {
@@ -348,6 +350,7 @@ var levels: Dictionary = {
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": true,
+					"timer": true,
 				},
 			"generation": {
 				"method": "handcrafted",
@@ -381,6 +384,7 @@ var levels: Dictionary = {
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": true,
+					"timer": true,
 				},
 			"randomness": 3,
 			"generation": {
@@ -403,6 +407,7 @@ var levels: Dictionary = {
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": true,
+					"timer": true,
 				},
 			"randomness": 3,
 			"generation": {
@@ -431,6 +436,7 @@ var levels: Dictionary = {
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": true,
+					"timer": true,
 				},
 			"override":
 				{
@@ -456,6 +462,7 @@ var levels: Dictionary = {
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": true,
+					"timer": true,
 				},
 			"powers": {"power_lock": {"charges": 3}},
 			"tutorial": '\tOne triumph brings a greater demand.',
@@ -503,6 +510,7 @@ var levels: Dictionary = {
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": true,
+					"timer": true,
 				},
 			"powers": {"power_lock": {"charges": 9}},
 			"generation": {
@@ -562,6 +570,7 @@ var levels: Dictionary = {
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": true,
+					"timer": true,
 				},
 			"complications": [
 				{

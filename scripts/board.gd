@@ -19,8 +19,14 @@ class_name NonogramBoard extends Container
 @export var board_size_display: Label
 @export var percent_marked_label: Label
 @export var submission_error_display: SubmissionErrorDisplay
+@export var timer_display: Label
 var highlighting: Vector2i
 var scrolling: bool = false
+
+var col_head_width := 0.0
+var row_head_height := 0.0
+var x_margin := 0.0
+var y_margin := 0.0
 
 func _ready():
 	prepare_board()
@@ -37,6 +43,8 @@ func _ready():
 	State.square_changed.connect(calculate_percent_marked)
 	State.level_changed.connect(toggle_percent_marked_label)
 	State.level_changed.connect(toggle_submission_error_display)
+	State.level_changed.connect(set_timer_display)
+	State.timer_changed.connect(update_time_display)
 	victory_label.visible = false
 
 func prepare_board():
@@ -57,6 +65,7 @@ func prepare_board():
 			State.generate_all_line_comparisons()
 		guidelines.create_lines(State.get_guideline_interval())
 		check_locks()
+		set_timer_display()
 
 func toggle_victory(value: bool):
 	victory_label.visible = value
@@ -96,8 +105,8 @@ func _process(_delta):
 
 func sort_children() -> void:
 	await get_tree().process_frame
-	var col_head_width = maxf(header_col.get_size().x, 90)
-	var row_head_height = maxf(header_row.get_size().y, 90)
+	col_head_width = maxf(header_col.get_size().x, 90)
+	row_head_height = maxf(header_row.get_size().y, 90)
 	header_row_scroll.size.y = row_head_height
 	header_col_scroll.size.x = col_head_width
 	var nonogram_scroll_size = size - Vector2(col_head_width + 90, row_head_height + 90)
@@ -108,8 +117,8 @@ func sort_children() -> void:
 	header_col_scroll.size.y = nonogram_scroll_container.size.y
 	footer_row_scroll.size = Vector2(nonogram_scroll_container.size.x, 90)
 	footer_col_scroll.size = Vector2(90, nonogram_scroll_container.size.y)
-	var x_margin = (size.x - col_head_width - nonogram_scroll_container.size.x - 90) / 2
-	var y_margin = (size.y - row_head_height - nonogram_scroll_container.size.y - 90) / 2
+	x_margin = (size.x - col_head_width - nonogram_scroll_container.size.x - 90) / 2
+	y_margin = (size.y - row_head_height - nonogram_scroll_container.size.y - 90) / 2
 	board_margin_control.position = Vector2(x_margin, y_margin)
 	board_margin_control.size = Vector2(size.x - x_margin, size.y - y_margin)
 	nonogram_scroll_container.position = Vector2(col_head_width, row_head_height)
@@ -133,6 +142,10 @@ func sort_children() -> void:
 		)
 	submission_error_display.global_position = Vector2(
 		x_margin + col_head_width - 8,
+		y_margin + row_head_height + header_col_scroll.size.y + 8
+		)
+	timer_display.global_position = Vector2(
+		x_margin + col_head_width - timer_display.size.x - 8,
 		y_margin + row_head_height + header_col_scroll.size.y + 8
 		)
 
@@ -201,3 +214,23 @@ func toggle_submission_error_display():
 func set_submission_error_count():
 	var errors = State.get_submission_errors()
 	submission_error_display.set_error_count(errors)
+
+func set_timer_display():
+	var params = State.get_level_parameters()
+	var features = params.get("features", {})
+	var timer = features.get("timer", false)
+	if timer:
+		timer_display.show()
+		update_time_display(State.get_time())
+	else:
+		timer_display.hide()
+
+func update_time_display(time: float):
+	var rounded_time = floori(time)
+	var minutes = floori(rounded_time / 60.0)
+	var seconds = floori(rounded_time % 60)
+	timer_display.text = str(minutes) + ":" + str(seconds).pad_zeros(2)
+	timer_display.global_position = Vector2(
+		x_margin + col_head_width - timer_display.size.x - 8,
+		y_margin + row_head_height + header_col_scroll.size.y + 8
+		)

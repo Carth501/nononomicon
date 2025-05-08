@@ -40,6 +40,7 @@ func open_page(id: String):
 		split_container.hide()
 		index_page.show()
 		index_page.open_index()
+		State.stop_timer()
 	else:
 		State.set_active_id(id)
 		split_container.show()
@@ -48,6 +49,7 @@ func open_page(id: String):
 		set_level_title()
 		command_console.visible = false
 		handle_features()
+		reset_timer()
 
 func check_page_buttons():
 	set_next_button()
@@ -74,12 +76,14 @@ func _on_save_button_pressed() -> void:
 
 func _on_next_button_pressed() -> void:
 	State.next_level()
+	reset_timer()
 
 func _on_index_button_pressed() -> void:
 	open_page("index")
 
 func _on_prev_button_pressed() -> void:
 	State.prev_level()
+	reset_timer()
 
 func set_next_button():
 	next_button.visible = State.has_next_level()
@@ -200,3 +204,7 @@ func _on_undo_button_pressed() -> void:
 
 func _on_redo_button_pressed() -> void:
 	State.redo()
+
+func reset_timer():
+	if State.get_victory_state() != true:
+		State.start_timer()
