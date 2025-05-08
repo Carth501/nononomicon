@@ -6,7 +6,7 @@ func _ready() -> void:
 	config = ConfigFile.new()
 	var err = config.load("user://settings.cfg")
 	if err != OK:
-		return
+		push_error("Failed to load settings.cfg: %s" % err)
 
 func update_setting(key: String, value: Variant) -> void:
 	config.set_value("Settings", key, value)

@@ -17,6 +17,8 @@ var music_volume = 0.5
 
 func _ready():
 	await ConfigHandler.ready
+	# I am concerned that this might prevent this function from running.
+	# If this function runs before the config handler is ready, does it wait forever?
 	music_player = AudioStreamPlayer.new()
 	add_child(music_player)
 	music_player.finished.connect(next_track)
