@@ -34,6 +34,7 @@ func _ready():
 	State.level_changed.connect(update_board_size)
 	State.hint_display_changed.connect(set_hint_squares)
 	State.square_changed.connect(calculate_percent_marked)
+	State.level_changed.connect(toggle_percent_marked_label)
 	victory_label.visible = false
 
 func prepare_board():
@@ -163,6 +164,15 @@ func set_hint_squares():
 
 func clear_hint_squares():
 	nonogram_squares.clear_hint_squares()
+
+func toggle_percent_marked_label():
+	var params = State.get_level_parameters()
+	var features = params.get("features", {})
+	var percent_marked = features.get("percent_marked", false)
+	if percent_marked:
+		percent_marked_label.show()
+	else:
+		percent_marked_label.hide()
 
 func calculate_percent_marked(_coords: Vector2i):
 	var percent_marked = floori(State.get_percent_marked() * 100.0)

@@ -59,6 +59,7 @@ var levels: Dictionary = {
 				{
 					"notes": false,
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"percent_marked": false,
 				},
 			"tutorial": '\tFor these simple trials, look for the zeros first, ' +
 				'then search for the highest numbers.',
@@ -152,6 +153,7 @@ var levels: Dictionary = {
 			"features":
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"percent_marked": false,
 				},
 		}
 	},
@@ -163,6 +165,7 @@ var levels: Dictionary = {
 			"features":
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"percent_marked": false,
 				},
 			"generation": {
 				"method": "waveform",
@@ -196,6 +199,7 @@ var levels: Dictionary = {
 			"features":
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"percent_marked": false,
 				},
 			"randomness": 2,
 			"tutorial": '\tDifferences in thought emerge, but the pattern may ' +
@@ -258,6 +262,7 @@ var levels: Dictionary = {
 			"features":
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"percent_marked": false,
 				},
 			"randomness": 0.5,
 			"generation": {
@@ -302,6 +307,7 @@ var levels: Dictionary = {
 			"features":
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"percent_marked": true,
 				},
 			"randomness": 0.5,
 			"generation": {
@@ -324,6 +330,7 @@ var levels: Dictionary = {
 			"features":
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"percent_marked": true,
 				},
 			"randomness": 0.3,
 			"generation": {
@@ -340,6 +347,7 @@ var levels: Dictionary = {
 			"features":
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"percent_marked": true,
 				},
 			"generation": {
 				"method": "handcrafted",
@@ -372,6 +380,7 @@ var levels: Dictionary = {
 			"features":
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"percent_marked": true,
 				},
 			"randomness": 3,
 			"generation": {
@@ -393,6 +402,7 @@ var levels: Dictionary = {
 			"features":
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"percent_marked": true,
 				},
 			"randomness": 3,
 			"generation": {
@@ -420,6 +430,7 @@ var levels: Dictionary = {
 			"features":
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"percent_marked": true,
 				},
 			"override":
 				{
@@ -444,6 +455,7 @@ var levels: Dictionary = {
 			"features":
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"percent_marked": true,
 				},
 			"powers": {"power_lock": {"charges": 3}},
 			"tutorial": '\tOne triumph brings a greater demand.',
@@ -490,6 +502,7 @@ var levels: Dictionary = {
 			"features":
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"percent_marked": true,
 				},
 			"powers": {"power_lock": {"charges": 9}},
 			"generation": {
@@ -548,6 +561,7 @@ var levels: Dictionary = {
 			"features":
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"percent_marked": true,
 				},
 			"complications": [
 				{
@@ -579,6 +593,7 @@ var levels: Dictionary = {
 			"features":
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"percent_marked": true,
 				},
 			"complications": [
 				{
@@ -605,6 +620,7 @@ var levels: Dictionary = {
 			"features":
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"percent_marked": true,
 				},
 			"complications": [
 				{
@@ -624,6 +640,7 @@ var levels: Dictionary = {
 			"features":
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"percent_marked": true,
 				},
 			"powers": {"power_lock": {"charges": 1}},
 			"complications": [
@@ -650,6 +667,7 @@ var levels: Dictionary = {
 			"features":
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"percent_marked": true,
 				},
 			"powers": {"power_lock": {"charges": 2}},
 			"complications": [
@@ -674,6 +692,7 @@ var levels: Dictionary = {
 			"features":
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"percent_marked": false,
 				},
 			"powers": {"power_lock": {"charges": 2}},
 			"complications": [
@@ -720,6 +739,7 @@ var levels: Dictionary = {
 			"features":
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"percent_marked": false,
 				},
 			"complications": [
 				{
