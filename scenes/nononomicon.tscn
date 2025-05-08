@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://p7emdn1gu7nk"]
+[gd_scene load_steps=11 format=3 uid="uid://p7emdn1gu7nk"]
 
 [ext_resource type="Theme" uid="uid://6b5skotjmdvf" path="res://assets/themes/primary_theme.tres" id="1_r5qd4"]
 [ext_resource type="Script" uid="uid://c8ccsg4ye4e7r" path="res://scripts/nonnonomicon.gd" id="1_yfbcv"]
@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://ytd3m12r45sh" path="res://scenes/powers_scroll_container.tscn" id="6_3fro6"]
 [ext_resource type="Script" uid="uid://dwhhafu30hbj5" path="res://scripts/generic_selection_button.gd" id="6_pyjsb"]
 [ext_resource type="Script" uid="uid://bxpwwpcfkjrk" path="res://scripts/drag_display_handler.gd" id="7_lsml7"]
+[ext_resource type="Script" uid="uid://bwbhgqxg25ve0" path="res://scripts/features_display.gd" id="7_pbmpp"]
+[ext_resource type="PackedScene" uid="uid://cm2a3612ia7mn" path="res://scenes/feature_item.tscn" id="8_ygvtv"]
 
 [node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("game_ui", "board", "split_container", "index_page", "next_button", "prev_button", "command_console", "drawer", "descriptions", "level_title", "tutorial_text", "power_description_container", "power_description", "power_name", "debug_menu", "stack_container", "stack_list", "hint_button")]
 layout_mode = 3
@@ -165,6 +167,7 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/minimum_grab_thickness = 16
 theme_override_constants/autohide = 0
+split_offset = 64
 
 [node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer"]
 custom_minimum_size = Vector2(0, 64)
@@ -203,10 +206,28 @@ size_flags_vertical = 3
 bbcode_enabled = true
 fit_content = true
 
-[node name="PowersMenu" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer" instance=ExtResource("6_3fro6")]
+[node name="TabContainer" type="TabContainer" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer"]
+layout_mode = 2
+current_tab = 0
+
+[node name="Features" type="ScrollContainer" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/TabContainer" node_paths=PackedStringArray("feature_container")]
+layout_mode = 2
+script = ExtResource("7_pbmpp")
+feature_item = ExtResource("8_ygvtv")
+feature_container = NodePath("HFlowContainer")
+metadata/_tab_index = 0
+
+[node name="HFlowContainer" type="HFlowContainer" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/TabContainer/Features"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Powers" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/TabContainer" instance=ExtResource("6_3fro6")]
+visible = false
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_vertical = 3
+metadata/_tab_index = 1
 
 [node name="DebugOptions" type="ScrollContainer" parent="."]
 visible = false

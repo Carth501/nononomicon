@@ -26,6 +26,7 @@ MusicPlayer="*res://scripts/music_player.gd"
 GlobalTooltip="*res://scripts/global_tooltip.gd"
 DisplayHandler="*res://scripts/display_handler.gd"
 ConfigHandler="*res://scripts/config_handler.gd"
+Localizations="*res://scripts/localizations.gd"
 
 [editor_plugins]
 

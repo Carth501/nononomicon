@@ -6,4 +6,4 @@ func toggle_features(features: Dictionary):
 	if features.has("notes"):
 		notes_controls.visible = features["notes"]
 	else:
-		notes_controls.visible = true
+		notes_controls.visible = false

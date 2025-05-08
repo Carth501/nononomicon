@@ -154,6 +154,7 @@ var levels: Dictionary = {
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": false,
+					"notes": true,
 				},
 		}
 	},
@@ -166,6 +167,7 @@ var levels: Dictionary = {
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": false,
+					"notes": true,
 				},
 			"generation": {
 				"method": "waveform",
@@ -200,6 +202,7 @@ var levels: Dictionary = {
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": false,
+					"notes": true,
 				},
 			"randomness": 2,
 			"tutorial": '\tDifferences in thought emerge, but the pattern may ' +
@@ -263,6 +266,7 @@ var levels: Dictionary = {
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": false,
+					"notes": true,
 				},
 			"randomness": 0.5,
 			"generation": {
@@ -309,6 +313,7 @@ var levels: Dictionary = {
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": true,
 					"timer": true,
+					"notes": true,
 				},
 			"randomness": 0.5,
 			"generation": {
@@ -333,6 +338,7 @@ var levels: Dictionary = {
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": true,
 					"timer": true,
+					"notes": true,
 				},
 			"randomness": 0.3,
 			"generation": {
@@ -351,6 +357,7 @@ var levels: Dictionary = {
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": true,
 					"timer": true,
+					"notes": true,
 				},
 			"generation": {
 				"method": "handcrafted",
@@ -385,6 +392,7 @@ var levels: Dictionary = {
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": true,
 					"timer": true,
+					"notes": true,
 				},
 			"randomness": 3,
 			"generation": {
@@ -408,6 +416,7 @@ var levels: Dictionary = {
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": true,
 					"timer": true,
+					"notes": true,
 				},
 			"randomness": 3,
 			"generation": {
@@ -437,6 +446,7 @@ var levels: Dictionary = {
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": true,
 					"timer": true,
+					"notes": true,
 				},
 			"override":
 				{
@@ -463,6 +473,7 @@ var levels: Dictionary = {
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": true,
 					"timer": true,
+					"notes": true,
 				},
 			"powers": {"power_lock": {"charges": 3}},
 			"tutorial": '\tOne triumph brings a greater demand.',
@@ -511,6 +522,7 @@ var levels: Dictionary = {
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": true,
 					"timer": true,
+					"notes": true,
 				},
 			"powers": {"power_lock": {"charges": 9}},
 			"generation": {
@@ -571,6 +583,7 @@ var levels: Dictionary = {
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": true,
 					"timer": true,
+					"notes": true,
 				},
 			"complications": [
 				{
@@ -604,6 +617,7 @@ var levels: Dictionary = {
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": true,
 					"timer": true,
+					"notes": true,
 				},
 			"complications": [
 				{
@@ -632,6 +646,7 @@ var levels: Dictionary = {
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": true,
 					"timer": true,
+					"notes": true,
 				},
 			"complications": [
 				{
@@ -653,6 +668,7 @@ var levels: Dictionary = {
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": true,
 					"timer": true,
+					"notes": true,
 				},
 			"powers": {"power_lock": {"charges": 1}},
 			"complications": [
@@ -681,6 +697,7 @@ var levels: Dictionary = {
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": true,
 					"timer": true,
+					"notes": true,
 				},
 			"powers": {"power_lock": {"charges": 2}},
 			"complications": [
@@ -706,6 +723,7 @@ var levels: Dictionary = {
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": false,
+					"notes": true,
 					"timer": true,
 				},
 			"powers": {"power_lock": {"charges": 2}},
@@ -754,6 +772,7 @@ var levels: Dictionary = {
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"percent_marked": false,
+					"notes": true,
 					"timer": true,
 				},
 			"complications": [
@@ -804,6 +823,7 @@ var levels: Dictionary = {
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
 					"timer": true,
+					"notes": true,
 				},
 			"generation": {
 				"method": "waveform",
@@ -848,6 +868,8 @@ var levels: Dictionary = {
 			"features":
 				{
 					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"timer": true,
+					"notes": true,
 				},
 			"complications": [
 				{

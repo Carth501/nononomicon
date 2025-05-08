@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=14 format=3 uid="uid://6b5skotjmdvf"]
+[gd_resource type="Theme" load_steps=15 format=3 uid="uid://6b5skotjmdvf"]
 
 [ext_resource type="StyleBox" uid="uid://dlt8vl4e4jfq2" path="res://assets/themes/action_style_hover.tres" id="1_acjd2"]
 [ext_resource type="StyleBox" uid="uid://0ctfebvmivvx" path="res://assets/themes/action_style.tres" id="1_b14wq"]
@@ -13,6 +13,9 @@
 [ext_resource type="StyleBox" uid="uid://brqtqh0cctx3s" path="res://assets/themes/slider_grabber_highlight.tres" id="7_plsmm"]
 [ext_resource type="StyleBox" uid="uid://dnmawwhehweve" path="res://assets/themes/slider_grabber_pressed.tres" id="8_owcml"]
 [ext_resource type="FontFile" uid="uid://04bw7ijc5ssm" path="res://assets/fonts/Grenze-Medium.ttf" id="13_kxn55"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kxn55"]
+bg_color = Color(0.703759, 0.593289, 0.516192, 0.0509804)
 
 [resource]
 default_font = ExtResource("13_kxn55")
@@ -57,6 +60,13 @@ ProgressBar/styles/background = ExtResource("1_cumtl")
 ProgressBar/styles/fill = ExtResource("6_eyspa")
 RichTextLabel/constants/outline_size = 4
 TabBar/constants/outline_size = 4
+TabContainer/constants/outline_size = 4
+TabContainer/styles/panel = SubResource("StyleBoxFlat_kxn55")
+TabContainer/styles/tab_disabled = ExtResource("1_cumtl")
+TabContainer/styles/tab_focus = ExtResource("2_jqgcy")
+TabContainer/styles/tab_hovered = ExtResource("1_acjd2")
+TabContainer/styles/tab_selected = ExtResource("3_chio6")
+TabContainer/styles/tab_unselected = ExtResource("1_b14wq")
 TextEdit/colors/font_readonly_color = Color(0.615686, 0.243137, 0.152941, 1)
 TextEdit/constants/outline_size = 4
 TextEdit/styles/focus = ExtResource("6_rqu45")
