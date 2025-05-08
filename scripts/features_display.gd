@@ -18,9 +18,9 @@ func handle_features() -> void:
 		if !feature_list.has(feature_id):
 			item = feature_item.instantiate()
 			feature_list[feature_id] = item
+			feature_container.add_child(item)
 		else:
 			item = feature_list[feature_id]
-		feature_container.add_child(item)
 		if feature_id == 'header_assist':
 			var assist_level = features.get('header_assist', 0)
 			var locale_def = feature_localization_list['header_assist']
