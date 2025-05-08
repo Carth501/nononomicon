@@ -17,6 +17,7 @@ class_name NonogramBoard extends Container
 @export var guidelines_mask: Control
 @export var coords_display: Label
 @export var board_size_display: Label
+@export var percent_marked_label: Label
 var highlighting: Vector2i
 var scrolling: bool = false
 
@@ -32,6 +33,7 @@ func _ready():
 	State.coords_changed.connect(update_coords_display)
 	State.level_changed.connect(update_board_size)
 	State.hint_display_changed.connect(set_hint_squares)
+	State.square_changed.connect(calculate_percent_marked)
 	victory_label.visible = false
 
 func prepare_board():
@@ -122,6 +124,10 @@ func sort_children() -> void:
 		x_margin + col_head_width - board_size_display.size.x - 8,
 		y_margin + row_head_height - board_size_display.size.y - 8
 		)
+	percent_marked_label.global_position = Vector2(
+		x_margin + col_head_width + header_row_scroll.size.x + 8,
+		y_margin + row_head_height + header_col_scroll.size.y + 8
+		)
 
 func update_header_assist(comparisons: Dictionary):
 	header_row.set_assist(comparisons["X"])
@@ -157,3 +163,11 @@ func set_hint_squares():
 
 func clear_hint_squares():
 	nonogram_squares.clear_hint_squares()
+
+func calculate_percent_marked(_coords: Vector2i):
+	var percent_marked = floori(State.get_percent_marked() * 100.0)
+	percent_marked_label.text = str(percent_marked) + "%"
+	if percent_marked == 100:
+		percent_marked_label.add_theme_color_override("font_color", Color(0.1, 0.8, 0.1))
+	else:
+		percent_marked_label.add_theme_color_override("font_color", Color(1, 1, 1))

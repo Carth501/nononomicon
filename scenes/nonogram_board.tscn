@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://dcd1ado5a3r8i" path="res://scripts/y_footer_col.gd" id="6_uo5n4"]
 [ext_resource type="Script" uid="uid://b3pd7wvudic24" path="res://scripts/guidelines.gd" id="7_oseot"]
 
-[node name="CenterContainer" type="Container" node_paths=PackedStringArray("nonogram_scroll_container", "nonogram_squares", "header_row", "header_col", "footer_row", "footer_col", "header_row_scroll", "header_col_scroll", "footer_row_scroll", "footer_col_scroll", "board_margin_control", "victory_label", "guidelines", "guidelines_mask", "coords_display", "board_size_display")]
+[node name="CenterContainer" type="Container" node_paths=PackedStringArray("nonogram_scroll_container", "nonogram_squares", "header_row", "header_col", "footer_row", "footer_col", "header_row_scroll", "header_col_scroll", "footer_row_scroll", "footer_col_scroll", "board_margin_control", "victory_label", "guidelines", "guidelines_mask", "coords_display", "board_size_display", "percent_marked_label")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -31,6 +31,7 @@ guidelines = NodePath("BoardBox/GuidelinesMask/Guidelines")
 guidelines_mask = NodePath("BoardBox/GuidelinesMask")
 coords_display = NodePath("BoardBox/CoordsLabel")
 board_size_display = NodePath("BoardBox/BoardSizeLabel")
+percent_marked_label = NodePath("BoardBox/PercentMarked")
 
 [node name="BoardBox" type="Control" parent="."]
 layout_mode = 2
@@ -149,6 +150,11 @@ horizontal_alignment = 1
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
+
+[node name="PercentMarked" type="Label" parent="BoardBox"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 37.0
 
 [connection signal="sort_children" from="." to="." method="sort_children"]
 [connection signal="scroll_ended" from="BoardBox/NonogramScrollContainer" to="." method="end_scrolling"]

@@ -295,6 +295,29 @@ func get_complete_levels() -> Array:
 			complete_levels.append(level)
 	return complete_levels
 
+func get_marked_square_count() -> int:
+	var count = 0
+	for i in master [active_id][SQUARE_MAP_KEY].keys():
+		for k in master [active_id][SQUARE_MAP_KEY][i]:
+			if k == SquareStates.MARKED:
+				count += 1
+	return count
+
+func get_marked_target_count() -> int:
+	var count = 0
+	for i in master [active_id][TARGET_MAP_KEY].keys():
+		for k in master [active_id][TARGET_MAP_KEY][i]:
+			if k == SquareStates.MARKED:
+				count += 1
+	return count
+
+func get_percent_marked() -> float:
+	var marked_count = get_marked_square_count()
+	var target_count = get_marked_target_count()
+	if target_count == 0:
+		return 0.0
+	return float(marked_count) / float(target_count)
+
 func prepare_square_map(parameters: Dictionary):
 	if master [active_id].has(SQUARE_MAP_KEY):
 		return
