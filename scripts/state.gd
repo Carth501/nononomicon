@@ -542,7 +542,7 @@ func generate_target_map(parameters: Dictionary):
 				generate_sine_map(parameters)
 			"ellipse":
 				generate_ellipse_map(parameters)
-			"random":
+			"diamond":
 				random_center_diamond_map(parameters)
 			"waveform":
 				generate_waveform_map(parameters)
@@ -574,6 +574,9 @@ func random_center_diamond_map(parameters: Dictionary):
 				random_value *= parameters['randomness']
 			var sum = absi(i - roundi(average / 2.0)) + absi(k - roundi(average / 2.0))
 			sum += random_value
+			var generation = parameters.get('generation', {})
+			if generation.has('constant'):
+				sum += parameters['generation']['constant']
 			var marked = sum < roundi(average / 1.95)
 			if (marked):
 				set_target_position(Vector2i(i, k), SquareStates.MARKED)
@@ -622,6 +625,8 @@ func generate_ellipse_map(parameters: Dictionary):
 			if (parameters.has('randomness')):
 				var r = parameters['randomness']
 				sum += randf_range(-r, r)
+			if parameters['generation'].has('constant'):
+				sum += parameters['generation']['constant']
 			if (sum < 1):
 				set_target_position(Vector2i(i, k), SquareStates.MARKED)
 			else:
