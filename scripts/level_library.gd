@@ -350,7 +350,7 @@ var levels: Dictionary = {
 	"painting": {
 		"name": "Painting",
 		"parameters": {
-			"seed": 24, # shouldn't need a seed, but just in case
+			"seed": 23, # shouldn't need a seed, but just in case
 			"size": Vector2i(9, 9),
 			"features":
 				{
@@ -607,6 +607,48 @@ var levels: Dictionary = {
 			]
 		}
 	},
+	"vermillion": {
+		"name": "Vermillion",
+		"parameters": {
+			"seed": 24,
+			"size": Vector2i(8, 8),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH,
+					"percent_marked": true,
+					"timer": true,
+					"notes": true,
+				},
+			"complications": [
+				{
+					"type": "delta",
+					"subject_column": 0,
+					"variable_column": 1,
+				}
+			]
+		}
+	},
+	"tea_tumbler": {
+		"name": "Tea Tumbler",
+		"parameters": {
+			"seed": 25,
+			"size": Vector2i(9, 9),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH,
+					"percent_marked": true,
+					"timer": true,
+					"notes": true,
+				},
+			"complications": [
+				{
+					"type": "delta",
+					"subject_column": 0,
+					"variable_column": 1,
+				}
+			]
+		}
+	},
 	"mistrust": {
 		"name": "Mistrust",
 		"parameters": {
@@ -614,7 +656,7 @@ var levels: Dictionary = {
 			"size": Vector2i(8, 8),
 			"features":
 				{
-					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"header_assist": State.HeaderAssistLevel.LENGTH,
 					"percent_marked": true,
 					"timer": true,
 					"notes": true,
@@ -643,7 +685,7 @@ var levels: Dictionary = {
 			"size": Vector2i(8, 8),
 			"features":
 				{
-					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"header_assist": State.HeaderAssistLevel.LENGTH,
 					"percent_marked": true,
 					"timer": true,
 					"notes": true,
@@ -950,7 +992,7 @@ var chapters: Dictionary = {
 		"title": "Chapter 1"
 	},
 	"chapter2": {
-		"levels": ["discovery", "mistrust", "y_can_too", "contradiction",
+		"levels": ["discovery", "vermillion", "tea_tumbler", "mistrust", "y_can_too", "contradiction",
 			"category", "education", "tundra", "professional", "trig3"],
 		"title": "Chapter 2"
 	}
