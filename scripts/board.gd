@@ -40,7 +40,7 @@ func _ready():
 	State.coords_changed.connect(update_coords_display)
 	State.level_changed.connect(update_board_size)
 	State.hint_display_changed.connect(set_hint_squares)
-	State.square_changed.connect(calculate_percent_marked)
+	State.square_changed.connect(calculate_percent_marked_with_coords)
 	State.level_changed.connect(calculate_percent_marked)
 	State.level_changed.connect(toggle_percent_marked_label)
 	State.level_changed.connect(toggle_submission_error_display)
@@ -194,7 +194,11 @@ func toggle_percent_marked_label():
 	else:
 		percent_marked_label.hide()
 
-func calculate_percent_marked(_coords: Vector2i):
+
+func calculate_percent_marked_with_coords(_coords: Vector2i):
+	calculate_percent_marked()
+
+func calculate_percent_marked():
 	var percent_marked = floori(State.get_percent_marked() * 100.0)
 	percent_marked_label.text = str(percent_marked) + "%"
 	if percent_marked == 100:
