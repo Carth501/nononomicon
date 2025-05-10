@@ -31,8 +31,8 @@ func set_assist(comparison: Array):
 	for i in range(labels.size()):
 		if comparison[i]['length']:
 			if comparison[i].has('location') and comparison[i]['location']:
-				labels[i].set("theme_override_colors/font_color", Color(0.1, 0.9, 0.1))
-			else:
 				labels[i].set("theme_override_colors/font_color", Color(0.9, 0.9, 0.1))
+			else:
+				labels[i].set("theme_override_colors/font_color", Color(0.1, 0.9, 0.1))
 		else:
 			labels[i].set("theme_override_colors/font_color", Color(1, 1, 1))
