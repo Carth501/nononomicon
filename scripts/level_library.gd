@@ -9,7 +9,7 @@ var levels: Dictionary = {
 			"features":
 				{
 					"notes": false,
-					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"header_assist": State.HeaderAssistLevel.LENGTH,
 				},
 			"tutorial": '\tOne should not attempt these challenges without ambition. ' +
 				'The secrets contained are encoded such that you will learn their purpose ' +
@@ -58,7 +58,7 @@ var levels: Dictionary = {
 			"features":
 				{
 					"notes": false,
-					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"header_assist": State.HeaderAssistLevel.LENGTH,
 					"percent_marked": false,
 				},
 			"tutorial": '\tFor these simple trials, look for the zeros first, ' +
@@ -152,7 +152,7 @@ var levels: Dictionary = {
 				'possibilities.',
 			"features":
 				{
-					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"header_assist": State.HeaderAssistLevel.LENGTH,
 					"percent_marked": false,
 					"notes": true,
 				},
@@ -165,7 +165,7 @@ var levels: Dictionary = {
 			"size": Vector2i(9, 9),
 			"features":
 				{
-					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"header_assist": State.HeaderAssistLevel.LENGTH,
 					"percent_marked": false,
 					"notes": true,
 				},
@@ -200,7 +200,7 @@ var levels: Dictionary = {
 			"size": Vector2i(10, 7),
 			"features":
 				{
-					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"header_assist": State.HeaderAssistLevel.LENGTH,
 					"percent_marked": false,
 					"notes": true,
 				},
@@ -264,7 +264,7 @@ var levels: Dictionary = {
 			"size": Vector2i(8, 8),
 			"features":
 				{
-					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"header_assist": State.HeaderAssistLevel.LENGTH,
 					"percent_marked": false,
 					"notes": true,
 				},
@@ -310,7 +310,7 @@ var levels: Dictionary = {
 			"size": Vector2i(12, 12),
 			"features":
 				{
-					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"header_assist": State.HeaderAssistLevel.LENGTH,
 					"percent_marked": true,
 					"timer": true,
 					"notes": true,
@@ -335,7 +335,7 @@ var levels: Dictionary = {
 			"size": Vector2i(10, 6),
 			"features":
 				{
-					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"header_assist": State.HeaderAssistLevel.LENGTH,
 					"percent_marked": true,
 					"timer": true,
 					"notes": true,
@@ -354,7 +354,7 @@ var levels: Dictionary = {
 			"size": Vector2i(9, 9),
 			"features":
 				{
-					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"header_assist": State.HeaderAssistLevel.LENGTH,
 					"percent_marked": true,
 					"timer": true,
 					"notes": true,
@@ -389,7 +389,7 @@ var levels: Dictionary = {
 			"size": Vector2i(8, 8),
 			"features":
 				{
-					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"header_assist": State.HeaderAssistLevel.LENGTH,
 					"percent_marked": true,
 					"timer": true,
 					"notes": true,
@@ -413,7 +413,7 @@ var levels: Dictionary = {
 			"size": Vector2i(9, 9),
 			"features":
 				{
-					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"header_assist": State.HeaderAssistLevel.LENGTH,
 					"percent_marked": true,
 					"timer": true,
 					"notes": true,
@@ -443,7 +443,7 @@ var levels: Dictionary = {
 			"size": Vector2i(6, 6),
 			"features":
 				{
-					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"header_assist": State.HeaderAssistLevel.LENGTH,
 					"percent_marked": true,
 					"timer": true,
 					"notes": true,
@@ -470,7 +470,7 @@ var levels: Dictionary = {
 			"size": Vector2i(19, 16),
 			"features":
 				{
-					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"header_assist": State.HeaderAssistLevel.LENGTH,
 					"percent_marked": true,
 					"timer": true,
 					"notes": true,
@@ -519,7 +519,7 @@ var levels: Dictionary = {
 			"size": Vector2i(24, 16),
 			"features":
 				{
-					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"header_assist": State.HeaderAssistLevel.LENGTH,
 					"percent_marked": true,
 					"timer": true,
 					"notes": true,
@@ -580,7 +580,7 @@ var levels: Dictionary = {
 			"size": Vector2i(6, 6),
 			"features":
 				{
-					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"header_assist": State.HeaderAssistLevel.LENGTH,
 					"percent_marked": true,
 					"timer": true,
 					"notes": true,
@@ -707,7 +707,7 @@ var levels: Dictionary = {
 			"size": Vector2i(8, 8),
 			"features":
 				{
-					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"header_assist": State.HeaderAssistLevel.LENGTH,
 					"percent_marked": true,
 					"timer": true,
 					"notes": true,
@@ -736,7 +736,7 @@ var levels: Dictionary = {
 			"size": Vector2i(9, 9),
 			"features":
 				{
-					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"header_assist": State.HeaderAssistLevel.LENGTH,
 					"percent_marked": true,
 					"timer": true,
 					"notes": true,
@@ -763,7 +763,7 @@ var levels: Dictionary = {
 			"size": Vector2i(12, 9),
 			"features":
 				{
-					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"header_assist": State.HeaderAssistLevel.LENGTH,
 					"percent_marked": false,
 					"notes": true,
 					"timer": true,
@@ -812,7 +812,7 @@ var levels: Dictionary = {
 			"size": Vector2i(20, 16),
 			"features":
 				{
-					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"header_assist": State.HeaderAssistLevel.LENGTH,
 					"percent_marked": false,
 					"notes": true,
 					"timer": true,
@@ -863,7 +863,7 @@ var levels: Dictionary = {
 			"size": Vector2i(9, 9),
 			"features":
 				{
-					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"header_assist": State.HeaderAssistLevel.LENGTH,
 					"timer": true,
 					"notes": true,
 				},
@@ -909,7 +909,7 @@ var levels: Dictionary = {
 			"size": Vector2i(24, 16),
 			"features":
 				{
-					"header_assist": State.HeaderAssistLevel.LENGTH_AND_LOCATION,
+					"header_assist": State.HeaderAssistLevel.LENGTH,
 					"timer": true,
 					"notes": true,
 				},
