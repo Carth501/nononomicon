@@ -646,7 +646,16 @@ var levels: Dictionary = {
 					"subject_column": 0,
 					"variable_column": 1,
 				}
-			]
+			],
+			"override":
+				{
+					"marked": [
+						Vector2i(1, 1),
+					],
+					"empty": [
+						Vector2i(0, 7),
+					]
+				},
 		}
 	},
 	"mistrust": {
