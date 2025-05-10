@@ -41,6 +41,7 @@ func _ready():
 	State.level_changed.connect(update_board_size)
 	State.hint_display_changed.connect(set_hint_squares)
 	State.square_changed.connect(calculate_percent_marked)
+	State.level_changed.connect(calculate_percent_marked)
 	State.level_changed.connect(toggle_percent_marked_label)
 	State.level_changed.connect(toggle_submission_error_display)
 	State.level_changed.connect(set_timer_display)
