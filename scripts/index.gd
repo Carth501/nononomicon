@@ -24,6 +24,17 @@ func _ready() -> void:
 			button.thing_selected.connect(change_level)
 			level_buttons[level] = button
 			button.hide()
+			set_level_finished(level)
+	State.level_victory_changed.connect(set_level_finished)
+
+func set_level_finished(level_id: String):
+	if level_buttons.has(level_id):
+		var button: Generic_Selection_Button = level_buttons[level_id]
+		var level_complete = State.get_victory_state_by_id(level_id)
+		if level_complete:
+			button.add_theme_color_override("font_color", Color(0.1, 0.9, 0.1))
+		else:
+			button.remove_theme_color_override("font_color")
 
 func change_level(id: String):
 	level_selected.emit(id)

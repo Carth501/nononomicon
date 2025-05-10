@@ -22,6 +22,7 @@ signal drag_length_changed(length)
 signal drag_ended
 signal submission_error_count_changed
 signal timer_changed(time)
+signal level_victory_changed
 
 enum SquareStates {
 	EMPTY,
@@ -1254,6 +1255,7 @@ func find_error_lines_for_axis(axis: String) -> Array:
 func set_victory_true():
 	master [active_id][VICTORY_KEY] = true
 	victory_changed.emit(true)
+	level_victory_changed.emit(active_id)
 
 func get_victory_count() -> int:
 	var count = 0
@@ -1264,6 +1266,13 @@ func get_victory_count() -> int:
 
 func get_victory_state() -> bool:
 	return master [active_id].has(VICTORY_KEY) and master [active_id][VICTORY_KEY]
+
+func get_victory_state_by_id(level_id: String) -> bool:
+	if ! master.has(level_id):
+		return false
+	if ! master [level_id].has(VICTORY_KEY):
+		return false
+	return master [level_id][VICTORY_KEY]
 #endregion Victory Handling
 
 #region Level Change Management
