@@ -1360,12 +1360,13 @@ func generate_delta(headers1: Array, headers2: Array) -> Array:
 	var count = 0
 	var segment = []
 
+
 	while i < headers1.size() and j < headers2.size():
-		if k > headers1[i]['segment'][-1]:
+		if headers1[i]['length'] == '0' or k > headers1[i]['segment'][-1]:
 			i += 1
 			if i >= headers1.size():
 				break
-		if k > headers2[j]['segment'][-1]:
+		if headers2[j]['length'] == '0' or k > headers2[j]['segment'][-1]:
 			j += 1
 			if j >= headers2.size():
 				break
