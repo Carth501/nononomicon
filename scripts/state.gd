@@ -118,6 +118,8 @@ func new_game():
 
 func load_save(save: Dictionary):
 	for level in save.keys():
+		if !LevelLibrary.level_exists(level):
+			continue
 		master [level] = {}
 		active_id = level
 		setup(LevelLibrary.get_level_parameters(level))
@@ -1360,6 +1362,8 @@ func generate_delta(headers1: Array, headers2: Array) -> Array:
 	var count = 0
 	var segment = []
 
+	if headers1[0]['length'] == '0' and headers2[0]['length'] == '0':
+		return [ {'length': '0', 'segment': []}]
 
 	while i < headers1.size() and j < headers2.size():
 		if headers1[i]['length'] == '0' or k > headers1[i]['segment'][-1]:
