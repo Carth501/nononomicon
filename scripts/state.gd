@@ -1439,7 +1439,6 @@ func generate_delta(headers1: Array, headers2: Array) -> Array:
 		count = 0
 		segment = []
 
-	print("level: ", active_id, " delta: ", delta, " headers1: ", headers1, " headers2: ", headers2)
 	return delta
 
 func get_complications(axis: String, index: int) -> Array:
