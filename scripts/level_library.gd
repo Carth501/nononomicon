@@ -573,6 +573,38 @@ var levels: Dictionary = {
 				'deeper in this tome.'
 		}
 	},
+	"delta": {
+		"name": "Delta",
+		"parameters": {
+			"seed": 26,
+			"size": Vector2i(4, 4),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH,
+					"percent_marked": true,
+					"timer": true,
+					"notes": true,
+				},
+			"complications": [
+				{
+					"type": "delta",
+					"subject_column": 1,
+					"variable_column": 2,
+				}
+			],
+			'tutorial': '\tAnd so you find the first complication, the weapon of devious forces you ' +
+				'will face. This one can be named "delta", and it is unwise to look for the more true ' +
+				'name. This one, presented with a triangle at the bottom of the column, called "delta", ' +
+				'indicates that ' +
+				'the numbers in the header of that column do not correspond directly to what squares must be. ' +
+				'Instead, the numbers speak of the differences between that column and the referenced column. \n' +
+				'\tThe complication is displayed as a code, with the symbol indicating what the rules are, a ' +
+				'"c" or an "r" indicating the reference pointing to a column or a row, respectively. Then a ' +
+				'number, representing which column or row is referenced.',
+			"locks": [
+			]
+		}
+	},
 	"discovery": {
 		"name": "Discovery",
 		"parameters": {
@@ -592,11 +624,6 @@ var levels: Dictionary = {
 					"variable_column": 3,
 				}
 			],
-			'tutorial': '\tAnd so you find the first complication, the weapon of devious forces you ' +
-				'will face. This one can be named "delta", and it is unwise to look for the more true ' +
-				'name. This one, presented with a triangle at the bottom of the column, indicates that ' +
-				'the numbers in the header of that column do not correspond directly to what squares must be. ' +
-				'Instead, the numbers speak of the differences between that column and the 4th column.',
 			"locks": [
 				Vector2i(3, 2),
 				Vector2i(4, 2),
@@ -658,6 +685,58 @@ var levels: Dictionary = {
 				},
 		}
 	},
+	"onomonopia": {
+		"name": "Onomonopia",
+		"parameters": {
+			"seed": 27,
+			"size": Vector2i(9, 6),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH,
+					"percent_marked": true,
+					"timer": true,
+					"notes": true,
+				},
+			"complications": [
+				{
+					"type": "delta",
+					"subject_column": 4,
+					"variable_column": 8,
+				}
+			],
+		}
+	},
+	"positive": {
+		"name": "Positive",
+		"parameters": {
+			"seed": 28,
+			"size": Vector2i(9, 8),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH,
+					"percent_marked": true,
+					"timer": true,
+					"notes": true,
+				},
+			"complications": [
+				{
+					"type": "delta",
+					"subject_column": 3,
+					"variable_column": 7,
+				}
+			],
+			"override":
+				{
+					"marked": [
+						Vector2i(0, 1),
+					],
+					"empty": [
+						Vector2i(8, 1),
+						Vector2i(5, 7),
+					]
+				},
+		}
+	},
 	"mistrust": {
 		"name": "Mistrust",
 		"parameters": {
@@ -687,8 +766,8 @@ var levels: Dictionary = {
 				'strife.'
 		}
 	},
-	"y_can_too": {
-		"name": "Y Can Too",
+	"breaking": {
+		"name": "Breaking",
 		"parameters": {
 			"seed": 8,
 			"size": Vector2i(8, 8),
@@ -712,7 +791,7 @@ var levels: Dictionary = {
 	"contradiction": {
 		"name": "Contradiction",
 		"parameters": {
-			"seed": 6,
+			"seed": 29,
 			"size": Vector2i(8, 8),
 			"features":
 				{
@@ -736,6 +815,45 @@ var levels: Dictionary = {
 			],
 			'tutorial': "\tComplications do not inhibit powers, and powers can " +
 				'prove invaluable counters to their nefarious tricks.'
+		}
+	},
+	"something_deeper": {
+		"name": "Something Deeper",
+		"parameters": {
+			"seed": 6,
+			"size": Vector2i(10, 10),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH,
+					"percent_marked": true,
+					"timer": true,
+					"notes": true,
+				},
+			"powers": {"power_lock": {"charges": 1}},
+			"complications": [
+				{
+					"type": "delta",
+					"subject_column": 7, # index, starts at 0
+					"variable_column": 2,
+				},
+				{
+					"type": "delta",
+					"subject_column": 4,
+					"variable_column": 5,
+				}
+			],
+			'tutorial': "\tA shift comes, something breaks. A crack opens " +
+				"that cannot be filled by what you know, so you must search " +
+				"for something that can fit it. You have made a discovery, " +
+				"and you could leave it alone, but you are still here, reading " +
+				"this text.\n" +
+				"\tWhy? Why do you wish to know these troubles? Why do you persist " +
+				"when you could set this aside? This folly that should not have " +
+				"been, this tome that should not have been bound, these designs " +
+				"that tempt. This author shall never know the answer, but I was " +
+				"cursed to write the question.\n" +
+				"\tAnd now, I am surely gone, but if this is being read, then surely " +
+				"something is the reader, and I am sorry to you that you found this."
 		}
 	},
 	"category": {
@@ -812,6 +930,90 @@ var levels: Dictionary = {
 				"and I will be off, always a moment ahead of the emptiness.\n" +
 				"\tCan I keep it up? If I don't, I will be consumed. Will " +
 				"that truely be worse?"
+		}
+	},
+	"oroboros": {
+		"name": "Oroboros",
+		"parameters": {
+			"seed": 30,
+			"size": Vector2i(9, 9),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH,
+					"percent_marked": false,
+					"notes": true,
+					"timer": true,
+				},
+			"powers": {"power_lock": {"charges": 2}},
+			"generation": {
+				"method": "waveform",
+				"constant": 0.5,
+				"series": [
+					[
+						{
+							"amplitude": 0.5,
+							"frequency": Vector2(3, 3),
+						}
+					],
+					[
+						{
+							"amplitude": 0.5,
+							"frequency": Vector2(6, 6),
+						}
+					]
+				]
+			},
+			"complications": [
+				{
+					"type": "delta",
+					"subject_column": 0, # index, starts at 0
+					"variable_column": 1,
+				},
+				{
+					"type": "delta",
+					"subject_column": 1,
+					"variable_column": 2,
+				},
+				{
+					"type": "delta",
+					"subject_column": 2,
+					"variable_column": 3,
+				},
+				{
+					"type": "delta",
+					"subject_column": 3,
+					"variable_column": 4,
+				},
+				{
+					"type": "delta",
+					"subject_column": 4,
+					"variable_column": 5,
+				},
+				{
+					"type": "delta",
+					"subject_column": 5,
+					"variable_column": 6,
+				},
+				{
+					"type": "delta",
+					"subject_column": 6,
+					"variable_column": 7,
+				},
+				{
+					"type": "delta",
+					"subject_column": 7,
+					"variable_column": 8,
+				},
+				{
+					"type": "delta",
+					"subject_column": 8,
+					"variable_column": 0,
+				}
+			],
+			'tutorial': "\tI cannot see what happened, yet behold " +
+				"my breath and consume this fragment of myself again and again." +
+				"I grow, yet growth is no escape, not this time. Perhaps you can, " +
+				"but I cannot."
 		}
 	},
 	"tundra": {
@@ -1001,8 +1203,10 @@ var chapters: Dictionary = {
 		"title": "Chapter 1"
 	},
 	"chapter2": {
-		"levels": ["discovery", "vermillion", "tea_tumbler", "mistrust", "y_can_too", "contradiction",
-			"category", "education", "tundra", "professional", "trig3"],
+		"levels": ["delta", "discovery", "vermillion", "tea_tumbler",
+			"onomonopia", "positive", "mistrust", "breaking", "something_deeper",
+			"contradiction", "category", "education", "oroboros",
+			"tundra", "professional", "trig3"],
 		"title": "Chapter 2"
 	}
 }

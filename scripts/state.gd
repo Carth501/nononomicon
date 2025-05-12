@@ -341,6 +341,17 @@ func get_percent_marked() -> float:
 		return 0.0
 	return float(marked_count) / float(target_count)
 
+func get_line(axis: String, index: int, map_key: String) -> Array:
+	var line = []
+	if master [active_id].has(map_key):
+		if axis == 'X':
+			if master [active_id][map_key].has(index):
+				line = master [active_id][map_key][index]
+		elif axis == 'Y':
+			for i in master [active_id][map_key].keys():
+				line.append(master [active_id][map_key][i][index])
+	return line
+
 func prepare_square_map(parameters: Dictionary):
 	if master [active_id].has(SQUARE_MAP_KEY):
 		return
@@ -1326,7 +1337,9 @@ func generate_delta_header(complication: Dictionary):
 
 	var complication_header = generate_delta(
 		master [active_id][HEADERS_KEY][subject_axis][subject_index],
-		master [active_id][HEADERS_KEY][variable_axis][variable_index]
+		generate_sequence_for_array(
+			get_line(variable_axis, variable_index, TARGET_MAP_KEY)
+		)
 	)
 
 	master [active_id][HEADERS_OVERRIDE_KEY][subject_axis][subject_index].append(complication_header)
@@ -1363,6 +1376,9 @@ func generate_delta(headers1: Array, headers2: Array) -> Array:
 	var segment = []
 
 	if headers1[0]['length'] == '0' and headers2[0]['length'] == '0':
+		return [ {'length': '0', 'segment': []}]
+
+	if headers1.hash() == headers2.hash():
 		return [ {'length': '0', 'segment': []}]
 
 	while i < headers1.size() and j < headers2.size():
@@ -1423,6 +1439,7 @@ func generate_delta(headers1: Array, headers2: Array) -> Array:
 		count = 0
 		segment = []
 
+	print("level: ", active_id, " delta: ", delta, " headers1: ", headers1, " headers2: ", headers2)
 	return delta
 
 func get_complications(axis: String, index: int) -> Array:
