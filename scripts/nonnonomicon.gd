@@ -226,4 +226,12 @@ func handle_squares_correct(value: bool):
 		submission_button.disabled = false
 
 func reset_submission_button(_value: bool = false):
-	submission_button.disabled = State.get_victory_state()
+	var params = State.get_level_parameters()
+	var features = params.get("features", {})
+	var submit_button_assist = features.get("submit_button_assist", false)
+	if submit_button_assist:
+		var victory = State.get_victory_state()
+		var correct_map = State.is_square_map_correct()
+		submission_button.disabled = victory || !correct_map
+	else:
+		submission_button.disabled = false

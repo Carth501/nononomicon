@@ -278,12 +278,15 @@ func set_square_state(coords: Vector2i, new_state: SquareStates):
 	square_changed.emit(coords)
 	generate_line_comparisons(coords)
 	check_hints()
-	var squares = hash(get_filtered_map([SquareStates.MARKED], SQUARE_MAP_KEY))
-	var target = hash(master [active_id][TARGET_MAP_KEY])
-	if squares == target:
+	if is_square_map_correct():
 		squares_correct.emit(true)
 	else:
 		squares_correct.emit(false)
+
+func is_square_map_correct():
+	var squares = hash(get_filtered_map([SquareStates.MARKED], SQUARE_MAP_KEY))
+	var target = hash(master [active_id][TARGET_MAP_KEY])
+	return squares == target
 
 func solve_square(coords: Vector2i):
 	var new_square_state = master [active_id][TARGET_MAP_KEY][coords.x][coords.y]
