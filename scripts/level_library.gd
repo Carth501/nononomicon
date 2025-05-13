@@ -1046,7 +1046,7 @@ var levels: Dictionary = {
 					],
 				]
 			},
-			"powers": {"power_bind": {"charges": 2}},
+			"powers": {"power_bind": {"charges": 1}},
 			"override":
 				{
 					"marked": [
