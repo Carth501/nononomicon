@@ -1667,7 +1667,7 @@ func set_powers(powers: Dictionary):
 		return
 	if ! master [active_id].has(POWERS_KEY):
 		master [active_id][POWERS_KEY] = []
-	master [active_id][POWERS_KEY] = powers.duplicate()
+	master [active_id][POWERS_KEY] = powers.duplicate(true)
 	powers_changed.emit()
 
 func load_powers():
