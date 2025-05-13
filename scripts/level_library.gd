@@ -1003,97 +1003,6 @@ var levels: Dictionary = {
 				"but I cannot."
 		}
 	},
-	"oroboros": {
-		"name": "Oroboros",
-		"parameters": {
-			"seed": 30,
-			"size": Vector2i(9, 9),
-			"features":
-				{
-					"header_assist": State.HeaderAssistLevel.LENGTH,
-					"percent_marked": false,
-					"notes": true,
-					"timer": true,
-				},
-			"powers": {"power_lock": {"charges": 4}},
-			"generation": {
-				"method": "waveform",
-				"constant": 1,
-				"series": [
-					[
-						{
-							"amplitude": 0.5,
-							"frequency": Vector2(4, 4),
-							"offset": Vector2(-2, 0),
-						}
-					],
-					[
-						{
-							"amplitude": 0.6,
-							"frequency": Vector2(3, 3),
-						}
-					],
-					[
-						{
-							"amplitude": 0.7,
-							"frequency": Vector2(2, 2),
-						}
-					]
-				]
-			},
-			"complications": [
-				{
-					"type": "delta",
-					"subject_column": 0, # index, starts at 0
-					"variable_column": 1,
-				},
-				{
-					"type": "delta",
-					"subject_column": 1,
-					"variable_column": 2,
-				},
-				{
-					"type": "delta",
-					"subject_column": 2,
-					"variable_column": 3,
-				},
-				{
-					"type": "delta",
-					"subject_column": 3,
-					"variable_column": 4,
-				},
-				{
-					"type": "delta",
-					"subject_column": 4,
-					"variable_column": 5,
-				},
-				{
-					"type": "delta",
-					"subject_column": 5,
-					"variable_column": 6,
-				},
-				{
-					"type": "delta",
-					"subject_column": 6,
-					"variable_column": 7,
-				},
-				{
-					"type": "delta",
-					"subject_column": 7,
-					"variable_column": 8,
-				},
-				{
-					"type": "delta",
-					"subject_column": 8,
-					"variable_column": 0,
-				}
-			],
-			'tutorial': "\tI cannot see what happened, yet behold " +
-				"my breath and consume this fragment of myself again and again." +
-				"I grow, yet growth is no escape, not this time. Perhaps you can, " +
-				"but I cannot."
-		}
-	},
 	"tundra": {
 		"name": "Tundra",
 		"parameters": {
@@ -1191,6 +1100,97 @@ var levels: Dictionary = {
 			],
 		}
 	},
+	"oroboros": {
+		"name": "Oroboros",
+		"parameters": {
+			"seed": 30,
+			"size": Vector2i(9, 9),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH,
+					"percent_marked": false,
+					"notes": true,
+					"timer": true,
+				},
+			"powers": {"power_lock": {"charges": 4}},
+			"generation": {
+				"method": "waveform",
+				"constant": 1,
+				"series": [
+					[
+						{
+							"amplitude": 0.5,
+							"frequency": Vector2(4, 4),
+							"offset": Vector2(-2, 0),
+						}
+					],
+					[
+						{
+							"amplitude": 0.6,
+							"frequency": Vector2(3, 3),
+						}
+					],
+					[
+						{
+							"amplitude": 0.7,
+							"frequency": Vector2(2, 2),
+						}
+					]
+				]
+			},
+			"complications": [
+				{
+					"type": "delta",
+					"subject_column": 0, # index, starts at 0
+					"variable_column": 1,
+				},
+				{
+					"type": "delta",
+					"subject_column": 1,
+					"variable_column": 2,
+				},
+				{
+					"type": "delta",
+					"subject_column": 2,
+					"variable_column": 3,
+				},
+				{
+					"type": "delta",
+					"subject_column": 3,
+					"variable_column": 4,
+				},
+				{
+					"type": "delta",
+					"subject_column": 4,
+					"variable_column": 5,
+				},
+				{
+					"type": "delta",
+					"subject_column": 5,
+					"variable_column": 6,
+				},
+				{
+					"type": "delta",
+					"subject_column": 6,
+					"variable_column": 7,
+				},
+				{
+					"type": "delta",
+					"subject_column": 7,
+					"variable_column": 8,
+				},
+				{
+					"type": "delta",
+					"subject_column": 8,
+					"variable_column": 0,
+				}
+			],
+			'tutorial': "\tI cannot see what happened, yet behold " +
+				"my breath and consume this fragment of myself again and again." +
+				"I grow, yet growth is no escape, not this time. Perhaps you can, " +
+				"but I cannot."
+		}
+	},
 	"trig3": {
 		"name": "Big Trig",
 		"parameters": {
@@ -1283,8 +1283,8 @@ var chapters: Dictionary = {
 	"chapter2": {
 		"levels": ["delta", "discovery", "vermillion", "tea_tumbler",
 			"onomonopia", "positive", "mistrust", "breaking", "something_deeper",
-			"contradiction", "category", "education", "point_of_contact", "oroboros",
-			"tundra", "professional", "trig3"],
+			"contradiction", "category", "education", "point_of_contact",
+			"tundra", "professional", "oroboros", "trig3"],
 		"title": "Chapter 2"
 	}
 }
