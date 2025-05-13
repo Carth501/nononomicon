@@ -352,6 +352,43 @@ func get_line(axis: String, index: int, map_key: String) -> Array:
 				line.append(master [active_id][map_key][i][index])
 	return line
 
+func get_filtered_map(settings: Array[SquareStates], map_key: String) -> Dictionary:
+	var filtered_map = {}
+	for i in master [active_id][map_key].keys():
+		filtered_map[i] = []
+		for k in range(master [active_id][map_key][i].size()):
+			var value = master [active_id][map_key][i][k]
+			if settings.has(value):
+				filtered_map[i].append(value)
+			else:
+				filtered_map[i].append(SquareStates.EMPTY)
+	return filtered_map
+
+func get_squares_hash():
+	var map = get_filtered_map([SquareStates.MARKED], SQUARE_MAP_KEY)
+	return hash(map)
+
+func get_correct_squares_coords():
+	var correct_squares = []
+	var SIZE = get_size()
+	print("master [active_id][TARGET_MAP_KEY]: ", master [active_id][TARGET_MAP_KEY])
+	for i in range(SIZE.x):
+		for k in range(SIZE.y):
+			if get_square_correct(Vector2i(i, k)):
+				correct_squares.append(Vector2i(i, k))
+	print("SIZE: ", SIZE, " Correct squares: ", correct_squares)
+	return correct_squares
+
+func get_square_correct(coords: Vector2i) -> bool:
+	var _column_line = master [active_id][TARGET_MAP_KEY][coords.x]
+	var target_state = master [active_id][TARGET_MAP_KEY][coords.x][coords.y]
+	var square_state = master [active_id][SQUARE_MAP_KEY][coords.x][coords.y]
+	if target_state == square_state:
+		return true
+	elif target_state != SquareStates.MARKED and square_state != SquareStates.MARKED:
+		return true
+	return false
+
 func prepare_square_map(parameters: Dictionary):
 	if master [active_id].has(SQUARE_MAP_KEY):
 		return
@@ -1644,12 +1681,39 @@ func use_power():
 	if power_id == "power_lock":
 		if get_charges(power_id) > 0:
 			power_lock()
-			use_charge(power_id)
+	if power_id == "power_bind":
+		if get_charges(power_id) > 0:
+			power_bind()
 	power_id = ""
 	hiding_power.emit()
 
 func power_lock():
+	if get_locks().has(chosen_coords):
+		return
 	lock_square(chosen_coords)
+	use_charge("power_lock")
+
+func power_bind():
+	var correct_map = get_correct_squares_coords()
+	var locked_squares = get_locks()
+	for square in locked_squares:
+		if correct_map.has(square):
+			correct_map.remove_at(correct_map.find(square))
+	if correct_map.size() < 5:
+		return
+	var bind_count = roundi(correct_map.size() * 0.4)
+	var bind_list = []
+	var index_seed = get_squares_hash()
+	for i in range(bind_count):
+		var value = rand_from_seed(index_seed)[0]
+		var index = value % correct_map.size()
+		bind_list.append(correct_map[index])
+		correct_map.remove_at(index)
+		index_seed = value
+	for i in range(bind_list.size()):
+		lock_square(bind_list[i])
+	print("Power bind: ", bind_list)
+	use_charge("power_bind")
 
 func get_powers():
 	if active_id == "default":

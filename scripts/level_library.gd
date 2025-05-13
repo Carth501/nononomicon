@@ -1003,6 +1003,61 @@ var levels: Dictionary = {
 				"but I cannot."
 		}
 	},
+	"binding": {
+		"name": "Binding",
+		"parameters": {
+			"seed": 31,
+			"size": Vector2i(12, 12),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH,
+					"percent_marked": true,
+					"timer": true,
+					"notes": true,
+				},
+			"complications": [
+				{
+					"type": "delta",
+					"subject_column": 6,
+					"variable_column": 5,
+				},
+				{
+					"type": "delta",
+					"subject_column": 5,
+					"variable_column": 6,
+				}
+			],
+			"generation": {
+				"method": "waveform",
+				"constant": 0,
+				"series": [
+					[
+						{
+							"amplitude": 2,
+							"frequency": Vector2(2, 5),
+							"offset": Vector2(-2, 0),
+						}
+					],
+					[
+						{
+							"amplitude": 2,
+							"frequency": Vector2(5, 1.5),
+						}
+					],
+				]
+			},
+			"powers": {"power_bind": {"charges": 2}},
+			"override":
+				{
+					"marked": [
+						Vector2i(1, 1),
+					],
+					"empty": [
+						Vector2i(5, 3)
+					]
+				},
+		}
+	},
 	"tundra": {
 		"name": "Tundra",
 		"parameters": {
@@ -1282,7 +1337,7 @@ var chapters: Dictionary = {
 	},
 	"chapter2": {
 		"levels": ["delta", "discovery", "vermillion", "tea_tumbler",
-			"onomonopia", "positive", "mistrust", "breaking", "something_deeper",
+			"onomonopia", "positive", "mistrust", "binding", "breaking", "something_deeper",
 			"contradiction", "category", "education", "point_of_contact",
 			"tundra", "professional", "oroboros", "trig3"],
 		"title": "Chapter 2"
