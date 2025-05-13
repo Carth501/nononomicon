@@ -206,5 +206,5 @@ func _on_redo_button_pressed() -> void:
 	State.redo()
 
 func reset_timer():
-	if State.get_victory_state() != true:
+	if !State.get_victory_state():
 		State.start_timer()
