@@ -371,12 +371,10 @@ func get_squares_hash():
 func get_correct_squares_coords():
 	var correct_squares = []
 	var SIZE = get_size()
-	print("master [active_id][TARGET_MAP_KEY]: ", master [active_id][TARGET_MAP_KEY])
 	for i in range(SIZE.x):
 		for k in range(SIZE.y):
 			if get_square_correct(Vector2i(i, k)):
 				correct_squares.append(Vector2i(i, k))
-	print("SIZE: ", SIZE, " Correct squares: ", correct_squares)
 	return correct_squares
 
 func get_square_correct(coords: Vector2i) -> bool:
