@@ -932,6 +932,77 @@ var levels: Dictionary = {
 				"that truely be worse?"
 		}
 	},
+	"point_of_contact": {
+		"name": "Point of Contact",
+		"parameters": {
+			"seed": 31,
+			"size": Vector2i(6, 6),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH,
+					"percent_marked": false,
+					"notes": true,
+					"timer": true,
+				},
+			"powers": {"power_lock": {"charges": 2}},
+			"generation": {
+				"method": "waveform",
+				"constant": 0,
+				"series": [
+					[
+						{
+							"amplitude": 0.5,
+							"frequency": Vector2(5, 5),
+							"offset": Vector2(-2, 0),
+						}
+					],
+					[
+						{
+							"amplitude": 0.6,
+							"frequency": Vector2(4, 4),
+						}
+					],
+					[
+						{
+							"amplitude": 0.7,
+							"frequency": Vector2(3, 3),
+						}
+					]
+				]
+			},
+			"complications": [
+				{
+					"type": "delta",
+					"subject_column": 0, # index, starts at 0
+					"variable_column": 1,
+				},
+				{
+					"type": "delta",
+					"subject_column": 1,
+					"variable_column": 2,
+				},
+				{
+					"type": "delta",
+					"subject_column": 2,
+					"variable_column": 3,
+				},
+				{
+					"type": "delta",
+					"subject_column": 3,
+					"variable_column": 4,
+				},
+				{
+					"type": "delta",
+					"subject_column": 4,
+					"variable_column": 5,
+				},
+			],
+			'tutorial': "\tI cannot see what happened, yet behold " +
+				"my breath and consume this fragment of myself again and again." +
+				"I grow, yet growth is no escape, not this time. Perhaps you can, " +
+				"but I cannot."
+		}
+	},
 	"oroboros": {
 		"name": "Oroboros",
 		"parameters": {
@@ -944,21 +1015,28 @@ var levels: Dictionary = {
 					"notes": true,
 					"timer": true,
 				},
-			"powers": {"power_lock": {"charges": 2}},
+			"powers": {"power_lock": {"charges": 4}},
 			"generation": {
 				"method": "waveform",
-				"constant": 0.5,
+				"constant": 1,
 				"series": [
 					[
 						{
 							"amplitude": 0.5,
+							"frequency": Vector2(4, 4),
+							"offset": Vector2(-2, 0),
+						}
+					],
+					[
+						{
+							"amplitude": 0.6,
 							"frequency": Vector2(3, 3),
 						}
 					],
 					[
 						{
-							"amplitude": 0.5,
-							"frequency": Vector2(6, 6),
+							"amplitude": 0.7,
+							"frequency": Vector2(2, 2),
 						}
 					]
 				]
@@ -1205,7 +1283,7 @@ var chapters: Dictionary = {
 	"chapter2": {
 		"levels": ["delta", "discovery", "vermillion", "tea_tumbler",
 			"onomonopia", "positive", "mistrust", "breaking", "something_deeper",
-			"contradiction", "category", "education", "oroboros",
+			"contradiction", "category", "education", "point_of_contact", "oroboros",
 			"tundra", "professional", "trig3"],
 		"title": "Chapter 2"
 	}
