@@ -6,6 +6,7 @@ var index := preload("res://scenes/index.tscn")
 @export var game_ui: GameUI
 @export var board: NonogramBoard
 @export var split_container: SplitContainer
+@export var submission_button: Button
 @export var index_page: Index
 @export var next_button: Button
 @export var prev_button: Button
@@ -33,6 +34,9 @@ func _ready():
 	State.level_changed.connect(set_hint_button)
 	State.showing_power.connect(show_power_description)
 	State.hiding_power.connect(hide_power_description)
+	State.squares_correct.connect(handle_squares_correct)
+	State.level_changed.connect(reset_submission_button)
+	State.victory_changed.connect(reset_submission_button)
 
 func open_page(id: String):
 	if (id == "index"):
@@ -208,3 +212,18 @@ func _on_redo_button_pressed() -> void:
 func reset_timer():
 	if !State.get_victory_state():
 		State.start_timer()
+
+func handle_squares_correct(value: bool):
+	var params = State.get_level_parameters()
+	var features = params.get("features", {})
+	var submit_button_assist = features.get("submit_button_assist", false)
+	if submit_button_assist:
+		if value:
+			submission_button.disabled = false
+		else:
+			submission_button.disabled = true
+	else:
+		submission_button.disabled = false
+
+func reset_submission_button(_value: bool = false):
+	submission_button.disabled = State.get_victory_state()

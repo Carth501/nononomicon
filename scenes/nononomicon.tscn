@@ -11,7 +11,7 @@
 [ext_resource type="Script" uid="uid://bwbhgqxg25ve0" path="res://scripts/features_display.gd" id="7_pbmpp"]
 [ext_resource type="PackedScene" uid="uid://cm2a3612ia7mn" path="res://scenes/feature_item.tscn" id="8_ygvtv"]
 
-[node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("game_ui", "board", "split_container", "index_page", "next_button", "prev_button", "command_console", "drawer", "descriptions", "level_title", "tutorial_text", "power_description_container", "power_description", "power_name", "debug_menu", "stack_container", "stack_list", "hint_button")]
+[node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("game_ui", "board", "split_container", "submission_button", "index_page", "next_button", "prev_button", "command_console", "drawer", "descriptions", "level_title", "tutorial_text", "power_description_container", "power_description", "power_name", "debug_menu", "stack_container", "stack_list", "hint_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,6 +23,7 @@ script = ExtResource("1_yfbcv")
 game_ui = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI")
 board = NodePath("HSplitContainer/NonogramBoard")
 split_container = NodePath("HSplitContainer")
+submission_button = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/GameControlsContainer/SubmitButton")
 index_page = NodePath("Index")
 next_button = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/LevelControlsContainer/NextButton")
 prev_button = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/LevelControlsContainer/PrevButton")
@@ -167,7 +168,7 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/minimum_grab_thickness = 16
 theme_override_constants/autohide = 0
-split_offset = 64
+split_offset = 124
 
 [node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer"]
 custom_minimum_size = Vector2(0, 64)
@@ -210,24 +211,24 @@ fit_content = true
 layout_mode = 2
 current_tab = 0
 
+[node name="Powers" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/TabContainer" instance=ExtResource("6_3fro6")]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_vertical = 3
+metadata/_tab_index = 0
+
 [node name="Features" type="ScrollContainer" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/TabContainer" node_paths=PackedStringArray("feature_container")]
+visible = false
 layout_mode = 2
 script = ExtResource("7_pbmpp")
 feature_item = ExtResource("8_ygvtv")
 feature_container = NodePath("HFlowContainer")
-metadata/_tab_index = 0
+metadata/_tab_index = 1
 
 [node name="HFlowContainer" type="HFlowContainer" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/TabContainer/Features"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="Powers" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/TabContainer" instance=ExtResource("6_3fro6")]
-visible = false
-custom_minimum_size = Vector2(0, 64)
-layout_mode = 2
-size_flags_vertical = 3
-metadata/_tab_index = 1
 
 [node name="DebugOptions" type="ScrollContainer" parent="."]
 visible = false
@@ -276,8 +277,8 @@ grow_vertical = 0
 [node name="DragHandler" type="Node" parent="."]
 script = ExtResource("7_lsml7")
 
-[connection signal="resized" from="." to="." method="resize_board"]
 [connection signal="resized" from="." to="." method="_on_resized"]
+[connection signal="resized" from="." to="." method="resize_board"]
 [connection signal="level_selected" from="Index" to="." method="open_page"]
 [connection signal="dragged" from="HSplitContainer" to="." method="on_drawer_dragged"]
 [connection signal="resized" from="HSplitContainer/NonogramBoard" to="HSplitContainer/NonogramBoard" method="resize_board"]

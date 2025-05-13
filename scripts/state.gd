@@ -23,6 +23,7 @@ signal drag_ended
 signal submission_error_count_changed
 signal timer_changed(time)
 signal level_victory_changed
+signal squares_correct
 
 enum SquareStates {
 	EMPTY,
@@ -277,6 +278,12 @@ func set_square_state(coords: Vector2i, new_state: SquareStates):
 	square_changed.emit(coords)
 	generate_line_comparisons(coords)
 	check_hints()
+	var squares = hash(get_filtered_map([SquareStates.MARKED], SQUARE_MAP_KEY))
+	var target = hash(master [active_id][TARGET_MAP_KEY])
+	if squares == target:
+		squares_correct.emit(true)
+	else:
+		squares_correct.emit(false)
 
 func solve_square(coords: Vector2i):
 	var new_square_state = master [active_id][TARGET_MAP_KEY][coords.x][coords.y]

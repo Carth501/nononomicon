@@ -60,6 +60,7 @@ var levels: Dictionary = {
 					"notes": false,
 					"header_assist": State.HeaderAssistLevel.LENGTH,
 					"percent_marked": false,
+					"submit_button_assist": true,
 				},
 			"tutorial": '\tFor these simple trials, look for the zeros first, ' +
 				'then search for the highest numbers.',
@@ -155,6 +156,7 @@ var levels: Dictionary = {
 					"header_assist": State.HeaderAssistLevel.LENGTH,
 					"percent_marked": false,
 					"notes": true,
+					"submit_button_assist": true,
 				},
 		}
 	},
@@ -203,6 +205,7 @@ var levels: Dictionary = {
 					"header_assist": State.HeaderAssistLevel.LENGTH,
 					"percent_marked": false,
 					"notes": true,
+					"submit_button_assist": true,
 				},
 			"randomness": 2,
 			"tutorial": '\tDifferences in thought emerge, but the pattern may ' +
@@ -339,6 +342,7 @@ var levels: Dictionary = {
 					"percent_marked": true,
 					"timer": true,
 					"notes": true,
+					"submit_button_assist": true,
 				},
 			"randomness": 0.3,
 			"generation": {
@@ -358,6 +362,7 @@ var levels: Dictionary = {
 					"percent_marked": true,
 					"timer": true,
 					"notes": true,
+					"submit_button_assist": true,
 				},
 			"generation": {
 				"method": "handcrafted",
@@ -393,6 +398,7 @@ var levels: Dictionary = {
 					"percent_marked": true,
 					"timer": true,
 					"notes": true,
+					"submit_button_assist": true,
 				},
 			"randomness": 3,
 			"generation": {
