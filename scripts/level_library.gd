@@ -1029,7 +1029,7 @@ var levels: Dictionary = {
 			],
 			"generation": {
 				"method": "waveform",
-				"constant": 0,
+				"constant": - 0.1,
 				"series": [
 					[
 						{
@@ -1051,9 +1051,15 @@ var levels: Dictionary = {
 				{
 					"marked": [
 						Vector2i(1, 1),
+						Vector2i(1, 7),
+						Vector2i(6, 11),
+						Vector2i(7, 11),
 					],
 					"empty": [
-						Vector2i(5, 3)
+						Vector2i(5, 3),
+						Vector2i(8, 9),
+						Vector2i(8, 8),
+						Vector2i(9, 9)
 					]
 				},
 		}
