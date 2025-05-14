@@ -1406,7 +1406,8 @@ var chapters: Dictionary = {
 		"title": "Chapter 2"
 	},
 	"chapter3": {
-		"levels": ["variables"],
+		"levels": ["variables", "elbredth", "lattice", "talisman",
+			"gem_of_the_dead", "now_use_it"],
 		"title": "Chapter 3"
 	}
 }
