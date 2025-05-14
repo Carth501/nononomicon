@@ -607,7 +607,26 @@ var levels: Dictionary = {
 				'\tThe complication is displayed as a code, with the symbol indicating what the rules are, a ' +
 				'"c" or an "r" indicating the reference pointing to a column or a row, respectively. Then a ' +
 				'number, representing which column or row is referenced.',
-			"locks": [
+			"hints": [
+				[
+					Vector2i(0, 1),
+					Vector2i(1, 1),
+					Vector2i(2, 1),
+					Vector2i(3, 1),
+				],
+				[
+					Vector2i(0, 3),
+					Vector2i(1, 3),
+					Vector2i(2, 3),
+				],
+				[
+					Vector2i(1, 2),
+					Vector2i(2, 2),
+					Vector2i(3, 2),
+				],
+				[
+					Vector2i(1, 0),
+				],
 			]
 		}
 	},
@@ -661,6 +680,13 @@ var levels: Dictionary = {
 				[
 					Vector2i(0, 1),
 					Vector2i(0, 2),
+				],
+				[
+					Vector2i(2, 1),
+					Vector2i(3, 1),
+				],
+				[
+					Vector2i(5, 0),
 				]
 			]
 		}
