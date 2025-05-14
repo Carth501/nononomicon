@@ -637,6 +637,31 @@ var levels: Dictionary = {
 				Vector2i(4, 3),
 				Vector2i(3, 4),
 				Vector2i(4, 4),
+			],
+			"hints": [
+				[
+					Vector2i(0, 2),
+					Vector2i(1, 2),
+				],
+				[
+					Vector2i(2, 3),
+					Vector2i(2, 4),
+					Vector2i(2, 5),
+				],
+				[
+					Vector2i(0, 4),
+				],
+				[
+					Vector2i(4, 5),
+					Vector2i(5, 5),
+				],
+				[
+					Vector2i(5, 3),
+				],
+				[
+					Vector2i(0, 1),
+					Vector2i(0, 2),
+				]
 			]
 		}
 	},
