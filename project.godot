@@ -27,6 +27,7 @@ GlobalTooltip="*res://scripts/global_tooltip.gd"
 DisplayHandler="*res://scripts/display_handler.gd"
 ConfigHandler="*res://scripts/config_handler.gd"
 Localizations="*res://scripts/localizations.gd"
+Chapter3="*res://scripts/levels/chapter_3_levels.gd"
 
 [editor_plugins]
 

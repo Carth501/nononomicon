@@ -219,7 +219,15 @@ func get_header(axis: String) -> Dictionary:
 			for index in headers_overrides[axis].keys():
 				var complication = headers_overrides[axis][index][-1]
 				# get the last complication, save the rest for documentation
-				headers[index] = complication
+				headers[index] = complication.duplicate(true)
+	var variable_complications = get_variable_complications()
+	if variable_complications.size() > 0:
+		for i in headers:
+			for k in headers[i]:
+				for variable in variable_complications:
+					if k['length'] == variable.get('value'):
+						k['length'] = variable.get('glyph', "error")
+
 	return headers
 
 func get_footer(axis: String) -> Dictionary:
@@ -1360,6 +1368,9 @@ func handle_complications(list: Array):
 			match i['type']:
 				"delta":
 					handle_delta_complication(i)
+				"variable":
+					# Handle variable complications in get_header
+					pass
 				_:
 					print("Unknown complication type: ", i['type'])
 
@@ -1501,6 +1512,16 @@ func get_complications(axis: String, index: int) -> Array:
 		if subject_index != index:
 			continue
 		result_list.append(complication)
+	return result_list
+
+func get_variable_complications() -> Array:
+	var result_list = []
+	var parameters = get_level_parameters()
+	var complications = parameters.get('complications', [])
+	for complication in complications:
+		var type = complication.get('type', "")
+		if type == "variable":
+			result_list.append(complication)
 	return result_list
 #endregion Complications
 

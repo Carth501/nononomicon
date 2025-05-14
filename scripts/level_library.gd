@@ -1404,6 +1404,10 @@ var chapters: Dictionary = {
 			"contradiction", "category", "education", "point_of_contact",
 			"tundra", "professional", "oroboros", "trig3"],
 		"title": "Chapter 2"
+	},
+	"chapter3": {
+		"levels": ["variables"],
+		"title": "Chapter 3"
 	}
 }
 
@@ -1413,17 +1417,30 @@ func get_chapters() -> Dictionary:
 func get_levels(list: Array) -> Dictionary:
 	var result = {}
 	for level in list:
-		result[level] = levels[level]
+		if levels.has(level):
+			result[level] = levels[level]
+		elif Chapter3.levels.has(level):
+			result[level] = Chapter3.levels[level]
 	return result
 
 func get_level(level: String) -> Dictionary:
-	return levels[level]
+	if levels.has(level):
+		return levels[level]
+	elif Chapter3.levels.has(level):
+		return Chapter3.levels[level]
+	else:
+		return {}
 
 func get_level_parameters(level: String) -> Dictionary:
-	return levels[level].parameters
+	return get_level(level).get("parameters", {})
 
 func level_exists(level: String) -> bool:
-	return levels.has(level)
+	if levels.has(level):
+		return true
+	elif Chapter3.levels.has(level):
+		return true
+	else:
+		return false
 
 func get_next_level(level: String) -> String:
 	var chapter_key = get_chapter_for_level(level)
@@ -1470,7 +1487,7 @@ func get_chapter_for_level(level: String) -> String:
 	return ""
 
 func get_level_name(level: String) -> String:
-	return levels[level].name
+	return get_level(level).name
 
 func get_chapter_name(chapter: String) -> String:
 	return chapters[chapter].title
