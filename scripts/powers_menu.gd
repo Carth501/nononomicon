@@ -1,4 +1,4 @@
-extends ScrollContainer
+class_name PowersMenu extends ScrollContainer
 
 @export var power_button_container: VBoxContainer
 var generic_button_scene := preload("res://scenes/generic_selection_button.tscn")

@@ -11,7 +11,7 @@
 [ext_resource type="Script" uid="uid://bwbhgqxg25ve0" path="res://scripts/features_display.gd" id="7_pbmpp"]
 [ext_resource type="PackedScene" uid="uid://cm2a3612ia7mn" path="res://scenes/feature_item.tscn" id="8_ygvtv"]
 
-[node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("game_ui", "board", "split_container", "submission_button", "index_page", "next_button", "prev_button", "command_console", "drawer", "descriptions", "level_title", "tutorial_text", "power_description_container", "power_description", "power_name", "debug_menu", "stack_container", "stack_list", "hint_button")]
+[node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("game_ui", "board", "split_container", "submission_button", "index_page", "next_button", "prev_button", "command_console", "drawer", "descriptions", "level_title", "tutorial_text", "power_description_container", "power_description", "power_name", "debug_menu", "stack_container", "stack_list", "hint_button", "tab_menus", "power_menu")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -39,6 +39,8 @@ debug_menu = NodePath("DebugOptions")
 stack_container = NodePath("StackDisplay")
 stack_list = NodePath("StackDisplay/PanelContainer/List")
 hint_button = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer/HintButton")
+tab_menus = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/TabMenus")
+power_menu = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/TabMenus/Powers")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -113,10 +115,6 @@ text = "Submit"
 layout_mode = 2
 text = "Save"
 
-[node name="ResetButton" type="Button" parent="HSplitContainer/Drawer/VBoxContainer/GameUI/GameControlsContainer"]
-layout_mode = 2
-text = "Reset"
-
 [node name="MainMenuButton" type="Button" parent="HSplitContainer/Drawer/VBoxContainer/GameUI/GameControlsContainer"]
 layout_mode = 2
 text = "Main Menu"
@@ -135,6 +133,10 @@ text = "Clear Notes"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/Drawer/VBoxContainer/GameUI"]
 layout_mode = 2
+
+[node name="ResetButton" type="Button" parent="HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer"]
+layout_mode = 2
+text = "Reset"
 
 [node name="HintButton" type="Button" parent="HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer"]
 layout_mode = 2
@@ -200,6 +202,7 @@ layout_mode = 2
 
 [node name="LevelTitle" type="Label" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/LevelDescription"]
 layout_mode = 2
+size_flags_vertical = 6
 
 [node name="Tutorial" type="RichTextLabel" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/LevelDescription"]
 layout_mode = 2
@@ -207,17 +210,18 @@ size_flags_vertical = 3
 bbcode_enabled = true
 fit_content = true
 
-[node name="TabContainer" type="TabContainer" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer"]
+[node name="TabMenus" type="TabContainer" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer"]
 layout_mode = 2
+size_flags_vertical = 3
 current_tab = 0
 
-[node name="Powers" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/TabContainer" instance=ExtResource("6_3fro6")]
+[node name="Powers" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/TabMenus" instance=ExtResource("6_3fro6")]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_vertical = 3
 metadata/_tab_index = 0
 
-[node name="Features" type="ScrollContainer" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/TabContainer" node_paths=PackedStringArray("feature_container")]
+[node name="Features" type="ScrollContainer" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/TabMenus" node_paths=PackedStringArray("feature_container")]
 visible = false
 layout_mode = 2
 script = ExtResource("7_pbmpp")
@@ -225,7 +229,7 @@ feature_item = ExtResource("8_ygvtv")
 feature_container = NodePath("HFlowContainer")
 metadata/_tab_index = 1
 
-[node name="HFlowContainer" type="HFlowContainer" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/TabContainer/Features"]
+[node name="HFlowContainer" type="HFlowContainer" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/TabMenus/Features"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -277,8 +281,8 @@ grow_vertical = 0
 [node name="DragHandler" type="Node" parent="."]
 script = ExtResource("7_lsml7")
 
-[connection signal="resized" from="." to="." method="_on_resized"]
 [connection signal="resized" from="." to="." method="resize_board"]
+[connection signal="resized" from="." to="." method="_on_resized"]
 [connection signal="level_selected" from="Index" to="." method="open_page"]
 [connection signal="dragged" from="HSplitContainer" to="." method="on_drawer_dragged"]
 [connection signal="resized" from="HSplitContainer/NonogramBoard" to="HSplitContainer/NonogramBoard" method="resize_board"]
@@ -287,10 +291,10 @@ script = ExtResource("7_lsml7")
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/LevelControlsContainer/PrevButton" to="." method="_on_prev_button_pressed"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/GameControlsContainer/SubmitButton" to="." method="_on_submit_pressed"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/GameControlsContainer/SaveButton" to="." method="_on_save_button_pressed"]
-[connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/GameControlsContainer/ResetButton" to="." method="_on_reset_pressed"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/GameControlsContainer/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
 [connection signal="toggled" from="HSplitContainer/Drawer/VBoxContainer/GameUI/NotesContainer/NotesSwitch" to="." method="_on_notes_switch_toggled"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/NotesContainer/ClearNotesButton" to="." method="_on_clear_notes"]
+[connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer/ResetButton" to="." method="_on_reset_pressed"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer/HintButton" to="." method="_on_hint_button_pressed"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer/CheatButton" to="." method="cheat"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/StackControls/UndoButton" to="." method="_on_undo_button_pressed"]

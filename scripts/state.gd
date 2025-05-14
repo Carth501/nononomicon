@@ -1720,17 +1720,16 @@ func power_bind():
 		index_seed = value
 	for i in range(bind_list.size()):
 		lock_square(bind_list[i])
-	print("Power bind: ", bind_list)
 	use_charge("power_bind")
 
-func get_powers():
+func get_powers() -> Dictionary:
 	if active_id == "default":
-		return []
+		return {}
 	if ! master.has(active_id):
 		push_error("Attempted to get powers with invalid id: ", active_id)
-		return []
+		return {}
 	if ! master [active_id].has(POWERS_KEY):
-		return []
+		return {}
 	return master [active_id][POWERS_KEY]
 
 func set_powers(powers: Dictionary):

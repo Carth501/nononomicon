@@ -22,6 +22,8 @@ var index := preload("res://scenes/index.tscn")
 @export var stack_container: ScrollContainer
 @export var stack_list: VBoxContainer
 @export var hint_button: Button
+@export var tab_menus: TabContainer
+@export var power_menu: PowersMenu
 var drawer_width_percent := 0.7
 
 func _ready():
@@ -37,6 +39,7 @@ func _ready():
 	State.squares_correct.connect(handle_squares_correct)
 	State.level_changed.connect(reset_submission_button)
 	State.victory_changed.connect(reset_submission_button)
+	State.level_changed.connect(toggle_power_menu)
 
 func open_page(id: String):
 	if (id == "index"):
@@ -244,3 +247,12 @@ func reset_submission_button(_value: bool = false):
 	else:
 		submission_button.disabled = false
 		submission_button.remove_theme_color_override("font_color")
+
+func toggle_power_menu():
+	var has_powers = State.get_powers().size() > 0
+	if has_powers:
+		tab_menus.set_tab_disabled(0, false)
+		tab_menus.current_tab = 0
+	else:
+		tab_menus.set_tab_disabled(0, true)
+		tab_menus.current_tab = 1
