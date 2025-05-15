@@ -151,13 +151,12 @@ var levels: Dictionary = {
 			},
 			"tutorial": '\tNotes are now available. Use them to speculate on the ' +
 				'possibilities.',
-			"features":
-				{
-					"header_assist": State.HeaderAssistLevel.LENGTH,
-					"percent_marked": false,
-					"notes": true,
-					"submit_button_assist": true,
-				},
+			"features": {
+				"header_assist": State.HeaderAssistLevel.LENGTH,
+				"percent_marked": false,
+				"notes": true,
+				"submit_button_assist": true,
+			},
 		}
 	},
 	"orbitals": {
@@ -304,6 +303,58 @@ var levels: Dictionary = {
 					Vector2i(7, 4),
 				],
 			]
+		}
+	},
+	"the_trap": {
+		"name": "The Trap",
+		"parameters": {
+			"seed": 38,
+			"size": Vector2i(12, 12),
+			"features":
+				{
+					"header_assist": State.HeaderAssistLevel.LENGTH,
+					"percent_marked": false,
+					"timer": true,
+					"notes": false,
+				},
+			"randomness": 0.5,
+			"tutorial": '\tConstruct a snare for the powers you will need. The bars ' +
+				'of this prison will be a derivative of your own, but at least you will ' +
+				'be outside these.',
+			"locks": [
+				Vector2i(4, 6),
+				Vector2i(9, 7),
+			],
+			"generation": {
+				"method": "waveform",
+				"constant": 0,
+				"series": [
+					[
+						{
+							"frequency": Vector2(4, 4),
+							"offset": Vector2(3, 3),
+						}
+					],
+					[
+						{
+							"frequency": Vector2(4, 4),
+							"offset": Vector2(-3, 3),
+						}
+					],
+					[
+						{
+							"frequency": Vector2(4, 4),
+							"offset": Vector2(3, -3),
+						}
+					],
+					[
+						{
+							"frequency": Vector2(4, 4),
+							"offset": Vector2(-3, -3),
+						}
+					]
+				]
+			},
 		}
 	},
 	"trig": {
@@ -1394,7 +1445,7 @@ var levels: Dictionary = {
 var chapters: Dictionary = {
 	"chapter1": {
 		"levels": ["intro", "basics", "orbitals", "jack_and_hide",
-			"elaborate", "trig", "ellipse", "didactic", "painting",
+			"elaborate", "the_trap", "trig", "ellipse", "didactic", "painting",
 			"locks", "magenta", "response", "big", "trig2"],
 		"title": "Chapter 1"
 	},
