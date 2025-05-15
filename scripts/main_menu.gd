@@ -3,8 +3,10 @@ extends Control
 @export var save_management_panel: SaveLoadInterface
 @export var continue_button: Button
 @export var options_menu: OptionsMenu
+@export var version_label: Label
 
 func _ready() -> void:
+	version_label.text = "v" + str(ProjectSettings.get_setting("application/config/version"))
 	if SaveManager.get_save_file_list().size() == 0:
 		continue_button.disabled = true
 	else:
