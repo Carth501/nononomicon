@@ -202,9 +202,9 @@ func calculate_percent_marked():
 	var percent_marked = floori(State.get_percent_marked() * 100.0)
 	percent_marked_label.text = str(percent_marked) + "%"
 	if percent_marked == 100:
-		percent_marked_label.add_theme_color_override("font_color", Color(0.1, 0.8, 0.1))
+		percent_marked_label.add_theme_color_override("font_color", Color('#82ed72'))
 	else:
-		percent_marked_label.add_theme_color_override("font_color", Color(1, 1, 1))
+		percent_marked_label.remove_theme_color_override("font_color")
 
 func toggle_submission_error_display():
 	var params = State.get_level_parameters()

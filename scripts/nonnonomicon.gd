@@ -223,7 +223,7 @@ func handle_squares_correct(value: bool):
 	if submit_button_assist:
 		if value:
 			submission_button.disabled = false
-			submission_button.add_theme_color_override("font_color", Color(0.1, 0.9, 0.1))
+			submission_button.add_theme_color_override("font_color", Color("#82ed72"))
 		else:
 			submission_button.disabled = true
 			submission_button.remove_theme_color_override("font_color")
@@ -241,7 +241,7 @@ func reset_submission_button(_value: bool = false):
 		var submit_ready = victory || !correct_map
 		submission_button.disabled = submit_ready
 		if submit_ready:
-			submission_button.add_theme_color_override("font_color", Color(0.1, 0.9, 0.1))
+			submission_button.add_theme_color_override("font_color", Color("#82ed72"))
 		else:
 			submission_button.remove_theme_color_override("font_color")
 	else:

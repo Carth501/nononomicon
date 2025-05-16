@@ -32,7 +32,7 @@ func set_level_finished(level_id: String):
 		var button: Generic_Selection_Button = level_buttons[level_id]
 		var level_complete = State.get_victory_state_by_id(level_id)
 		if level_complete:
-			button.add_theme_color_override("font_color", Color(0.1, 0.9, 0.1))
+			button.add_theme_color_override("font_color", Color("#82ed72"))
 		else:
 			button.remove_theme_color_override("font_color")
 
