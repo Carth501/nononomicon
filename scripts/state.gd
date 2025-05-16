@@ -452,6 +452,7 @@ func reset():
 			master [active_id][SUBMISSION_ERROR_COUNT_KEY] = 0
 		if master [active_id].has(TIMER_KEY):
 			master [active_id][TIMER_KEY] = 0
+			timer_changed.emit(0)
 			timer.start()
 
 func clear_notes():
@@ -1315,7 +1316,6 @@ func find_error_lines_for_axis(axis: String) -> Array:
 			if target_sequence[j]['length'] != sequence[j]['length']:
 				errors.append(i)
 				break
-			
 	return errors
 	
 #region Victory Handling
