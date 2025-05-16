@@ -13,6 +13,8 @@ func generate_cells(values: Dictionary):
 		new_cell.generate_labels(values[i])
 		add_child(new_cell)
 		cells.append(new_cell)
+		var complication_count = State.get_complications('X', i).size()
+		new_cell.set_complication(complication_count > 0)
 
 func get_cell(index: int) -> XHeader:
 	if (index >= 0 and index < cells.size()):

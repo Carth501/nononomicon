@@ -1,16 +1,35 @@
-[gd_scene load_steps=2 format=3 uid="uid://csarnlsk05pt4"]
+[gd_scene load_steps=3 format=3 uid="uid://csarnlsk05pt4"]
 
 [ext_resource type="Script" uid="uid://bycfx840ky4hq" path="res://scripts/x_header_cell.gd" id="1_yv2ja"]
 
-[node name="XHeaderCell" type="BoxContainer" node_paths=PackedStringArray("numbers_container", "highlighter_spacer", "error_spacer")]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1rbk7"]
+
+[node name="XHeaderCell" type="PanelContainer" node_paths=PackedStringArray("numbers_container", "highlighter_rect", "error_rect", "complication_rect")]
 custom_minimum_size = Vector2(64, 90)
-offset_right = 64.0
+offset_right = 68.0
 offset_bottom = 90.0
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_1rbk7")
 script = ExtResource("1_yv2ja")
 numbers_container = NodePath("VBoxContainer")
-highlighter_spacer = NodePath("VBoxContainer/HighlighterSpacer")
-error_spacer = NodePath("VBoxContainer/ErrorSpacer")
+highlighter_rect = NodePath("HighlighterRect")
+error_rect = NodePath("ErrorRect")
+complication_rect = NodePath("ComplicationRect")
+
+[node name="ComplicationRect" type="ColorRect" parent="."]
+visible = false
+layout_mode = 2
+color = Color(0.333333, 0.407843, 0.45098, 1)
+
+[node name="ErrorRect" type="ColorRect" parent="."]
+visible = false
+layout_mode = 2
+color = Color(0.803922, 0.0941176, 0.0941176, 1)
+
+[node name="HighlighterRect" type="ColorRect" parent="."]
+visible = false
+layout_mode = 2
+color = Color(0.768627, 0.6, 0.286275, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 custom_minimum_size = Vector2(60, 0)
@@ -18,15 +37,3 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 alignment = 2
-
-[node name="HighlighterSpacer" type="ColorRect" parent="VBoxContainer"]
-visible = false
-layout_mode = 2
-size_flags_vertical = 3
-color = Color(0.768627, 0.6, 0.286275, 1)
-
-[node name="ErrorSpacer" type="ColorRect" parent="VBoxContainer"]
-visible = false
-layout_mode = 2
-size_flags_vertical = 3
-color = Color(0.803922, 0.0941176, 0.0941176, 1)

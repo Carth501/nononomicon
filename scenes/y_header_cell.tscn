@@ -1,32 +1,41 @@
-[gd_scene load_steps=2 format=3 uid="uid://wlq3233c0ym2"]
+[gd_scene load_steps=3 format=3 uid="uid://wlq3233c0ym2"]
 
 [ext_resource type="Script" uid="uid://dvf3iyf2igoe6" path="res://scripts/y_header_cell.gd" id="1_qqp1n"]
 
-[node name="YHeaderCell" type="BoxContainer" node_paths=PackedStringArray("numbers_container", "highlighter_spacer", "error_spacer")]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dcu1k"]
+
+[node name="YHeaderCell" type="PanelContainer" node_paths=PackedStringArray("numbers_container", "highlighter_rect", "error_rect", "complication_rect")]
 custom_minimum_size = Vector2(90, 64)
 offset_right = 90.0
 offset_bottom = 64.0
 size_flags_horizontal = 3
-alignment = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_dcu1k")
 script = ExtResource("1_qqp1n")
 numbers_container = NodePath("HBoxContainer")
-highlighter_spacer = NodePath("HBoxContainer/HighlighterSpacer")
-error_spacer = NodePath("HBoxContainer/ErrorSpacer")
+highlighter_rect = NodePath("HighlighterRect")
+error_rect = NodePath("ErrorRect")
+complication_rect = NodePath("ComplicationRect")
+
+[node name="ComplicationRect" type="ColorRect" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.333, 0.4071, 0.45, 1)
+
+[node name="ErrorRect" type="ColorRect" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.803922, 0.0941176, 0.0941176, 1)
+
+[node name="HighlighterRect" type="ColorRect" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.768627, 0.6, 0.286275, 1)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 alignment = 2
-
-[node name="HighlighterSpacer" type="ColorRect" parent="HBoxContainer"]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-color = Color(0.768627, 0.6, 0.286275, 1)
-
-[node name="ErrorSpacer" type="ColorRect" parent="HBoxContainer"]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-color = Color(0.803922, 0.0941176, 0.0941176, 1)

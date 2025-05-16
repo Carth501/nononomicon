@@ -1,8 +1,9 @@
 class_name YHeader extends Control
 
 @export var numbers_container: HBoxContainer
-@export var highlighter_spacer: ColorRect
-@export var error_spacer: ColorRect
+@export var highlighter_rect: ColorRect
+@export var error_rect: ColorRect
+@export var complication_rect: ColorRect
 var y_header_label_scene = preload("res://scenes/y_header_label.tscn")
 var labels: Array = []
 
@@ -14,14 +15,13 @@ func generate_labels(values: Array):
 		labels.append(new_label)
 
 func set_highlighter(value: bool):
-	for label in labels:
-		label.set_highlighter(value)
-	highlighter_spacer.visible = value
+	highlighter_rect.visible = value
 
 func set_error(value: bool):
-	for label in labels:
-		label.set_error(value)
-	error_spacer.visible = value
+	error_rect.visible = value
+
+func set_complication(value: bool):
+	complication_rect.visible = value
 
 func set_assist(comparison: Array):
 	if labels.size() != comparison.size():
@@ -31,8 +31,8 @@ func set_assist(comparison: Array):
 	for i in range(labels.size()):
 		if comparison[i]['length']:
 			if comparison[i].has('location') and comparison[i]['location']:
-				labels[i].set("theme_override_colors/font_color", Color(0.9, 0.9, 0.1))
+				labels[i].set("theme_override_colors/font_color", Color('#837386'))
 			else:
-				labels[i].set("theme_override_colors/font_color", Color(0.1, 0.9, 0.1))
+				labels[i].set("theme_override_colors/font_color", Color('#82ed72'))
 		else:
-			labels[i].set("theme_override_colors/font_color", Color(1, 1, 1))
+			labels[i].remove_theme_color_override("font_color")

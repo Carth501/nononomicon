@@ -50,6 +50,7 @@ vertical_alignment = 1
 [node name="HintSquare" type="ColorRect" parent="."]
 visible = false
 show_behind_parent = true
+layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
 mouse_filter = 2
