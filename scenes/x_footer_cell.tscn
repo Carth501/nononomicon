@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b173lktbx6f5r" path="res://scripts/x_footer_cell.gd" id="1_ig8fa"]
 
-[node name="Panel" type="Control" node_paths=PackedStringArray("label_container", "highlight_square", "error_square")]
+[node name="Panel" type="Control" node_paths=PackedStringArray("label_container", "highlight_square", "error_square", "complication_square")]
 custom_minimum_size = Vector2(64, 90)
 layout_mode = 3
 anchors_preset = 0
@@ -12,9 +12,21 @@ script = ExtResource("1_ig8fa")
 label_container = NodePath("VBoxContainer")
 highlight_square = NodePath("HighlighterRect")
 error_square = NodePath("ErrorRect")
+complication_square = NodePath("ComplicationRect")
+
+[node name="ComplicationRect" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.467285, 0.175577, 0.10316, 1)
 
 [node name="ErrorRect" type="ColorRect" parent="."]
 visible = false
+layout_mode = 0
 offset_right = 64.0
 offset_bottom = 90.0
 color = Color(0.803922, 0.0941176, 0.0941176, 1)

@@ -3,6 +3,7 @@ class_name YFooterCell extends Control
 @export var label_container: VBoxContainer
 @export var highlight_square: ColorRect
 @export var error_square: ColorRect
+@export var complication_square: ColorRect
 
 func generate_labels(values: Array):
 	for i in values:
@@ -18,3 +19,6 @@ func set_highlighter(value: bool):
 
 func set_error(value: bool):
 	error_square.visible = value
+
+func set_complication(value: bool):
+	complication_square.visible = value
