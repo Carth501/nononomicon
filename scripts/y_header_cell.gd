@@ -4,12 +4,12 @@ class_name YHeader extends Control
 @export var highlighter_rect: ColorRect
 @export var error_rect: ColorRect
 @export var complication_rect: ColorRect
-var y_header_label_scene = preload("res://scenes/y_header_label.tscn")
 var labels: Array = []
 
 func generate_labels(values: Array):
 	for i in values:
-		var new_label = y_header_label_scene.instantiate()
+		var new_label = Label.new()
+		new_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		new_label.set_text(" " + i.length + " ")
 		numbers_container.add_child(new_label)
 		labels.append(new_label)
