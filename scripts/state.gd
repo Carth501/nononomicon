@@ -452,6 +452,7 @@ func reset():
 			master [active_id][SUBMISSION_ERROR_COUNT_KEY] = 0
 		if master [active_id].has(TIMER_KEY):
 			master [active_id][TIMER_KEY] = 0
+			timer.start()
 
 func clear_notes():
 	if master.has(active_id):
@@ -1322,6 +1323,7 @@ func set_victory_true():
 	master [active_id][VICTORY_KEY] = true
 	victory_changed.emit(true)
 	level_victory_changed.emit(active_id)
+	timer.stop()
 
 func get_victory_count() -> int:
 	var count = 0
