@@ -215,6 +215,8 @@ func _on_redo_button_pressed() -> void:
 func reset_timer():
 	if !State.get_victory_state():
 		State.start_timer()
+	else:
+		State.stop_timer()
 
 func handle_squares_correct(value: bool):
 	var params = State.get_level_parameters()
