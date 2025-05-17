@@ -129,25 +129,27 @@ func sort_children() -> void:
 	footer_col_scroll.position = Vector2(col_head_width + nonogram_scroll_container.size.x, row_head_height)
 	guidelines_mask.size = nonogram_scroll_container.size
 	guidelines_mask.global_position = nonogram_scroll_container.global_position
+	var left_edge_position = x_margin + col_head_width
+	var top_edge_position = y_margin + row_head_height
 	coords_display.global_position = Vector2(
-		x_margin + col_head_width + header_row_scroll.size.x + 8,
-		y_margin + row_head_height - coords_display.size.y - 8
+		left_edge_position + header_row_scroll.size.x + 8,
+		top_edge_position - coords_display.size.y - 8
 		)
 	board_size_display.global_position = Vector2(
-		x_margin + col_head_width - board_size_display.size.x - 8,
-		y_margin + row_head_height - board_size_display.size.y - 8
+		left_edge_position - board_size_display.size.x - 8,
+		top_edge_position - board_size_display.size.y - 8
 		)
 	percent_marked_label.global_position = Vector2(
-		x_margin + col_head_width + header_row_scroll.size.x + 8,
-		y_margin + row_head_height + header_col_scroll.size.y + 8
+		left_edge_position + header_row_scroll.size.x + 8,
+		top_edge_position + header_col_scroll.size.y + 8
 		)
 	submission_error_display.global_position = Vector2(
-		x_margin + col_head_width - 8,
-		y_margin + row_head_height + header_col_scroll.size.y + 8
+		left_edge_position - 8,
+		top_edge_position + header_col_scroll.size.y + 8
 		)
 	timer_display.global_position = Vector2(
-		x_margin + col_head_width - timer_display.size.x - 8,
-		y_margin + row_head_height + header_col_scroll.size.y + 8
+		left_edge_position - timer_display.size.x - 8,
+		top_edge_position + header_col_scroll.size.y + 8
 		)
 
 func update_header_assist(comparisons: Dictionary):
