@@ -121,6 +121,8 @@ func load_save(save: Dictionary):
 	for level in save.keys():
 		if !LevelLibrary.level_exists(level):
 			continue
+		if !LevelLibrary.get_level_available(level):
+			continue
 		master [level] = {}
 		active_id = level
 		setup(LevelLibrary.get_level_parameters(level))

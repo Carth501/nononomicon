@@ -25,6 +25,7 @@ func _ready() -> void:
 			level_buttons[level] = button
 			button.hide()
 			set_level_finished(level)
+			button.set_disabled(!LevelLibrary.get_level_available(level))
 	State.level_victory_changed.connect(set_level_finished)
 
 func set_level_finished(level_id: String):

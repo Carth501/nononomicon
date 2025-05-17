@@ -1447,14 +1447,16 @@ var chapters: Dictionary = {
 		"levels": ["intro", "basics", "orbitals", "jack_and_hide",
 			"elaborate", "the_trap", "trig", "ellipse", "didactic", "painting",
 			"locks", "magenta", "response", "big", "trig2"],
-		"title": "Chapter 1"
+		"title": "Chapter 1",
+		"demo": true
 	},
 	"chapter2": {
 		"levels": ["delta", "discovery", "vermillion", "tea_tumbler",
 			"onomonopia", "positive", "mistrust", "binding", "breaking", "something_deeper",
 			"contradiction", "category", "education", "point_of_contact",
 			"tundra", "professional", "oroboros", "trig3"],
-		"title": "Chapter 2"
+		"title": "Chapter 2",
+		"demo": true
 	},
 	"chapter3": {
 		"levels": ["variables", "elbredth", "lattice", "talisman",
@@ -1469,19 +1471,21 @@ func get_chapters() -> Dictionary:
 func get_levels(list: Array) -> Dictionary:
 	var result = {}
 	for level in list:
-		if levels.has(level):
-			result[level] = levels[level]
-		elif Chapter3.levels.has(level):
-			result[level] = Chapter3.levels[level]
+		result[level] = get_level(level)
 	return result
 
 func get_level(level: String) -> Dictionary:
+	var level_data
 	if levels.has(level):
-		return levels[level]
+		level_data = levels[level]
 	elif Chapter3.levels.has(level):
-		return Chapter3.levels[level]
+		level_data = Chapter3.levels[level]
 	else:
-		return {}
+		level_data = {}
+	if ProjectSettings.get_setting("application/config/is_demo") && !is_level_in_demo(level):
+		return filter_demo(level_data)
+	else:
+		return level_data
 
 func get_level_parameters(level: String) -> Dictionary:
 	return get_level(level).get("parameters", {})
@@ -1511,6 +1515,11 @@ func get_next_level(level: String) -> String:
 	return chapters[chapter_key]["levels"][level_index + 1]
 
 func has_next_level(level: String) -> bool:
+	var next_level = get_next_level(level)
+	if next_level == "":
+		return false
+	if get_level(next_level).get("parameters", {}).get("not_in_demo", false):
+		return false
 	return get_next_level(level) != ""
 
 func get_prev_level(level: String) -> String:
@@ -1543,3 +1552,20 @@ func get_level_name(level: String) -> String:
 
 func get_chapter_name(chapter: String) -> String:
 	return chapters[chapter].title
+
+func filter_demo(level: Dictionary) -> Dictionary:
+	return {
+		"name": level.name,
+		"not_in_demo": true
+	}
+
+func is_level_in_demo(level: String) -> bool:
+	var chapter_id = get_chapter_for_level(level)
+	var chapter = chapters.get(chapter_id, {})
+	return chapter.get("demo", false)
+
+func get_level_available(level: String) -> bool:
+	var level_data = get_level(level)
+	if level_data.get("not_in_demo", false):
+		return false
+	return true
