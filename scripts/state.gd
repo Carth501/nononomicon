@@ -222,14 +222,11 @@ func get_header(axis: String) -> Dictionary:
 				var complication = headers_overrides[axis][index][-1]
 				# get the last complication, save the rest for documentation
 				headers[index] = complication.duplicate(true)
-	var variable_complications = get_variable_complications()
-	if variable_complications.size() > 0:
+	for variable in get_variable_complications():
 		for i in headers:
 			for k in headers[i]:
-				for variable in variable_complications:
-					if k['length'] == variable.get('value'):
-						k['length'] = variable.get('glyph', "error")
-
+				if k['length'] == variable.get('value'):
+					k['length'] = variable.get('glyph', "error")
 	return headers
 
 func get_footer(axis: String) -> Dictionary:
