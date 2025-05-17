@@ -54,6 +54,14 @@ enum HeaderAssistLevel {
 	LENGTH_AND_LOCATION,
 }
 
+enum GenMethod {
+	DIAMOND,
+	SINE,
+	ELLIPSE,
+	WAVEFORM,
+	HANDCRAFTED
+}
+
 var chosen_coords: Vector2i = Vector2i(-1, -1)
 var master: Dictionary
 var SQUARE_MAP_KEY := 'square_map'
