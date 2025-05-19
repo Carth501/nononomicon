@@ -18,7 +18,7 @@ func set_highlighter(value: bool):
 	highlighter_rect.visible = value
 
 func set_error(value: bool):
-	highlighter_rect.visible = value
+	error_rect.visible = value
 
 func set_complication(value: bool):
 	complication_rect.visible = value
