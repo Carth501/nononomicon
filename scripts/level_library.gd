@@ -1092,6 +1092,10 @@ func get_level(level_id: String) -> Level:
 		push_error("Level not found in any chapter: ", level_id)
 	return null
 
+func get_level_index(level_id: String) -> int:
+	var level_id_list = get_level_id_list()
+	return level_id_list.find(level_id)
+
 func get_level_parameters(level: String) -> LevelParameters:
 	return get_level(level).parameters
 
@@ -1102,37 +1106,34 @@ func level_exists(level: String) -> bool:
 	else:
 		return true
 
-func get_level_list() -> Array:
-	var level_list = []
+func get_level_id_list() -> Array:
+	var level_id_list = []
 	for chapter in get_chapters().keys():
 		var chapter_levels = get_chapters()[chapter].levels
-		level_list.append_array(chapter_levels)
-	return level_list
+		for level in chapter_levels:
+			level_id_list.append(level.id)
+	return level_id_list
 
-func get_next_level(level: String) -> String:
-	var level_list = get_level_list()
-	var level_index = level_list.find(level)
+func get_next_level(level_id: String) -> String:
+	var level_id_list = get_level_id_list()
+	var level_index = level_id_list.find(level_id)
 	if level_index == -1:
 		return ""
-	if level_index == level_list.size() - 1:
+	if level_index == level_id_list.size() - 1:
 		return ""
-	return level_list[level_index + 1]
+	return level_id_list[level_index + 1]
 
 func has_next_level(level: String) -> bool:
-	var level_list = get_level_list()
-	var level_index = level_list.find(level)
-	if level_index == level_list.size() - 1:
-		return false
-	return true
+	return get_next_level(level) != ""
 
-func get_prev_level(level: String) -> String:
-	var level_list = get_level_list()
-	var level_index = level_list.find(level)
+func get_prev_level(level_id: String) -> String:
+	var level_id_list = get_level_id_list()
+	var level_index = level_id_list.find(level_id)
 	if level_index == -1:
 		return ""
 	if level_index == 0:
 		return ""
-	return level_list[level_index - 1]
+	return level_id_list[level_index - 1]
 
 func has_prev_level(level: String) -> bool:
 	return get_prev_level(level) != ""
