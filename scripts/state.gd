@@ -108,9 +108,9 @@ func setup(parameters: LevelParameters) -> void:
 	generate_target_map(parameters)
 	generate_empty_map()
 	handle_complications(parameters['complications'])
+	board_ready.emit()
 	for coords in parameters.locks:
 		lock_square(coords)
-	board_ready.emit()
 
 func new_game():
 	master = {}
@@ -1777,11 +1777,11 @@ func get_next_hint() -> Array:
 	var hints = get_hints()
 	for hint in hints:
 		var complete = true
-		for square in hint:
+		for square in hint.square_list:
 			if get_position_state(square) != get_target_position(square):
 				complete = false
 		if !complete:
-			return hint
+			return hint.square_list
 	return []
 
 func request_hint():
