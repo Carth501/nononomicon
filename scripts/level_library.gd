@@ -1,6 +1,6 @@
 extends Node
 
-var chapter1 = preload("res://resources/levels/chapter.gd")
+var chapter1 = preload("res://data/content/chapters/Chapter1.tres")
 
 var levels: Dictionary = {
 	"painting": {
@@ -1043,30 +1043,33 @@ var levels: Dictionary = {
 		}
 	},
 }
-var chapters: Dictionary = {
-	"chapter1": {
-		"levels": ["intro", "basics", "orbitals", "jack_and_hide",
-			"elaborate", "the_trap", "trig", "ellipse", "didactic", "painting",
-			"locks", "magenta", "response", "big", "trig2"],
-		"title": "Chapter 1",
-		"demo": true
-	},
-	"chapter2": {
-		"levels": ["delta", "discovery", "vermillion", "tea_tumbler",
-			"onomonopia", "positive", "mistrust", "binding", "breaking", "something_deeper",
-			"contradiction", "category", "education", "point_of_contact",
-			"tundra", "professional", "oroboros", "trig3"],
-		"title": "Chapter 2",
-		"demo": true
-	},
-	"chapter3": {
-		"levels": ["variables", "elbredth", "lattice", "talisman",
-			"gem_of_the_dead", "now_use_it"],
-		"title": "Chapter 3"
-	}
-}
+# var chapters: Dictionary = {
+# 	"chapter1": {
+# 		"levels": ["intro", "basics", "orbitals", "jack_and_hide",
+# 			"elaborate", "the_trap", "trig", "ellipse", "didactic", "painting",
+# 			"locks", "magenta", "response", "big", "trig2"],
+# 		"title": "Chapter 1",
+# 		"demo": true
+# 	},
+# 	"chapter2": {
+# 		"levels": ["delta", "discovery", "vermillion", "tea_tumbler",
+# 			"onomonopia", "positive", "mistrust", "binding", "breaking", "something_deeper",
+# 			"contradiction", "category", "education", "point_of_contact",
+# 			"tundra", "professional", "oroboros", "trig3"],
+# 		"title": "Chapter 2",
+# 		"demo": true
+# 	},
+# 	"chapter3": {
+# 		"levels": ["variables", "elbredth", "lattice", "talisman",
+# 			"gem_of_the_dead", "now_use_it"],
+# 		"title": "Chapter 3"
+# 	}
+# }
 
 func get_chapters() -> Dictionary:
+	var chapters = {
+		chapter1.id: chapter1
+	}
 	return chapters
 
 func get_levels(list: Array) -> Dictionary:
@@ -1075,84 +1078,70 @@ func get_levels(list: Array) -> Dictionary:
 		result[level] = get_level(level)
 	return result
 
-func get_level(level: String) -> Dictionary:
-	var level_data
-	if levels.has(level):
-		level_data = levels[level]
-	elif Chapter3.levels.has(level):
-		level_data = Chapter3.levels[level]
-	else:
-		level_data = {}
-	if ProjectSettings.get_setting("application/config/is_demo") && !is_level_in_demo(level):
-		return filter_demo(level_data)
-	else:
-		return level_data
+func get_level(level: String) -> Level:
+	var chapters = get_chapters()
+	for chapter in chapters.keys():
+		if level in chapters[chapter].levels:
+			return chapters[chapter].levels[level] as Level
+		push_error("Level not found in any chapter: ", level)
+	return null
 
-func get_level_parameters(level: String) -> Dictionary:
-	return get_level(level).get("parameters", {})
+func get_level_parameters(level: String) -> LevelParameters:
+	return get_level(level).parameters
 
 func level_exists(level: String) -> bool:
-	if levels.has(level):
-		return true
-	elif Chapter3.levels.has(level):
-		return true
-	else:
+	var level_data = get_level(level)
+	if level_data == null:
 		return false
+	else:
+		return true
+
+func get_level_list() -> Array:
+	var level_list = []
+	for chapter in get_chapters().keys():
+		for level in get_chapters()[chapter].levels:
+			level_list.append(level)
+	return level_list
 
 func get_next_level(level: String) -> String:
-	var chapter_key = get_chapter_for_level(level)
-	if chapter_key == "":
-		return ""
-	var level_index = chapters[chapter_key].levels.find(level)
+	var level_list = get_level_list()
+	var level_index = level_list.find(level)
 	if level_index == -1:
 		return ""
-	if level_index == chapters[chapter_key].levels.size() - 1:
-		var chapter_index = chapters.keys().find(chapter_key)
-		if chapter_index == chapters.size() - 1:
-			return ""
-		else:
-			var next_chapter_key = chapters.keys()[chapter_index + 1]
-			return chapters[next_chapter_key].levels[0]
-	return chapters[chapter_key]["levels"][level_index + 1]
+	if level_index == level_list.size() - 1:
+		return ""
+	return level_list[level_index + 1]
 
 func has_next_level(level: String) -> bool:
-	var next_level = get_next_level(level)
-	if next_level == "":
+	var level_list = get_level_list()
+	var level_index = level_list.find(level)
+	if level_index == level_list.size() - 1:
 		return false
-	if get_level(next_level).get("parameters", {}).get("not_in_demo", false):
-		return false
-	return get_next_level(level) != ""
+	return true
 
 func get_prev_level(level: String) -> String:
-	var chapter_key = get_chapter_for_level(level)
-	if chapter_key == "":
-		return ""
-	var level_index = chapters[chapter_key].levels.find(level)
+	var level_list = get_level_list()
+	var level_index = level_list.find(level)
 	if level_index == -1:
 		return ""
 	if level_index == 0:
-		var chapter_index = chapters.keys().find(chapter_key)
-		if chapter_index == 0:
-			return ""
-		else:
-			var prev_chapter_key = chapters.keys()[chapter_index - 1]
-			return chapters[prev_chapter_key].levels.back()
-	return chapters[chapter_key]["levels"][level_index - 1]
+		return ""
+	return level_list[level_index - 1]
 
 func has_prev_level(level: String) -> bool:
 	return get_prev_level(level) != ""
 
 func get_chapter_for_level(level: String) -> String:
-	for chapter in chapters.keys():
-		if level in chapters[chapter].levels:
-			return chapter
+	for chapter_id in get_chapters().keys():
+		if get_chapters()[chapter_id].levels.has(level):
+			return chapter_id
 	return ""
 
 func get_level_name(level: String) -> String:
 	return get_level(level).name
 
 func get_chapter_name(chapter: String) -> String:
-	return chapters[chapter].title
+	return get_chapters()[chapter].id
 
 func filter_demo(level: Dictionary) -> Dictionary:
 	return {
@@ -1162,11 +1151,8 @@ func filter_demo(level: Dictionary) -> Dictionary:
 
 func is_level_in_demo(level: String) -> bool:
 	var chapter_id = get_chapter_for_level(level)
-	var chapter = chapters.get(chapter_id, {})
-	return chapter.get("demo", false)
+	return get_chapters()[chapter_id].in_demo
 
 func get_level_available(level: String) -> bool:
-	var level_data = get_level(level)
-	if level_data.get("not_in_demo", false):
-		return false
-	return true
+	## this is where bonus level unlocking logic may go
+	return is_level_in_demo(level)

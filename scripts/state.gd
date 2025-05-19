@@ -97,7 +97,7 @@ func _ready():
 	timer.one_shot = false
 	timer.timeout.connect(handle_timer)
 
-func setup(parameters: Dictionary) -> void:
+func setup(parameters: LevelParameters) -> void:
 	sanity_check_parameters(parameters)
 	if (parameters.has('seed')):
 		set_seed(parameters['seed'])
@@ -112,7 +112,6 @@ func setup(parameters: Dictionary) -> void:
 	if parameters.has('powers'):
 		set_powers(parameters['powers'])
 	generate_target_map(parameters)
-	prepare_square_map(parameters)
 	if (parameters.has('complications')):
 		master [active_id][HEADERS_OVERRIDE_KEY] = {}
 		handle_complications(parameters['complications'])
@@ -243,11 +242,11 @@ func get_footer(axis: String) -> Dictionary:
 	else:
 		return {}
 
-func get_level_parameters() -> Dictionary:
+func get_level_parameters() -> LevelParameters:
 	if LevelLibrary.level_exists(active_id):
 		return LevelLibrary.get_level_parameters(active_id)
 	else:
-		return {}
+		return null
 
 func get_guideline_interval() -> Vector2i:
 	var SIZE = master [active_id][SIZE_KEY]
@@ -411,14 +410,6 @@ func get_square_correct(coords: Vector2i) -> bool:
 	elif target_state != SquareStates.MARKED and square_state != SquareStates.MARKED:
 		return true
 	return false
-
-func prepare_square_map(parameters: Dictionary):
-	if master [active_id].has(SQUARE_MAP_KEY):
-		return
-	elif parameters.has('square_map'):
-		set_square_map(parameters['square_map'])
-	else:
-		generate_empty_map()
 
 func generate_empty_map():
 	var SIZE = get_size()
@@ -595,7 +586,7 @@ func set_toggle_state(new_state: ToggleStates):
 	toggle_state_changed.emit(toggle_state)
 
 func handle_note_press():
-	var features = get_level_parameters().get('features', {})
+	var features = get_level_parameters().features
 	if features.has('notes') and !features['notes']:
 		return
 	if Input.is_action_just_pressed("Note"):
@@ -607,7 +598,7 @@ func handle_note_press():
 #endregion Input Handling
 
 #region Target Map Generation
-func generate_target_map(parameters: Dictionary):
+func generate_target_map(parameters: LevelParameters):
 	if (parameters.has('generation')):
 		if not parameters['generation'].has('method'):
 			printerr("Target map generation method not specified")
@@ -638,7 +629,7 @@ func generate_target_map(parameters: Dictionary):
 				set_target_position(coords, SquareStates.EMPTY)
 	generate_headers()
 
-func random_center_diamond_map(parameters: Dictionary):
+func random_center_diamond_map(parameters: LevelParameters):
 	master [active_id][TARGET_MAP_KEY] = {}
 	var SIZE = get_size()
 	for i in SIZE.x:
@@ -650,7 +641,7 @@ func random_center_diamond_map(parameters: Dictionary):
 				random_value *= parameters['randomness']
 			var sum = absi(i - roundi(average / 2.0)) + absi(k - roundi(average / 2.0))
 			sum += random_value
-			var generation = parameters.get('generation', {})
+			var generation = parameters.generation
 			if generation.has('constant'):
 				sum += parameters['generation']['constant']
 			var marked = sum < roundi(average / 1.95)
@@ -659,7 +650,7 @@ func random_center_diamond_map(parameters: Dictionary):
 			else:
 				set_target_position(Vector2i(i, k), SquareStates.EMPTY)
 
-func generate_sine_map(parameters: Dictionary):
+func generate_sine_map(parameters: LevelParameters):
 	master [active_id][TARGET_MAP_KEY] = {}
 	var SIZE = get_size()
 	for i in SIZE.x:
@@ -683,7 +674,7 @@ func generate_sine_map(parameters: Dictionary):
 			else:
 				set_target_position(Vector2i(i, k), SquareStates.EMPTY)
 	
-func generate_ellipse_map(parameters: Dictionary):
+func generate_ellipse_map(parameters: LevelParameters):
 	master [active_id][TARGET_MAP_KEY] = {}
 	var SIZE = get_size()
 	for i in SIZE.x:
@@ -708,7 +699,7 @@ func generate_ellipse_map(parameters: Dictionary):
 			else:
 				set_target_position(Vector2i(i, k), SquareStates.EMPTY)
 
-func generate_waveform_map(parameters: Dictionary):
+func generate_waveform_map(parameters: LevelParameters):
 	master [active_id][TARGET_MAP_KEY] = {}
 	var SIZE = get_size()
 	for i in SIZE.x:
@@ -750,7 +741,7 @@ func handle_series(term: Dictionary, i: int, k: int) -> float:
 		term_sum *= term['amplitude']
 	return term_sum
 
-func build_handcrafted_map(parameters: Dictionary):
+func build_handcrafted_map(parameters: LevelParameters):
 	master [active_id][TARGET_MAP_KEY] = {}
 	var gen = parameters['generation']
 	var marking = gen['marked']
@@ -1232,7 +1223,7 @@ func get_complications_by_variable(coords: Vector2i) -> Array:
 
 #endregion Header Aid
 
-func sanity_check_parameters(parameters: Dictionary) -> bool:
+func sanity_check_parameters(parameters: LevelParameters) -> bool:
 	if parameters.has('size'):
 		var size = parameters['size']
 		if parameters.has('target_map'):
@@ -1526,7 +1517,7 @@ func get_complications(axis: String, index: int) -> Array:
 func get_variable_complications() -> Array:
 	var result_list = []
 	var parameters = get_level_parameters()
-	var complications = parameters.get('complications', [])
+	var complications = parameters.complications
 	for complication in complications:
 		var type = complication.get('type', "")
 		if type == "variable":
