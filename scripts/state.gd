@@ -426,14 +426,11 @@ func reset():
 		generate_empty_map()
 		clear_stack()
 		clear_locks()
-		var level_data = LevelLibrary.get_level(active_id)
-		if level_data.has("parameters"):
-			var parameters = level_data["parameters"]
-			if parameters.has("locks"):
-				for coords in parameters["locks"]:
-					lock_square(coords)
-			if parameters.has("powers"):
-				set_powers(parameters["powers"])
+		var parameters = get_level_parameters()
+		var locks = parameters.locks
+		for coords in locks:
+			lock_square(coords)
+		set_powers(parameters.powers)
 		board_ready.emit()
 		clear_stack()
 		if master [active_id].has(VICTORY_KEY):
@@ -582,12 +579,10 @@ func set_toggle_state(new_state: ToggleStates):
 	toggle_state_changed.emit(toggle_state)
 
 func handle_note_press():
-	var features = get_level_parameters().features
-	if features.has('notes') and !features['notes']:
-		return
-	if Input.is_action_just_pressed("Note"):
+	var features = get_level_features()
+	if Input.is_action_just_pressed("Note") && features.notes:
 		set_notes(true)
-	elif Input.is_action_just_released("Note"):
+	elif Input.is_action_just_released("Note") && features.notes:
 		set_notes(false)
 	if Input.is_action_just_pressed("Cancel"):
 		cancel_power()
