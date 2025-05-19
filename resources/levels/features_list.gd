@@ -9,3 +9,4 @@ class_name FeaturesList extends Resource
 @export var header_assist: State.HeaderAssistLevel = State.HeaderAssistLevel.LENGTH
 @export var submit_button_assist: bool = false
 @export var percent_marked: bool = false
+@export var submission_errors: int = 0

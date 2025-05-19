@@ -189,8 +189,8 @@ func clear_hint_squares():
 
 func toggle_percent_marked_label():
 	var params = State.get_level_parameters()
-	var features = params.get("features", {})
-	var percent_marked = features.get("percent_marked", false)
+	var features = params.features
+	var percent_marked = features.percent_marked
 	if percent_marked:
 		percent_marked_label.show()
 	else:
@@ -209,9 +209,8 @@ func calculate_percent_marked():
 		percent_marked_label.remove_theme_color_override("font_color")
 
 func toggle_submission_error_display():
-	var params = State.get_level_parameters()
-	var features = params.get("features", {})
-	var submission_errors = features.get("submission_errors", 0)
+	var features = State.get_level_features()
+	var submission_errors = features.submission_errors
 	if submission_errors > 0:
 		submission_error_display.show()
 		submission_error_display.create_list(submission_errors)
@@ -223,9 +222,8 @@ func set_submission_error_count():
 	submission_error_display.set_error_count(errors)
 
 func set_timer_display():
-	var params = State.get_level_parameters()
-	var features = params.get("features", {})
-	var timer = features.get("timer", false)
+	var features = State.get_level_features()
+	var timer = features.timer
 	if timer:
 		timer_display.show()
 		update_time_display(State.get_time())

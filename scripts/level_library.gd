@@ -2,6 +2,8 @@ extends Node
 
 var chapter1 = preload("res://data/content/chapters/Chapter1.tres")
 
+var level_cache = {}
+
 var levels: Dictionary = {
 	"painting": {
 		"name": "Painting",
@@ -1078,12 +1080,16 @@ func get_levels(list: Array) -> Dictionary:
 		result[level] = get_level(level)
 	return result
 
-func get_level(level: String) -> Level:
+func get_level(level_id: String) -> Level:
+	if level_cache.has(level_id):
+		return level_cache[level_id]
 	var chapters = get_chapters()
 	for chapter in chapters.keys():
-		if level in chapters[chapter].levels:
-			return chapters[chapter].levels[level] as Level
-		push_error("Level not found in any chapter: ", level)
+		for level in chapters[chapter].levels:
+			if level.id == level_id:
+				level_cache[level_id] = level
+				return level
+		push_error("Level not found in any chapter: ", level_id)
 	return null
 
 func get_level_parameters(level: String) -> LevelParameters:
@@ -1099,8 +1105,8 @@ func level_exists(level: String) -> bool:
 func get_level_list() -> Array:
 	var level_list = []
 	for chapter in get_chapters().keys():
-		for level in get_chapters()[chapter].levels:
-			level_list.append(level)
+		var chapter_levels = get_chapters()[chapter].levels
+		level_list.append_array(chapter_levels)
 	return level_list
 
 func get_next_level(level: String) -> String:
@@ -1131,17 +1137,19 @@ func get_prev_level(level: String) -> String:
 func has_prev_level(level: String) -> bool:
 	return get_prev_level(level) != ""
 
-func get_chapter_for_level(level: String) -> String:
-	for chapter_id in get_chapters().keys():
-		if get_chapters()[chapter_id].levels.has(level):
-			return chapter_id
+func get_chapter_for_level(level_id: String) -> String:
+	var chapters = get_chapters()
+	for chapter_id in chapters.keys():
+		for level in chapters[chapter_id].levels:
+			if level.id == level_id:
+				return chapter_id
 	return ""
 
-func get_level_name(level: String) -> String:
-	return get_level(level).name
+func get_level_title(level: String) -> String:
+	return get_level(level).title
 
-func get_chapter_name(chapter: String) -> String:
-	return get_chapters()[chapter].id
+func get_chapter_title(chapter: String) -> String:
+	return get_chapters()[chapter].title
 
 func filter_demo(level: Dictionary) -> Dictionary:
 	return {

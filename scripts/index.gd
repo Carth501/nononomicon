@@ -11,21 +11,21 @@ func _ready() -> void:
 	chapters = LevelLibrary.get_chapters()
 	for chapter in chapters:
 		var chapter_header = Label.new()
-		chapter_header.text = chapters[chapter].title
+		chapter_header.text = chapters[chapter].title ## TODO: Localize this
 		list.add_child(chapter_header)
 		chapters_buttons[chapter] = chapter_header
 		chapter_header.hide()
-		var chapter_levels = LevelLibrary.get_levels(chapters[chapter].levels)
+		var chapter_levels = chapters[chapter].levels
 		for level in chapter_levels:
 			var button := generic_button_scene.instantiate()
-			button.set_value(level)
-			button.set_text(chapter_levels[level].name)
+			button.set_value(level.id)
+			button.set_text(level.title) ## TODO: Localize this
 			list.add_child(button)
 			button.thing_selected.connect(change_level)
-			level_buttons[level] = button
+			level_buttons[level.id] = button
 			button.hide()
-			set_level_finished(level)
-			var level_available = LevelLibrary.get_level_available(level)
+			set_level_finished(level.id)
+			var level_available = LevelLibrary.get_level_available(level.id)
 			if level_available:
 				button.set_disabled(false)
 			else:

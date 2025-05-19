@@ -99,26 +99,18 @@ func _ready():
 
 func setup(parameters: LevelParameters) -> void:
 	sanity_check_parameters(parameters)
-	if (parameters.has('seed')):
-		set_seed(parameters['seed'])
-	else:
-		randomize()
-	if (parameters.has('size')):
-		set_size(parameters['size'])
-	if (parameters.has('notes')):
-		notes = parameters['notes']
-	if (parameters.has('hints')):
-		set_hints(parameters['hints'])
-	if parameters.has('powers'):
-		set_powers(parameters['powers'])
+	set_seed(parameters.generation.gen_seed)
+	set_size(parameters.size)
+	var features = parameters.features
+	notes = features.notes
+	set_hints(parameters.hints)
+	set_powers(parameters.powers)
 	generate_target_map(parameters)
-	if (parameters.has('complications')):
-		master [active_id][HEADERS_OVERRIDE_KEY] = {}
-		handle_complications(parameters['complications'])
+	generate_empty_map()
+	handle_complications(parameters['complications'])
+	for coords in parameters.locks:
+		lock_square(coords)
 	board_ready.emit()
-	if (parameters.has('locks')):
-		for coords in parameters.locks:
-			lock_square(coords)
 
 func new_game():
 	master = {}
@@ -247,6 +239,10 @@ func get_level_parameters() -> LevelParameters:
 		return LevelLibrary.get_level_parameters(active_id)
 	else:
 		return null
+
+func get_level_features() -> FeaturesList:
+	var parameters = get_level_parameters()
+	return parameters.features
 
 func get_guideline_interval() -> Vector2i:
 	var SIZE = master [active_id][SIZE_KEY]
@@ -599,34 +595,25 @@ func handle_note_press():
 
 #region Target Map Generation
 func generate_target_map(parameters: LevelParameters):
-	if (parameters.has('generation')):
-		if not parameters['generation'].has('method'):
-			printerr("Target map generation method not specified")
-			return
-		var method = parameters['generation']['method']
-		match method:
-			"sine":
-				generate_sine_map(parameters)
-			"ellipse":
-				generate_ellipse_map(parameters)
-			"diamond":
-				random_center_diamond_map(parameters)
-			"waveform":
-				generate_waveform_map(parameters)
-			"handcrafted":
-				build_handcrafted_map(parameters)
-			_:
-				printerr("Unknown target map generation method: ", method)
-	else:
-		random_center_diamond_map(parameters)
-	if parameters.has('override'):
-		var override = parameters['override']
-		if override.has('marked'):
-			for coords in override['marked']:
-				set_target_position(coords, SquareStates.MARKED)
-		if override.has('empty'):
-			for coords in override['empty']:
-				set_target_position(coords, SquareStates.EMPTY)
+	var generation = parameters.generation
+	var method = generation.method_name
+	match method:
+		"sine":
+			generate_sine_map(parameters)
+		"ellipse":
+			generate_ellipse_map(parameters)
+		"diamond":
+			random_center_diamond_map(parameters)
+		"waveform":
+			generate_waveform_map(parameters)
+		"handcrafted":
+			build_handcrafted_map(parameters)
+		_:
+			printerr("Unknown target map generation method: ", method)
+	for coords in generation.overrides_marked:
+		set_target_position(coords, SquareStates.MARKED)
+	for coords in generation.overrides_empty:
+		set_target_position(coords, SquareStates.EMPTY)
 	generate_headers()
 
 func random_center_diamond_map(parameters: LevelParameters):
@@ -637,13 +624,11 @@ func random_center_diamond_map(parameters: LevelParameters):
 		for k in SIZE.y:
 			var average = roundi((SIZE.x + SIZE.y) / 2.0)
 			var random_value = randf_range(-2.5, 2.5)
-			if (parameters.has('randomness')):
-				random_value *= parameters['randomness']
+			var generation = parameters.generation
+			random_value *= generation.randomness
 			var sum = absi(i - roundi(average / 2.0)) + absi(k - roundi(average / 2.0))
 			sum += random_value
-			var generation = parameters.generation
-			if generation.has('constant'):
-				sum += parameters['generation']['constant']
+			sum += generation.constant
 			var marked = sum < roundi(average / 1.95)
 			if (marked):
 				set_target_position(Vector2i(i, k), SquareStates.MARKED)
@@ -656,19 +641,17 @@ func generate_sine_map(parameters: LevelParameters):
 	for i in SIZE.x:
 		master [active_id][TARGET_MAP_KEY][i] = create_empty_array(SIZE.y)
 		for k in SIZE.y:
-			var frequency = parameters['generation']['frequency']
+			var generation = parameters.generation
+			var frequency = generation.sine_frequency
 			var x = i * frequency.x
 			var y = k * frequency.y
-			if parameters['generation'].has('offset'):
-				var offset = parameters['generation']['offset']
-				x += offset.x
-				y += offset.y
+			var offset = generation.sine_offset
+			x += offset.x
+			y += offset.y
 			var sine_value = sin(x) + sin(y)
-			if (parameters.has('randomness')):
-				var r = parameters['randomness']
-				sine_value += randf_range(-r, r)
-			if parameters['generation'].has('constant'):
-				sine_value += parameters['generation']['constant']
+			var r = generation.randomness
+			sine_value += randf_range(-r, r)
+			sine_value += generation.constant
 			if (sine_value > 0):
 				set_target_position(Vector2i(i, k), SquareStates.MARKED)
 			else:
@@ -684,16 +667,14 @@ func generate_ellipse_map(parameters: LevelParameters):
 			var t = float(k + .5) / float(SIZE.y)
 			var x = pow(s * 2.0 - 1, 2)
 			var y = pow(t * 2.0 - 1, 2)
-			if (parameters.has('generation')):
-				var scale = parameters['generation']['scale']
-				x *= scale.x
-				y *= scale.y
+			var generation = parameters.generation
+			var scale = generation.ellipse_scale
+			x *= scale.x
+			y *= scale.y
 			var sum = x + y
-			if (parameters.has('randomness')):
-				var r = parameters['randomness']
-				sum += randf_range(-r, r)
-			if parameters['generation'].has('constant'):
-				sum += parameters['generation']['constant']
+			var r = generation.randomness
+			sum += randf_range(-r, r)
+			sum += generation.constant
 			if (sum < 1):
 				set_target_position(Vector2i(i, k), SquareStates.MARKED)
 			else:
@@ -705,40 +686,36 @@ func generate_waveform_map(parameters: LevelParameters):
 	for i in SIZE.x:
 		master [active_id][TARGET_MAP_KEY][i] = create_empty_array(SIZE.y)
 		for k in SIZE.y:
+			var generation = parameters.generation
 			var sum = 0.0
-			for series in parameters['generation']['series']:
+			for wave in parameters.generation.waveform_series:
 				var series_sum = 0.0
-				for term in series:
-					if series_sum == 0.0:
-						series_sum = handle_series(term, i, k)
-					else:
-						series_sum *= handle_series(term, i, k)
+				if series_sum == 0.0:
+					series_sum = handle_series(wave, i, k)
+				else:
+					series_sum *= handle_series(wave, i, k)
 				sum += series_sum
-			if (parameters.has('randomness')):
-				var r = parameters['randomness']
-				sum += randf_range(-r, r)
-			if parameters['generation'].has('constant'):
-				sum += parameters['generation']['constant']
+			var r = generation.randomness
+			sum += randf_range(-r, r)
+			sum += generation.constant
 			if (sum > 0):
 				set_target_position(Vector2i(i, k), SquareStates.MARKED)
 			else:
 				set_target_position(Vector2i(i, k), SquareStates.EMPTY)
 
-func handle_series(term: Dictionary, i: int, k: int) -> float:
-	var frequency = term['frequency'] if term.has('frequency') else Vector2(1, 1)
+func handle_series(term: Wave, i: int, k: int) -> float:
+	var frequency = term.frequency
 	var x = float(i) * float(frequency.x)
 	var y = float(k) * float(frequency.y)
-	if term.has('offset'):
-		var offset = term['offset']
-		x += offset.x
-		y += offset.y
+	var offset = term.offset
+	x += offset.x
+	y += offset.y
 	var term_sum = 0.0
-	if term.has('nested'):
-		term_sum = sin(handle_series(term['nested'], i, k)) # + sin(x) + sin(y)?
+	if term.nested != null:
+		term_sum = sin(handle_series(term['nested'], roundi(x), roundi(y)))
 	else:
 		term_sum = sin(x) + sin(y)
-	if term.has('amplitude'):
-		term_sum *= term['amplitude']
+	term_sum *= term.amplitude
 	return term_sum
 
 func build_handcrafted_map(parameters: LevelParameters):
@@ -1115,11 +1092,7 @@ func update_header_for_column(column: int):
 
 #region Header Aid
 func get_assist_level() -> HeaderAssistLevel:
-	var params = get_level_parameters()
-	if params.has('features'):
-		if params['features'].has('header_assist'):
-			return params['features']['header_assist']
-	return HeaderAssistLevel.NO_ASSIST
+	return get_level_features().header_assist
 
 func generate_all_line_comparisons():
 	var x_comparisons = {}
@@ -1224,28 +1197,9 @@ func get_complications_by_variable(coords: Vector2i) -> Array:
 #endregion Header Aid
 
 func sanity_check_parameters(parameters: LevelParameters) -> bool:
-	if parameters.has('size'):
-		var size = parameters['size']
-		if parameters.has('target_map'):
-			var target_map = parameters['target_map']
-			for x in target_map.keys():
-				if x >= size.x:
-					printerr("Target map x dimension exceeds size.x")
-					return false
-				for y in target_map[x].keys():
-					if y >= size.y:
-						printerr("Target map y dimension exceeds size.y")
-						return false
-		if parameters.has('square_map'):
-			var square_map = parameters['square_map']
-			for x in square_map.keys():
-				if x >= size.x:
-					printerr("Square map x dimension exceeds size.x")
-					return false
-				for y in square_map[x].keys():
-					if y >= size.y:
-						printerr("Square map y dimension exceeds size.y")
-						return false
+	if parameters.size == Vector2i(0, 0):
+		printerr("Size is zero")
+		return false
 	return true
 
 func check_victory() -> bool:
@@ -1382,6 +1336,7 @@ func handle_delta_complication(complication: Dictionary):
 	generate_delta_footer(complication)
 
 func generate_delta_header(complication: Dictionary):
+	master [active_id][HEADERS_OVERRIDE_KEY] = {}
 	var subject_axis = 'X' if complication.has('subject_column') else 'Y'
 	var subject_index = complication['subject_column'] if subject_axis == 'X' else complication['subject_row']
 	if (! master [active_id][HEADERS_OVERRIDE_KEY].has(subject_axis)):
@@ -1753,13 +1708,13 @@ func get_powers() -> Dictionary:
 		return {}
 	return master [active_id][POWERS_KEY]
 
-func set_powers(powers: Dictionary):
+func set_powers(powers_list: PowersList):
 	if ! master.has(active_id):
 		push_error("Attempted to set powers with invalid id: ", active_id)
 		return
 	if ! master [active_id].has(POWERS_KEY):
 		master [active_id][POWERS_KEY] = []
-	master [active_id][POWERS_KEY] = powers.duplicate(true)
+	master [active_id][POWERS_KEY] = powers_list.powers.duplicate(true)
 	powers_changed.emit()
 
 func load_powers():

@@ -123,25 +123,19 @@ func _process(_delta: float) -> void:
 
 func set_level_title():
 	var level_id = State.get_active_id()
-	var level_name = LevelLibrary.get_level_name(level_id)
+	var level_name = LevelLibrary.get_level_title(level_id)
 	var chapter_id = LevelLibrary.get_chapter_for_level(level_id)
-	var chapter_name = LevelLibrary.get_chapter_name(chapter_id)
+	var chapter_name = LevelLibrary.get_chapter_title(chapter_id)
 	level_title.text = chapter_name + " - " + level_name
 
 func set_tutorial_text():
 	var params = State.get_level_parameters()
-	if (params.has("tutorial")):
-		tutorial_text.text = params["tutorial"]
-	else:
-		tutorial_text.text = ""
+	tutorial_text.text = params.tutorial_text # TODO: Localize this
 	hide_power_description()
 
 func handle_features():
 	var params = State.get_level_parameters()
-	if params.has("features"):
-		game_ui.toggle_features(params["features"])
-	else:
-		game_ui.toggle_features({}) # triggers default feature set
+	game_ui.toggle_features(params.features)
 
 func show_debug_menu():
 	debug_menu.show()
@@ -219,9 +213,8 @@ func reset_timer():
 		State.stop_timer()
 
 func handle_squares_correct(value: bool):
-	var params = State.get_level_parameters()
-	var features = params.get("features", {})
-	var submit_button_assist = features.get("submit_button_assist", false)
+	var features = State.get_level_features()
+	var submit_button_assist = features.submit_button_assist
 	if submit_button_assist:
 		if value:
 			submission_button.disabled = false
@@ -234,9 +227,8 @@ func handle_squares_correct(value: bool):
 		submission_button.remove_theme_color_override("font_color")
 
 func reset_submission_button(_value: bool = false):
-	var params = State.get_level_parameters()
-	var features = params.get("features", {})
-	var submit_button_assist = features.get("submit_button_assist", false)
+	var features = State.get_level_features()
+	var submit_button_assist = features.submit_button_assist
 	if submit_button_assist:
 		var victory = State.get_victory_state()
 		var correct_map = State.is_square_map_correct()
