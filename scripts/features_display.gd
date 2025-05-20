@@ -10,7 +10,6 @@ func _ready() -> void:
 func handle_features() -> void:
 	var parameters = State.get_level_parameters()
 	var features = State.get_level_features()
-	breakpoint
 	handle_notes(features.notes)
 	handle_timer(features.timer)
 	handle_header_assist(features.header_assist)

@@ -715,23 +715,23 @@ func handle_series(term: Wave, i: int, k: int) -> float:
 
 func build_handcrafted_map(parameters: LevelParameters):
 	master [active_id][TARGET_MAP_KEY] = {}
-	var gen = parameters['generation']
-	var marking = gen['marked']
-	var SIZE = parameters['size']
-	if !gen.has('marked'):
+	var gen = parameters.generation
+	var handcrafted_marked = gen.handcrafted_marked
+	var SIZE = parameters.size
+	if gen.handcrafted_marked == null:
 		push_error("Handcrafted map generation parameters not specified")
-	if marking.keys().size() != SIZE.y:
+	if handcrafted_marked.size() != SIZE.x:
 		push_error("Handcrafted map vertical does not match target map size: ",
-		marking.keys().size(), " != ", SIZE.y)
+		handcrafted_marked.size(), " != ", SIZE.x)
 	for i in range(SIZE.x):
 		master [active_id][TARGET_MAP_KEY][i] = create_empty_array(SIZE.y)
-	for y in marking.keys():
-		if marking[y].size() != SIZE.x:
+	for x in range(handcrafted_marked.size()):
+		var row = handcrafted_marked[x].line
+		if row.size() != SIZE.y:
 			push_error("Handcrafted map horizontal does not match target map size: ",
-			marking[y].size(), " != ", SIZE.x)
-		var row = marking[y]
-		for x in range(row.size()):
-			if row[x] == 1:
+			row.size(), " != ", SIZE.y)
+		for y in range(row.size()):
+			if row[y]:
 				set_target_position(Vector2i(x, y), SquareStates.MARKED)
 			else:
 				set_target_position(Vector2i(x, y), SquareStates.EMPTY)

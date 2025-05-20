@@ -143,7 +143,6 @@ layout_mode = 2
 text = "Hint"
 
 [node name="CheatButton" type="Button" parent="HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer"]
-visible = false
 layout_mode = 2
 text = "CHEAT"
 
@@ -282,8 +281,8 @@ grow_vertical = 0
 [node name="DragHandler" type="Node" parent="."]
 script = ExtResource("7_lsml7")
 
-[connection signal="resized" from="." to="." method="resize_board"]
 [connection signal="resized" from="." to="." method="_on_resized"]
+[connection signal="resized" from="." to="." method="resize_board"]
 [connection signal="level_selected" from="Index" to="." method="open_page"]
 [connection signal="dragged" from="HSplitContainer" to="." method="on_drawer_dragged"]
 [connection signal="resized" from="HSplitContainer/NonogramBoard" to="HSplitContainer/NonogramBoard" method="resize_board"]
