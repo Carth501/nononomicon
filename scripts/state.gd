@@ -101,8 +101,6 @@ func setup(parameters: LevelParameters) -> void:
 	sanity_check_parameters(parameters)
 	set_seed(parameters.generation.gen_seed)
 	set_size(parameters.size)
-	var features = parameters.features
-	notes = features.notes
 	set_hints(parameters.hints)
 	set_powers(parameters.powers)
 	generate_target_map(parameters)
