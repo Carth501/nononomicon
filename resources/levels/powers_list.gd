@@ -4,4 +4,4 @@
 
 class_name PowersList extends Resource
 
-@export var powers: Dictionary = {}
+@export var powers: Array[PowerItem] = []

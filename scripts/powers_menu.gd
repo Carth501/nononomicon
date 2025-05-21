@@ -14,19 +14,21 @@ func load_powers():
 	for child in power_button_container.get_children():
 		child.queue_free()
 
-	for power_id in State.get_powers():
+	var power_list = State.get_powers()
+	for power_type in power_list:
+		var power = power_list[power_type]
 		var power_row = HBoxContainer.new()
 		var power_instance = generic_button_scene.instantiate()
-		var power_locale = PowersLibary.data[power_id]
-		power_instance.text = power_locale["power_name"]
-		power_instance.set_value(power_id)
+		var power_locale = PowersLibary.data[power_type]
+		power_instance.text = power_locale["power_name"] # redo this localization
+		power_instance.set_value(power_type)
 		power_instance.thing_selected.connect(State.start_power)
 		power_button_container.add_child(power_row)
 		power_row.add_child(power_instance)
 		var power_charge_label = Label.new()
-		power_charge_label.text = str(State.get_charges(power_id))
+		power_charge_label.text = str(power.charges)
 		power_row.add_child(power_charge_label)
-		powers[power_id] = {
+		powers[power_type] = {
 			"button": power_instance,
 			"label": power_charge_label
 		}

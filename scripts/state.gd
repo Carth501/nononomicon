@@ -135,7 +135,7 @@ func load_save(save: Dictionary):
 			for coords in save[level].get(LOCKS_KEY, {}):
 				lock_square(coords)
 		if master [level].has(POWERS_KEY) and save[level].has(POWERS_KEY):
-			for power in master [level][POWERS_KEY].keys():
+			for power in master [level][POWERS_KEY]:
 				if save[level][POWERS_KEY].has(power):
 					master [level][POWERS_KEY][power]["charges"] = save[level][POWERS_KEY][power]["charges"]
 		if save[level].has(SUBMISSION_ERROR_COUNT_KEY):
@@ -1655,10 +1655,10 @@ func start_power(id: String):
 func use_power():
 	if power_id == "":
 		return
-	if power_id == "power_lock":
+	if power_id == "lock":
 		if get_charges(power_id) > 0:
 			power_lock()
-	if power_id == "power_bind":
+	if power_id == "bind":
 		if get_charges(power_id) > 0:
 			power_bind()
 	power_id = ""
@@ -1705,25 +1705,24 @@ func set_powers(powers_list: PowersList):
 	if ! master.has(active_id):
 		push_error("Attempted to set powers with invalid id: ", active_id)
 		return
-	if ! master [active_id].has(POWERS_KEY):
-		master [active_id][POWERS_KEY] = []
-	master [active_id][POWERS_KEY] = powers_list.powers.duplicate(true)
+	master [active_id][POWERS_KEY] = {}
+	for power_item in powers_list.powers:
+		master [active_id][POWERS_KEY][power_item.type] = power_item.duplicate(true)
 	powers_changed.emit()
 
-func load_powers():
-	if ! master.has(active_id):
-		push_error("Attempted to load powers with invalid id: ", active_id)
-		return
-	if ! master [active_id].has(POWERS_KEY):
-		return
-	var powers = master [active_id][POWERS_KEY]
-	for power in powers:
-		if power.has('type'):
-			match power['type']:
-				"power_lock":
-					start_power(power['id'])
-				_:
-					print("Unknown power type: ", power['type'])
+# func load_powers():
+# 	if ! master.has(active_id):
+# 		push_error("Attempted to load powers with invalid id: ", active_id)
+# 		return
+# 	if ! master [active_id].has(POWERS_KEY):
+# 		return
+# 	var powers = master [active_id][POWERS_KEY]
+# 	for power in powers:
+# 		match power.type:
+# 			"power_lock":
+# 				start_power(power['id'])
+# 			_:
+# 				print("Unknown power type: ", power['type'])
 
 func get_charges(id: String) -> int:
 	if ! master.has(active_id):
@@ -1733,8 +1732,7 @@ func get_charges(id: String) -> int:
 		return 0
 	var powers = master [active_id][POWERS_KEY]
 	if powers.has(id):
-		if powers[id].has('charges'):
-			return powers[id]['charges']
+		return powers[id].charges
 	return 0
 
 func use_charge(id: String):
@@ -1745,8 +1743,8 @@ func use_charge(id: String):
 		return
 	var powers = master [active_id][POWERS_KEY]
 	if powers.has(id):
-		if powers[id].has('charges'):
-			powers[id]['charges'] -= 1
+		if powers[id].charges > 0:
+			powers[id].charges -= 1
 			power_charge_used.emit(id)
 
 func cancel_power():
