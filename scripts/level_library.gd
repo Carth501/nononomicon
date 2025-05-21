@@ -5,82 +5,6 @@ var chapter1 = preload("res://data/content/chapters/Chapter1.tres")
 var level_cache = {}
 
 var levels: Dictionary = {
-	"response": {
-		"name": "Response",
-		"parameters": {
-			"seed": 18,
-			"size": Vector2i(6, 6),
-			"features":
-				{
-					"header_assist": State.HeaderAssistLevel.LENGTH,
-					"percent_marked": true,
-					"timer": true,
-					"notes": true,
-				},
-			"override":
-				{
-					"marked": [
-						Vector2i(2, 0),
-					],
-					"empty": [
-						Vector2i(3, 3),
-					]
-				},
-			"powers": {"power_lock": {"charges": 2}},
-			"tutorial": '\tThe first power granted. Choosing where to apply locks can give ' +
-				'sight into the truth, but it is not to be wasted. Use it with purpose, as ' +
-				'it will not be replenished before the next page.'
-		},
-	},
-	"big": {
-		"name": "Go Big",
-		"parameters": {
-			"seed": 3,
-			"size": Vector2i(19, 16),
-			"features":
-				{
-					"header_assist": State.HeaderAssistLevel.LENGTH,
-					"percent_marked": true,
-					"timer": true,
-					"notes": true,
-				},
-			"powers": {"power_lock": {"charges": 3}},
-			"tutorial": '\tOne triumph brings a greater demand.',
-			# "locks": [
-			# 	Vector2i(0, 9),
-			# 	Vector2i(0, 10),
-			# 	Vector2i(1, 8),
-			# 	Vector2i(1, 11),
-			# 	Vector2i(2, 7),
-			# 	Vector2i(2, 12),
-			# 	Vector2i(3, 6),
-			# 	Vector2i(3, 13),
-			# 	Vector2i(4, 5),
-			# 	Vector2i(4, 14),
-			# 	Vector2i(5, 4),
-			# 	Vector2i(5, 15),
-			# 	Vector2i(6, 3),
-			# 	Vector2i(7, 2),
-			# 	Vector2i(8, 1),
-			# 	Vector2i(9, 0),
-			# 	Vector2i(10, 1),
-			# 	Vector2i(11, 2),
-			# 	Vector2i(12, 3),
-			# 	Vector2i(13, 4),
-			# 	Vector2i(13, 15),
-			# 	Vector2i(14, 5),
-			# 	Vector2i(14, 14),
-			# 	Vector2i(15, 6),
-			# 	Vector2i(15, 13),
-			# 	Vector2i(16, 7),
-			# 	Vector2i(16, 12),
-			# 	Vector2i(17, 8),
-			# 	Vector2i(17, 11),
-			# 	Vector2i(18, 9),
-			# 	Vector2i(18, 10),
-			# 	]
-		}
-	},
 	"trig2": {
 		"name": "Trig Harder",
 		"parameters": {
@@ -132,14 +56,7 @@ var levels: Dictionary = {
 					]
 				]
 			},
-			'tutorial': '\tWake now from the dream. Look through eyes without veil ' +
-				'at a night without breaking. The truth is out there, yet it does ' +
-				'not wait for you. You may imagine it, but you only imagine the ' +
-				'as it would appear to you. It is not the truth you leap for but the ' +
-				'construction of tools for further delving. You do not explore uncharted ' +
-				'depths, only retread with yet-unsullen feet the paths of those before.\n' +
-				'\tKnow that tenacity is required to reach deeper in this page, and still ' +
-				'deeper in this tome.'
+			'tutorial': '\t'
 		}
 	},
 	"delta": {

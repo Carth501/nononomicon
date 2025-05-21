@@ -137,7 +137,7 @@ func load_save(save: Dictionary):
 		if master [level].has(POWERS_KEY) and save[level].has(POWERS_KEY):
 			for power in master [level][POWERS_KEY]:
 				if save[level][POWERS_KEY].has(power):
-					master [level][POWERS_KEY][power]["charges"] = save[level][POWERS_KEY][power]["charges"]
+					master [level][POWERS_KEY][power].charges = save[level][POWERS_KEY][power]
 		if save[level].has(SUBMISSION_ERROR_COUNT_KEY):
 			master [level][SUBMISSION_ERROR_COUNT_KEY] = save[level][SUBMISSION_ERROR_COUNT_KEY]
 		if save[level].has(TIMER_KEY):
@@ -153,7 +153,9 @@ func get_trimmed_master() -> Dictionary:
 		if (master [level].has(LOCKS_KEY)):
 			trimmed_master[level][LOCKS_KEY] = master [level][LOCKS_KEY]
 		if (master [level].has(POWERS_KEY)):
-			trimmed_master[level][POWERS_KEY] = master [level][POWERS_KEY]
+			trimmed_master[level][POWERS_KEY] = {}
+			for power in master [level][POWERS_KEY]:
+				trimmed_master[level][POWERS_KEY][power] = master [level][POWERS_KEY][power].charges
 		if (master [level].has(VICTORY_KEY)):
 			trimmed_master[level][VICTORY_KEY] = master [level][VICTORY_KEY]
 		if master [level].has(SUBMISSION_ERROR_COUNT_KEY):
@@ -1668,7 +1670,7 @@ func power_lock():
 	if get_locks().has(chosen_coords):
 		return
 	lock_square(chosen_coords)
-	use_charge("power_lock")
+	use_charge("lock")
 
 func power_bind():
 	var correct_map = get_correct_squares_coords()
@@ -1689,7 +1691,7 @@ func power_bind():
 		index_seed = value
 	for i in range(bind_list.size()):
 		lock_square(bind_list[i])
-	use_charge("power_bind")
+	use_charge("bind")
 
 func get_powers() -> Dictionary:
 	if active_id == "default":
@@ -1740,6 +1742,7 @@ func use_charge(id: String):
 		push_error("Attempted to use charge with invalid id: ", active_id)
 		return
 	if ! master [active_id].has(POWERS_KEY):
+		push_warning("Attempted to use charge with invalid power id: ", id)
 		return
 	var powers = master [active_id][POWERS_KEY]
 	if powers.has(id):
