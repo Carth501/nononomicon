@@ -1723,20 +1723,6 @@ func set_powers(powers_list: PowersList):
 		master [active_id][POWERS_KEY][power_item.type] = power_item.duplicate(true)
 	powers_changed.emit()
 
-# func load_powers():
-# 	if ! master.has(active_id):
-# 		push_error("Attempted to load powers with invalid id: ", active_id)
-# 		return
-# 	if ! master [active_id].has(POWERS_KEY):
-# 		return
-# 	var powers = master [active_id][POWERS_KEY]
-# 	for power in powers:
-# 		match power.type:
-# 			"power_lock":
-# 				start_power(power['id'])
-# 			_:
-# 				print("Unknown power type: ", power['type'])
-
 func get_charges(id: String) -> int:
 	if ! master.has(active_id):
 		push_error("Attempted to get charges with invalid id: ", active_id)
