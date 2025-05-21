@@ -1,3 +1,4 @@
+@tool
 class_name DeltaComplication extends Complication
 
 @export var delta_subject_column: int = -1

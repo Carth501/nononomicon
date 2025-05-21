@@ -1,4 +1,5 @@
-class_name Variable extends Complication
+@tool
+class_name VariableComplication extends Complication
 
 @export var value: String
 @export var glyph: String
