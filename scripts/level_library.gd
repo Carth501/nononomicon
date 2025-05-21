@@ -1,6 +1,7 @@
 extends Node
 
 var chapter1 = preload("res://data/content/chapters/Chapter1.tres")
+var chapter2 = preload("res://data/content/chapters/Chapter2.tres")
 
 var level_cache = {}
 
@@ -684,32 +685,11 @@ var levels: Dictionary = {
 		}
 	},
 }
-# var chapters: Dictionary = {
-# 	"chapter1": {
-# 		"levels": ["intro", "basics", "orbitals", "jack_and_hide",
-# 			"elaborate", "the_trap", "trig", "ellipse", "didactic", "painting",
-# 			"locks", "magenta", "response", "big", "trig2"],
-# 		"title": "Chapter 1",
-# 		"demo": true
-# 	},
-# 	"chapter2": {
-# 		"levels": ["delta", "discovery", "vermillion", "tea_tumbler",
-# 			"onomonopia", "positive", "mistrust", "binding", "breaking", "something_deeper",
-# 			"contradiction", "category", "education", "point_of_contact",
-# 			"tundra", "professional", "oroboros", "trig3"],
-# 		"title": "Chapter 2",
-# 		"demo": true
-# 	},
-# 	"chapter3": {
-# 		"levels": ["variables", "elbredth", "lattice", "talisman",
-# 			"gem_of_the_dead", "now_use_it"],
-# 		"title": "Chapter 3"
-# 	}
-# }
 
 func get_chapters() -> Dictionary:
 	var chapters = {
-		chapter1.id: chapter1
+		chapter1.id: chapter1,
+		chapter2.id: chapter2
 	}
 	return chapters
 
@@ -728,7 +708,7 @@ func get_level(level_id: String) -> Level:
 			if level.id == level_id:
 				level_cache[level_id] = level
 				return level
-		push_error("Level not found in any chapter: ", level_id)
+	push_error("Level not found in any chapter: ", level_id)
 	return null
 
 func get_level_index(level_id: String) -> int:

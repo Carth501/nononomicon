@@ -216,9 +216,9 @@ func get_header(axis: String) -> Dictionary:
 	var headers = master [active_id][HEADERS_KEY][axis].duplicate(true)
 	if master [active_id].has(HEADERS_OVERRIDE_KEY):
 		var headers_overrides = master [active_id][HEADERS_OVERRIDE_KEY]
-		if headers_overrides.has(axis):
-			for index in headers_overrides[axis].keys():
-				var complication = headers_overrides[axis][index][-1]
+		if headers_overrides.has(Axis[axis]):
+			for index in headers_overrides[Axis[axis]].keys():
+				var complication = headers_overrides[Axis[axis]][index][-1]
 				# get the last complication, save the rest for documentation
 				headers[index] = complication.duplicate(true)
 	for variable in get_variable_complications():
@@ -229,8 +229,8 @@ func get_header(axis: String) -> Dictionary:
 	return headers
 
 func get_footer(axis: String) -> Dictionary:
-	if master [active_id].has(FOOTER_KEY) and master [active_id][FOOTER_KEY].has(axis):
-		return master [active_id][FOOTER_KEY][axis]
+	if master [active_id].has(FOOTER_KEY) and master [active_id][FOOTER_KEY].has(Axis[axis]):
+		return master [active_id][FOOTER_KEY][Axis[axis]]
 	else:
 		return {}
 
@@ -406,6 +406,17 @@ func get_square_correct(coords: Vector2i) -> bool:
 	elif target_state != SquareStates.MARKED and square_state != SquareStates.MARKED:
 		return true
 	return false
+
+func convert_axis_to_string(axis: Axis) -> String:
+	match axis:
+		Axis.X:
+			return "X"
+		Axis.Y:
+			return "Y"
+		Axis.NONE:
+			return "NONE"
+	push_error("Invalid axis: ", axis)
+	return "INVALID"
 
 func generate_empty_map():
 	var SIZE = get_size()
@@ -813,10 +824,10 @@ func generate_complicated_sequence_for_array(line: Array, complications: Array) 
 	for i in line.size():
 		var is_different = line[i] == SquareStates.MARKED
 		for complication in complications:
-			if complication["type"] == "delta":
-				var variable_axis = 'X' if complication.has('variable_column') else 'Y'
-				var x = complication['variable_column'] if variable_axis == 'X' else i
-				var y = i if variable_axis == 'X' else complication['variable_row']
+			if complication.type == "delta":
+				var variable_axis = convert_axis_to_string(complication.variable_axis)
+				var x = complication.variable_index if variable_axis == 'X' else i
+				var y = i if variable_axis == 'X' else complication.variable_index
 				var value = master [active_id][SQUARE_MAP_KEY][x][y]
 				var value_eval = value == SquareStates.MARKED
 				if value_eval == is_different:
@@ -1113,8 +1124,8 @@ func generate_line_comparisons(coords: Vector2i):
 	var y_comparisons = {coords.y: compare_line_to_header('Y', coords.y)}
 	var complications = get_complications_by_variable(coords)
 	for complication in complications:
-		var subject_axis = 'X' if complication.has('subject_column') else 'Y'
-		var subject_index = complication['subject_column'] if subject_axis == 'X' else complication['subject_row']
+		var subject_axis = convert_axis_to_string(complication.subject_axis)
+		var subject_index = complication.subject_index
 		if subject_axis == 'X':
 			x_comparisons[subject_index] = compare_line_to_header('X', subject_index)
 		else:
@@ -1183,9 +1194,9 @@ func get_complications_by_variable(coords: Vector2i) -> Array:
 	var complications = []
 	if master [active_id].has(COMPLICATIONS_KEY):
 		for complication in master [active_id][COMPLICATIONS_KEY]:
-			if complication.has('variable_column') and complication['variable_column'] == coords.x:
+			if complication.variable_axis == State.Axis.X and complication.variable_index == coords.x:
 				complications.append(complication)
-			elif complication.has('variable_row') and complication['variable_row'] == coords.y:
+			elif complication.variable_axis == State.Axis.Y and complication.variable_index == coords.y:
 				complications.append(complication)
 	return complications
 
@@ -1313,52 +1324,51 @@ func has_prev_level():
 #region Complications
 func handle_complications(list: Array):
 	for i in list:
-		if i.has('type'):
-			match i['type']:
-				"delta":
-					handle_delta_complication(i)
-				"variable":
-					# Handle variable complications in get_header
-					pass
-				_:
-					print("Unknown complication type: ", i['type'])
+		match i.type:
+			"delta":
+				handle_delta_complication(i)
+			"variable":
+				# Handle variable complications in get_header
+				pass
+			_:
+				print("Unknown complication type: ", i['type'])
 
-func handle_delta_complication(complication: Dictionary):
+func handle_delta_complication(complication: DeltaComplication):
 	if ! master [active_id].has(COMPLICATIONS_KEY):
 		master [active_id][COMPLICATIONS_KEY] = []
 	master [active_id][COMPLICATIONS_KEY].append(complication)
 	generate_delta_header(complication)
 	generate_delta_footer(complication)
 
-func generate_delta_header(complication: Dictionary):
+func generate_delta_header(complication: DeltaComplication):
 	master [active_id][HEADERS_OVERRIDE_KEY] = {}
-	var subject_axis = 'X' if complication.has('subject_column') else 'Y'
-	var subject_index = complication['subject_column'] if subject_axis == 'X' else complication['subject_row']
-	if (! master [active_id][HEADERS_OVERRIDE_KEY].has(subject_axis)):
+	var subject_axis = complication.subject_axis
+	var subject_index = complication.subject_index
+	if ! master [active_id][HEADERS_OVERRIDE_KEY].has(subject_axis):
 		master [active_id][HEADERS_OVERRIDE_KEY][subject_axis] = {}
-	if (! master [active_id][HEADERS_OVERRIDE_KEY][subject_axis].has(subject_index)):
+	if ! master [active_id][HEADERS_OVERRIDE_KEY][subject_axis].has(subject_index):
 		master [active_id][HEADERS_OVERRIDE_KEY][subject_axis][subject_index] = []
-	var variable_axis = 'X' if complication.has('variable_column') else 'Y'
-	var variable_index = complication['variable_column'] if variable_axis == 'X' else complication['variable_row']
+	var variable_axis = complication.variable_axis
+	var variable_index = complication.variable_index
 
 	var complication_header = generate_delta(
-		master [active_id][HEADERS_KEY][subject_axis][subject_index],
+		master [active_id][HEADERS_KEY][convert_axis_to_string(subject_axis)][subject_index],
 		generate_sequence_for_array(
-			get_line(variable_axis, variable_index, TARGET_MAP_KEY)
+			get_line(convert_axis_to_string(variable_axis), variable_index, TARGET_MAP_KEY)
 		)
 	)
 
 	master [active_id][HEADERS_OVERRIDE_KEY][subject_axis][subject_index].append(complication_header)
 
-func generate_delta_footer(complication: Dictionary):
-	var subject_axis = 'X' if complication.has('subject_column') else 'Y'
-	var subject_index = complication['subject_column'] if subject_axis == 'X' else complication['subject_row']
+func generate_delta_footer(complication: DeltaComplication):
+	var subject_axis = complication.subject_axis
+	var subject_index = complication.subject_index
 	var complication_abbreviation = "Δ"
 	var complication_variable: String
-	if (complication.has('variable_column')):
-		complication_variable = str('c', complication['variable_column'] + 1)
-	elif (complication.has('variable_row')):
-		complication_variable = str('r', complication['variable_row'] + 1)
+	if complication.variable_axis == State.Axis.X:
+		complication_variable = str('c', complication.variable_index + 1)
+	elif complication.variable_axis == State.Axis.Y:
+		complication_variable = str('r', complication.variable_index + 1)
 	var complication_footer = str(
 		complication_abbreviation,
 		complication_variable
@@ -1455,10 +1465,12 @@ func get_complications(axis: String, index: int) -> Array:
 		return []
 	var result_list = []
 	for complication in master [active_id][COMPLICATIONS_KEY]:
-		var complication_axis = 'X' if complication.has('subject_column') else 'Y'
+		if complication.type != "delta":
+			continue
+		var complication_axis = convert_axis_to_string(complication.subject_axis)
 		if complication_axis != axis:
 			continue
-		var subject_index = complication['subject_column'] if complication_axis == 'X' else complication['subject_row']
+		var subject_index = complication.subject_index
 		if subject_index != index:
 			continue
 		result_list.append(complication)
@@ -1469,8 +1481,7 @@ func get_variable_complications() -> Array:
 	var parameters = get_level_parameters()
 	var complications = parameters.complications
 	for complication in complications:
-		var type = complication.get('type', "")
-		if type == "variable":
+		if complication.type == "variable":
 			result_list.append(complication)
 	return result_list
 #endregion Complications
