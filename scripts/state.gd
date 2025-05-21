@@ -220,6 +220,7 @@ func get_header(axis: String) -> Dictionary:
 			for index in headers_overrides[Axis[axis]].keys():
 				var complication = headers_overrides[Axis[axis]][index][-1]
 				# get the last complication, save the rest for documentation
+				
 				headers[index] = complication.duplicate(true)
 	for variable in get_variable_complications():
 		for i in headers:
@@ -1341,7 +1342,8 @@ func handle_delta_complication(complication: DeltaComplication):
 	generate_delta_footer(complication)
 
 func generate_delta_header(complication: DeltaComplication):
-	master [active_id][HEADERS_OVERRIDE_KEY] = {}
+	if ! master [active_id].has(HEADERS_OVERRIDE_KEY):
+		master [active_id][HEADERS_OVERRIDE_KEY] = {}
 	var subject_axis = complication.subject_axis
 	var subject_index = complication.subject_index
 	if ! master [active_id][HEADERS_OVERRIDE_KEY].has(subject_axis):
