@@ -688,6 +688,11 @@ func generate_ellipse_map(parameters: LevelParameters):
 				set_target_position(Vector2i(i, k), SquareStates.EMPTY)
 
 func generate_waveform_map(parameters: LevelParameters):
+	var series_function: Callable
+	if parameters.generation.v2:
+		series_function = handle_series_v2
+	else:
+		series_function = handle_series
 	master [active_id][TARGET_MAP_KEY] = {}
 	var SIZE = get_size()
 	for i in SIZE.x:
@@ -696,12 +701,7 @@ func generate_waveform_map(parameters: LevelParameters):
 			var generation = parameters.generation
 			var sum = 0.0
 			for wave in parameters.generation.waveform_series:
-				var series_sum = 0.0
-				if series_sum == 0.0:
-					series_sum = handle_series(wave, i, k)
-				else:
-					series_sum *= handle_series(wave, i, k)
-				sum += series_sum
+				sum += series_function.call(wave, i, k)
 			var r = generation.randomness
 			sum += randf_range(-r, r)
 			sum += generation.constant
@@ -722,6 +722,21 @@ func handle_series(term: Wave, i: int, k: int) -> float:
 		term_sum = sin(handle_series(term['nested'], roundi(x), roundi(y)))
 	else:
 		term_sum = sin(x) + sin(y)
+	term_sum *= term.amplitude
+	return term_sum
+
+func handle_series_v2(term: Wave, i: int, k: int) -> float:
+	var frequency = term.frequency
+	var x = float(i) * float(frequency.x)
+	var y = float(k) * float(frequency.y)
+	var offset = term.offset
+	x += offset.x
+	y += offset.y
+	var term_sum = 0.0
+	if term.nested != null:
+		term_sum = sin(handle_series_v2(term['nested'], roundi(x), roundi(y)))
+	else:
+		term_sum = sin(sqrt(x * x + y * y))
 	term_sum *= term.amplitude
 	return term_sum
 
