@@ -1340,6 +1340,8 @@ func has_prev_level():
 #region Complications
 func handle_complications(list: Array):
 	for i in list:
+		if i == null:
+			push_error("Complication is null in level ", active_id)
 		match i.type:
 			"delta":
 				handle_delta_complication(i)
