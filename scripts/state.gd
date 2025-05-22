@@ -510,15 +510,17 @@ func handle_input_press():
 	if toggle_state == ToggleStates.NOTHING:
 		if Input.is_action_just_pressed("Flag"):
 			handle_flag_press(state)
-			drag_start = chosen_coords
-			drag_begun.emit()
+			if chosen_coords != Vector2i(-1, -1):
+				drag_start = chosen_coords
+				drag_begun.emit()
 		elif Input.is_action_just_pressed("Mark"):
 			if power_id != "":
 				use_power()
 			else:
 				handle_mark_press(state)
-				drag_start = chosen_coords
-				drag_begun.emit()
+				if chosen_coords != Vector2i(-1, -1):
+					drag_start = chosen_coords
+					drag_begun.emit()
 	if Input.is_action_just_pressed("Undo"):
 		undo()
 	elif Input.is_action_just_pressed("Redo"):
@@ -640,14 +642,14 @@ func random_center_diamond_map(parameters: LevelParameters):
 	for i in SIZE.x:
 		master [active_id][TARGET_MAP_KEY][i] = create_empty_array(SIZE.y)
 		for k in SIZE.y:
-			var average = roundi((SIZE.x + SIZE.y) / 2.0)
+			var quarter = roundi((SIZE.x + SIZE.y) / 4.0)
 			var random_value = randf_range(-2.5, 2.5)
 			var generation = parameters.generation
 			random_value *= generation.randomness
-			var sum = absi(i - roundi(average / 2.0)) + absi(k - roundi(average / 2.0))
+			var sum = absi(i - quarter) + absi(k - quarter)
 			sum += random_value
 			sum += generation.constant
-			var marked = sum < roundi(average / 1.95)
+			var marked = sum < quarter + 0.01
 			if (marked):
 				set_target_position(Vector2i(i, k), SquareStates.MARKED)
 			else:
