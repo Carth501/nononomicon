@@ -205,6 +205,15 @@ func get_chosen_coords_state() -> SquareStates:
 func get_position_state(coords: Vector2i) -> SquareStates:
 	if (coords.x < 0 || coords.x >= get_size().x || coords.y < 0 || coords.y >= get_size().y):
 		return SquareStates.INVALID
+	if ! master [active_id].has(SQUARE_MAP_KEY):
+		push_error("SQUARE_MAP_KEY missing. Something went very wrong: ", master [active_id])
+		return SquareStates.EMPTY
+	if ! master [active_id][SQUARE_MAP_KEY].has(coords.x):
+		push_error("Column missing from Square map key. Did the map size change?")
+		return SquareStates.EMPTY
+	if ! master [active_id][SQUARE_MAP_KEY][coords.x].size() > coords.y:
+		push_error("Row missing from Square map key column. Did the map size change?")
+		return SquareStates.EMPTY
 	return master [active_id][SQUARE_MAP_KEY][coords.x][coords.y]
 
 func get_board_ready() -> bool:
@@ -475,9 +484,9 @@ func _process(_delta):
 		return
 	handle_input_release()
 	handle_note_press()
+	handle_input_press()
 	if chosen_coords == Vector2i(-1, -1):
 		return
-	handle_input_press()
 
 #region Input Handling
 func handle_input_release():
@@ -522,6 +531,8 @@ func handle_input_press():
 		arrow_move(Vector2i(chosen_coords.x - 1, chosen_coords.y))
 	elif Input.is_action_just_pressed("Right"):
 		arrow_move(Vector2i(chosen_coords.x + 1, chosen_coords.y))
+	if chosen_coords == Vector2i(-1, -1):
+		return
 	handle_drag_motion()
 	handle_toggle_state()
 
