@@ -234,8 +234,8 @@ func get_header(axis: String) -> Dictionary:
 	for variable in get_variable_complications():
 		for i in headers:
 			for k in headers[i]:
-				if k['length'] == variable.get('value'):
-					k['length'] = variable.get('glyph', "error")
+				if k['length'] == variable.value:
+					k['length'] = variable.glyph
 	return headers
 
 func get_footer(axis: String) -> Dictionary:

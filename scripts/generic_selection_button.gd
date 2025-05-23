@@ -13,6 +13,9 @@ func set_global_tooltip_text(new_text: String):
 	global_tooltip_text = new_text
 	tooltips_enabled = true
 
+func set_tooltips(setting: bool):
+	tooltips_enabled = setting
+
 func set_value(new_thing: String):
 	thing = new_thing
 

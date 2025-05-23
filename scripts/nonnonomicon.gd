@@ -8,7 +8,7 @@ var index := preload("res://scenes/index.tscn")
 @export var split_container: SplitContainer
 @export var submission_button: Button
 @export var index_page: Index
-@export var next_button: Button
+@export var next_button: Generic_Selection_Button
 @export var prev_button: Button
 @export var command_console: LineEdit
 @export var drawer: Control
@@ -93,10 +93,23 @@ func _on_prev_button_pressed() -> void:
 	reset_timer()
 
 func set_next_button():
-	next_button.visible = State.has_next_level()
+	var next_level_id = LevelLibrary.get_next_level(State.get_active_id())
+	if next_level_id == "":
+		next_button.visible = next_level_id != ""
+		return
+	var level_available = LevelLibrary.get_level_available(next_level_id)
+	if level_available:
+		next_button.set_tooltips(false)
+		next_button.set_disabled(false)
+	else:
+		next_button.set_global_tooltip_text("Locked in the demo!")
+		next_button.set_disabled(true)
 
 func set_next_enabled(value: bool):
-	next_button.disabled = !value
+	var next_level_id = LevelLibrary.get_next_level(State.get_active_id())
+	var next_level_available = LevelLibrary.get_level_available(next_level_id)
+	if next_level_available:
+		next_button.disabled = !value
 
 func set_prev_button():
 	prev_button.visible = State.has_prev_level()
