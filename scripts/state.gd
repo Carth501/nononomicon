@@ -107,8 +107,7 @@ func setup(parameters: LevelParameters) -> void:
 	generate_empty_map()
 	handle_complications(parameters['complications'])
 	board_ready.emit()
-	for coords in parameters.locks:
-		lock_square(coords)
+	apply_level_locks()
 
 func new_game():
 	master = {}
@@ -125,6 +124,7 @@ func load_save(save: Dictionary):
 		setup(LevelLibrary.get_level_parameters(level))
 		if (save[level].has(SQUARE_MAP_KEY)): # it would be weird for this to be missing
 			master [level][SQUARE_MAP_KEY] = save[level][SQUARE_MAP_KEY]
+			apply_level_locks()
 		else:
 			push_warning("Missing square map for level: ", level)
 		if (save[level].has(VICTORY_KEY)):
@@ -1669,6 +1669,11 @@ func clear_locks():
 		return
 	master [active_id][LOCKS_KEY] = []
 	locks_cleared.emit()
+
+func apply_level_locks():
+	var locks = get_level_parameters().locks
+	for coords in locks:
+		lock_square(coords)
 #endregion locking
 
 #region etching

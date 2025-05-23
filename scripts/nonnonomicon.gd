@@ -107,6 +107,8 @@ func set_next_button():
 
 func set_next_enabled(value: bool):
 	var next_level_id = LevelLibrary.get_next_level(State.get_active_id())
+	if next_level_id == "":
+		return
 	var next_level_available = LevelLibrary.get_level_available(next_level_id)
 	if next_level_available:
 		next_button.disabled = !value
