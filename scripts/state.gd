@@ -485,8 +485,6 @@ func _process(_delta):
 	handle_input_release()
 	handle_note_press()
 	handle_input_press()
-	if chosen_coords == Vector2i(-1, -1):
-		return
 
 #region Input Handling
 func handle_input_release():
@@ -509,10 +507,13 @@ func handle_input_press():
 	var state = get_chosen_coords_state()
 	if toggle_state == ToggleStates.NOTHING:
 		if Input.is_action_just_pressed("Flag"):
-			handle_flag_press(state)
-			if chosen_coords != Vector2i(-1, -1):
-				drag_start = chosen_coords
-				drag_begun.emit()
+			if power_id != "":
+				cancel_power()
+			else:
+				handle_flag_press(state)
+				if chosen_coords != Vector2i(-1, -1):
+					drag_start = chosen_coords
+					drag_begun.emit()
 		elif Input.is_action_just_pressed("Mark"):
 			if power_id != "":
 				use_power()
@@ -572,16 +573,26 @@ func arrow_move(direction: Vector2i):
 	set_chosen_coords(direction)
 
 func handle_mark_press(state: SquareStates):
-	if state == SquareStates.EMPTY || state == SquareStates.NOTE_MARKED:
+	if state == SquareStates.EMPTY || state == SquareStates.FLAGGED:
 		set_toggle_state(ToggleStates.MARKING)
 	elif state == SquareStates.MARKED:
 		set_toggle_state(ToggleStates.EMPTYING_MARKED)
+	elif state == SquareStates.NOTE_MARKED:
+		if notes:
+			set_toggle_state(ToggleStates.EMPTYING_MARKED)
+		else:
+			set_toggle_state(ToggleStates.MARKING)
 
 func handle_flag_press(state: SquareStates):
-	if state == SquareStates.EMPTY || state == SquareStates.NOTE_FLAGGED:
+	if state == SquareStates.EMPTY:
 		set_toggle_state(ToggleStates.FLAGGING)
-	elif state == SquareStates.FLAGGED:
+	elif state == SquareStates.FLAGGED || state == SquareStates.MARKED:
 		set_toggle_state(ToggleStates.EMPTYING_FLAGGED)
+	elif state == SquareStates.NOTE_FLAGGED:
+		if notes:
+			set_toggle_state(ToggleStates.EMPTYING_FLAGGED)
+		else:
+			set_toggle_state(ToggleStates.FLAGGING)
 
 func handle_toggle_state():
 	if toggle_state == ToggleStates.MARKING:
