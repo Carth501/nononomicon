@@ -15,7 +15,7 @@ config/version="0.8"
 run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
-config/is_demo=true
+config/is_demo=false
 config/is_demo.demo_build=true
 config/is_demo.full_build=false
 
