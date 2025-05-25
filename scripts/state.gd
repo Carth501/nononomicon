@@ -511,7 +511,7 @@ func handle_input_press():
 				cancel_power()
 			else:
 				handle_flag_press(state)
-				if chosen_coords != Vector2i(-1, -1):
+				if chosen_coords != Vector2i(-1, -1) and state != SquareStates.MARKED:
 					drag_start = chosen_coords
 					drag_begun.emit()
 		elif Input.is_action_just_pressed("Mark"):
@@ -519,7 +519,7 @@ func handle_input_press():
 				use_power()
 			else:
 				handle_mark_press(state)
-				if chosen_coords != Vector2i(-1, -1):
+				if chosen_coords != Vector2i(-1, -1) and state != SquareStates.FLAGGED:
 					drag_start = chosen_coords
 					drag_begun.emit()
 	if Input.is_action_just_pressed("Undo"):
