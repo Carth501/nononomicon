@@ -24,6 +24,7 @@ signal submission_error_count_changed
 signal timer_changed(time)
 signal level_victory_changed
 signal squares_correct
+signal etching_added_to_square(coords)
 
 enum SquareStates {
 	EMPTY,
@@ -79,6 +80,7 @@ var POWERS_KEY := 'powers'
 var HINTS_KEY := 'hints'
 var SUBMISSION_ERROR_COUNT_KEY := 'submission_error_count'
 var TIMER_KEY := 'timer'
+var ETCHINGS_KEY := 'etchings'
 var toggle_state: ToggleStates = ToggleStates.NOTHING
 var notes: bool
 var active_id: String = "default"
@@ -1692,17 +1694,47 @@ func find_etching_number(coords: Vector2i) -> int:
 	var value = 0
 	var x = coords.x
 	var y = coords.y
-	value += 1 if get_position_state(Vector2i(x - 1, y - 1)) == SquareStates.MARKED else 0
-	value += 1 if get_position_state(Vector2i(x - 1, y)) == SquareStates.MARKED else 0
-	value += 1 if get_position_state(Vector2i(x - 1, y + 1)) == SquareStates.MARKED else 0
-	value += 1 if get_position_state(Vector2i(x, y - 1)) == SquareStates.MARKED else 0
-	value += 1 if get_position_state(Vector2i(x, y)) == SquareStates.MARKED else 0
-	value += 1 if get_position_state(Vector2i(x, y + 1)) == SquareStates.MARKED else 0
-	value += 1 if get_position_state(Vector2i(x + 1, y - 1)) == SquareStates.MARKED else 0
-	value += 1 if get_position_state(Vector2i(x + 1, y)) == SquareStates.MARKED else 0
-	value += 1 if get_position_state(Vector2i(x + 1, y + 1)) == SquareStates.MARKED else 0
+	value += 1 if get_target_position(Vector2i(x - 1, y - 1)) == SquareStates.MARKED else 0
+	value += 1 if get_target_position(Vector2i(x - 1, y)) == SquareStates.MARKED else 0
+	value += 1 if get_target_position(Vector2i(x - 1, y + 1)) == SquareStates.MARKED else 0
+	value += 1 if get_target_position(Vector2i(x, y - 1)) == SquareStates.MARKED else 0
+	value += 1 if get_target_position(Vector2i(x, y)) == SquareStates.MARKED else 0
+	value += 1 if get_target_position(Vector2i(x, y + 1)) == SquareStates.MARKED else 0
+	value += 1 if get_target_position(Vector2i(x + 1, y - 1)) == SquareStates.MARKED else 0
+	value += 1 if get_target_position(Vector2i(x + 1, y)) == SquareStates.MARKED else 0
+	value += 1 if get_target_position(Vector2i(x + 1, y + 1)) == SquareStates.MARKED else 0
 	return value
 
+func etch_square(coords: Vector2i):
+	if ! master.has(active_id):
+		push_error("Attempted to etch square with invalid id: ", active_id)
+		return
+	if ! master [active_id].has(ETCHINGS_KEY):
+		master [active_id][ETCHINGS_KEY] = []
+	if ! master [active_id][ETCHINGS_KEY].has(coords):
+		var etching_number = find_etching_number(coords)
+		master [active_id][ETCHINGS_KEY].append({'coords': coords, 'etching_number': etching_number})
+		etching_added_to_square.emit(coords)
+
+func get_etchings() -> Array:
+	if ! master.has(active_id):
+		push_error("Attempted to get etchings with invalid id: ", active_id)
+		return []
+	if ! master [active_id].has(ETCHINGS_KEY):
+		return []
+	return master [active_id][ETCHINGS_KEY]
+
+func get_etching_value(coords: Vector2i) -> int:
+	if ! master.has(active_id):
+		push_error("Attempted to get etching value with invalid id: ", active_id)
+		return -1
+	if ! master [active_id].has(ETCHINGS_KEY):
+		return -1
+	var etchings = master [active_id][ETCHINGS_KEY]
+	for etching in etchings:
+		if etching['coords'] == coords:
+			return etching['etching_number']
+	return -1
 #endregion etching
 
 #region powers
@@ -1722,6 +1754,9 @@ func use_power():
 	if power_id == "bind":
 		if get_charges(power_id) > 0:
 			power_bind()
+	if power_id == "etch":
+		if get_charges(power_id) > 0:
+			power_etch()
 	power_id = ""
 	hiding_power.emit()
 
@@ -1751,6 +1786,12 @@ func power_bind():
 	for i in range(bind_list.size()):
 		lock_square(bind_list[i])
 	use_charge("bind")
+
+func power_etch():
+	if get_etchings().has(chosen_coords):
+		return
+	etch_square(chosen_coords)
+	use_charge("etch")
 
 func get_powers() -> Dictionary:
 	if active_id == "default":

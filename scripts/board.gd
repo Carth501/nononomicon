@@ -47,6 +47,7 @@ func _ready():
 	State.level_changed.connect(toggle_submission_error_display)
 	State.level_changed.connect(set_timer_display)
 	State.timer_changed.connect(update_time_display)
+	State.etching_added_to_square.connect(add_etching)
 	victory_label.visible = false
 
 func prepare_board():
@@ -244,3 +245,24 @@ func update_time_display(time: float):
 		x_margin + col_head_width - timer_display.size.x - 8,
 		y_margin + row_head_height + header_col_scroll.size.y + 8
 		)
+
+func add_etching(coords: Vector2i):
+	var square = nonogram_squares.get_square(coords)
+	if square:
+		var etching_value = State.get_etching_value(coords)
+		if etching_value != -1:
+			square.add_etching(etching_value)
+	else:
+		push_error("Tried to add etching to a square that doesn't exist: " + str(coords))
+
+func clear_etching(coords: Vector2i):
+	var square = nonogram_squares.get_square(coords)
+	if square:
+		square.clear_etching()
+	else:
+		push_error("Tried to clear etching from a square that doesn't exist: " + str(coords))
+
+func clear_all_ettings():
+	for i in State.get_size().x:
+		for j in State.get_size().y:
+			clear_etching(Vector2i(i, j))

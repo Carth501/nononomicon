@@ -8,6 +8,7 @@ class_name NonogramSquare extends Control
 var bleed_away_scene = preload("res://scenes/burnaway.tscn")
 @export var lock_tex: TextureRect
 @export var effect_list: Control
+@export var etching_label: Label
 
 func setup(new_coords: Vector2i):
 	coords = new_coords
@@ -86,3 +87,11 @@ func get_point() -> Vector2:
 		var x = randf_range(0, size.x)
 		var y = randf_range(0, size.y)
 		return Vector2(x, y)
+
+func add_etching(value: int):
+	etching_label.text = str(value)
+	etching_label.show()
+
+func clear_etching():
+	etching_label.text = ""
+	etching_label.hide()
