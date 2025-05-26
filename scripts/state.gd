@@ -144,6 +144,8 @@ func load_save(save: Dictionary):
 			master [level][SUBMISSION_ERROR_COUNT_KEY] = save[level][SUBMISSION_ERROR_COUNT_KEY]
 		if save[level].has(TIMER_KEY):
 			master [level][TIMER_KEY] = save[level][TIMER_KEY]
+		if save[level].has(ETCHINGS_KEY):
+			master [level][ETCHINGS_KEY] = save[level][ETCHINGS_KEY]
 
 func get_trimmed_master() -> Dictionary:
 	var trimmed_master = {}
@@ -164,6 +166,8 @@ func get_trimmed_master() -> Dictionary:
 			trimmed_master[level][SUBMISSION_ERROR_COUNT_KEY] = master [level][SUBMISSION_ERROR_COUNT_KEY]
 		if master [level].has(TIMER_KEY):
 			trimmed_master[level][TIMER_KEY] = master [level][TIMER_KEY]
+		if master [level].has(ETCHINGS_KEY):
+			trimmed_master[level][ETCHINGS_KEY] = master [level][ETCHINGS_KEY]
 	return trimmed_master
 
 func set_active_id(new_id: String):
