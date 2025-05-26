@@ -69,6 +69,7 @@ func prepare_board():
 		guidelines.create_lines(State.get_guideline_interval())
 		check_locks()
 		set_timer_display()
+		apply_etchings()
 
 func toggle_victory(value: bool):
 	victory_label.visible = value
@@ -266,3 +267,9 @@ func clear_all_ettings():
 	for i in State.get_size().x:
 		for j in State.get_size().y:
 			clear_etching(Vector2i(i, j))
+
+func apply_etchings():
+	var etchings = State.get_etchings()
+	for etching in etchings:
+		var square = nonogram_squares.get_square(etching.coords)
+		square.add_etching(etching.etching_number)
