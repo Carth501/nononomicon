@@ -20,6 +20,7 @@ class_name NonogramBoard extends Container
 @export var percent_marked_label: Label
 @export var submission_error_display: SubmissionErrorDisplay
 @export var timer_display: Label
+@export var victory_splash: VictorySplashController
 var highlighting: Vector2i
 var scrolling: bool = false
 
@@ -70,6 +71,10 @@ func prepare_board():
 
 func toggle_victory(value: bool):
 	victory_label.visible = value
+	if value:
+		victory_splash.start_splash()
+	else:
+		victory_splash.reset_splash()
 
 func update_highlighter_square(coords: Vector2i):
 	if highlighting != Vector2i(-1, -1):
