@@ -97,6 +97,7 @@ func set_next_button():
 	if next_level_id == "":
 		next_button.visible = next_level_id != ""
 		return
+	next_button.visible = true
 	var level_available = LevelLibrary.get_level_available(next_level_id)
 	if level_available:
 		next_button.set_tooltips(false)
