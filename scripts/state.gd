@@ -458,6 +458,8 @@ func reset():
 		for coords in locks:
 			lock_square(coords)
 		set_powers(parameters.powers)
+		if master [active_id].has(ETCHINGS_KEY):
+			master [active_id][ETCHINGS_KEY] = []
 		board_ready.emit()
 		clear_stack()
 		if master [active_id].has(VICTORY_KEY):
