@@ -70,6 +70,7 @@ func prepare_board():
 		check_locks()
 		set_timer_display()
 		apply_etchings()
+		victory_splash.check_victory_fade()
 
 func toggle_victory(value: bool):
 	victory_label.visible = value
@@ -273,3 +274,6 @@ func apply_etchings():
 	for etching in etchings:
 		var square = nonogram_squares.get_square(etching.coords)
 		square.add_etching(etching.etching_number)
+
+func change_victory_fade(setting: bool):
+	victory_splash.toggle_victory_fade(setting)

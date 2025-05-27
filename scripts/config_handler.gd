@@ -12,5 +12,5 @@ func update_setting(key: String, value: Variant) -> void:
 	config.set_value("Settings", key, value)
 	config.save("user://settings.cfg")
 
-func get_setting(key: String) -> Variant:
-	return config.get_value("Settings", key, null)
+func get_setting(key: String, default: Variant = null) -> Variant:
+	return config.get_value("Settings", key, default)

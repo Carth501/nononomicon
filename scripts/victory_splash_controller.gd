@@ -12,6 +12,7 @@ enum SplashState {
 var opacity: float = 0.0
 var splash_state: SplashState = SplashState.OFF
 var splash_timer: Timer
+var enabled: bool = true
 
 func _ready():
 	splash_timer = Timer.new()
@@ -28,11 +29,15 @@ func _on_splash_timer_timeout():
 	toggle_splash(SplashState.DONE)
 
 func start_splash():
-	toggle_splash(SplashState.GROWING)
+	if enabled:
+		toggle_splash(SplashState.GROWING)
 
 func disable_splash():
 	toggle_splash(SplashState.DISABLED)
-	opacity = 1.0
+	if State.get_victory_state():
+		opacity = 0.0
+	else:
+		opacity = 1.0
 	update_splash()
 
 func reset_splash():
@@ -56,3 +61,26 @@ func update_splash():
 		splash_state = SplashState.DONE
 	for obj in object_list:
 		obj.modulate.a = opacity
+	
+func toggle_victory_fade(setting: bool):
+	ConfigHandler.update_setting('victory_fade', setting)
+	enabled = setting
+	if setting:
+		if State.get_victory_state():
+			start_splash()
+			splash_timer.start()
+		else:
+			reset_splash()
+	else:
+		disable_splash()
+
+func check_victory_fade():
+	var setting = ConfigHandler.get_setting('victory_fade', true)
+	if setting:
+		if State.get_victory_state():
+			start_splash()
+			splash_timer.start()
+		else:
+			reset_splash()
+	else:
+		disable_splash()

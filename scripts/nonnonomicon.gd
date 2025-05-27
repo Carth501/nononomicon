@@ -26,6 +26,7 @@ var index := preload("res://scenes/index.tscn")
 @export var power_menu: PowersMenu
 @export var undo_button: Button
 @export var redo_button: Button
+@export var victory_fade_switch: CheckBox
 var drawer_width_percent := 0.7
 
 func _ready():
@@ -44,6 +45,8 @@ func _ready():
 	State.level_changed.connect(toggle_power_menu)
 	State.stack_changed.connect(update_stack_controls)
 	State.level_changed.connect(update_stack_controls)
+	var victory_fade_setting = ConfigHandler.get_setting("victory_fade", true)
+	victory_fade_switch.set_pressed_no_signal(victory_fade_setting)
 
 func open_page(id: String):
 	if (id == "index"):
@@ -280,3 +283,6 @@ func update_stack_controls():
 		undo_button.disabled = !can_undo
 	if redo_button:
 		redo_button.disabled = !can_redo
+
+func victory_fade_switch_toggled(checked: bool) -> void:
+	board.change_victory_fade(checked)
