@@ -170,6 +170,10 @@ global_tooltip_text = "Ctrl Y"
 tooltips_enabled = true
 metadata/_custom_type_script = "uid://dwhhafu30hbj5"
 
+[node name="VictoryFadeCheck" type="CheckButton" parent="HSplitContainer/Drawer/VBoxContainer/GameUI"]
+layout_mode = 2
+text = "Victory Fade"
+
 [node name="VSplitContainer" type="VSplitContainer" parent="HSplitContainer/Drawer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
@@ -304,5 +308,6 @@ script = ExtResource("7_lsml7")
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer/CheatButton" to="." method="cheat"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/StackControls/UndoButton" to="." method="_on_undo_button_pressed"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/StackControls/RedoButton" to="." method="_on_redo_button_pressed"]
+[connection signal="toggled" from="HSplitContainer/Drawer/VBoxContainer/GameUI/VictoryFadeCheck" to="." method="victory_fade_toggle"]
 [connection signal="toggled" from="DebugOptions/List/StackToggle" to="." method="toggle_stack_view"]
 [connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]

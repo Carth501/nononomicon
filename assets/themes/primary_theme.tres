@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=15 format=3 uid="uid://6b5skotjmdvf"]
+[gd_resource type="Theme" load_steps=16 format=3 uid="uid://6b5skotjmdvf"]
 
 [ext_resource type="StyleBox" uid="uid://dlt8vl4e4jfq2" path="res://assets/themes/action_style_hover.tres" id="1_acjd2"]
 [ext_resource type="StyleBox" uid="uid://0ctfebvmivvx" path="res://assets/themes/action_style.tres" id="1_b14wq"]
@@ -6,6 +6,7 @@
 [ext_resource type="StyleBox" uid="uid://c1cg1ghh0sp50" path="res://assets/themes/panel_color_style.tres" id="1_xmowy"]
 [ext_resource type="StyleBox" uid="uid://cnaanfddudcvo" path="res://assets/themes/action_style_focused.tres" id="2_jqgcy"]
 [ext_resource type="StyleBox" uid="uid://bukx21elobx8p" path="res://assets/themes/action_style_pressed.tres" id="3_chio6"]
+[ext_resource type="StyleBox" uid="uid://bvcx1fp6xavy6" path="res://assets/themes/action_style_hover_pressed.tres" id="4_adror"]
 [ext_resource type="StyleBox" uid="uid://bkmhuclyj1k3y" path="res://assets/themes/slider_grabber.tres" id="6_eyspa"]
 [ext_resource type="StyleBox" uid="uid://clv0b3tlnba1a" path="res://assets/themes/text_input_normal.tres" id="6_j77nv"]
 [ext_resource type="StyleBox" uid="uid://dhtcb2vbsdb7m" path="res://assets/themes/text_input_focus.tres" id="6_rqu45"]
@@ -37,6 +38,7 @@ Button/constants/outline_size = 4
 Button/styles/disabled = ExtResource("1_cumtl")
 Button/styles/focus = ExtResource("2_jqgcy")
 Button/styles/hover = ExtResource("1_acjd2")
+Button/styles/hover_pressed = ExtResource("4_adror")
 Button/styles/normal = ExtResource("1_b14wq")
 Button/styles/pressed = ExtResource("3_chio6")
 HScrollBar/styles/grabber = ExtResource("6_eyspa")
