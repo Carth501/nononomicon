@@ -1328,6 +1328,7 @@ func set_victory_true():
 	victory_changed.emit(true)
 	level_victory_changed.emit(active_id)
 	timer.stop()
+	clear_stack()
 
 func get_victory_count() -> int:
 	var count = 0
