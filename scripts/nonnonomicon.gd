@@ -24,6 +24,8 @@ var index := preload("res://scenes/index.tscn")
 @export var hint_button: Button
 @export var tab_menus: TabContainer
 @export var power_menu: PowersMenu
+@export var undo_button: Button
+@export var redo_button: Button
 var drawer_width_percent := 0.7
 
 func _ready():
@@ -40,6 +42,8 @@ func _ready():
 	State.level_changed.connect(reset_submission_button)
 	State.victory_changed.connect(reset_submission_button)
 	State.level_changed.connect(toggle_power_menu)
+	State.stack_changed.connect(update_stack_controls)
+	State.level_changed.connect(update_stack_controls)
 
 func open_page(id: String):
 	if (id == "index"):
@@ -266,3 +270,13 @@ func toggle_power_menu():
 	else:
 		tab_menus.set_tab_disabled(0, true)
 		tab_menus.current_tab = 1
+
+func update_stack_controls():
+	var stack = State.get_stack()
+	var stack_index = State.get_stack_index()
+	var can_undo = stack_index > 0
+	var can_redo = stack_index < stack.size() && stack.size() > 0
+	if undo_button:
+		undo_button.disabled = !can_undo
+	if redo_button:
+		redo_button.disabled = !can_redo

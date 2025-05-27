@@ -327,14 +327,14 @@ func set_chosen_coords_state(new_state: SquareStates):
 
 func get_target_position(coords: Vector2i) -> SquareStates:
 	var SIZE = get_size()
-	if (coords.x < 0 || coords.x >= SIZE.x || coords.y < 0 || coords.y >= SIZE.y):
-		printerr("Invalid position: ", coords.x, ", ", coords.y)
+	if coords.x < 0 || coords.x >= SIZE.x || coords.y < 0 || coords.y >= SIZE.y:
+		return SquareStates.INVALID
 	return master [active_id][TARGET_MAP_KEY][coords.x][coords.y]
 
 func set_target_position(coords: Vector2i, value: SquareStates):
 	var SIZE = get_size()
-	if (coords.x < 0 || coords.x >= SIZE.x || coords.y < 0 || coords.y >= SIZE.y):
-		printerr("Invalid position: ", coords.x, ", ", coords.y)
+	if coords.x < 0 || coords.x >= SIZE.x || coords.y < 0 || coords.y >= SIZE.y:
+		return SquareStates.INVALID
 	master [active_id][TARGET_MAP_KEY][coords.x][coords.y] = value
 
 func set_notes_no_signal(value: bool):
@@ -1561,7 +1561,7 @@ func push_stack(action: Dictionary):
 	if ! master [active_id].has(STACK_KEY):
 		master [active_id][STACK_KEY] = []
 	if ! master [active_id].has(STACK_INDEX_KEY):
-		master [active_id][STACK_INDEX_KEY] = get_stack_size() - 1
+		master [active_id][STACK_INDEX_KEY] = get_stack_size()
 	master [active_id][STACK_KEY] = master [active_id][STACK_KEY].slice(0, master [active_id][STACK_INDEX_KEY])
 	master [active_id][STACK_INDEX_KEY] += 1
 	master [active_id][STACK_KEY].append(action)
@@ -1589,7 +1589,7 @@ func undo_stack() -> Dictionary:
 		return {}
 	if master [active_id][STACK_KEY].size() == 0:
 		return {}
-	if master [active_id][STACK_INDEX_KEY] == 0:
+	if master [active_id][STACK_INDEX_KEY] <= 0:
 		return {}
 	master [active_id][STACK_INDEX_KEY] -= 1
 	var index = master [active_id][STACK_INDEX_KEY]
