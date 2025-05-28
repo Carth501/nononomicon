@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://p7emdn1gu7nk"]
+[gd_scene load_steps=12 format=3 uid="uid://p7emdn1gu7nk"]
 
 [ext_resource type="Theme" uid="uid://6b5skotjmdvf" path="res://assets/themes/primary_theme.tres" id="1_r5qd4"]
 [ext_resource type="Script" uid="uid://c8ccsg4ye4e7r" path="res://scripts/nonnonomicon.gd" id="1_yfbcv"]
@@ -10,8 +10,9 @@
 [ext_resource type="Script" uid="uid://bxpwwpcfkjrk" path="res://scripts/drag_display_handler.gd" id="7_lsml7"]
 [ext_resource type="Script" uid="uid://bwbhgqxg25ve0" path="res://scripts/features_display.gd" id="7_pbmpp"]
 [ext_resource type="PackedScene" uid="uid://cm2a3612ia7mn" path="res://scenes/feature_item.tscn" id="8_ygvtv"]
+[ext_resource type="PackedScene" uid="uid://c6wo4df14noqf" path="res://scenes/options_menu.tscn" id="11_1rlom"]
 
-[node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("game_ui", "board", "split_container", "submission_button", "index_page", "next_button", "prev_button", "command_console", "drawer", "descriptions", "level_title", "tutorial_text", "power_description_container", "power_description", "power_name", "debug_menu", "stack_container", "stack_list", "hint_button", "tab_menus", "power_menu", "undo_button", "redo_button", "victory_fade_switch")]
+[node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("game_ui", "board", "split_container", "submission_button", "index_page", "next_button", "prev_button", "command_console", "drawer", "descriptions", "level_title", "tutorial_text", "power_description_container", "power_description", "power_name", "debug_menu", "stack_container", "stack_list", "hint_button", "tab_menus", "power_menu", "undo_button", "redo_button", "victory_fade_switch", "options_menu")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -44,6 +45,7 @@ power_menu = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/TabM
 undo_button = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/StackControls/UndoButton")
 redo_button = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/StackControls/RedoButton")
 victory_fade_switch = NodePath("DebugOptions/List/StackToggle")
+options_menu = NodePath("OptionsMenu")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -177,7 +179,14 @@ global_tooltip_text = "Ctrl Y"
 tooltips_enabled = true
 metadata/_custom_type_script = "uid://dwhhafu30hbj5"
 
-[node name="VictoryFadeCheck" type="CheckButton" parent="HSplitContainer/Drawer/VBoxContainer/GameUI"]
+[node name="OptionsControl" type="VBoxContainer" parent="HSplitContainer/Drawer/VBoxContainer/GameUI"]
+layout_mode = 2
+
+[node name="OptionsButton" type="Button" parent="HSplitContainer/Drawer/VBoxContainer/GameUI/OptionsControl"]
+layout_mode = 2
+text = "Options Menu"
+
+[node name="VictoryFadeCheck" type="CheckButton" parent="HSplitContainer/Drawer/VBoxContainer/GameUI/OptionsControl"]
 layout_mode = 2
 text = "Victory Fade"
 
@@ -297,9 +306,14 @@ grow_vertical = 0
 [node name="DragHandler" type="Node" parent="."]
 script = ExtResource("7_lsml7")
 
+[node name="OptionsMenu" parent="." instance=ExtResource("11_1rlom")]
+visible = false
+layout_mode = 1
+
 [connection signal="resized" from="." to="." method="_on_resized"]
 [connection signal="resized" from="." to="." method="resize_board"]
 [connection signal="level_selected" from="Index" to="." method="open_page"]
+[connection signal="open_options" from="Index" to="." method="_on_options_pressed"]
 [connection signal="dragged" from="HSplitContainer" to="." method="on_drawer_dragged"]
 [connection signal="resized" from="HSplitContainer/NonogramBoard" to="HSplitContainer/NonogramBoard" method="resize_board"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/LevelControlsContainer/Control/NextButton" to="." method="_on_next_button_pressed"]
@@ -315,6 +329,7 @@ script = ExtResource("7_lsml7")
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/VBoxContainer/CheatButton" to="." method="cheat"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/StackControls/UndoButton" to="." method="_on_undo_button_pressed"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/StackControls/RedoButton" to="." method="_on_redo_button_pressed"]
-[connection signal="toggled" from="HSplitContainer/Drawer/VBoxContainer/GameUI/VictoryFadeCheck" to="." method="victory_fade_switch_toggled"]
+[connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/OptionsControl/OptionsButton" to="." method="_on_options_pressed"]
+[connection signal="toggled" from="HSplitContainer/Drawer/VBoxContainer/GameUI/OptionsControl/VictoryFadeCheck" to="." method="victory_fade_switch_toggled"]
 [connection signal="toggled" from="DebugOptions/List/StackToggle" to="." method="toggle_stack_view"]
 [connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]

@@ -12,15 +12,6 @@ grow_vertical = 2
 script = ExtResource("1_q07hl")
 list = NodePath("ScrollContainer/MarginContainer/List")
 
-[node name="MainMenuButton" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = -1
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 123.0
-offset_bottom = 49.0
-text = "Main Menu"
-
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
@@ -42,4 +33,20 @@ theme_override_constants/margin_bottom = 24
 [node name="List" type="VFlowContainer" parent="ScrollContainer/MarginContainer"]
 layout_mode = 2
 
-[connection signal="pressed" from="MainMenuButton" to="." method="main_menu_button_pressed"]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 280.0
+offset_bottom = 57.0
+
+[node name="MainMenuButton" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "Main Menu"
+
+[node name="OptionsButton" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "Options Menu"
+
+[connection signal="pressed" from="HBoxContainer/MainMenuButton" to="." method="main_menu_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]

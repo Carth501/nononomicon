@@ -27,6 +27,5 @@ func _on_continue_button_pressed() -> void:
 	SaveManager.load_latest_save()
 	get_tree().change_scene_to_file("res://scenes/nononomicon.tscn")
 
-
 func _on_options_pressed() -> void:
 	options_menu.show()

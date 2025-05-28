@@ -28,6 +28,7 @@ var index := preload("res://scenes/index.tscn")
 @export var redo_button: Button
 @export var victory_fade_switch: CheckBox
 var drawer_width_percent := 0.7
+@export var options_menu: OptionsMenu
 
 func _ready():
 	open_page("index")
@@ -286,3 +287,6 @@ func update_stack_controls():
 
 func victory_fade_switch_toggled(checked: bool) -> void:
 	board.change_victory_fade(checked)
+
+func _on_options_pressed() -> void:
+	options_menu.show()
