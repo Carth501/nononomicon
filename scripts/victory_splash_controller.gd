@@ -73,6 +73,7 @@ func toggle_victory_fade(setting: bool):
 
 func check_victory_fade():
 	var setting = ConfigHandler.get_setting('victory_fade', true)
+	enabled = setting
 	if setting:
 		reset_splash()
 	else:

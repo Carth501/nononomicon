@@ -44,7 +44,7 @@ tab_menus = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/TabMe
 power_menu = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/TabMenus/Powers")
 undo_button = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/StackControls/UndoButton")
 redo_button = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/StackControls/RedoButton")
-victory_fade_switch = NodePath("DebugOptions/List/StackToggle")
+victory_fade_switch = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/OptionsControl/VictoryFadeCheck")
 options_menu = NodePath("OptionsMenu")
 
 [node name="ColorRect" type="ColorRect" parent="."]

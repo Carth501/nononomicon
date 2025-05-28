@@ -26,7 +26,7 @@ var index := preload("res://scenes/index.tscn")
 @export var power_menu: PowersMenu
 @export var undo_button: Button
 @export var redo_button: Button
-@export var victory_fade_switch: CheckBox
+@export var victory_fade_switch: CheckButton
 var drawer_width_percent := 0.7
 @export var options_menu: OptionsMenu
 
