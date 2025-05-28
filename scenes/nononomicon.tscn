@@ -26,7 +26,7 @@ board = NodePath("HSplitContainer/NonogramBoard")
 split_container = NodePath("HSplitContainer")
 submission_button = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/GameControlsContainer/SubmitButton")
 index_page = NodePath("Index")
-next_button = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/LevelControlsContainer/Control/NextButton")
+next_button = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/LevelControlsContainer/NextButton")
 prev_button = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/LevelControlsContainer/PrevButton")
 command_console = NodePath("LineEdit")
 drawer = NodePath("HSplitContainer/Drawer")
@@ -97,15 +97,8 @@ notes_controls = NodePath("NotesContainer")
 [node name="LevelControlsContainer" type="VBoxContainer" parent="HSplitContainer/Drawer/VBoxContainer/GameUI"]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="HSplitContainer/Drawer/VBoxContainer/GameUI/LevelControlsContainer"]
-custom_minimum_size = Vector2(97, 49)
+[node name="NextButton" type="Button" parent="HSplitContainer/Drawer/VBoxContainer/GameUI/LevelControlsContainer"]
 layout_mode = 2
-
-[node name="NextButton" type="Button" parent="HSplitContainer/Drawer/VBoxContainer/GameUI/LevelControlsContainer/Control"]
-layout_mode = 2
-offset_top = -159.0
-offset_right = 97.0
-offset_bottom = -110.0
 text = "Next"
 script = ExtResource("6_pyjsb")
 metadata/_custom_type_script = "uid://dwhhafu30hbj5"
@@ -316,7 +309,7 @@ layout_mode = 1
 [connection signal="open_options" from="Index" to="." method="_on_options_pressed"]
 [connection signal="dragged" from="HSplitContainer" to="." method="on_drawer_dragged"]
 [connection signal="resized" from="HSplitContainer/NonogramBoard" to="HSplitContainer/NonogramBoard" method="resize_board"]
-[connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/LevelControlsContainer/Control/NextButton" to="." method="_on_next_button_pressed"]
+[connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/LevelControlsContainer/NextButton" to="." method="_on_next_button_pressed"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/LevelControlsContainer/IndexButton" to="." method="_on_index_button_pressed"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/LevelControlsContainer/PrevButton" to="." method="_on_prev_button_pressed"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/GameControlsContainer/SubmitButton" to="." method="_on_submit_pressed"]

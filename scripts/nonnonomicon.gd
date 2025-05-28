@@ -103,9 +103,8 @@ func _on_prev_button_pressed() -> void:
 func set_next_button():
 	var next_level_id = LevelLibrary.get_next_level(State.get_active_id())
 	if next_level_id == "":
-		next_button.visible = next_level_id != ""
+		next_button.disabled = true
 		return
-	next_button.visible = true
 	var level_available = LevelLibrary.get_level_available(next_level_id)
 	if level_available:
 		next_button.set_tooltips(false)
@@ -117,13 +116,14 @@ func set_next_button():
 func set_next_enabled(value: bool):
 	var next_level_id = LevelLibrary.get_next_level(State.get_active_id())
 	if next_level_id == "":
+		next_button.disabled = true
 		return
 	var next_level_available = LevelLibrary.get_level_available(next_level_id)
 	if next_level_available:
 		next_button.disabled = !value
 
 func set_prev_button():
-	prev_button.visible = State.has_prev_level()
+	prev_button.disabled = !State.has_prev_level()
 
 func toggle_command_console():
 	command_console.visible = !command_console.visible
