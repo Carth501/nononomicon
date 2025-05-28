@@ -49,6 +49,7 @@ func _ready():
 	State.timer_changed.connect(update_time_display)
 	State.etching_added_to_square.connect(add_etching)
 	victory_label.visible = false
+	State.level_changed.connect(change_level_handle_victory_fade)
 
 func prepare_board():
 	if (State.get_board_ready()):
@@ -277,3 +278,6 @@ func apply_etchings():
 
 func change_victory_fade(setting: bool):
 	victory_splash.toggle_victory_fade(setting)
+
+func change_level_handle_victory_fade():
+	victory_splash.check_victory_fade()

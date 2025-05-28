@@ -34,15 +34,16 @@ func start_splash():
 
 func disable_splash():
 	toggle_splash(SplashState.DISABLED)
-	if State.get_victory_state():
-		opacity = 0.0
-	else:
-		opacity = 1.0
+	opacity = 1.0
 	update_splash()
 
 func reset_splash():
-	toggle_splash(SplashState.OFF)
-	opacity = 1.0
+	if State.get_victory_state():
+		opacity = 0.0
+		toggle_splash(SplashState.DONE)
+	else:
+		opacity = 1.0
+		toggle_splash(SplashState.OFF)
 	update_splash()
 
 func finish_splash():
@@ -66,21 +67,13 @@ func toggle_victory_fade(setting: bool):
 	ConfigHandler.update_setting('victory_fade', setting)
 	enabled = setting
 	if setting:
-		if State.get_victory_state():
-			start_splash()
-			splash_timer.start()
-		else:
-			reset_splash()
+		reset_splash()
 	else:
 		disable_splash()
 
 func check_victory_fade():
 	var setting = ConfigHandler.get_setting('victory_fade', true)
 	if setting:
-		if State.get_victory_state():
-			start_splash()
-			splash_timer.start()
-		else:
-			reset_splash()
+		reset_splash()
 	else:
 		disable_splash()
