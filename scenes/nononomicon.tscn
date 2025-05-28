@@ -303,8 +303,8 @@ script = ExtResource("7_lsml7")
 visible = false
 layout_mode = 1
 
-[connection signal="resized" from="." to="." method="_on_resized"]
 [connection signal="resized" from="." to="." method="resize_board"]
+[connection signal="resized" from="." to="." method="_on_resized"]
 [connection signal="level_selected" from="Index" to="." method="open_page"]
 [connection signal="open_options" from="Index" to="." method="_on_options_pressed"]
 [connection signal="dragged" from="HSplitContainer" to="." method="on_drawer_dragged"]

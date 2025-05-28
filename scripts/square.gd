@@ -43,7 +43,7 @@ func set_square_appearance(square_state: State.SquareStates):
 	elif (square_state == State.SquareStates.NOTE_MARKED):
 		note_label.visible = true
 		change_color(Color('F1E9D2'))
-		note_label.set("theme_override_colors/font_color", Color('6D2817'))
+		note_label.set("theme_override_colors/font_color", Color('a82d0f'))
 	elif (square_state == State.SquareStates.NOTE_FLAGGED):
 		note_label.visible = true
 		change_color(Color('F1E9D2'))

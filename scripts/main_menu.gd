@@ -4,6 +4,7 @@ extends Control
 @export var continue_button: Button
 @export var options_menu: OptionsMenu
 @export var version_label: Label
+@export var credits_panel: PanelContainer
 
 func _ready() -> void:
 	version_label.text = "v" + str(ProjectSettings.get_setting("application/config/version"))
@@ -29,3 +30,9 @@ func _on_continue_button_pressed() -> void:
 
 func _on_options_pressed() -> void:
 	options_menu.show()
+
+func toggle_credits_panel():
+	if credits_panel.visible:
+		credits_panel.hide()
+	else:
+		credits_panel.show()
