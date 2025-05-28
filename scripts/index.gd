@@ -71,3 +71,6 @@ func check_chapter_unlocked(level_id: String):
 			print("Chapter not found in index: ", chapter_id)
 	else:
 		print("Chapter ID not found for level: ", level_id)
+
+func main_menu_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
