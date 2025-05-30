@@ -29,7 +29,7 @@ var index := preload("res://scenes/index.tscn")
 @export var victory_fade_switch: CheckButton
 var drawer_width_percent := 0.7
 @export var options_menu: OptionsMenu
-
+@export var tutorial_audio_library: TutorialAudioLibrary
 func _ready():
 	open_page("index")
 	State.victory_changed.connect(set_next_enabled)
@@ -290,3 +290,6 @@ func victory_fade_switch_toggled(checked: bool) -> void:
 
 func _on_options_pressed() -> void:
 	options_menu.show()
+
+func _on_play_tutorial_audio_button_pressed() -> void:
+	tutorial_audio_library.play_audio_for_level(State.get_active_id())

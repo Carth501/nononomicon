@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://p7emdn1gu7nk"]
+[gd_scene load_steps=13 format=3 uid="uid://p7emdn1gu7nk"]
 
 [ext_resource type="Theme" uid="uid://6b5skotjmdvf" path="res://assets/themes/primary_theme.tres" id="1_r5qd4"]
 [ext_resource type="Script" uid="uid://c8ccsg4ye4e7r" path="res://scripts/nonnonomicon.gd" id="1_yfbcv"]
@@ -11,8 +11,9 @@
 [ext_resource type="Script" uid="uid://bwbhgqxg25ve0" path="res://scripts/features_display.gd" id="7_pbmpp"]
 [ext_resource type="PackedScene" uid="uid://cm2a3612ia7mn" path="res://scenes/feature_item.tscn" id="8_ygvtv"]
 [ext_resource type="PackedScene" uid="uid://c6wo4df14noqf" path="res://scenes/options_menu.tscn" id="11_1rlom"]
+[ext_resource type="Script" uid="uid://cevx8kks5ta2s" path="res://scripts/tutorial_audio_library.gd" id="12_4a1j6"]
 
-[node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("game_ui", "board", "split_container", "submission_button", "index_page", "next_button", "prev_button", "command_console", "drawer", "descriptions", "level_title", "tutorial_text", "power_description_container", "power_description", "power_name", "debug_menu", "stack_container", "stack_list", "hint_button", "tab_menus", "power_menu", "undo_button", "redo_button", "victory_fade_switch", "options_menu")]
+[node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("game_ui", "board", "split_container", "submission_button", "index_page", "next_button", "prev_button", "command_console", "drawer", "descriptions", "level_title", "tutorial_text", "power_description_container", "power_description", "power_name", "debug_menu", "stack_container", "stack_list", "hint_button", "tab_menus", "power_menu", "undo_button", "redo_button", "victory_fade_switch", "options_menu", "tutorial_audio_library")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -33,9 +34,9 @@ drawer = NodePath("HSplitContainer/Drawer")
 descriptions = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/LevelDescription")
 level_title = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/LevelDescription/LevelTitle")
 tutorial_text = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/LevelDescription/Tutorial")
-power_description_container = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer")
-power_description = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer/PowerDescription")
-power_name = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer/PowerName")
+power_description_container = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/PowerDetailsContainer")
+power_description = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/PowerDetailsContainer/PowerDescription")
+power_name = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/PowerDetailsContainer/PowerName")
 debug_menu = NodePath("DebugOptions")
 stack_container = NodePath("StackDisplay")
 stack_list = NodePath("StackDisplay/PanelContainer/List")
@@ -46,6 +47,7 @@ undo_button = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/StackControl
 redo_button = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/StackControls/RedoButton")
 victory_fade_switch = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/OptionsControl/VictoryFadeCheck")
 options_menu = NodePath("OptionsMenu")
+tutorial_audio_library = NodePath("TutorialAudioController")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -205,13 +207,18 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="PowerDetailsContainer" type="VBoxContainer" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer"]
+[node name="PlayTutorialAudioButton" type="Button" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="PowerName" type="Label" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer"]
+[node name="PowerDetailsContainer" type="VBoxContainer" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton"]
+layout_mode = 2
+offset_right = 206.0
+offset_bottom = 48.0
+
+[node name="PowerName" type="Label" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/PowerDetailsContainer"]
 layout_mode = 2
 
-[node name="PowerDescription" type="RichTextLabel" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer"]
+[node name="PowerDescription" type="RichTextLabel" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/PowerDetailsContainer"]
 layout_mode = 2
 fit_content = true
 
@@ -303,8 +310,11 @@ script = ExtResource("7_lsml7")
 visible = false
 layout_mode = 1
 
-[connection signal="resized" from="." to="." method="resize_board"]
+[node name="TutorialAudioController" type="Node" parent="."]
+script = ExtResource("12_4a1j6")
+
 [connection signal="resized" from="." to="." method="_on_resized"]
+[connection signal="resized" from="." to="." method="resize_board"]
 [connection signal="level_selected" from="Index" to="." method="open_page"]
 [connection signal="open_options" from="Index" to="." method="_on_options_pressed"]
 [connection signal="dragged" from="HSplitContainer" to="." method="on_drawer_dragged"]
@@ -324,5 +334,6 @@ layout_mode = 1
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/StackControls/RedoButton" to="." method="_on_redo_button_pressed"]
 [connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/GameUI/OptionsControl/OptionsButton" to="." method="_on_options_pressed"]
 [connection signal="toggled" from="HSplitContainer/Drawer/VBoxContainer/GameUI/OptionsControl/VictoryFadeCheck" to="." method="victory_fade_switch_toggled"]
+[connection signal="pressed" from="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton" to="." method="_on_play_tutorial_audio_button_pressed"]
 [connection signal="toggled" from="DebugOptions/List/StackToggle" to="." method="toggle_stack_view"]
 [connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]
