@@ -84,16 +84,16 @@ func scale_value(value: float) -> float:
 
 func read_config():
 	master_volume = ConfigHandler.get_setting("master_volume")
-	if master_volume == null:
+	if master_volume == -1:
 		master_volume = 50
 	set_master_volume_no_save(master_volume)
 	music_volume = ConfigHandler.get_setting("music_volume")
-	if music_volume == null:
+	if music_volume == -1:
 		music_volume = 50
 	set_music_volume_no_save(music_volume)
 	music_volume_changed.emit()
 	voice_volume = ConfigHandler.get_setting("voice_volume")
-	if voice_volume == null:
+	if voice_volume == -1:
 		voice_volume = 50
 	set_voice_volume_no_save(voice_volume)
 	voice_volume_changed.emit()
