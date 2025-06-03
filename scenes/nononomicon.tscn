@@ -31,12 +31,12 @@ next_button = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/LevelControl
 prev_button = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/LevelControlsContainer/PrevButton")
 command_console = NodePath("LineEdit")
 drawer = NodePath("HSplitContainer/Drawer")
-descriptions = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/LevelDescription")
-level_title = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/LevelDescription/LevelTitle")
-tutorial_text = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/LevelDescription/Tutorial")
-power_description_container = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/PowerDetailsContainer")
-power_description = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/PowerDetailsContainer/PowerDescription")
-power_name = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/PowerDetailsContainer/PowerName")
+descriptions = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton")
+level_title = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/LevelDescription/LevelTitle")
+tutorial_text = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/LevelDescription/Tutorial")
+power_description_container = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer")
+power_description = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer/PowerDescription")
+power_name = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer/PowerName")
 debug_menu = NodePath("DebugOptions")
 stack_container = NodePath("StackDisplay")
 stack_list = NodePath("StackDisplay/PanelContainer/List")
@@ -210,29 +210,37 @@ theme_override_constants/margin_bottom = 8
 [node name="PlayTutorialAudioButton" type="Button" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="PowerDetailsContainer" type="VBoxContainer" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton"]
-layout_mode = 2
-offset_right = 206.0
-offset_bottom = 48.0
+[node name="LevelDescription" type="VBoxContainer" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
-[node name="PowerName" type="Label" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/PowerDetailsContainer"]
-layout_mode = 2
-
-[node name="PowerDescription" type="RichTextLabel" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/PowerDetailsContainer"]
-layout_mode = 2
-fit_content = true
-
-[node name="LevelDescription" type="VBoxContainer" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer"]
-layout_mode = 2
-
-[node name="LevelTitle" type="Label" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/LevelDescription"]
+[node name="LevelTitle" type="Label" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/LevelDescription"]
 layout_mode = 2
 size_flags_vertical = 6
 
-[node name="Tutorial" type="RichTextLabel" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/LevelDescription"]
+[node name="Tutorial" type="RichTextLabel" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/LevelDescription"]
 layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
+fit_content = true
+
+[node name="PowerDetailsContainer" type="VBoxContainer" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="PowerName" type="Label" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer"]
+layout_mode = 2
+
+[node name="PowerDescription" type="RichTextLabel" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer"]
+layout_mode = 2
 fit_content = true
 
 [node name="TabMenus" type="TabContainer" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer"]
