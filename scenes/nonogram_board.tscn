@@ -177,10 +177,11 @@ offset_right = 40.0
 offset_bottom = 37.0
 horizontal_alignment = 2
 
-[node name="VictorySplash" type="Control" parent="." node_paths=PackedStringArray("object_list")]
+[node name="VictorySplash" type="Control" parent="." node_paths=PackedStringArray("object_list", "squares")]
 layout_mode = 2
 script = ExtResource("10_00g3u")
 object_list = [NodePath("../BoardBox/XHeaderScrollContainer"), NodePath("../BoardBox/YHeaderScrollContainer"), NodePath("../BoardBox/XFooterScrollContainer"), NodePath("../BoardBox/YFooterScrollContainer"), NodePath("../BoardBox/GuidelinesMask"), NodePath("../BoardBox/CoordsLabel"), NodePath("../BoardBox/BoardSizeLabel"), NodePath("../BoardBox/PercentMarked"), NodePath("../BoardBox/SubmissionErrorDisplay"), NodePath("../BoardBox/TimeDisplay")]
+squares = NodePath("../BoardBox/NonogramScrollContainer/NonogramSquares")
 
 [connection signal="sort_children" from="." to="." method="sort_children"]
 [connection signal="scroll_ended" from="BoardBox/NonogramScrollContainer" to="." method="end_scrolling"]

@@ -95,3 +95,10 @@ func add_etching(value: int):
 func clear_etching():
 	etching_label.text = ""
 	etching_label.hide()
+
+func set_overlay_item_opacity(opacity: float):
+	highlighter.modulate.a = opacity
+	hint_square.modulate.a = opacity
+	note_label.modulate.a = opacity
+	lock_tex.modulate.a = opacity
+	etching_label.modulate.a = opacity

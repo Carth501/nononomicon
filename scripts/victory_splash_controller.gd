@@ -9,6 +9,7 @@ enum SplashState {
 
 @export var object_list: Array[Control] = []
 @export var splash_duration: float = 2.0
+@export var squares: NonogramSquares
 var opacity: float = 0.0
 var splash_state: SplashState = SplashState.OFF
 var splash_timer: Timer
@@ -62,6 +63,7 @@ func update_splash():
 		splash_state = SplashState.DONE
 	for obj in object_list:
 		obj.modulate.a = opacity
+	fade_squares()
 	
 func toggle_victory_fade(setting: bool):
 	ConfigHandler.update_setting('victory_fade', setting)
@@ -78,3 +80,8 @@ func check_victory_fade():
 		reset_splash()
 	else:
 		disable_splash()
+
+func fade_squares():
+	var squares_list = squares.get_squares()
+	for square in squares_list:
+		square.set_overlay_item_opacity(opacity)
