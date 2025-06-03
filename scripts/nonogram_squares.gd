@@ -32,3 +32,10 @@ func clear_hint_squares():
 	for i in squares.keys():
 		for j in squares[i].keys():
 			squares[i][j].set_hint_square(false)
+
+func get_squares() -> Array:
+	var square_list = []
+	for i in squares.keys():
+		for j in squares[i].keys():
+			square_list.append(squares[i][j])
+	return square_list
