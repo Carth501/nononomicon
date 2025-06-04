@@ -32,8 +32,8 @@ prev_button = NodePath("HSplitContainer/Drawer/VBoxContainer/GameUI/LevelControl
 command_console = NodePath("LineEdit")
 drawer = NodePath("HSplitContainer/Drawer")
 descriptions = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton")
-level_title = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/LevelDescription/LevelTitle")
-tutorial_text = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/LevelDescription/Tutorial")
+level_title = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/ScrollContainer/LevelDescription/LevelTitle")
+tutorial_text = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/ScrollContainer/LevelDescription/Tutorial")
 power_description_container = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer")
 power_description = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer/PowerDescription")
 power_name = NodePath("HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer/PowerName")
@@ -210,7 +210,7 @@ theme_override_constants/margin_bottom = 8
 [node name="PlayTutorialAudioButton" type="Button" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="LevelDescription" type="VBoxContainer" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton"]
+[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -221,13 +221,17 @@ offset_right = -8.0
 offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="LevelDescription" type="VBoxContainer" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="LevelTitle" type="Label" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/LevelDescription"]
+[node name="LevelTitle" type="Label" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/ScrollContainer/LevelDescription"]
 layout_mode = 2
-size_flags_vertical = 6
 
-[node name="Tutorial" type="RichTextLabel" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/LevelDescription"]
+[node name="Tutorial" type="RichTextLabel" parent="HSplitContainer/Drawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/ScrollContainer/LevelDescription"]
 layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
@@ -321,8 +325,8 @@ layout_mode = 1
 [node name="TutorialAudioController" type="Node" parent="."]
 script = ExtResource("12_4a1j6")
 
-[connection signal="resized" from="." to="." method="_on_resized"]
 [connection signal="resized" from="." to="." method="resize_board"]
+[connection signal="resized" from="." to="." method="_on_resized"]
 [connection signal="level_selected" from="Index" to="." method="open_page"]
 [connection signal="open_options" from="Index" to="." method="_on_options_pressed"]
 [connection signal="dragged" from="HSplitContainer" to="." method="on_drawer_dragged"]
