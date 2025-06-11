@@ -15,7 +15,7 @@ func _ready() -> void:
 
 func new_game():
 	State.new_game()
-	get_tree().change_scene_to_file("res://scenes/nononomicon.tscn")
+	enter_nononomicon()
 
 func exit():
 	get_tree().quit()
@@ -26,7 +26,7 @@ func load_game():
 
 func _on_continue_button_pressed() -> void:
 	SaveManager.load_latest_save()
-	get_tree().change_scene_to_file("res://scenes/nononomicon.tscn")
+	enter_nononomicon()
 
 func _on_options_pressed() -> void:
 	options_menu.show()
@@ -36,3 +36,12 @@ func toggle_credits_panel():
 		credits_panel.hide()
 	else:
 		credits_panel.show()
+
+func enter_nononomicon():
+	if get_mobile_mode():
+		get_tree().change_scene_to_file("res://scenes/mobile_nononomicon.tscn")
+	else:
+		get_tree().change_scene_to_file("res://scenes/nononomicon.tscn")
+
+func get_mobile_mode() -> bool:
+	return ProjectSettings.get_setting("application/config/is_mobile")

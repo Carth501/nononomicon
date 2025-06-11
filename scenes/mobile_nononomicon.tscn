@@ -1,27 +1,27 @@
-[gd_scene load_steps=13 format=3 uid="uid://p7emdn1gu7nk"]
+[gd_scene load_steps=13 format=3 uid="uid://b4367tim7jl65"]
 
-[ext_resource type="Theme" uid="uid://6b5skotjmdvf" path="res://assets/themes/primary_theme.tres" id="1_r5qd4"]
-[ext_resource type="Script" uid="uid://c8ccsg4ye4e7r" path="res://scripts/nonnonomicon.gd" id="1_yfbcv"]
-[ext_resource type="PackedScene" uid="uid://dq8gk2xv1r27a" path="res://scenes/nonogram_board.tscn" id="2_mnfaj"]
-[ext_resource type="PackedScene" uid="uid://d2malck014txy" path="res://scenes/index.tscn" id="3_c4qpc"]
-[ext_resource type="Script" uid="uid://c1el5b0x6d6xe" path="res://scripts/game_ui.gd" id="4_hhnsy"]
-[ext_resource type="PackedScene" uid="uid://ytd3m12r45sh" path="res://scenes/powers_scroll_container.tscn" id="6_3fro6"]
-[ext_resource type="Script" uid="uid://dwhhafu30hbj5" path="res://scripts/generic_selection_button.gd" id="6_pyjsb"]
-[ext_resource type="Script" uid="uid://bxpwwpcfkjrk" path="res://scripts/drag_display_handler.gd" id="7_lsml7"]
-[ext_resource type="Script" uid="uid://bwbhgqxg25ve0" path="res://scripts/features_display.gd" id="7_pbmpp"]
-[ext_resource type="PackedScene" uid="uid://cm2a3612ia7mn" path="res://scenes/feature_item.tscn" id="8_ygvtv"]
-[ext_resource type="PackedScene" uid="uid://c6wo4df14noqf" path="res://scenes/options_menu.tscn" id="11_1rlom"]
-[ext_resource type="Script" uid="uid://cevx8kks5ta2s" path="res://scripts/tutorial_audio_library.gd" id="12_4a1j6"]
+[ext_resource type="Theme" uid="uid://6b5skotjmdvf" path="res://assets/themes/primary_theme.tres" id="1_deiti"]
+[ext_resource type="Script" uid="uid://c8ccsg4ye4e7r" path="res://scripts/nonnonomicon.gd" id="2_8s2mx"]
+[ext_resource type="PackedScene" uid="uid://d2malck014txy" path="res://scenes/index.tscn" id="3_aqm2t"]
+[ext_resource type="PackedScene" uid="uid://dq8gk2xv1r27a" path="res://scenes/nonogram_board.tscn" id="4_p147y"]
+[ext_resource type="Script" uid="uid://c1el5b0x6d6xe" path="res://scripts/game_ui.gd" id="5_a3ofm"]
+[ext_resource type="Script" uid="uid://dwhhafu30hbj5" path="res://scripts/generic_selection_button.gd" id="6_8jmwa"]
+[ext_resource type="PackedScene" uid="uid://ytd3m12r45sh" path="res://scenes/powers_scroll_container.tscn" id="7_npvak"]
+[ext_resource type="Script" uid="uid://bwbhgqxg25ve0" path="res://scripts/features_display.gd" id="8_syecs"]
+[ext_resource type="PackedScene" uid="uid://cm2a3612ia7mn" path="res://scenes/feature_item.tscn" id="9_rmjg4"]
+[ext_resource type="Script" uid="uid://bxpwwpcfkjrk" path="res://scripts/drag_display_handler.gd" id="10_r4rs8"]
+[ext_resource type="PackedScene" uid="uid://c6wo4df14noqf" path="res://scenes/options_menu.tscn" id="11_6hvjj"]
+[ext_resource type="Script" uid="uid://cevx8kks5ta2s" path="res://scripts/tutorial_audio_library.gd" id="12_4hqkb"]
 
-[node name="Nonnonomicon" type="Control" node_paths=PackedStringArray("game_ui", "board", "split_container", "submission_button", "index_page", "next_button", "prev_button", "command_console", "drawer", "descriptions", "level_title", "tutorial_text", "power_description_container", "power_description", "power_name", "debug_menu", "stack_container", "stack_list", "hint_button", "tab_menus", "power_menu", "undo_button", "redo_button", "victory_fade_switch", "options_menu", "tutorial_audio_library")]
+[node name="MobileNonnonomicon" type="Control" node_paths=PackedStringArray("game_ui", "board", "split_container", "submission_button", "index_page", "next_button", "prev_button", "command_console", "drawer", "descriptions", "level_title", "tutorial_text", "power_description_container", "power_description", "power_name", "debug_menu", "stack_container", "stack_list", "hint_button", "tab_menus", "power_menu", "undo_button", "redo_button", "victory_fade_switch", "options_menu", "tutorial_audio_library")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_r5qd4")
-script = ExtResource("1_yfbcv")
+theme = ExtResource("1_deiti")
+script = ExtResource("2_8s2mx")
 game_ui = NodePath("HSplitContainer/DesktopDrawer/VBoxContainer/GameUI")
 board = NodePath("HSplitContainer/NonogramBoard")
 split_container = NodePath("HSplitContainer")
@@ -32,8 +32,8 @@ prev_button = NodePath("HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/Level
 command_console = NodePath("LineEdit")
 drawer = NodePath("HSplitContainer/DesktopDrawer")
 descriptions = NodePath("HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton")
-level_title = NodePath("HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/ScrollContainer/LevelDescription/LevelTitle")
-tutorial_text = NodePath("HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/ScrollContainer/LevelDescription/Tutorial")
+level_title = NodePath("HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/ScrollContainer/LevelDescription/LevelTitle")
+tutorial_text = NodePath("HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/ScrollContainer/LevelDescription/Tutorial")
 power_description_container = NodePath("HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer")
 power_description = NodePath("HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer/PowerDescription")
 power_name = NodePath("HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer/PowerName")
@@ -58,23 +58,27 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.219608, 0.12549, 0.0705882, 1)
 
-[node name="Index" parent="." instance=ExtResource("3_c4qpc")]
-layout_mode = 2
-anchors_preset = 0
+[node name="Index" parent="." instance=ExtResource("3_aqm2t")]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 0.5
+scale = Vector2(2, 2)
 size_flags_horizontal = 3
 
 [node name="HSplitContainer" type="HSplitContainer" parent="."]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(2, 2)
 theme_override_constants/minimum_grab_thickness = 16
 theme_override_constants/autohide = 0
-split_offset = 918
+split_offset = 200
 
-[node name="NonogramBoard" parent="HSplitContainer" instance=ExtResource("2_mnfaj")]
+[node name="NonogramBoard" parent="HSplitContainer" instance=ExtResource("4_p147y")]
 layout_mode = 2
 
 [node name="DesktopDrawer" type="Panel" parent="HSplitContainer"]
@@ -93,7 +97,7 @@ grow_vertical = 2
 custom_minimum_size = Vector2(0, 184)
 layout_mode = 2
 mouse_filter = 2
-script = ExtResource("4_hhnsy")
+script = ExtResource("5_a3ofm")
 notes_controls = NodePath("NotesContainer")
 
 [node name="LevelControlsContainer" type="VBoxContainer" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI"]
@@ -102,7 +106,7 @@ layout_mode = 2
 [node name="NextButton" type="Button" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/LevelControlsContainer"]
 layout_mode = 2
 text = "Next"
-script = ExtResource("6_pyjsb")
+script = ExtResource("6_8jmwa")
 metadata/_custom_type_script = "uid://dwhhafu30hbj5"
 
 [node name="IndexButton" type="Button" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/LevelControlsContainer"]
@@ -161,7 +165,7 @@ layout_mode = 2
 [node name="UndoButton" type="Button" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/StackControls"]
 layout_mode = 2
 text = "Undo"
-script = ExtResource("6_pyjsb")
+script = ExtResource("6_8jmwa")
 global_tooltip_text = "Ctrl Z"
 tooltips_enabled = true
 metadata/_custom_type_script = "uid://dwhhafu30hbj5"
@@ -169,7 +173,7 @@ metadata/_custom_type_script = "uid://dwhhafu30hbj5"
 [node name="RedoButton" type="Button" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/StackControls"]
 layout_mode = 2
 text = "Redo"
-script = ExtResource("6_pyjsb")
+script = ExtResource("6_8jmwa")
 global_tooltip_text = "Ctrl Y"
 tooltips_enabled = true
 metadata/_custom_type_script = "uid://dwhhafu30hbj5"
@@ -208,30 +212,22 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
 [node name="PlayTutorialAudioButton" type="Button" parent="HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer"]
+visible = false
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = 8.0
-offset_right = -8.0
-offset_bottom = -8.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer"]
+layout_mode = 2
 
-[node name="LevelDescription" type="VBoxContainer" parent="HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/ScrollContainer"]
+[node name="LevelDescription" type="VBoxContainer" parent="HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="LevelTitle" type="Label" parent="HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/ScrollContainer/LevelDescription"]
+[node name="LevelTitle" type="Label" parent="HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/ScrollContainer/LevelDescription"]
 layout_mode = 2
 
-[node name="Tutorial" type="RichTextLabel" parent="HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton/ScrollContainer/LevelDescription"]
+[node name="Tutorial" type="RichTextLabel" parent="HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/ScrollContainer/LevelDescription"]
 layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
@@ -252,7 +248,7 @@ layout_mode = 2
 size_flags_vertical = 3
 current_tab = 0
 
-[node name="Powers" parent="HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/TabMenus" instance=ExtResource("6_3fro6")]
+[node name="Powers" parent="HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/TabMenus" instance=ExtResource("7_npvak")]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_vertical = 3
@@ -261,8 +257,8 @@ metadata/_tab_index = 0
 [node name="Features" type="ScrollContainer" parent="HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/TabMenus" node_paths=PackedStringArray("feature_container")]
 visible = false
 layout_mode = 2
-script = ExtResource("7_pbmpp")
-feature_item = ExtResource("8_ygvtv")
+script = ExtResource("8_syecs")
+feature_item = ExtResource("9_rmjg4")
 feature_container = NodePath("HFlowContainer")
 metadata/_tab_index = 1
 
@@ -316,14 +312,14 @@ grow_horizontal = 2
 grow_vertical = 0
 
 [node name="DragHandler" type="Node" parent="."]
-script = ExtResource("7_lsml7")
+script = ExtResource("10_r4rs8")
 
-[node name="OptionsMenu" parent="." instance=ExtResource("11_1rlom")]
+[node name="OptionsMenu" parent="." instance=ExtResource("11_6hvjj")]
 visible = false
 layout_mode = 1
 
 [node name="TutorialAudioController" type="Node" parent="."]
-script = ExtResource("12_4a1j6")
+script = ExtResource("12_4hqkb")
 
 [connection signal="resized" from="." to="." method="resize_board"]
 [connection signal="resized" from="." to="." method="_on_resized"]
