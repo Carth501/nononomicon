@@ -110,6 +110,7 @@ func setup(parameters: LevelParameters) -> void:
 	handle_complications(parameters['complications'])
 	board_ready.emit()
 	apply_level_locks()
+	set_etchings(parameters.etchings)
 
 func new_game():
 	master = {}
@@ -474,6 +475,7 @@ func reset():
 			master [active_id][TIMER_KEY] = 0
 			timer_changed.emit(0)
 			timer.start()
+		set_etchings(parameters.etchings)
 
 func clear_notes():
 	if master.has(active_id):
@@ -1742,6 +1744,10 @@ func get_etching_value(coords: Vector2i) -> int:
 		if etching['coords'] == coords:
 			return etching['etching_number']
 	return -1
+
+func set_etchings(etchings_list: Array):
+	for etching_coords in etchings_list:
+		etch_square(etching_coords)
 #endregion etching
 
 #region powers
