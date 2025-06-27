@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b4367tim7jl65"]
+[gd_scene load_steps=14 format=3 uid="uid://b4367tim7jl65"]
 
 [ext_resource type="Theme" uid="uid://6b5skotjmdvf" path="res://assets/themes/primary_theme.tres" id="1_deiti"]
 [ext_resource type="Script" uid="uid://c8ccsg4ye4e7r" path="res://scripts/nonnonomicon.gd" id="2_8s2mx"]
@@ -9,11 +9,12 @@
 [ext_resource type="PackedScene" uid="uid://ytd3m12r45sh" path="res://scenes/powers_scroll_container.tscn" id="7_npvak"]
 [ext_resource type="Script" uid="uid://bwbhgqxg25ve0" path="res://scripts/features_display.gd" id="8_syecs"]
 [ext_resource type="PackedScene" uid="uid://cm2a3612ia7mn" path="res://scenes/feature_item.tscn" id="9_rmjg4"]
+[ext_resource type="PackedScene" uid="uid://dmr0fcamx7t56" path="res://addons/virtual_joystick/virtual_joystick_scene.tscn" id="10_8s2mx"]
 [ext_resource type="Script" uid="uid://bxpwwpcfkjrk" path="res://scripts/drag_display_handler.gd" id="10_r4rs8"]
 [ext_resource type="PackedScene" uid="uid://c6wo4df14noqf" path="res://scenes/options_menu.tscn" id="11_6hvjj"]
 [ext_resource type="Script" uid="uid://cevx8kks5ta2s" path="res://scripts/tutorial_audio_library.gd" id="12_4hqkb"]
 
-[node name="MobileNonnonomicon" type="Control" node_paths=PackedStringArray("game_ui", "board", "split_container", "submission_button", "index_page", "next_button", "prev_button", "command_console", "drawer", "descriptions", "level_title", "tutorial_text", "power_description_container", "power_description", "power_name", "debug_menu", "stack_container", "stack_list", "hint_button", "tab_menus", "power_menu", "undo_button", "redo_button", "victory_fade_switch", "options_menu", "tutorial_audio_library")]
+[node name="MobileNonnonomicon" type="Control" node_paths=PackedStringArray("game_ui", "board", "submission_button", "index_page", "next_button", "prev_button", "command_console", "drawer", "descriptions", "level_title", "tutorial_text", "power_description_container", "power_description", "power_name", "debug_menu", "stack_container", "stack_list", "hint_button", "tab_menus", "power_menu", "undo_button", "redo_button", "victory_fade_switch", "options_menu", "tutorial_audio_library")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -22,30 +23,29 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_deiti")
 script = ExtResource("2_8s2mx")
-game_ui = NodePath("HSplitContainer/DesktopDrawer/VBoxContainer/GameUI")
+game_ui = NodePath("Menu/GameUI")
 board = NodePath("HSplitContainer/NonogramBoard")
-split_container = NodePath("HSplitContainer")
-submission_button = NodePath("HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/GameControlsContainer/SubmitButton")
+submission_button = NodePath("Menu/GameUI/GameControlsContainer/SubmitButton")
 index_page = NodePath("Index")
-next_button = NodePath("HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/LevelControlsContainer/NextButton")
-prev_button = NodePath("HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/LevelControlsContainer/PrevButton")
+next_button = NodePath("Menu/GameUI/LevelControlsContainer/NextButton")
+prev_button = NodePath("Menu/GameUI/LevelControlsContainer/PrevButton")
 command_console = NodePath("LineEdit")
-drawer = NodePath("HSplitContainer/DesktopDrawer")
-descriptions = NodePath("HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton")
-level_title = NodePath("HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/ScrollContainer/LevelDescription/LevelTitle")
-tutorial_text = NodePath("HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/ScrollContainer/LevelDescription/Tutorial")
-power_description_container = NodePath("HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer")
-power_description = NodePath("HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer/PowerDescription")
-power_name = NodePath("HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer/PowerName")
+drawer = NodePath("HSplitContainer/MobileDrawer")
+descriptions = NodePath("HSplitContainer/MobileDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton")
+level_title = NodePath("HSplitContainer/MobileDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/ScrollContainer/LevelDescription/LevelTitle")
+tutorial_text = NodePath("HSplitContainer/MobileDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/ScrollContainer/LevelDescription/Tutorial")
+power_description_container = NodePath("HSplitContainer/MobileDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer")
+power_description = NodePath("HSplitContainer/MobileDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer/PowerDescription")
+power_name = NodePath("HSplitContainer/MobileDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer/PowerName")
 debug_menu = NodePath("DebugOptions")
 stack_container = NodePath("StackDisplay")
 stack_list = NodePath("StackDisplay/PanelContainer/List")
-hint_button = NodePath("HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/VBoxContainer/HintButton")
-tab_menus = NodePath("HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/TabMenus")
-power_menu = NodePath("HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/TabMenus/Powers")
-undo_button = NodePath("HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/StackControls/UndoButton")
-redo_button = NodePath("HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/StackControls/RedoButton")
-victory_fade_switch = NodePath("HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/OptionsControl/VictoryFadeCheck")
+hint_button = NodePath("Menu/GameUI/VBoxContainer/HintButton")
+tab_menus = NodePath("HSplitContainer/MobileDrawer/VBoxContainer/VSplitContainer/TabMenus")
+power_menu = NodePath("HSplitContainer/MobileDrawer/VBoxContainer/VSplitContainer/TabMenus/Powers")
+undo_button = NodePath("Menu/GameUI/StackControls/UndoButton")
+redo_button = NodePath("Menu/GameUI/StackControls/RedoButton")
+victory_fade_switch = NodePath("Menu/GameUI/OptionsControl/VictoryFadeCheck")
 options_menu = NodePath("OptionsMenu")
 tutorial_audio_library = NodePath("TutorialAudioController")
 
@@ -66,7 +66,7 @@ anchor_bottom = 0.5
 scale = Vector2(2, 2)
 size_flags_horizontal = 3
 
-[node name="HSplitContainer" type="HSplitContainer" parent="."]
+[node name="HSplitContainer" type="VSplitContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.5
@@ -81,11 +81,11 @@ split_offset = 200
 [node name="NonogramBoard" parent="HSplitContainer" instance=ExtResource("4_p147y")]
 layout_mode = 2
 
-[node name="DesktopDrawer" type="Panel" parent="HSplitContainer"]
+[node name="MobileDrawer" type="Panel" parent="HSplitContainer"]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/DesktopDrawer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/MobileDrawer"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -93,116 +93,20 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="GameUI" type="HFlowContainer" parent="HSplitContainer/DesktopDrawer/VBoxContainer" node_paths=PackedStringArray("notes_controls")]
-custom_minimum_size = Vector2(0, 184)
-layout_mode = 2
-mouse_filter = 2
-script = ExtResource("5_a3ofm")
-notes_controls = NodePath("NotesContainer")
-
-[node name="LevelControlsContainer" type="VBoxContainer" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI"]
-layout_mode = 2
-
-[node name="NextButton" type="Button" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/LevelControlsContainer"]
-layout_mode = 2
-text = "Next"
-script = ExtResource("6_8jmwa")
-metadata/_custom_type_script = "uid://dwhhafu30hbj5"
-
-[node name="IndexButton" type="Button" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/LevelControlsContainer"]
-layout_mode = 2
-text = "Index"
-
-[node name="PrevButton" type="Button" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/LevelControlsContainer"]
-layout_mode = 2
-text = "Previous"
-
-[node name="GameControlsContainer" type="VBoxContainer" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI"]
-layout_mode = 2
-
-[node name="SubmitButton" type="Button" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/GameControlsContainer"]
-layout_mode = 2
-text = "Submit"
-
-[node name="SaveButton" type="Button" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/GameControlsContainer"]
-layout_mode = 2
-text = "Save"
-
-[node name="MainMenuButton" type="Button" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/GameControlsContainer"]
-layout_mode = 2
-text = "Main Menu"
-
-[node name="NotesContainer" type="VBoxContainer" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI"]
-layout_mode = 2
-
-[node name="NotesSwitch" type="CheckButton" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/NotesContainer"]
-layout_mode = 2
-text = "Notes
-Mode"
-
-[node name="ClearNotesButton" type="Button" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/NotesContainer"]
-layout_mode = 2
-text = "Clear Notes"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI"]
-layout_mode = 2
-
-[node name="ResetButton" type="Button" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/VBoxContainer"]
-layout_mode = 2
-text = "Reset"
-
-[node name="HintButton" type="Button" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/VBoxContainer"]
-layout_mode = 2
-text = "Hint"
-
-[node name="CheatButton" type="Button" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/VBoxContainer"]
-layout_mode = 2
-text = "CHEAT"
-
-[node name="StackControls" type="VBoxContainer" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI"]
-layout_mode = 2
-
-[node name="UndoButton" type="Button" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/StackControls"]
-layout_mode = 2
-text = "Undo"
-script = ExtResource("6_8jmwa")
-global_tooltip_text = "Ctrl Z"
-tooltips_enabled = true
-metadata/_custom_type_script = "uid://dwhhafu30hbj5"
-
-[node name="RedoButton" type="Button" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/StackControls"]
-layout_mode = 2
-text = "Redo"
-script = ExtResource("6_8jmwa")
-global_tooltip_text = "Ctrl Y"
-tooltips_enabled = true
-metadata/_custom_type_script = "uid://dwhhafu30hbj5"
-
-[node name="OptionsControl" type="VBoxContainer" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI"]
-layout_mode = 2
-
-[node name="OptionsButton" type="Button" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/OptionsControl"]
-layout_mode = 2
-text = "Options Menu"
-
-[node name="VictoryFadeCheck" type="CheckButton" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/OptionsControl"]
-layout_mode = 2
-text = "Victory Fade"
-
-[node name="VSplitContainer" type="VSplitContainer" parent="HSplitContainer/DesktopDrawer/VBoxContainer"]
+[node name="VSplitContainer" type="VSplitContainer" parent="HSplitContainer/MobileDrawer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/minimum_grab_thickness = 16
 theme_override_constants/autohide = 0
 split_offset = 124
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/MobileDrawer/VBoxContainer/VSplitContainer"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_vertical = 3
 follow_focus = true
 
-[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/MobileDrawer/VBoxContainer/VSplitContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -211,50 +115,50 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="PlayTutorialAudioButton" type="Button" parent="HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer"]
+[node name="PlayTutorialAudioButton" type="Button" parent="HSplitContainer/MobileDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer"]
 visible = false
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/MobileDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="LevelDescription" type="VBoxContainer" parent="HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/ScrollContainer"]
+[node name="LevelDescription" type="VBoxContainer" parent="HSplitContainer/MobileDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="LevelTitle" type="Label" parent="HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/ScrollContainer/LevelDescription"]
+[node name="LevelTitle" type="Label" parent="HSplitContainer/MobileDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/ScrollContainer/LevelDescription"]
 layout_mode = 2
 
-[node name="Tutorial" type="RichTextLabel" parent="HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/ScrollContainer/LevelDescription"]
+[node name="Tutorial" type="RichTextLabel" parent="HSplitContainer/MobileDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/ScrollContainer/LevelDescription"]
 layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
 fit_content = true
 
-[node name="PowerDetailsContainer" type="VBoxContainer" parent="HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer"]
+[node name="PowerDetailsContainer" type="VBoxContainer" parent="HSplitContainer/MobileDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="PowerName" type="Label" parent="HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer"]
+[node name="PowerName" type="Label" parent="HSplitContainer/MobileDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer"]
 layout_mode = 2
 
-[node name="PowerDescription" type="RichTextLabel" parent="HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer"]
+[node name="PowerDescription" type="RichTextLabel" parent="HSplitContainer/MobileDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PowerDetailsContainer"]
 layout_mode = 2
 fit_content = true
 
-[node name="TabMenus" type="TabContainer" parent="HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer"]
+[node name="TabMenus" type="TabContainer" parent="HSplitContainer/MobileDrawer/VBoxContainer/VSplitContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 current_tab = 0
 
-[node name="Powers" parent="HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/TabMenus" instance=ExtResource("7_npvak")]
+[node name="Powers" parent="HSplitContainer/MobileDrawer/VBoxContainer/VSplitContainer/TabMenus" instance=ExtResource("7_npvak")]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_vertical = 3
 metadata/_tab_index = 0
 
-[node name="Features" type="ScrollContainer" parent="HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/TabMenus" node_paths=PackedStringArray("feature_container")]
+[node name="Features" type="ScrollContainer" parent="HSplitContainer/MobileDrawer/VBoxContainer/VSplitContainer/TabMenus" node_paths=PackedStringArray("feature_container")]
 visible = false
 layout_mode = 2
 script = ExtResource("8_syecs")
@@ -262,10 +166,50 @@ feature_item = ExtResource("9_rmjg4")
 feature_container = NodePath("HFlowContainer")
 metadata/_tab_index = 1
 
-[node name="HFlowContainer" type="HFlowContainer" parent="HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/TabMenus/Features"]
+[node name="HFlowContainer" type="HFlowContainer" parent="HSplitContainer/MobileDrawer/VBoxContainer/VSplitContainer/TabMenus/Features"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="VirtualController" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -291.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Virtual Joystick" parent="VirtualController" instance=ExtResource("10_8s2mx")]
+layout_mode = 1
+offset_left = 3.0
+offset_top = -298.0
+offset_right = 303.0
+offset_bottom = 2.0
+action_left = "virtual_left"
+action_right = "virtual_right"
+action_up = "virtual_up"
+action_down = "virtual_down"
+
+[node name="MarkButton" type="Button" parent="VirtualController"]
+layout_mode = 0
+offset_left = 912.0
+offset_top = 74.0
+offset_right = 981.0
+offset_bottom = 123.0
+scale = Vector2(2.5, 2.5)
+text = "Mark"
+
+[node name="FlagButton" type="Button" parent="VirtualController"]
+layout_mode = 0
+offset_left = 667.0
+offset_top = 77.0
+offset_right = 736.0
+offset_bottom = 126.0
+scale = Vector2(2.5, 2.5)
+text = "Flag
+"
 
 [node name="DebugOptions" type="ScrollContainer" parent="."]
 visible = false
@@ -321,27 +265,154 @@ layout_mode = 1
 [node name="TutorialAudioController" type="Node" parent="."]
 script = ExtResource("12_4hqkb")
 
+[node name="OpenMenu" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_right = -72.0
+offset_bottom = 49.0
+grow_horizontal = 0
+scale = Vector2(2, 2)
+text = "Menu"
+
+[node name="Menu" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+
+[node name="GameUI" type="HFlowContainer" parent="Menu" node_paths=PackedStringArray("notes_controls")]
+custom_minimum_size = Vector2(0, 184)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("5_a3ofm")
+notes_controls = NodePath("NotesContainer")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Menu/GameUI"]
+layout_mode = 2
+
+[node name="Close Menu" type="Button" parent="Menu/GameUI/VBoxContainer2"]
+layout_mode = 2
+text = "Close Menu"
+
+[node name="LevelControlsContainer" type="VBoxContainer" parent="Menu/GameUI"]
+layout_mode = 2
+
+[node name="NextButton" type="Button" parent="Menu/GameUI/LevelControlsContainer"]
+layout_mode = 2
+text = "Next"
+script = ExtResource("6_8jmwa")
+metadata/_custom_type_script = "uid://dwhhafu30hbj5"
+
+[node name="IndexButton" type="Button" parent="Menu/GameUI/LevelControlsContainer"]
+layout_mode = 2
+text = "Index"
+
+[node name="PrevButton" type="Button" parent="Menu/GameUI/LevelControlsContainer"]
+layout_mode = 2
+text = "Previous"
+
+[node name="GameControlsContainer" type="VBoxContainer" parent="Menu/GameUI"]
+layout_mode = 2
+
+[node name="SubmitButton" type="Button" parent="Menu/GameUI/GameControlsContainer"]
+layout_mode = 2
+text = "Submit"
+
+[node name="SaveButton" type="Button" parent="Menu/GameUI/GameControlsContainer"]
+layout_mode = 2
+text = "Save"
+
+[node name="MainMenuButton" type="Button" parent="Menu/GameUI/GameControlsContainer"]
+layout_mode = 2
+text = "Main Menu"
+
+[node name="NotesContainer" type="VBoxContainer" parent="Menu/GameUI"]
+layout_mode = 2
+
+[node name="NotesSwitch" type="CheckButton" parent="Menu/GameUI/NotesContainer"]
+layout_mode = 2
+text = "Notes
+Mode"
+
+[node name="ClearNotesButton" type="Button" parent="Menu/GameUI/NotesContainer"]
+layout_mode = 2
+text = "Clear Notes"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu/GameUI"]
+layout_mode = 2
+
+[node name="ResetButton" type="Button" parent="Menu/GameUI/VBoxContainer"]
+layout_mode = 2
+text = "Reset"
+
+[node name="HintButton" type="Button" parent="Menu/GameUI/VBoxContainer"]
+layout_mode = 2
+text = "Hint"
+
+[node name="CheatButton" type="Button" parent="Menu/GameUI/VBoxContainer"]
+layout_mode = 2
+text = "CHEAT"
+
+[node name="StackControls" type="VBoxContainer" parent="Menu/GameUI"]
+layout_mode = 2
+
+[node name="UndoButton" type="Button" parent="Menu/GameUI/StackControls"]
+layout_mode = 2
+text = "Undo"
+script = ExtResource("6_8jmwa")
+global_tooltip_text = "Ctrl Z"
+tooltips_enabled = true
+metadata/_custom_type_script = "uid://dwhhafu30hbj5"
+
+[node name="RedoButton" type="Button" parent="Menu/GameUI/StackControls"]
+layout_mode = 2
+text = "Redo"
+script = ExtResource("6_8jmwa")
+global_tooltip_text = "Ctrl Y"
+tooltips_enabled = true
+metadata/_custom_type_script = "uid://dwhhafu30hbj5"
+
+[node name="OptionsControl" type="VBoxContainer" parent="Menu/GameUI"]
+layout_mode = 2
+
+[node name="OptionsButton" type="Button" parent="Menu/GameUI/OptionsControl"]
+layout_mode = 2
+text = "Options Menu"
+
+[node name="VictoryFadeCheck" type="CheckButton" parent="Menu/GameUI/OptionsControl"]
+layout_mode = 2
+text = "Victory Fade"
+
 [connection signal="resized" from="." to="." method="resize_board"]
 [connection signal="resized" from="." to="." method="_on_resized"]
 [connection signal="level_selected" from="Index" to="." method="open_page"]
 [connection signal="open_options" from="Index" to="." method="_on_options_pressed"]
 [connection signal="dragged" from="HSplitContainer" to="." method="on_drawer_dragged"]
 [connection signal="resized" from="HSplitContainer/NonogramBoard" to="HSplitContainer/NonogramBoard" method="resize_board"]
-[connection signal="pressed" from="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/LevelControlsContainer/NextButton" to="." method="_on_next_button_pressed"]
-[connection signal="pressed" from="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/LevelControlsContainer/IndexButton" to="." method="_on_index_button_pressed"]
-[connection signal="pressed" from="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/LevelControlsContainer/PrevButton" to="." method="_on_prev_button_pressed"]
-[connection signal="pressed" from="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/GameControlsContainer/SubmitButton" to="." method="_on_submit_pressed"]
-[connection signal="pressed" from="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/GameControlsContainer/SaveButton" to="." method="_on_save_button_pressed"]
-[connection signal="pressed" from="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/GameControlsContainer/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
-[connection signal="toggled" from="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/NotesContainer/NotesSwitch" to="." method="_on_notes_switch_toggled"]
-[connection signal="pressed" from="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/NotesContainer/ClearNotesButton" to="." method="_on_clear_notes"]
-[connection signal="pressed" from="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/VBoxContainer/ResetButton" to="." method="_on_reset_pressed"]
-[connection signal="pressed" from="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/VBoxContainer/HintButton" to="." method="_on_hint_button_pressed"]
-[connection signal="pressed" from="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/VBoxContainer/CheatButton" to="." method="cheat"]
-[connection signal="pressed" from="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/StackControls/UndoButton" to="." method="_on_undo_button_pressed"]
-[connection signal="pressed" from="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/StackControls/RedoButton" to="." method="_on_redo_button_pressed"]
-[connection signal="pressed" from="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/OptionsControl/OptionsButton" to="." method="_on_options_pressed"]
-[connection signal="toggled" from="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/OptionsControl/VictoryFadeCheck" to="." method="victory_fade_switch_toggled"]
-[connection signal="pressed" from="HSplitContainer/DesktopDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton" to="." method="_on_play_tutorial_audio_button_pressed"]
+[connection signal="pressed" from="HSplitContainer/MobileDrawer/VBoxContainer/VSplitContainer/ScrollContainer/MarginContainer/PlayTutorialAudioButton" to="." method="_on_play_tutorial_audio_button_pressed"]
+[connection signal="pressed" from="VirtualController/MarkButton" to="." method="virtual_mark"]
 [connection signal="toggled" from="DebugOptions/List/StackToggle" to="." method="toggle_stack_view"]
 [connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]
+[connection signal="pressed" from="OpenMenu" to="." method="open_mobile_menu"]
+[connection signal="pressed" from="Menu/GameUI/VBoxContainer2/Close Menu" to="." method="close_mobile_menu"]
+[connection signal="pressed" from="Menu/GameUI/LevelControlsContainer/NextButton" to="." method="_on_next_button_pressed"]
+[connection signal="pressed" from="Menu/GameUI/LevelControlsContainer/IndexButton" to="." method="_on_index_button_pressed"]
+[connection signal="pressed" from="Menu/GameUI/LevelControlsContainer/PrevButton" to="." method="_on_prev_button_pressed"]
+[connection signal="pressed" from="Menu/GameUI/GameControlsContainer/SubmitButton" to="." method="_on_submit_pressed"]
+[connection signal="pressed" from="Menu/GameUI/GameControlsContainer/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="Menu/GameUI/GameControlsContainer/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
+[connection signal="toggled" from="Menu/GameUI/NotesContainer/NotesSwitch" to="." method="_on_notes_switch_toggled"]
+[connection signal="pressed" from="Menu/GameUI/NotesContainer/ClearNotesButton" to="." method="_on_clear_notes"]
+[connection signal="pressed" from="Menu/GameUI/VBoxContainer/ResetButton" to="." method="_on_reset_pressed"]
+[connection signal="pressed" from="Menu/GameUI/VBoxContainer/HintButton" to="." method="_on_hint_button_pressed"]
+[connection signal="pressed" from="Menu/GameUI/VBoxContainer/CheatButton" to="." method="cheat"]
+[connection signal="pressed" from="Menu/GameUI/StackControls/UndoButton" to="." method="_on_undo_button_pressed"]
+[connection signal="pressed" from="Menu/GameUI/StackControls/RedoButton" to="." method="_on_redo_button_pressed"]
+[connection signal="pressed" from="Menu/GameUI/OptionsControl/OptionsButton" to="." method="_on_options_pressed"]
+[connection signal="toggled" from="Menu/GameUI/OptionsControl/VictoryFadeCheck" to="." method="victory_fade_switch_toggled"]

@@ -630,6 +630,38 @@ func handle_note_press():
 		set_notes(false)
 	if Input.is_action_just_pressed("Cancel"):
 		cancel_power()
+
+func virtual_mark():
+	var current_state = get_chosen_coords_state()
+	if current_state == SquareStates.EMPTY or current_state == SquareStates.FLAGGED:
+		set_chosen_coords_state(SquareStates.MARKED)
+	elif current_state == SquareStates.MARKED:
+		if notes:
+			set_chosen_coords_state(SquareStates.NOTE_MARKED)
+		else:
+			set_chosen_coords_state(SquareStates.EMPTY)
+	elif current_state == SquareStates.NOTE_MARKED:
+		set_chosen_coords_state(SquareStates.EMPTY)
+
+func virtual_flag():
+	var current_state = get_chosen_coords_state()
+	if current_state == SquareStates.EMPTY:
+		set_chosen_coords_state(SquareStates.FLAGGED)
+	elif current_state == SquareStates.FLAGGED or current_state == SquareStates.MARKED:
+		if notes:
+			set_chosen_coords_state(SquareStates.NOTE_FLAGGED)
+		else:
+			set_chosen_coords_state(SquareStates.EMPTY)
+	elif current_state == SquareStates.NOTE_FLAGGED:
+		set_chosen_coords_state(SquareStates.EMPTY)
+
+# func virtual_move(direction: Vector2i):
+# 	if direction == Vector2i(0, 0):
+# 		return
+# 	var sum = chosen_coords + direction
+# 	if sum.x < 0 || sum.x >= get_size().x || sum.y < 0 || sum.y >= get_size().y:
+# 		return
+# 	set_chosen_coords(sum)
 #endregion Input Handling
 
 #region Target Map Generation

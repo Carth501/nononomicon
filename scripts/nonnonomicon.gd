@@ -30,6 +30,7 @@ var index := preload("res://scenes/index.tscn")
 var drawer_width_percent := 0.7
 @export var options_menu: OptionsMenu
 @export var tutorial_audio_library: TutorialAudioLibrary
+@export var mobile_menu: PanelContainer
 func _ready():
 	open_page("index")
 	State.victory_changed.connect(set_next_enabled)
@@ -293,3 +294,22 @@ func _on_options_pressed() -> void:
 
 func _on_play_tutorial_audio_button_pressed() -> void:
 	tutorial_audio_library.play_audio_for_level(State.get_active_id())
+
+func open_mobile_menu():
+	if mobile_menu != null:
+		mobile_menu.show()
+		mobile_menu.grab_focus()
+	else:
+		push_error("Mobile menu not set in Nononomicon.gd")
+
+func close_mobile_menu():
+	if mobile_menu != null:
+		mobile_menu.hide()
+	else:
+		push_error("Mobile menu not set in Nononomicon.gd")
+
+func virtual_mark() -> void:
+	State.virtual_mark()
+
+func virtual_flag() -> void:
+	State.virtual_flag()
