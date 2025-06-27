@@ -19,5 +19,7 @@ class_name LevelParameters extends Resource
 @export var locks: Array[Vector2i] = []
 ## List of hints available in the level.
 @export var hints: Array[Hint] = []
+## List of etchings automatically applied to the level.
+@export var etchings: Array[Vector2i] = []
 ## The tutorial text for the level.
 @export_multiline var tutorial_text: String = ""
