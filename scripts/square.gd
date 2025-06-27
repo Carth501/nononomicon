@@ -88,8 +88,8 @@ func get_point() -> Vector2:
 		var y = randf_range(0, size.y)
 		return Vector2(x, y)
 
-func add_etching(value: int):
-	etching_label.text = str(value)
+func add_etching(value: String):
+	etching_label.text = value
 	etching_label.show()
 
 func clear_etching():

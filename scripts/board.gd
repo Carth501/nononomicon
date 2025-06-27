@@ -252,9 +252,8 @@ func update_time_display(time: float):
 func add_etching(coords: Vector2i):
 	var square = nonogram_squares.get_square(coords)
 	if square:
-		var etching_value = State.get_etching_value(coords)
-		if etching_value != -1:
-			square.add_etching(etching_value)
+		var etching_string = State.get_etching_string(coords)
+		square.add_etching(etching_string)
 	else:
 		push_error("Tried to add etching to a square that doesn't exist: " + str(coords))
 

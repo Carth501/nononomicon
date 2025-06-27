@@ -1733,17 +1733,18 @@ func get_etchings() -> Array:
 		return []
 	return master [active_id][ETCHINGS_KEY]
 
-func get_etching_value(coords: Vector2i) -> int:
+func get_etching_string(coords: Vector2i) -> String:
 	if ! master.has(active_id):
 		push_error("Attempted to get etching value with invalid id: ", active_id)
-		return -1
+		return ""
 	if ! master [active_id].has(ETCHINGS_KEY):
-		return -1
+		return ""
 	var etchings = master [active_id][ETCHINGS_KEY]
 	for etching in etchings:
 		if etching['coords'] == coords:
-			return etching['etching_number']
-	return -1
+			var value = etching['etching_number']
+			return get_glyph(str(value))
+	return ""
 
 func set_etchings(etchings_list: Array):
 	for etching_coords in etchings_list:
@@ -1919,3 +1920,12 @@ func get_time() -> float:
 		return 0.0
 	return master [active_id][TIMER_KEY]
 #endregion Timer
+
+#region variables
+func get_glyph(value: String) -> String:
+	var variable_list = get_variable_complications()
+	for variable in variable_list:
+		if variable.value == value:
+			return str(variable.glyph)
+	return str(value)
+#endregion variables
