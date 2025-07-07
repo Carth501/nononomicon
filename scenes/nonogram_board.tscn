@@ -187,7 +187,7 @@ layout_mode = 0
 [node name="VictorySplash" type="Control" parent="." node_paths=PackedStringArray("object_list", "squares")]
 layout_mode = 2
 script = ExtResource("10_00g3u")
-object_list = [NodePath("../BoardBox/XHeaderScrollContainer"), NodePath("../BoardBox/YHeaderScrollContainer"), NodePath("../BoardBox/XFooterScrollContainer"), NodePath("../BoardBox/YFooterScrollContainer"), NodePath("../BoardBox/GuidelinesMask"), NodePath("../BoardBox/CoordsLabel"), NodePath("../BoardBox/BoardSizeLabel"), NodePath("../BoardBox/PercentMarked"), NodePath("../BoardBox/SubmissionErrorDisplay"), NodePath("../BoardBox/TimeDisplay")]
+object_list = [NodePath("../BoardBox/XHeaderScrollContainer"), NodePath("../BoardBox/YHeaderScrollContainer"), NodePath("../BoardBox/XFooterScrollContainer"), NodePath("../BoardBox/YFooterScrollContainer"), NodePath("../BoardBox/GuidelinesMask"), NodePath("../BoardBox/CoordsLabel"), NodePath("../BoardBox/BoardSizeLabel"), NodePath("../BoardBox/PercentMarked"), NodePath("../BoardBox/SubmissionErrorDisplay"), NodePath("../BoardBox/TimeDisplay"), NodePath("../BoardBox/VirtualControls")]
 squares = NodePath("../BoardBox/NonogramScrollContainer/NonogramSquares")
 
 [node name="SomethingWrongPanel" type="PanelContainer" parent="."]
