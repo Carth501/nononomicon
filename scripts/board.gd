@@ -21,6 +21,7 @@ class_name NonogramBoard extends Container
 @export var submission_error_display: SubmissionErrorDisplay
 @export var timer_display: Label
 @export var victory_splash: VictorySplashController
+@export var something_wrong: PanelContainer
 var highlighting: Vector2i
 var scrolling: bool = false
 
@@ -50,6 +51,7 @@ func _ready():
 	State.etching_added_to_square.connect(add_etching)
 	victory_label.visible = false
 	State.level_changed.connect(change_level_handle_victory_fade)
+	State.something_wrong.connect(toggle_something_wrong_message)
 
 func prepare_board():
 	if (State.get_board_ready()):
@@ -159,6 +161,10 @@ func sort_children() -> void:
 	timer_display.global_position = Vector2(
 		left_edge_position - timer_display.size.x - 8,
 		top_edge_position + header_col_scroll.size.y + 8
+		)
+	something_wrong.global_position = Vector2(
+		size.x / 2 - something_wrong.size.x / 2,
+		size.y / 2 - something_wrong.size.y / 2
 		)
 
 func update_header_assist(comparisons: Dictionary):
@@ -280,3 +286,6 @@ func change_victory_fade(setting: bool):
 
 func change_level_handle_victory_fade():
 	victory_splash.check_victory_fade()
+
+func toggle_something_wrong_message(wrong: bool):
+	something_wrong.visible = wrong

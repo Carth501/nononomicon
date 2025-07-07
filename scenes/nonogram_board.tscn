@@ -11,7 +11,7 @@
 [ext_resource type="Script" uid="uid://briqtm3ws8i7d" path="res://scripts/submission_error_display.gd" id="8_pwibh"]
 [ext_resource type="Script" uid="uid://qrtcvjhpciol" path="res://scripts/victory_splash_controller.gd" id="10_00g3u"]
 
-[node name="CenterContainer" type="Container" node_paths=PackedStringArray("nonogram_scroll_container", "nonogram_squares", "header_row", "header_col", "footer_row", "footer_col", "header_row_scroll", "header_col_scroll", "footer_row_scroll", "footer_col_scroll", "board_margin_control", "victory_label", "guidelines", "guidelines_mask", "coords_display", "board_size_display", "percent_marked_label", "submission_error_display", "timer_display", "victory_splash")]
+[node name="CenterContainer" type="Container" node_paths=PackedStringArray("nonogram_scroll_container", "nonogram_squares", "header_row", "header_col", "footer_row", "footer_col", "header_row_scroll", "header_col_scroll", "footer_row_scroll", "footer_col_scroll", "board_margin_control", "victory_label", "guidelines", "guidelines_mask", "coords_display", "board_size_display", "percent_marked_label", "submission_error_display", "timer_display", "victory_splash", "something_wrong")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -39,6 +39,7 @@ percent_marked_label = NodePath("BoardBox/PercentMarked")
 submission_error_display = NodePath("BoardBox/SubmissionErrorDisplay")
 timer_display = NodePath("BoardBox/TimeDisplay")
 victory_splash = NodePath("VictorySplash")
+something_wrong = NodePath("SomethingWrongPanel")
 
 [node name="BoardBox" type="Control" parent="."]
 layout_mode = 2
@@ -128,6 +129,7 @@ vertical_scroll_mode = 2
 layout_mode = 2
 
 [node name="VictoryLabel" type="Label" parent="BoardBox"]
+visible = false
 layout_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -182,6 +184,19 @@ layout_mode = 2
 script = ExtResource("10_00g3u")
 object_list = [NodePath("../BoardBox/XHeaderScrollContainer"), NodePath("../BoardBox/YHeaderScrollContainer"), NodePath("../BoardBox/XFooterScrollContainer"), NodePath("../BoardBox/YFooterScrollContainer"), NodePath("../BoardBox/GuidelinesMask"), NodePath("../BoardBox/CoordsLabel"), NodePath("../BoardBox/BoardSizeLabel"), NodePath("../BoardBox/PercentMarked"), NodePath("../BoardBox/SubmissionErrorDisplay"), NodePath("../BoardBox/TimeDisplay")]
 squares = NodePath("../BoardBox/NonogramScrollContainer/NonogramSquares")
+
+[node name="SomethingWrongPanel" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+
+[node name="SomethingsWrong" type="Label" parent="SomethingWrongPanel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.813097, 0.172579, 0.263044, 1)
+theme_override_font_sizes/font_size = 32
+text = "Something's wrong..."
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="sort_children" from="." to="." method="sort_children"]
 [connection signal="scroll_ended" from="BoardBox/NonogramScrollContainer" to="." method="end_scrolling"]

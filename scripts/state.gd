@@ -25,6 +25,7 @@ signal timer_changed(time)
 signal level_victory_changed
 signal squares_correct
 signal etching_added_to_square(coords)
+signal something_wrong(wrong)
 
 enum SquareStates {
 	EMPTY,
@@ -309,6 +310,7 @@ func set_square_state(coords: Vector2i, new_state: SquareStates):
 		squares_correct.emit(true)
 	else:
 		squares_correct.emit(false)
+	something_wrong.emit(false)
 
 func is_square_map_correct():
 	var squares = hash(get_filtered_map([SquareStates.MARKED], SQUARE_MAP_KEY))
@@ -1276,7 +1278,11 @@ func submit():
 	if check_victory():
 		set_victory_true()
 	else:
-		error_lines_updated.emit(find_error_lines())
+		var error_lines = find_error_lines()
+		if error_lines['X'].size() == 0 and error_lines['Y'].size() == 0:
+			something_wrong.emit(true)
+		else:
+			error_lines_updated.emit(error_lines)
 		increment_submission_error_count()
 
 func increment_submission_error_count():
