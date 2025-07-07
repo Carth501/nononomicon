@@ -152,6 +152,7 @@ layout_mode = 2
 text = "Hint"
 
 [node name="CheatButton" type="Button" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/VBoxContainer"]
+visible = false
 layout_mode = 2
 text = "CHEAT"
 
