@@ -74,7 +74,7 @@ func prepare_board():
 		victory_splash.check_victory_fade()
 
 func toggle_victory(value: bool):
-	victory_label.visible = value
+	# victory_label.visible = value
 	if value:
 		victory_splash.start_splash()
 	else:
