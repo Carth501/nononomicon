@@ -26,6 +26,7 @@ signal level_victory_changed
 signal squares_correct
 signal etching_added_to_square(coords)
 signal something_wrong(wrong)
+signal inverted_changed(inverted)
 
 enum SquareStates {
 	EMPTY,
@@ -84,6 +85,7 @@ var TIMER_KEY := 'timer'
 var ETCHINGS_KEY := 'etchings'
 var toggle_state: ToggleStates = ToggleStates.NOTHING
 var notes: bool
+var inverted: bool = false
 var active_id: String = "default"
 var drag_direction: Axis = Axis.NONE
 var drag_start := Vector2i(-1, -1)
@@ -494,20 +496,14 @@ func _process(_delta):
 		return
 	if master [active_id].has(VICTORY_KEY) and master [active_id][VICTORY_KEY]:
 		return
+	handle_invert()
 	handle_input_release()
 	handle_note_press()
 	handle_input_press()
 
 #region Input Handling
 func handle_input_release():
-	if Input.is_action_just_released("Flag") and (toggle_state == ToggleStates.FLAGGING or toggle_state == ToggleStates.EMPTYING_FLAGGED):
-		reset_toggle_state()
-		drag_direction = Axis.NONE
-		drag_start = Vector2i(-1, -1)
-		drag_ended.emit()
-		drag_min = -1
-		drag_max = -1
-	elif Input.is_action_just_released("Mark") and (toggle_state == ToggleStates.MARKING or toggle_state == ToggleStates.EMPTYING_MARKED):
+	if is_drag_released():
 		reset_toggle_state()
 		drag_direction = Axis.NONE
 		drag_start = Vector2i(-1, -1)
@@ -515,22 +511,47 @@ func handle_input_release():
 		drag_min = -1
 		drag_max = -1
 
+func is_drag_released() -> bool:
+	if toggle_state == ToggleStates.MARKING or toggle_state == ToggleStates.EMPTYING_MARKED:
+		return check_marking_released()
+	elif toggle_state == ToggleStates.FLAGGING or toggle_state == ToggleStates.EMPTYING_FLAGGED:
+		return check_flagging_released()
+	return true
+
+func check_marking_released() -> bool:
+	if !inverted:
+		return Input.is_action_just_released("LeftClick")
+	else:
+		return Input.is_action_just_released("RightClick")
+
+func check_flagging_released() -> bool:
+	if !inverted:
+		return Input.is_action_just_released("RightClick")
+	else:
+		return Input.is_action_just_released("LeftClick")
+
 func handle_input_press():
 	var state = get_chosen_coords_state()
 	if toggle_state == ToggleStates.NOTHING:
-		if Input.is_action_just_pressed("Flag"):
+		if Input.is_action_just_pressed("RightClick"):
 			if power_id != "":
 				cancel_power()
 			else:
-				handle_flag_press(state)
+				if !inverted:
+					handle_flag_press(state)
+				else:
+					handle_mark_press(state)
 				if chosen_coords != Vector2i(-1, -1) and state != SquareStates.MARKED:
 					drag_start = chosen_coords
 					drag_begun.emit()
-		elif Input.is_action_just_pressed("Mark"):
+		elif Input.is_action_just_pressed("LeftClick"):
 			if power_id != "":
 				use_power()
 			else:
-				handle_mark_press(state)
+				if !inverted:
+					handle_mark_press(state)
+				else:
+					handle_flag_press(state)
 				if chosen_coords != Vector2i(-1, -1) and state != SquareStates.FLAGGED:
 					drag_start = chosen_coords
 					drag_begun.emit()
@@ -634,6 +655,20 @@ func handle_note_press():
 		set_notes(false)
 	if Input.is_action_just_pressed("Cancel"):
 		cancel_power()
+
+func handle_invert():
+	if Input.is_action_just_pressed("Shift"):
+		update_inverted(true)
+	elif Input.is_action_just_released("Shift"):
+		update_inverted(false)
+
+func toggle_inverted():
+	update_inverted(!inverted)
+
+func update_inverted(value: bool):
+	inverted = value
+	inverted_changed.emit(inverted)
+
 #endregion Input Handling
 
 #region Target Map Generation
