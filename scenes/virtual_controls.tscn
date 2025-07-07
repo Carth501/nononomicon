@@ -6,8 +6,8 @@
 bg_color = Color(0.356863, 0.2, 0.109804, 1)
 
 [node name="VirtualControls" type="VBoxContainer" node_paths=PackedStringArray("mark_button", "note_button", "mark_panel", "note_panel")]
-offset_right = 105.0
-offset_bottom = 89.0
+offset_right = 160.0
+offset_bottom = 78.0
 script = ExtResource("1_6n8fv")
 mark_button = NodePath("MarkButtonContainer/MarginContainer/PanelContainer/MarkingSwitch")
 note_button = NodePath("NoteButtonContainer/MarginContainer/PanelContainer/NoteSwitch")
@@ -16,6 +16,7 @@ note_panel = NodePath("NoteButtonContainer")
 
 [node name="MarkButtonContainer" type="PanelContainer" parent="."]
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_00g3u")
 
 [node name="MarginContainer" type="MarginContainer" parent="MarkButtonContainer"]
@@ -28,18 +29,27 @@ layout_mode = 2
 
 [node name="Label2" type="Label" parent="MarkButtonContainer/MarginContainer/PanelContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
 text = "Mark"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="MarkingSwitch" type="CheckButton" parent="MarkButtonContainer/MarginContainer/PanelContainer"]
 layout_mode = 2
+size_flags_vertical = 5
 flat = true
 
 [node name="Label" type="Label" parent="MarkButtonContainer/MarginContainer/PanelContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
 text = "Flag"
+vertical_alignment = 1
 
 [node name="NoteButtonContainer" type="PanelContainer" parent="."]
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_00g3u")
 
 [node name="MarginContainer" type="MarginContainer" parent="NoteButtonContainer"]
@@ -53,14 +63,20 @@ layout_mode = 2
 [node name="Label2" type="Label" parent="NoteButtonContainer/MarginContainer/PanelContainer"]
 custom_minimum_size = Vector2(49, 0)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
 
 [node name="NoteSwitch" type="CheckButton" parent="NoteButtonContainer/MarginContainer/PanelContainer"]
 layout_mode = 2
+size_flags_vertical = 5
 flat = true
 
 [node name="Label" type="Label" parent="NoteButtonContainer/MarginContainer/PanelContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
 text = "Note"
+vertical_alignment = 1
 
 [connection signal="mouse_entered" from="MarkButtonContainer" to="." method="_on_mark_button_container_mouse_entered"]
 [connection signal="mouse_exited" from="MarkButtonContainer" to="." method="_on_mark_button_container_mouse_exited"]
