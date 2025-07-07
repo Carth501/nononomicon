@@ -22,6 +22,7 @@ class_name NonogramBoard extends Container
 @export var timer_display: Label
 @export var victory_splash: VictorySplashController
 @export var something_wrong: PanelContainer
+@export var virtual_controls: VirtualControls
 var highlighting: Vector2i
 var scrolling: bool = false
 
@@ -44,9 +45,9 @@ func _ready():
 	State.hint_display_changed.connect(set_hint_squares)
 	State.square_changed.connect(calculate_percent_marked_with_coords)
 	State.level_changed.connect(calculate_percent_marked)
+	State.level_changed.connect(set_timer_display)
 	State.level_changed.connect(toggle_percent_marked_label)
 	State.level_changed.connect(toggle_submission_error_display)
-	State.level_changed.connect(set_timer_display)
 	State.timer_changed.connect(update_time_display)
 	State.etching_added_to_square.connect(add_etching)
 	victory_label.visible = false
@@ -150,8 +151,12 @@ func sort_children() -> void:
 		left_edge_position - board_size_display.size.x - 8,
 		top_edge_position - board_size_display.size.y - 8
 		)
-	percent_marked_label.global_position = Vector2(
+	virtual_controls.global_position = Vector2(
 		left_edge_position + header_row_scroll.size.x + 8,
+		top_edge_position + header_col_scroll.size.y + 8
+		)
+	percent_marked_label.global_position = Vector2(
+		left_edge_position - timer_display.size.x - 8,
 		top_edge_position + header_col_scroll.size.y + 8
 		)
 	submission_error_display.global_position = Vector2(
@@ -205,8 +210,9 @@ func clear_hint_squares():
 func toggle_percent_marked_label():
 	var params = State.get_level_parameters()
 	var features = params.features
+	var timer = features.timer
 	var percent_marked = features.percent_marked
-	if percent_marked:
+	if percent_marked && !timer:
 		percent_marked_label.show()
 	else:
 		percent_marked_label.hide()

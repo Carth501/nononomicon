@@ -1,0 +1,68 @@
+[gd_scene load_steps=3 format=3 uid="uid://d4edqelwgpkup"]
+
+[ext_resource type="Script" uid="uid://bxvdhmhjsu2a1" path="res://scripts/virtual_controls.gd" id="1_6n8fv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_00g3u"]
+bg_color = Color(0.356863, 0.2, 0.109804, 1)
+
+[node name="VirtualControls" type="VBoxContainer" node_paths=PackedStringArray("mark_button", "note_button", "mark_panel", "note_panel")]
+offset_right = 105.0
+offset_bottom = 89.0
+script = ExtResource("1_6n8fv")
+mark_button = NodePath("MarkButtonContainer/MarginContainer/PanelContainer/MarkingSwitch")
+note_button = NodePath("NoteButtonContainer/MarginContainer/PanelContainer/NoteSwitch")
+mark_panel = NodePath("MarkButtonContainer")
+note_panel = NodePath("NoteButtonContainer")
+
+[node name="MarkButtonContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_00g3u")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarkButtonContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="PanelContainer" type="HBoxContainer" parent="MarkButtonContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="MarkButtonContainer/MarginContainer/PanelContainer"]
+layout_mode = 2
+text = "Mark"
+
+[node name="MarkingSwitch" type="CheckButton" parent="MarkButtonContainer/MarginContainer/PanelContainer"]
+layout_mode = 2
+flat = true
+
+[node name="Label" type="Label" parent="MarkButtonContainer/MarginContainer/PanelContainer"]
+layout_mode = 2
+text = "Flag"
+
+[node name="NoteButtonContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_00g3u")
+
+[node name="MarginContainer" type="MarginContainer" parent="NoteButtonContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="PanelContainer" type="HBoxContainer" parent="NoteButtonContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="NoteButtonContainer/MarginContainer/PanelContainer"]
+custom_minimum_size = Vector2(49, 0)
+layout_mode = 2
+
+[node name="NoteSwitch" type="CheckButton" parent="NoteButtonContainer/MarginContainer/PanelContainer"]
+layout_mode = 2
+flat = true
+
+[node name="Label" type="Label" parent="NoteButtonContainer/MarginContainer/PanelContainer"]
+layout_mode = 2
+text = "Note"
+
+[connection signal="mouse_entered" from="MarkButtonContainer" to="." method="_on_mark_button_container_mouse_entered"]
+[connection signal="mouse_exited" from="MarkButtonContainer" to="." method="_on_mark_button_container_mouse_exited"]
+[connection signal="mouse_entered" from="NoteButtonContainer" to="." method="_on_note_button_container_mouse_entered"]
+[connection signal="mouse_exited" from="NoteButtonContainer" to="." method="_on_note_button_container_mouse_exited"]
