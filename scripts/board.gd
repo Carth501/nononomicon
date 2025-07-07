@@ -155,6 +155,8 @@ func sort_children() -> void:
 		left_edge_position + header_row_scroll.size.x + 8,
 		top_edge_position + header_col_scroll.size.y + 8
 		)
+	virtual_controls.size = Vector2(
+		min(x_margin, 256), min(y_margin, 128))
 	percent_marked_label.global_position = Vector2(
 		left_edge_position - timer_display.size.x - 8,
 		top_edge_position + header_col_scroll.size.y + 8

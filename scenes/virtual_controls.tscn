@@ -21,8 +21,8 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_00g3u")
 
 [node name="MarginContainer" type="MarginContainer" parent="MarkButtonContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_right = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
 
 [node name="PanelContainer" type="HBoxContainer" parent="MarkButtonContainer/MarginContainer"]
 layout_mode = 2
@@ -54,8 +54,8 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_00g3u")
 
 [node name="MarginContainer" type="MarginContainer" parent="NoteButtonContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_right = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
 
 [node name="PanelContainer" type="HBoxContainer" parent="NoteButtonContainer/MarginContainer"]
 layout_mode = 2
