@@ -1,5 +1,7 @@
 class_name NonogramBoard extends Container
 
+signal menu_toggled
+
 @export var nonogram_scroll_container: ScrollContainer
 @export var nonogram_squares: NonogramSquares
 @export var header_row: XHeaderRow
@@ -23,6 +25,7 @@ class_name NonogramBoard extends Container
 @export var victory_splash: VictorySplashController
 @export var something_wrong: PanelContainer
 @export var virtual_controls: VirtualControls
+@export var toggle_menu_button: Button
 var highlighting: Vector2i
 var scrolling: bool = false
 
@@ -173,6 +176,7 @@ func sort_children() -> void:
 		size.x / 2 - something_wrong.size.x / 2,
 		size.y / 2 - something_wrong.size.y / 2
 		)
+	toggle_menu_button.global_position = Vector2(size.x - toggle_menu_button.size.x - 8, 0)
 
 func update_header_assist(comparisons: Dictionary):
 	header_row.set_assist(comparisons["X"])
@@ -297,3 +301,6 @@ func change_level_handle_victory_fade():
 
 func toggle_something_wrong_message(wrong: bool):
 	something_wrong.visible = wrong
+
+func toggle_menu():
+	menu_toggled.emit()

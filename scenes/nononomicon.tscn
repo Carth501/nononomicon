@@ -70,7 +70,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/minimum_grab_thickness = 16
+theme_override_constants/minimum_grab_thickness = 24
 theme_override_constants/autohide = 0
 split_offset = 918
 
@@ -331,6 +331,7 @@ script = ExtResource("12_4a1j6")
 [connection signal="level_selected" from="Index" to="." method="open_page"]
 [connection signal="open_options" from="Index" to="." method="_on_options_pressed"]
 [connection signal="dragged" from="HSplitContainer" to="." method="on_drawer_dragged"]
+[connection signal="menu_toggled" from="HSplitContainer/NonogramBoard" to="." method="toggle_drawer"]
 [connection signal="resized" from="HSplitContainer/NonogramBoard" to="HSplitContainer/NonogramBoard" method="resize_board"]
 [connection signal="pressed" from="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/LevelControlsContainer/NextButton" to="." method="_on_next_button_pressed"]
 [connection signal="pressed" from="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/LevelControlsContainer/IndexButton" to="." method="_on_index_button_pressed"]

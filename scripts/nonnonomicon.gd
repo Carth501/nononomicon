@@ -46,6 +46,7 @@ func _ready():
 	State.level_changed.connect(toggle_power_menu)
 	State.stack_changed.connect(update_stack_controls)
 	State.level_changed.connect(update_stack_controls)
+	State.level_changed.connect(expand_drawer)
 	var victory_fade_setting = ConfigHandler.get_setting("victory_fade", true)
 	victory_fade_switch.set_pressed_no_signal(victory_fade_setting)
 
@@ -293,3 +294,16 @@ func _on_options_pressed() -> void:
 
 func _on_play_tutorial_audio_button_pressed() -> void:
 	tutorial_audio_library.play_audio_for_level(State.get_active_id())
+
+func collapse_drawer():
+	drawer.visible = false
+
+func expand_drawer():
+	drawer.visible = true
+
+func toggle_drawer():
+	print("Toggling drawer visibility ", !drawer.visible)
+	if drawer.visible:
+		collapse_drawer()
+	else:
+		expand_drawer()
