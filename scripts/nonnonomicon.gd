@@ -302,7 +302,6 @@ func expand_drawer():
 	drawer.visible = true
 
 func toggle_drawer():
-	print("Toggling drawer visibility ", !drawer.visible)
 	if drawer.visible:
 		collapse_drawer()
 	else:
