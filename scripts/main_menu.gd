@@ -12,6 +12,7 @@ func _ready() -> void:
 		continue_button.disabled = true
 	else:
 		continue_button.disabled = false
+	DisplayHandler.ui_scale_changed.connect(adjust_ui_scale)
 
 func new_game():
 	State.new_game()
@@ -45,3 +46,8 @@ func enter_nononomicon():
 
 func get_mobile_mode() -> bool:
 	return ProjectSettings.get_setting("application/config/is_mobile")
+
+func adjust_ui_scale(value: float) -> void:
+	var window_size = DisplayServer.window_get_size()
+	scale = Vector2(value, value)
+	size = window_size / value

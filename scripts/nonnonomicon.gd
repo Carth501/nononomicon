@@ -49,6 +49,7 @@ func _ready():
 	State.level_changed.connect(expand_drawer)
 	var victory_fade_setting = ConfigHandler.get_setting("victory_fade", true)
 	victory_fade_switch.set_pressed_no_signal(victory_fade_setting)
+	DisplayHandler.ui_scale_changed.connect(_on_ui_scale_value_changed)
 
 func open_page(id: String):
 	if (id == "index"):
@@ -306,3 +307,7 @@ func toggle_drawer():
 		collapse_drawer()
 	else:
 		expand_drawer()
+
+func adjust_ui_scale(value: float) -> void:
+	ui_scale.set_value_no_signal(value)
+	ui_scale_value_label.set_text("%.2f" % value)
