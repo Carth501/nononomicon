@@ -40,3 +40,9 @@ func initial_scale(value: float) -> void:
 func set_ui_scale(value: float) -> void:
 	DisplayHandler.set_ui_scale(value)
 	ui_scale_value_label.set_text("%.2f" % value)
+
+
+func _on_ui_scale_slider_drag_ended(value_changed: bool) -> void:
+	if !value_changed:
+		return
+	set_ui_scale(ui_scale.get_value())

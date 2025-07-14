@@ -10,41 +10,41 @@ grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(2, 2)
 script = ExtResource("1_liyum")
-master_volume_slider = NodePath("MarginContainer/ScrollContainer/VBoxContainer/MasterAudioControl/MasterHSlider")
-music_volume_slider = NodePath("MarginContainer/ScrollContainer/VBoxContainer/MusicAudioControl/MusicHSlider")
-fullscreen_checkbox = NodePath("MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/FullscreenCheckBox")
-ui_scale = NodePath("MarginContainer/ScrollContainer/VBoxContainer/UIScale/UIScaleSlider")
-ui_scale_value_label = NodePath("MarginContainer/ScrollContainer/VBoxContainer/UIScale/UIScaleValueLabel")
+master_volume_slider = NodePath("ScrollContainer/MarginContainer/VBoxContainer/MasterAudioControl/MasterHSlider")
+music_volume_slider = NodePath("ScrollContainer/MarginContainer/VBoxContainer/MusicAudioControl/MusicHSlider")
+fullscreen_checkbox = NodePath("ScrollContainer/MarginContainer/VBoxContainer/HBoxContainer/FullscreenCheckBox")
+ui_scale = NodePath("ScrollContainer/MarginContainer/VBoxContainer/UIScale/UIScaleSlider")
+ui_scale_value_label = NodePath("ScrollContainer/MarginContainer/VBoxContainer/UIScale/UIScaleValueLabel")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 60
 theme_override_constants/margin_top = 60
 theme_override_constants/margin_right = 60
 theme_override_constants/margin_bottom = 60
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer"]
 custom_minimum_size = Vector2(360, 0)
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Audio"
 
-[node name="MasterAudioControl" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="MasterAudioControl" type="HBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/MasterAudioControl"]
+[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer/MasterAudioControl"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Master"
 
-[node name="MasterHSlider" type="HSlider" parent="MarginContainer/ScrollContainer/VBoxContainer/MasterAudioControl"]
+[node name="MasterHSlider" type="HSlider" parent="ScrollContainer/MarginContainer/VBoxContainer/MasterAudioControl"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -54,15 +54,15 @@ rounded = true
 tick_count = 5
 ticks_on_borders = true
 
-[node name="MusicAudioControl" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="MusicAudioControl" type="HBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/MusicAudioControl"]
+[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer/MusicAudioControl"]
 custom_minimum_size = Vector2(100.02, 0)
 layout_mode = 2
 text = "Music"
 
-[node name="MusicHSlider" type="HSlider" parent="MarginContainer/ScrollContainer/VBoxContainer/MusicAudioControl"]
+[node name="MusicHSlider" type="HSlider" parent="ScrollContainer/MarginContainer/VBoxContainer/MusicAudioControl"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -72,31 +72,31 @@ rounded = true
 tick_count = 5
 ticks_on_borders = true
 
-[node name="Label2" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Graphics"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 text = "Fullscreen"
 
-[node name="FullscreenCheckBox" type="CheckBox" parent="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
+[node name="FullscreenCheckBox" type="CheckBox" parent="ScrollContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="UIScale" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="UIScale" type="HBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 34
 
-[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/UIScale"]
+[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer/UIScale"]
 layout_mode = 2
 text = "UI Scale"
 
-[node name="UIScaleSlider" type="HSlider" parent="MarginContainer/ScrollContainer/VBoxContainer/UIScale"]
+[node name="UIScaleSlider" type="HSlider" parent="ScrollContainer/MarginContainer/VBoxContainer/UIScale"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -107,17 +107,17 @@ value = 2.0
 tick_count = 5
 ticks_on_borders = true
 
-[node name="UIScaleValueLabel" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/UIScale"]
+[node name="UIScaleValueLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer/UIScale"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 
-[node name="ExitButton" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="ExitButton" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 mouse_filter = 1
 text = "Done"
 
-[connection signal="value_changed" from="MarginContainer/ScrollContainer/VBoxContainer/MasterAudioControl/MasterHSlider" to="." method="set_master_volume"]
-[connection signal="value_changed" from="MarginContainer/ScrollContainer/VBoxContainer/MusicAudioControl/MusicHSlider" to="." method="set_music_volume"]
-[connection signal="toggled" from="MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/FullscreenCheckBox" to="." method="set_fullscreen"]
-[connection signal="value_changed" from="MarginContainer/ScrollContainer/VBoxContainer/UIScale/UIScaleSlider" to="." method="set_ui_scale"]
-[connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
+[connection signal="value_changed" from="ScrollContainer/MarginContainer/VBoxContainer/MasterAudioControl/MasterHSlider" to="." method="set_master_volume"]
+[connection signal="value_changed" from="ScrollContainer/MarginContainer/VBoxContainer/MusicAudioControl/MusicHSlider" to="." method="set_music_volume"]
+[connection signal="toggled" from="ScrollContainer/MarginContainer/VBoxContainer/HBoxContainer/FullscreenCheckBox" to="." method="set_fullscreen"]
+[connection signal="drag_ended" from="ScrollContainer/MarginContainer/VBoxContainer/UIScale/UIScaleSlider" to="." method="_on_ui_scale_slider_drag_ended"]
+[connection signal="pressed" from="ScrollContainer/MarginContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]

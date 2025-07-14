@@ -117,6 +117,7 @@ vertical_alignment = 1
 [node name="OptionsMenu" parent="." instance=ExtResource("4_wu84c")]
 visible = false
 layout_mode = 1
+scale = Vector2(1, 1)
 
 [node name="VersionLabel" type="Label" parent="."]
 layout_mode = 1

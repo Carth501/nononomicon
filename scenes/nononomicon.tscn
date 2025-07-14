@@ -322,6 +322,7 @@ script = ExtResource("7_lsml7")
 [node name="OptionsMenu" parent="." instance=ExtResource("11_1rlom")]
 visible = false
 layout_mode = 1
+scale = Vector2(1, 1)
 
 [node name="TutorialAudioController" type="Node" parent="."]
 script = ExtResource("12_4a1j6")
