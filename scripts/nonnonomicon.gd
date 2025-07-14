@@ -50,6 +50,7 @@ func _ready():
 	var victory_fade_setting = ConfigHandler.get_setting("victory_fade", true)
 	victory_fade_switch.set_pressed_no_signal(victory_fade_setting)
 	DisplayHandler.ui_scale_changed.connect(adjust_ui_scale)
+	adjust_ui_scale(DisplayHandler.ui_scale)
 
 func open_page(id: String):
 	if (id == "index"):

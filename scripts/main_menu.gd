@@ -13,6 +13,7 @@ func _ready() -> void:
 	else:
 		continue_button.disabled = false
 	DisplayHandler.ui_scale_changed.connect(adjust_ui_scale)
+	adjust_ui_scale(DisplayHandler.ui_scale)
 
 func new_game():
 	State.new_game()
