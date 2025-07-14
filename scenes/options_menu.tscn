@@ -104,7 +104,7 @@ min_value = 0.75
 max_value = 2.0
 step = 0.25
 value = 2.0
-tick_count = 5
+tick_count = 6
 ticks_on_borders = true
 
 [node name="UIScaleValueLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer/UIScale"]
