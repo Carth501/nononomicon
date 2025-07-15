@@ -162,6 +162,8 @@ horizontal_alignment = 1
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
+horizontal_alignment = 2
+vertical_alignment = 2
 
 [node name="PercentMarked" type="Label" parent="BoardBox"]
 layout_mode = 0

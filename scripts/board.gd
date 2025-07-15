@@ -146,30 +146,35 @@ func sort_children() -> void:
 	guidelines_mask.global_position = nonogram_scroll_container.global_position
 	var left_edge_position = x_margin + col_head_width
 	var top_edge_position = y_margin + row_head_height
-	coords_display.global_position = Vector2(
+
+	var top_left_corner_position = Vector2(
+		left_edge_position - 8,
+		top_edge_position - 8
+		) * DisplayHandler.ui_scale
+	var top_right_corner_position = Vector2(
 		left_edge_position + header_row_scroll.size.x + 8,
-		top_edge_position - coords_display.size.y - 8
+		top_edge_position - 8
 		) * DisplayHandler.ui_scale
-	board_size_display.global_position = Vector2(
-		left_edge_position - board_size_display.size.x - 8,
-		top_edge_position - board_size_display.size.y - 8
-		) * DisplayHandler.ui_scale
-	virtual_controls.global_position = Vector2(
-		left_edge_position + header_row_scroll.size.x + 8,
-		top_edge_position + header_col_scroll.size.y + 8
-		) * DisplayHandler.ui_scale
-	virtual_controls.size = Vector2(
-		min(x_margin, 256), min(y_margin, 128))
-	percent_marked_label.global_position = Vector2(
-		left_edge_position - timer_display.size.x - 8,
-		top_edge_position + header_col_scroll.size.y + 8
-		) * DisplayHandler.ui_scale
-	submission_error_display.global_position = Vector2(
+	var bottom_left_corner_position = Vector2(
 		left_edge_position - 8,
 		top_edge_position + header_col_scroll.size.y + 8
 		) * DisplayHandler.ui_scale
-	timer_display.global_position = Vector2(
-		left_edge_position - timer_display.size.x - 8,
+	var bottom_right_corner_position = Vector2(
+		left_edge_position + header_row_scroll.size.x + 8,
+		top_edge_position + header_col_scroll.size.y + 8
+		) * DisplayHandler.ui_scale
+
+	board_size_display.global_position = top_left_corner_position - board_size_display.size
+	coords_display.global_position = top_right_corner_position + Vector2(0, -coords_display.size.y)
+
+	timer_display.global_position = bottom_left_corner_position
+	virtual_controls.global_position = bottom_right_corner_position
+	virtual_controls.size = Vector2(
+		min(x_margin, 256), min(y_margin, 128))
+	percent_marked_label.global_position = bottom_right_corner_position
+
+	submission_error_display.global_position = Vector2(
+		left_edge_position - 8,
 		top_edge_position + header_col_scroll.size.y + 8
 		) * DisplayHandler.ui_scale
 	something_wrong.global_position = Vector2(
