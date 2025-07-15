@@ -149,33 +149,33 @@ func sort_children() -> void:
 	coords_display.global_position = Vector2(
 		left_edge_position + header_row_scroll.size.x + 8,
 		top_edge_position - coords_display.size.y - 8
-		)
+		) * DisplayHandler.ui_scale
 	board_size_display.global_position = Vector2(
 		left_edge_position - board_size_display.size.x - 8,
 		top_edge_position - board_size_display.size.y - 8
-		)
+		) * DisplayHandler.ui_scale
 	virtual_controls.global_position = Vector2(
 		left_edge_position + header_row_scroll.size.x + 8,
 		top_edge_position + header_col_scroll.size.y + 8
-		)
+		) * DisplayHandler.ui_scale
 	virtual_controls.size = Vector2(
 		min(x_margin, 256), min(y_margin, 128))
 	percent_marked_label.global_position = Vector2(
 		left_edge_position - timer_display.size.x - 8,
 		top_edge_position + header_col_scroll.size.y + 8
-		)
+		) * DisplayHandler.ui_scale
 	submission_error_display.global_position = Vector2(
 		left_edge_position - 8,
 		top_edge_position + header_col_scroll.size.y + 8
-		)
+		) * DisplayHandler.ui_scale
 	timer_display.global_position = Vector2(
 		left_edge_position - timer_display.size.x - 8,
 		top_edge_position + header_col_scroll.size.y + 8
-		)
+		) * DisplayHandler.ui_scale
 	something_wrong.global_position = Vector2(
 		size.x / 2 - something_wrong.size.x / 2,
 		size.y / 2 - something_wrong.size.y / 2
-		)
+		) * DisplayHandler.ui_scale
 	toggle_menu_button.global_position = Vector2(size.x - toggle_menu_button.size.x - 8, 0)
 
 func update_header_assist(comparisons: Dictionary):
