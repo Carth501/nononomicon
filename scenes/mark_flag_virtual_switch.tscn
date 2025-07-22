@@ -4,8 +4,13 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_00g3u"]
 bg_color = Color(0.356863, 0.2, 0.109804, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [node name="MarkButtonContainer" type="PanelContainer" node_paths=PackedStringArray("mark_button")]
+custom_minimum_size = Vector2(90, 90)
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_00g3u")
 script = ExtResource("1_rro0d")
