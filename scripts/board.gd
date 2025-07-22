@@ -168,12 +168,13 @@ func sort_children() -> void:
 	board_size_display.global_position = top_left_corner_position - board_size_display.size
 	coords_display.global_position = top_right_corner_position + Vector2(0, -coords_display.size.y)
 
-	mark_virtual_controls.global_position = bottom_right_corner_position
 	mark_virtual_controls.size = Vector2(
 		min(x_margin, 256), min(y_margin, 256))
-	note_virtual_controls.global_position = bottom_left_corner_position
+	mark_virtual_controls.global_position = bottom_right_corner_position
 	note_virtual_controls.size = Vector2(
 		min(x_margin, 256), min(y_margin, 256))
+	note_virtual_controls.global_position = bottom_left_corner_position - Vector2(
+		note_virtual_controls.size.x, 0)
 	# percent_marked_label.global_position = bottom_right_corner_position
 	# timer_display.global_position = bottom_left_corner_position
 
