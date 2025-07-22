@@ -24,7 +24,8 @@ signal menu_toggled
 @export var timer_display: Label
 @export var victory_splash: VictorySplashController
 @export var something_wrong: PanelContainer
-@export var virtual_controls: VirtualControls
+@export var mark_virtual_controls: MarkFlagVirtualSwitch
+@export var note_virtual_controls: NoteVirtualSwitch
 @export var toggle_menu_button: Button
 var highlighting: Vector2i
 var scrolling: bool = false
@@ -167,11 +168,14 @@ func sort_children() -> void:
 	board_size_display.global_position = top_left_corner_position - board_size_display.size
 	coords_display.global_position = top_right_corner_position + Vector2(0, -coords_display.size.y)
 
-	timer_display.global_position = bottom_left_corner_position
-	virtual_controls.global_position = bottom_right_corner_position
-	virtual_controls.size = Vector2(
-		min(x_margin, 256), min(y_margin, 128))
-	percent_marked_label.global_position = bottom_right_corner_position
+	mark_virtual_controls.global_position = bottom_right_corner_position
+	mark_virtual_controls.size = Vector2(
+		min(x_margin, 256), min(y_margin, 256))
+	note_virtual_controls.global_position = bottom_left_corner_position
+	note_virtual_controls.size = Vector2(
+		min(x_margin, 256), min(y_margin, 256))
+	# percent_marked_label.global_position = bottom_right_corner_position
+	# timer_display.global_position = bottom_left_corner_position
 
 	submission_error_display.global_position = Vector2(
 		left_edge_position - 8,
@@ -219,14 +223,14 @@ func clear_hint_squares():
 	nonogram_squares.clear_hint_squares()
 
 func toggle_percent_marked_label():
-	var params = State.get_level_parameters()
-	var features = params.features
-	var timer = features.timer
-	var percent_marked = features.percent_marked
-	if percent_marked && !timer:
-		percent_marked_label.show()
-	else:
-		percent_marked_label.hide()
+	# var params = State.get_level_parameters()
+	# var features = params.features
+	# var timer = features.timer
+	# var percent_marked = features.percent_marked
+	# if percent_marked && !timer:
+	# 	percent_marked_label.show()
+	# else:
+	percent_marked_label.hide()
 
 
 func calculate_percent_marked_with_coords(_coords: Vector2i):
@@ -254,13 +258,13 @@ func set_submission_error_count():
 	submission_error_display.set_error_count(errors)
 
 func set_timer_display():
-	var features = State.get_level_features()
-	var timer = features.timer
-	if timer:
-		timer_display.show()
-		update_time_display(State.get_time())
-	else:
-		timer_display.hide()
+	# var features = State.get_level_features()
+	# var timer = features.timer
+	# if timer:
+	# 	timer_display.show()
+	# 	update_time_display(State.get_time())
+	# else:
+	timer_display.hide()
 
 func update_time_display(time: float):
 	var rounded_time = floori(time)

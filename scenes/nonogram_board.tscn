@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dq8gk2xv1r27a"]
+[gd_scene load_steps=13 format=3 uid="uid://dq8gk2xv1r27a"]
 
 [ext_resource type="PackedScene" uid="uid://d4cw6v7fo0k5s" path="res://scenes/nonogram_squares.tscn" id="1_4p2ab"]
 [ext_resource type="Theme" uid="uid://6b5skotjmdvf" path="res://assets/themes/primary_theme.tres" id="1_p46et"]
@@ -10,9 +10,10 @@
 [ext_resource type="Script" uid="uid://b3pd7wvudic24" path="res://scripts/guidelines.gd" id="7_oseot"]
 [ext_resource type="Script" uid="uid://briqtm3ws8i7d" path="res://scripts/submission_error_display.gd" id="8_pwibh"]
 [ext_resource type="Script" uid="uid://qrtcvjhpciol" path="res://scripts/victory_splash_controller.gd" id="10_00g3u"]
-[ext_resource type="PackedScene" uid="uid://d4edqelwgpkup" path="res://scenes/virtual_controls.tscn" id="10_j4qxg"]
+[ext_resource type="PackedScene" uid="uid://cvhtu3vevr4oc" path="res://scenes/note_virtual_switch.tscn" id="10_j4qxg"]
+[ext_resource type="PackedScene" uid="uid://bwsabif8yvkxl" path="res://scenes/mark_flag_virtual_switch.tscn" id="11_5fn3k"]
 
-[node name="CenterContainer" type="Container" node_paths=PackedStringArray("nonogram_scroll_container", "nonogram_squares", "header_row", "header_col", "footer_row", "footer_col", "header_row_scroll", "header_col_scroll", "footer_row_scroll", "footer_col_scroll", "board_margin_control", "victory_label", "guidelines", "guidelines_mask", "coords_display", "board_size_display", "percent_marked_label", "submission_error_display", "timer_display", "victory_splash", "something_wrong", "virtual_controls", "toggle_menu_button")]
+[node name="CenterContainer" type="Container" node_paths=PackedStringArray("nonogram_scroll_container", "nonogram_squares", "header_row", "header_col", "footer_row", "footer_col", "header_row_scroll", "header_col_scroll", "footer_row_scroll", "footer_col_scroll", "board_margin_control", "victory_label", "guidelines", "guidelines_mask", "coords_display", "board_size_display", "percent_marked_label", "submission_error_display", "timer_display", "victory_splash", "something_wrong", "mark_virtual_controls", "note_virtual_controls", "toggle_menu_button")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -41,7 +42,8 @@ submission_error_display = NodePath("BoardBox/SubmissionErrorDisplay")
 timer_display = NodePath("BoardBox/TimeDisplay")
 victory_splash = NodePath("VictorySplash")
 something_wrong = NodePath("SomethingWrongPanel")
-virtual_controls = NodePath("BoardBox/VirtualControls")
+mark_virtual_controls = NodePath("BoardBox/MarkButtonContainer")
+note_virtual_controls = NodePath("BoardBox/NoteVirtualSwitch")
 toggle_menu_button = NodePath("MenuShow")
 
 [node name="BoardBox" type="Control" parent="."]
@@ -184,13 +186,16 @@ offset_right = 40.0
 offset_bottom = 37.0
 horizontal_alignment = 2
 
-[node name="VirtualControls" parent="BoardBox" instance=ExtResource("10_j4qxg")]
+[node name="NoteVirtualSwitch" parent="BoardBox" instance=ExtResource("10_j4qxg")]
+layout_mode = 0
+
+[node name="MarkButtonContainer" parent="BoardBox" instance=ExtResource("11_5fn3k")]
 layout_mode = 0
 
 [node name="VictorySplash" type="Control" parent="." node_paths=PackedStringArray("object_list", "squares")]
 layout_mode = 2
 script = ExtResource("10_00g3u")
-object_list = [NodePath("../BoardBox/XHeaderScrollContainer"), NodePath("../BoardBox/YHeaderScrollContainer"), NodePath("../BoardBox/XFooterScrollContainer"), NodePath("../BoardBox/YFooterScrollContainer"), NodePath("../BoardBox/GuidelinesMask"), NodePath("../BoardBox/CoordsLabel"), NodePath("../BoardBox/BoardSizeLabel"), NodePath("../BoardBox/PercentMarked"), NodePath("../BoardBox/SubmissionErrorDisplay"), NodePath("../BoardBox/TimeDisplay"), NodePath("../BoardBox/VirtualControls")]
+object_list = [NodePath("../BoardBox/XHeaderScrollContainer"), NodePath("../BoardBox/YHeaderScrollContainer"), NodePath("../BoardBox/XFooterScrollContainer"), NodePath("../BoardBox/YFooterScrollContainer"), NodePath("../BoardBox/GuidelinesMask"), NodePath("../BoardBox/CoordsLabel"), NodePath("../BoardBox/BoardSizeLabel"), NodePath("../BoardBox/PercentMarked"), NodePath("../BoardBox/SubmissionErrorDisplay"), NodePath("../BoardBox/TimeDisplay"), NodePath("../BoardBox/NoteVirtualSwitch"), NodePath("../BoardBox/MarkButtonContainer")]
 squares = NodePath("../BoardBox/NonogramScrollContainer/NonogramSquares")
 
 [node name="SomethingWrongPanel" type="PanelContainer" parent="."]

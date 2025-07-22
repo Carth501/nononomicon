@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=3 uid="uid://bwsabif8yvkxl"]
+
+[ext_resource type="Script" uid="uid://bxvdhmhjsu2a1" path="res://scripts/mark_flag_virtual_switch.gd" id="1_rro0d"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_00g3u"]
+bg_color = Color(0.356863, 0.2, 0.109804, 1)
+
+[node name="MarkButtonContainer" type="PanelContainer" node_paths=PackedStringArray("mark_button")]
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_00g3u")
+script = ExtResource("1_rro0d")
+mark_button = NodePath("MarginContainer/PanelContainer/MarkingSwitch")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="PanelContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="MarginContainer/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+text = "Mark"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="MarkingSwitch" type="CheckButton" parent="MarginContainer/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 5
+flat = true
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+text = "Flag"
+vertical_alignment = 1
+
+[connection signal="mouse_entered" from="." to="." method="_on_mark_button_container_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mark_button_container_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/PanelContainer/MarkingSwitch" to="." method="toggle_mark"]

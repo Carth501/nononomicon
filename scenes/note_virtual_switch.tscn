@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://cvhtu3vevr4oc"]
+
+[ext_resource type="Script" uid="uid://bl8v4xvaavo08" path="res://scripts/note_virtual_switch.gd" id="1_5tq06"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_00g3u"]
+bg_color = Color(0.356863, 0.2, 0.109804, 1)
+
+[node name="NoteButtonContainer" type="PanelContainer" node_paths=PackedStringArray("note_button")]
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_00g3u")
+script = ExtResource("1_5tq06")
+note_button = NodePath("MarginContainer/PanelContainer/NoteSwitch")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="PanelContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="MarginContainer/PanelContainer"]
+custom_minimum_size = Vector2(49, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+
+[node name="NoteSwitch" type="CheckButton" parent="MarginContainer/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 5
+flat = true
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+text = "Note"
+vertical_alignment = 1
+
+[connection signal="mouse_entered" from="." to="." method="_on_note_button_container_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_note_button_container_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/PanelContainer/NoteSwitch" to="." method="toggle_notes"]
