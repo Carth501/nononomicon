@@ -167,12 +167,12 @@ func sort_children() -> void:
 		top_edge_position + header_col_scroll.size.y + 8
 		) * DisplayHandler.ui_scale
 
-	board_size_display.global_position = top_left_corner_position - board_size_display.size
-	coords_display.global_position = top_right_corner_position + Vector2(0, -coords_display.size.y)
+	board_size_display.global_position = top_left_corner_position - (board_size_display.size * DisplayHandler.ui_scale)
+	coords_display.global_position = top_right_corner_position + Vector2(0, -coords_display.size.y * DisplayHandler.ui_scale)
 
 	mark_virtual_controls.global_position = bottom_right_corner_position
-	note_virtual_controls.global_position = bottom_left_corner_position - Vector2(
-		note_virtual_controls.size.x, 0)
+	note_virtual_controls.global_position = bottom_left_corner_position - (Vector2(
+		note_virtual_controls.size.x, 0) * DisplayHandler.ui_scale)
 	# percent_marked_label.global_position = bottom_right_corner_position
 	# timer_display.global_position = bottom_left_corner_position
 
@@ -184,7 +184,7 @@ func sort_children() -> void:
 		size.x / 2 - something_wrong.size.x / 2,
 		size.y / 2 - something_wrong.size.y / 2
 		) * DisplayHandler.ui_scale
-	toggle_menu_button.global_position = Vector2(size.x - toggle_menu_button.size.x - 8, 0)
+	toggle_menu_button.global_position = Vector2(size.x - toggle_menu_button.size.x - 8, 0) * DisplayHandler.ui_scale
 
 func update_header_assist(comparisons: Dictionary):
 	header_row.set_assist(comparisons["X"])
