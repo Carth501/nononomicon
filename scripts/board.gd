@@ -13,7 +13,7 @@ signal menu_toggled
 @export var footer_row_scroll: ScrollContainer
 @export var footer_col_scroll: ScrollContainer
 @export var board_margin_control: Control
-@export var SCROLLBAR_MARGIN: int = 8
+@export var SCROLLBAR_MARGIN: int = 30
 @export var victory_label: Label
 @export var guidelines: Guidelines
 @export var guidelines_mask: Control
@@ -57,6 +57,8 @@ func _ready():
 	victory_label.visible = false
 	State.level_changed.connect(change_level_handle_victory_fade)
 	State.something_wrong.connect(toggle_something_wrong_message)
+	nonogram_scroll_container.get_v_scroll_bar().custom_minimum_size.x = SCROLLBAR_MARGIN
+	nonogram_scroll_container.get_h_scroll_bar().custom_minimum_size.y = SCROLLBAR_MARGIN
 
 func prepare_board():
 	if (State.get_board_ready()):
