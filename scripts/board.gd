@@ -13,7 +13,7 @@ signal menu_toggled
 @export var footer_row_scroll: ScrollContainer
 @export var footer_col_scroll: ScrollContainer
 @export var board_margin_control: Control
-@export var SCROLLBAR_MARGIN: int = 30
+@export var SCROLLBAR_MARGIN: int = 24
 @export var victory_label: Label
 @export var guidelines: Guidelines
 @export var guidelines_mask: Control
