@@ -1774,6 +1774,18 @@ func get_etchings() -> Array:
 		return []
 	return master [active_id][ETCHINGS_KEY]
 
+func square_has_etching(coords: Vector2i) -> bool:
+	if ! master.has(active_id):
+		push_error("Attempted to check etching with invalid id: ", active_id)
+		return false
+	if ! master [active_id].has(ETCHINGS_KEY):
+		return false
+	var etchings = master [active_id][ETCHINGS_KEY]
+	for etching in etchings:
+		if etching['coords'] == coords:
+			return true
+	return false
+
 func get_etching_string(coords: Vector2i) -> String:
 	if ! master.has(active_id):
 		push_error("Attempted to get etching value with invalid id: ", active_id)
@@ -1843,7 +1855,7 @@ func power_bind():
 	use_charge("bind")
 
 func power_etch():
-	if get_etchings().has(chosen_coords):
+	if square_has_etching(chosen_coords):
 		return
 	etch_square(chosen_coords)
 	use_charge("etch")

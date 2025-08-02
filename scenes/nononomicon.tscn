@@ -18,6 +18,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -1.0
+offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_r5qd4")
@@ -152,7 +154,6 @@ layout_mode = 2
 text = "Hint"
 
 [node name="CheatButton" type="Button" parent="HSplitContainer/DesktopDrawer/VBoxContainer/GameUI/VBoxContainer"]
-visible = false
 layout_mode = 2
 text = "CHEAT"
 
@@ -328,8 +329,8 @@ scale = Vector2(1, 1)
 [node name="TutorialAudioController" type="Node" parent="."]
 script = ExtResource("12_4a1j6")
 
-[connection signal="resized" from="." to="." method="resize_board"]
 [connection signal="resized" from="." to="." method="_on_resized"]
+[connection signal="resized" from="." to="." method="resize_board"]
 [connection signal="level_selected" from="Index" to="." method="open_page"]
 [connection signal="open_options" from="Index" to="." method="_on_options_pressed"]
 [connection signal="dragged" from="HSplitContainer" to="." method="on_drawer_dragged"]
