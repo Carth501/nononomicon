@@ -299,7 +299,7 @@ func apply_etchings():
 	var etchings = State.get_etchings()
 	for etching in etchings:
 		var square = nonogram_squares.get_square(etching.coords)
-		square.add_etching(str(etching.etching_number))
+		square.add_etching(State.get_etching_string(etching.coords))
 
 func change_victory_fade(setting: bool):
 	victory_splash.toggle_victory_fade(setting)

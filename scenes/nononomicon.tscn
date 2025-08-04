@@ -329,8 +329,8 @@ scale = Vector2(1, 1)
 [node name="TutorialAudioController" type="Node" parent="."]
 script = ExtResource("12_4a1j6")
 
-[connection signal="resized" from="." to="." method="_on_resized"]
 [connection signal="resized" from="." to="." method="resize_board"]
+[connection signal="resized" from="." to="." method="_on_resized"]
 [connection signal="level_selected" from="Index" to="." method="open_page"]
 [connection signal="open_options" from="Index" to="." method="_on_options_pressed"]
 [connection signal="dragged" from="HSplitContainer" to="." method="on_drawer_dragged"]
