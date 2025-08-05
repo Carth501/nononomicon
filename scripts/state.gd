@@ -1824,8 +1824,9 @@ func use_power():
 	if power_id == "etch":
 		if get_charges(power_id) > 0:
 			power_etch()
-	power_id = ""
-	hiding_power.emit()
+	if !Input.is_action_pressed("Shift"):
+		power_id = ""
+		hiding_power.emit()
 
 func power_lock():
 	if get_locks().has(chosen_coords):
