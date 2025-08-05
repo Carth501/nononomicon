@@ -1,0 +1,55 @@
+[gd_scene load_steps=2 format=3 uid="uid://o2x81mtg1oki"]
+
+[ext_resource type="Script" uid="uid://bmfmmyi873wj1" path="res://scripts/content_complete_screen.gd" id="1_r003v"]
+
+[node name="ContentCompleteScreen" type="Panel"]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(400, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_r003v")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+text = "And so you reach the end of the tome. You have proven able to surmount all challenges presented so far. Consider yourself lucky...."
+autowrap_mode = 3
+
+[node name="Index" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Save and return to index"
+
+[node name="MainMenu" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Save and return to main menu"
+
+[node name="SaveAndQuit" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Save and exit the game"
+
+[node name="Quit" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Exit the game without saving"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Index" to="." method="open_index"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/MainMenu" to="." method="open_main_menu"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/SaveAndQuit" to="." method="exit"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Quit" to="." method="exit_without_saving"]

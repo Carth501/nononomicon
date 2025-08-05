@@ -2,6 +2,7 @@ class_name Nononomicon extends Control
 
 var nonogram_board := preload("res://scenes/nonogram_board.tscn")
 var index := preload("res://scenes/index.tscn")
+var content_complete_screen := preload("res://scenes/content_complete_screen.tscn")
 
 @export var game_ui: GameUI
 @export var board: NonogramBoard
@@ -78,6 +79,11 @@ func cheat():
 	State.cheat_reveal_all_squares()
 
 func _on_submit_pressed() -> void:
+	if LevelLibrary.is_last_level(State.get_active_id()):
+		var end_screen = content_complete_screen.instantiate()
+		end_screen.set_nononomicon(self)
+		end_screen.set_fade_timestamp()
+		drawer.add_child(end_screen)
 	State.submit()
 
 func _on_reset_pressed() -> void:

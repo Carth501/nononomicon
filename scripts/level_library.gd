@@ -102,3 +102,7 @@ func get_level_available(level: String) -> bool:
 
 func get_demo_mode() -> bool:
 	return ProjectSettings.get_setting("application/config/is_demo")
+
+func is_last_level(level_id: String) -> bool:
+	var level_id_list = get_level_id_list()
+	return level_id_list.size() > 0 && level_id == level_id_list[level_id_list.size() - 1]
