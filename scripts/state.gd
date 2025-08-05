@@ -1842,7 +1842,7 @@ func power_bind():
 			correct_map.remove_at(correct_map.find(square))
 	if correct_map.size() < 5:
 		return
-	var bind_count = roundi(correct_map.size() * 0.4)
+	var bind_count = roundi(correct_map.size() * 0.2)
 	var bind_list = []
 	var index_seed = get_squares_hash()
 	for i in range(bind_count):
